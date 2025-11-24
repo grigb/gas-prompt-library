@@ -1,0 +1,24 @@
+## TWO-TIER HANDOVER SYSTEM
+
+### STEP 1: Assess Context Level
+Check user message for these triggers:
+- **Low Context Triggers**: "low context", "running out", "context limited", "quick", "emergency"
+- If found → Load ONLY Handover-Minimal.md
+- If not found → Load Handover-Minimal.md first, then conditionally load Handover-Detailed.md
+
+### STEP 2: Load Instructions
+```bash
+# Always load minimal instructions
+cat ~/.agents/prompts/HANDOVER-MINIMAL.md
+
+# Only load detailed if:
+# 1. No low context triggers AND
+# 2. Handover needs context sections AND
+# 3. Adequate context remains
+if [[ "$LOW_CONTEXT" != "true" ]] && [[ "$NEEDS_DETAIL" == "true" ]]; then
+    cat ~/.agents/prompts/HANDOVER-DETAILED.md
+fi
+```
+
+### STEP 3: Execute Based on Loaded Instructions
+Follow the instructions from the loaded prompt(s).

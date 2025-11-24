@@ -1,0 +1,13 @@
+total 112
+-rw-r--r--  1 grig  staff   3.5K Oct  7 22:39 CREATE-AUDITABLE-RECORD.md
+-rw-r--r--  1 grig  staff   2.2K Oct  7 22:39 CREATE-FEATURE-REQUEST.md
+-rw-r--r--  1 grig  staff   9.0K Oct  7 22:39 CREATE-WORK-ORDER.md
+-rw-r--r--  1 grig  staff   5.1K Oct  7 22:39 CREATE-WORK-PROPOSAL.md
+-rw-r--r--  1 grig  staff   412B Oct  7 22:39 DISCUSSION-MODE.md
+-rw-r--r--  1 grig  staff   2.3K Oct  7 22:39 EXECUTE-WORK-ORDER.md
+-rw-r--r--  1 grig  staff   3.2K Oct  7 22:39 HANDOVER-DETAILED.md
+-rw-r--r--  1 grig  staff   2.4K Oct  7 22:39 HANDOVER-MINIMAL.md
+-rw-r--r--  1 grig  staff   4.1K Oct  7 22:39 HANDOVER.md
+-rw-r--r--  1 grig  staff     0B Oct  7 22:39 MIGRATION-MANIFEST.txt
+-rw-r--r--  1 grig  staff   3.4K Oct  7 22:39 WORK-ORDER-INDEX.md
+Tue Oct  7 22:39:28 MDT 2025
