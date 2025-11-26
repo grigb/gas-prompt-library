@@ -1,6 +1,22 @@
 # Detailed Handoff Instructions
 **ONLY loaded for COMPLEX tasks requiring understanding before execution**
 
+## ⚠️ CRITICAL: WHEN TO CREATE HANDOFFS
+
+**CREATE handoff when:**
+- ✅ Work is UNFINISHED and needs continuation
+- ✅ Complex task is partially complete
+- ✅ There are SPECIFIC NEXT ACTIONS requiring context
+- ✅ **USER EXPLICITLY REQUESTS a handoff**, regardless of work completion status
+
+**DO NOT create handoff when:**
+- ❌ User explicitly says they don't want a handoff
+- ❌ There are no actionable next steps AND user hasn't requested context preservation
+
+**Critical Rule:** Always respect explicit user requests for handoffs. If user says "create a handoff" or "your work qualifies as a necessary handoff", create the handoff regardless of whether work appears complete. Context preservation for ongoing systems takes precedence over completion status.
+
+**If work is complete AND user hasn't requested a handoff:** Use audit/accomplishment instead.
+
 ## CORE PRINCIPLE: CONTEXT SERVES ACTION
 All context sections must answer: "What does the next agent need to know to take the next actions?"
 

@@ -1,5 +1,22 @@
 ## TWO-TIER HANDOFF SYSTEM
 
+### ⚠️ CRITICAL: WHEN TO CREATE HANDOFFS
+
+**CREATE handoffs when:**
+- ✅ There is UNFINISHED work to pass to the next agent
+- ✅ Work is INCOMPLETE and needs continuation
+- ✅ You are STOPPING mid-task and someone else needs to continue
+- ✅ There are SPECIFIC NEXT ACTIONS for another agent to execute
+- ✅ **USER EXPLICITLY REQUESTS a handoff**, regardless of work completion status
+
+**DO NOT create handoffs when:**
+- ❌ User explicitly says they don't want a handoff
+- ❌ There are no actionable next steps AND user hasn't requested context preservation
+
+**Critical Rule:** Always respect explicit user requests for handoffs. If user says "create a handoff" or "your work qualifies as a necessary handoff", create the handoff regardless of whether work appears complete. Context preservation for ongoing systems takes precedence over completion status.
+
+**If work is complete AND user hasn't requested a handoff:** Create an audit/accomplishment file instead.
+
 ### STEP 0: Assess Task Complexity (Critical First Step)
 
 **Simple tasks (use minimal handoff 30-50 lines):**
@@ -121,13 +138,8 @@ For complete session context: .dev/ai/audits/[timestamp]-conversation-summary.md
 
 **Save and track:**
 ```bash
-# Source common functions for get_session_id()
-source ~/.agents/scripts/common.sh
-
-# Track with enhanced parameters
-~/.agents/scripts/track-project.sh "[project]" "Handoff created" "[one-line summary]" "[agent]" \
-  --session-id "$(get_session_id)" \
-  --reference-uri "file://$(pwd)/$FILE"
+~/.agents/scripts/track-project.sh "[project]" "Handoff created" \
+  "Handoff: [one-line summary]" "[agent]"
 ```
 
 ---

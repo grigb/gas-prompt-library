@@ -1,5 +1,21 @@
 # Minimal Handoff Instructions
 
+## ⚠️ CRITICAL: WHEN TO CREATE HANDOFFS
+
+**CREATE handoff when:**
+- ✅ Work is UNFINISHED and needs continuation
+- ✅ You're stopping mid-task
+- ✅ There are SPECIFIC NEXT ACTIONS for another agent
+- ✅ **USER EXPLICITLY REQUESTS a handoff**, regardless of work completion status
+
+**DO NOT create handoff when:**
+- ❌ User explicitly says they don't want a handoff
+- ❌ There are no actionable next steps AND user hasn't requested context preservation
+
+**Critical Rule:** Always respect explicit user requests for handoffs. If user says "create a handoff" or "your work qualifies as a necessary handoff", create the handoff regardless of whether work appears complete. Context preservation for ongoing systems takes precedence over completion status.
+
+**If work is complete AND user hasn't requested a handoff:** Use audit/accomplishment instead.
+
 ## CORE PRINCIPLE: ACTION-FIRST HANDOFF
 **The handoff is an ACTION PLAN for the next agent, not a status report.**
 
@@ -107,7 +123,7 @@ For complete context, see: .dev/ai/audits/[timestamp]-conversation-summary.md
 ```markdown
 2. **Fix authentication bug** - Users can't log in after password reset
    - File: `src/auth/login.ts:142`
-   - Reference pattern: `/Users/grig/project/docs/auth-patterns.md` (section 3.2)
+   - Reference pattern: `~/project/docs/auth-patterns.md` (section 3.2)
    - Test: `npm test src/auth/login.test.ts`
 ```
 
@@ -115,13 +131,8 @@ Not just at the end - weave references into action steps where agent needs them.
 
 ### Step 3: Save and Track
 ```bash
-# Source common functions for get_session_id()
-source ~/.agents/scripts/common.sh
-
-# Track with enhanced parameters
-~/.agents/scripts/track-project.sh "[project]" "Handoff created" "[session summary]" "[agent]" \
-  --session-id "$(get_session_id)" \
-  --reference-uri "file://$(pwd)/$FILE"
+~/.agents/scripts/track-project.sh "[project]" "Handoff created" \
+  "Handoff: [one-line summary]" "[agent]"
 ```
 
 ## Next-Session Prompt Template
