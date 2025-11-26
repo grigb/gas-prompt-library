@@ -634,5 +634,5 @@ When updating agents:
 **End of Style Guide**
 
 For questions or examples, refer to:
-- `/Users/grig/.claude/agents/network-diagnostics-specialist.md` (reference implementation)
-- `/Users/grig/.agents/prompts/agents/NETWORK-DIAGNOSTICS-SPECIALIST.md` (detailed version for comparison)
+- `~/.claude/agents/network-diagnostics-specialist.md` (reference implementation)
+- `~/.agents/prompts/agents/NETWORK-DIAGNOSTICS-SPECIALIST.md` (detailed version for comparison)
