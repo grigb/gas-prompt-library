@@ -103,20 +103,8 @@ files_modified:
 4. Update completion timestamp
 5. Track in project system:
    ```bash
-   # Source common functions for get_session_id()
-   source ~/.agents/scripts/common.sh
-
-   # Extract work order context
-   WO_FILE=".dev/ai/workorders/[WO-ID].md"
-   WO_ID=$(basename "$WO_FILE" .md)
-   WO_TITLE=$(grep "^# " "$WO_FILE" | head -1 | sed 's/^# //')
-   WO_FILES=$(grep "^- path:" "$WO_FILE" | sed 's/.*path: *//' | tr '\n' ',' | sed 's/,$//')
-
-   # Track with enhanced parameters
-   ~/.agents/scripts/track-project.sh "[project]" "WO completed" "$WO_TITLE" "[agent]" \
-     --session-id "$(get_session_id)" \
-     --work-order "$WO_ID" \
-     --files "$WO_FILES"
+   ~/.agents/scripts/track-project.sh "[project]" "Work order completed" \
+     "Completed: [work-order-id]" "[agent]"
    ```
 
 ### 6. 📊 UPDATE PM TASK STATUS (RECOMMENDED)

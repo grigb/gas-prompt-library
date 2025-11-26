@@ -545,18 +545,8 @@ expected_output: "0 (no TODOs remaining)"
 ### Tracking Integration
 After saving, execute tracking command:
 ```bash
-# Source common functions for get_session_id()
-source ~/.agents/scripts/common.sh
-
-# Extract work order ID from filename
-WO_FILE="[absolute-path-to-workorder]"
-WO_ID=$(basename "$WO_FILE" .md)
-
-# Track with enhanced parameters
-~/.agents/scripts/track-project.sh "[project-name]" "Work order created" "[work order title]" "[agent-name]" \
-  --session-id "$(get_session_id)" \
-  --work-order "$WO_ID" \
-  --reference-uri "file://$WO_FILE"
+~/.agents/scripts/track-project.sh "[project-name]" "Work order created" \
+  "WO: [work-order-title]" "[agent-name]"
 ```
 
 **Completion Tracking**: When this work order is completed, the system will automatically:

@@ -112,7 +112,8 @@ echo "Updated WO-xxx status to COMPLETED" >> .dev/ai/workorders/WO-CHANGELOG.md
 # Update index
 [Update the WO-INDEX.md file]
 # Track change
-~/.agents/scripts/track-project.sh "[project]" "WO Index updated" "[change summary]" "[agent]" "update index"
+~/.agents/scripts/track-project.sh "[project]" "WO Index updated" \
+  "[change summary]" "[agent]"
 
 # If status changed to COMPLETED, create accomplishment entry
 if [[ "$NEW_STATUS" == "COMPLETED" ]]; then
