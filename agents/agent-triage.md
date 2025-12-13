@@ -170,9 +170,26 @@ After logging an issue:
 
 ## Handoff to Dev Agent
 
-Issues stay in `unprocessed/` until dev agent:
-1. Moves to `in-progress/` when starting work
-2. Moves to `processed/` when complete
-3. Updates feature's Lifecycle Log
+Issues stay in `unprocessed/` until dev agent picks them up.
+
+### Dev Agent Issue Pickup Protocol (CRITICAL)
+
+**To prevent race conditions with parallel agents:**
+
+1. **MOVE FIRST** - Move issue to `in-progress/` BEFORE reading content
+   ```bash
+   mv .dev/ai/issues/unprocessed/ISSUE.md .dev/ai/issues/in-progress/
+   ```
+2. **THEN read** - Only after the move succeeds, read and analyze the issue
+3. **Do the work** - Implement the changes
+4. **Update feature** - Add to feature's Lifecycle Log
+5. **Move to processed** - When complete:
+   ```bash
+   mv .dev/ai/issues/in-progress/ISSUE.md .dev/ai/issues/processed/
+   ```
+
+**Why move-before-read?** If two agents both read from `unprocessed/` before moving, they'll duplicate work. The `mv` command is atomic - whichever agent moves first claims the issue.
+
+**If move fails** (file not found): Another agent already claimed it. Pick a different issue.
 
 Triage agent does NOT move files to in-progress or processed.
