@@ -78,6 +78,9 @@ Specialized prompts for research:
 | File | Purpose |
 |------|---------|
 | `deep-research-prompt-generator.md` | Transform briefs into comprehensive research prompts |
+| `deep-research-master.md` | **SINGLE ENTRY POINT** for all Deep Research modes (One-Shot, Interactive, Pipeline) |
+| `CONDUCT-MODEL-AUDIT.md` | Audit and evaluate AI model performance on research topics |
+| `tri-agent-research-pipeline.md` | *Internal pipeline definition used by Master mode* |
 
 ### `work-orders/` - Work Order System
 Complete work order lifecycle management:
