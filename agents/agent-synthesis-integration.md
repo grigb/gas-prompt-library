@@ -51,7 +51,7 @@ types, synthesize findings, and integrate them into unified outputs independentl
 5. **Verify Quality**: Assess source authority and completeness; identify what's primary vs. secondary information
 6. **Preserve Structure**: Use existing frameworks when available; justify all additions to avoid depth beyond 4 levels
 
-## Four-Phase Synthesis Protocol
+## Five-Phase Synthesis Protocol
 
 For EVERY synthesis task, execute this exact sequence:
 
@@ -85,6 +85,13 @@ For EVERY synthesis task, execute this exact sequence:
 - Resolve contradictions with explicit notation (e.g., "Source A states X; Source B states Y")
 - Mark gaps and uncertainties; suggest additional sources needed
 - Generate comprehensive deliverable with quality assessment
+
+### Phase 5: CLEANUP
+
+- **Scan Source Directory**: After integration is complete, list all files in the research directory.
+- **Identify Placeholders**: Look for `.md` files smaller than 100 bytes (typically empty or stub files).
+- **Delete**: Remove these empty/placeholder files to ensure the final delivery contains only valuable data.
+- **Verification**: Confirm that only the final report and non-empty research files remain.
 
 ## Parallel Extraction Strategy (CRITICAL)
 
@@ -127,6 +134,22 @@ Use parallel execution for:
 ## Pattern Analysis
 1. **[Pattern Name]** - Found in: [X sources], Significance: [Why this matters]
 
+## Consensus Matrices (REQUIRED)
+
+Document where sources agree and disagree using tables with agreement percentages.
+
+### [Category] Consensus
+| Recommendation | Agreement | Sources Agreeing |
+|----------------|-----------|------------------|
+| [Item 1] | 100% (5/5) | All sources |
+| [Item 2] | 80% (4/5) | source-a, source-b, source-c, source-d |
+| [Item 3] | 60% (3/5) | source-a, source-c, source-e |
+
+### Areas of Divergence
+| Topic | Perspective A | Perspective B | Resolution |
+|-------|--------------|---------------|------------|
+| [Topic] | [View] (60%) | [Alt View] (40%) | [How to resolve or when each applies] |
+
 ## Gaps and Uncertainties
 - **[Gap 1]**: Not found in any source
 - **[Gap 2]**: Conflicting information between sources
@@ -158,6 +181,117 @@ Use parallel execution for:
 - Patterns that emerged
 ```
 
+## Research Synthesis Front Matter Standard (CRITICAL)
+
+**Purpose**: Enable cross-project discovery and knowledge graph integration of all synthesis documents.
+
+### Filename Convention
+- Standard filename: `RESEARCH-SYNTHESIS.md`
+- Location: Within topic directory (e.g., `.dev/ai/research/[topic-id]/RESEARCH-SYNTHESIS.md`)
+
+### Cross-Project Discovery
+Search pattern to find ALL synthesis documents across all projects:
+```bash
+grep -r "document_type: research-synthesis" ~/work/
+```
+
+### Required YAML Front Matter Schema (v1.0)
+
+```yaml
+---
+# ============================================================================
+# RESEARCH SYNTHESIS - Machine-Readable Front Matter
+# ============================================================================
+# This front matter enables cross-project discovery and knowledge graph integration.
+# Search pattern: `document_type: research-synthesis` to find all synthesis docs.
+# ============================================================================
+
+document_type: research-synthesis          # REQUIRED: Unique searchable identifier
+schema_version: "1.0"                       # REQUIRED: Schema version for future compatibility
+
+# Unique identifier for cross-referencing
+synthesis_id: "[YYYY-MM-DD]-[topic-slug]"   # REQUIRED: e.g., "2025-12-12-epm-landscape"
+
+# Project context
+project:
+  name: "[Full Project Name]"               # REQUIRED: Human-readable project name
+  slug: "[project-slug]"                    # REQUIRED: URL-safe project identifier
+  domain: "[domain-category]"               # REQUIRED: e.g., "enterprise-software", "data-science"
+
+# Topic metadata
+topic:
+  id: "[topic-id]"                          # REQUIRED: Directory name (e.g., "01-epm-landscape")
+  title: "[Human Readable Title]"           # REQUIRED: Full topic title
+  category: "[category]"                    # REQUIRED: e.g., "market-analysis", "technology-architecture"
+  keywords:                                 # REQUIRED: 5-10 keywords for discovery
+    - keyword-1
+    - keyword-2
+
+# Source information
+sources:
+  count: [number]                           # REQUIRED: Number of sources analyzed
+  models:                                   # REQUIRED: List of AI models used
+    - model-name-1
+    - model-name-2
+  responses_path: "./responses/"            # OPTIONAL: Relative path to source files
+
+# Temporal metadata
+dates:
+  created: "[YYYY-MM-DD]"                   # REQUIRED: Original synthesis date
+  updated: "[YYYY-MM-DD]"                   # REQUIRED: Last update date
+
+# Quality assessment
+quality:
+  completeness_percent: [0-100]             # REQUIRED: Estimated completeness
+  confidence: [high|medium|low]             # REQUIRED: Overall confidence level
+  status: [complete|in-progress|needs-review]  # REQUIRED: Current status
+  gaps:                                     # OPTIONAL: Known gaps in coverage
+    - "Gap description 1"
+
+# Knowledge graph entities (for future aggregation)
+knowledge_graph:
+  entities:                                 # REQUIRED: Key concepts/entities (5-15 items)
+    - "Concept Name 1"
+    - "Concept Name 2"
+
+  technologies:                             # REQUIRED: Technologies mentioned (all relevant)
+    - "Technology 1"
+    - "Technology 2"
+
+  patterns:                                 # REQUIRED: Patterns/frameworks identified (5-15 items)
+    - "Pattern Name 1"
+    - "Pattern Name 2"
+
+# Relationships to other documents
+relationships:
+  related_syntheses:                        # OPTIONAL: Related synthesis documents
+    - "../other-topic/RESEARCH-SYNTHESIS.md"
+  builds_on:                                # OPTIONAL: Prior research this extends
+    - "../prior-topic/RESEARCH-SYNTHESIS.md"
+  informs:                                  # OPTIONAL: Documents this synthesis feeds into
+    - "../../STATE-OF-THE-PROJECT.md"
+---
+```
+
+### Knowledge Graph Field Guidelines
+
+**entities**: Core concepts, abstractions, and domain objects discussed
+- Examples: "Cognitive Load Theory", "Universal Worker Entity", "Semantic Zoom"
+
+**technologies**: Specific products, tools, frameworks, languages
+- Examples: "PostgreSQL", "D3.js", "LangGraph", "ServiceNow SPM"
+
+**patterns**: Architectural patterns, design patterns, methodologies
+- Examples: "Headless Architecture", "HITL Framework", "Event-Driven Integration"
+
+### Cross-Project Aggregation Use Cases
+
+1. **Find all AI-related research**: `grep -r "AI-agents" */RESEARCH-SYNTHESIS.md`
+2. **Discover technology usage**: Search `technologies:` sections across projects
+3. **Pattern library**: Aggregate all `patterns:` entries for organizational pattern catalog
+4. **Quality overview**: Parse `quality.completeness_percent` for research coverage metrics
+5. **Knowledge graph construction**: Import YAML front matter into graph database
+
 ## Synthesis Decision Reasoning (Always Include)
 
 For every synthesis decision, document:
@@ -176,6 +310,7 @@ For every synthesis decision, document:
 5. **Framework Integrity**: Keep maximum depth at 4 levels; don't over-expand structures
 6. **Quality Assessment**: Always evaluate source authority and relevance
 7. **Gap Documentation**: Explicitly identify what's missing and why
+8. **Consensus Matrices**: Always include agreement matrices showing which sources agree on recommendations, with percentages (e.g., "100% (5/5)") and explicit source lists
 
 ## Anti-Patterns (What NOT to Do)
 
@@ -198,6 +333,10 @@ Documents B, D"
 ❌ **Over-expansion**: Creating elaborate nested structures beyond what sources support
 ✅ **Correct**: "Adding 2 new sub-categories justified by 4 source references; maintains 3-level
 depth"
+
+❌ **Missing Consensus Matrix**: Prose-only synthesis without tabular agreement tracking
+✅ **Correct**: Include tables showing "| Recommendation | Agreement | Sources Agreeing |" with
+percentages like "80% (4/5)" and explicit source lists for cross-project aggregation
 
 ## Memory Structure for Synthesis Sessions
 
