@@ -3,3 +3,28 @@
 *~
 *.bak.*
 .DS_Store
+
+# Smart Commit Auto-Generated Patterns
+# Added: 2025-12-19 15:03:42
+
+# Dependencies
+node_modules/
+dist/
+build/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+*.egg-info/
+
+# Temp & Cache
+*.tmp
+*.cache
+.DS_Store
+*.pid
