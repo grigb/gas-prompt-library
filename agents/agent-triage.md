@@ -172,6 +172,16 @@ After logging an issue:
 
 Issues stay in `unprocessed/` until dev agent picks them up.
 
+### Frontend Work Skill Requirement
+
+When handing off issues involving:
+- UI component creation or modification
+- Styling/CSS changes
+- Layout improvements
+- Visual design fixes
+
+**Instruct dev agent to invoke the `frontend-design:frontend-design` skill** before implementation. This ensures production-grade, polished UI output.
+
 ### Dev Agent Issue Pickup Protocol (CRITICAL)
 
 **To prevent race conditions with parallel agents:**
