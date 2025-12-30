@@ -329,15 +329,39 @@ If all questions = "yes" → stop adding.
 
 ## Next-Session Prompt for Complex Tasks
 
-After creating detailed handoff, generate copy-paste prompt:
+After creating detailed handoff, generate copy-paste prompt.
 
+**AGENTS.md First Rule:** If the project has an AGENTS.md file (check: does it exist?), the prompt MUST start with "read AGENTS.md". Only skip this if:
+- You're in a browser context without file access
+- The project doesn't have an AGENTS.md file
+- You cannot confirm the file exists
+
+**With AGENTS.md (default for most projects):**
+```markdown
+read AGENTS.md
+
+I'm picking up work on [project-name] - complex integration/synthesis task.
+
+1. Read the COMPLETE handoff at: [FULL ABSOLUTE PATH to handoff file]
+2. Read it entirely - it contains Background, Strategy, Pitfalls, and Success Criteria
+3. BEGIN EXECUTING Priority Next Steps immediately following the strategy outlined
+
+This is a complex task with a detailed action plan. The handoff contains everything you need to execute intelligently:
+- WHAT you're working with (Understanding section)
+- HOW to approach it (Strategy section)
+- WHAT to avoid (Pitfalls section)
+- HOW to validate (Success Criteria)
+
+Start work immediately using this plan. Do not ask for confirmation, review, or additional input - the handoff IS the reviewed and approved plan.
+```
+
+**Without AGENTS.md (browser contexts or projects without it):**
 ```markdown
 I'm picking up work on [project-name] - complex integration/synthesis task.
 
 1. Read the COMPLETE handoff at: [FULL ABSOLUTE PATH to handoff file]
 2. Read it entirely - it contains Background, Strategy, Pitfalls, and Success Criteria
-3. Review project rules in [FULL PATH to AGENTS.md / CLAUDE.md]
-4. BEGIN EXECUTING Priority Next Steps immediately following the strategy outlined
+3. BEGIN EXECUTING Priority Next Steps immediately following the strategy outlined
 
 This is a complex task with a detailed action plan. The handoff contains everything you need to execute intelligently:
 - WHAT you're working with (Understanding section)

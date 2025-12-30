@@ -137,14 +137,31 @@ Not just at the end - weave references into action steps where agent needs them.
 
 ## Next-Session Prompt Template
 
-After creating handoff, generate copy-paste prompt:
+After creating handoff, generate copy-paste prompt.
 
+**AGENTS.md First Rule:** If the project has an AGENTS.md file (check: does it exist?), the prompt MUST start with "read AGENTS.md". Only skip this if:
+- You're in a browser context without file access
+- The project doesn't have an AGENTS.md file
+- You cannot confirm the file exists
+
+**With AGENTS.md (default for most projects):**
+```markdown
+read AGENTS.md
+
+I'm picking up work on [project-name].
+
+1. Read the handoff at: [FULL ABSOLUTE PATH to handoff file]
+2. BEGIN EXECUTING Priority Next Steps immediately
+
+The handoff is the complete action plan. Start work now - do not ask for confirmation or additional input. These actions have been reviewed and approved.
+```
+
+**Without AGENTS.md (browser contexts or projects without it):**
 ```markdown
 I'm picking up work on [project-name].
 
 1. Read the handoff at: [FULL ABSOLUTE PATH to handoff file]
-2. Review project rules in [FULL PATH to AGENTS.md / CLAUDE.md]
-3. BEGIN EXECUTING Priority Next Steps immediately
+2. BEGIN EXECUTING Priority Next Steps immediately
 
 The handoff is the complete action plan. Start work now - do not ask for confirmation or additional input. These actions have been reviewed and approved.
 ```

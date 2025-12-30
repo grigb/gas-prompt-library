@@ -146,14 +146,31 @@ For complete session context: .dev/ai/audits/[timestamp]-conversation-summary.md
 
 ### STEP 3: Generate Next-Session Prompt
 
-Create copy-paste prompt for next agent:
+Create copy-paste prompt for next agent.
 
+**AGENTS.md First Rule:** If the project has an AGENTS.md file (check: does it exist?), the prompt MUST start with "read AGENTS.md". Only skip this if:
+- You're in a browser context without file access
+- The project doesn't have an AGENTS.md file
+- You cannot confirm the file exists
+
+**With AGENTS.md (default for most projects):**
+```markdown
+read AGENTS.md
+
+I'm picking up work on [project-name].
+
+1. Read the handoff at: [FULL ABSOLUTE PATH to handoff file]
+2. BEGIN EXECUTING the priority next steps immediately
+
+The handoff contains the complete action plan. Start work now - do not ask for confirmation or review. The actions have been approved.
+```
+
+**Without AGENTS.md (browser contexts or projects without it):**
 ```markdown
 I'm picking up work on [project-name].
 
 1. Read the handoff at: [FULL ABSOLUTE PATH to handoff file]
-2. Review project rules in [FULL PATH to CLAUDE.md / AGENTS.md]
-3. BEGIN EXECUTING the priority next steps immediately
+2. BEGIN EXECUTING the priority next steps immediately
 
 The handoff contains the complete action plan. Start work now - do not ask for confirmation or review. The actions have been approved.
 ```
