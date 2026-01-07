@@ -1,4 +1,4 @@
-I'm rewinding to this checkpoint before compaction. The conversation log pasted below this prompt is work that already happened after this point (you don't remember it). 
+I'm rewinding to this checkpoint before compaction. The conversation log/term captured, and pasted below this prompt, is work that already happened after this point (you don't remember it). 
 
 **Important:** The filesystem already reflects the work in the log. Files were edited, created, or deleted during that work and those changes persist. Your memory is at the checkpoint, but the files are at end-of-log state.
 

@@ -148,8 +148,9 @@ Surface patterns explicitly:
 ## Mode Persistence
 
 ### Entry
-- Triggered by: "discussion mode", "let's discuss", "theoretical mode", "planning mode", "no changes", "let me know what you think"
+- Triggered by: "discussion mode", "discuss this", "let's discuss", "need to discuss", "think through", "think this through", "plan this out", "planning mode", "theoretical mode", "weigh alternatives", "consider options", "no changes", "let me know what you think"
 - **Stays active** for entire conversation until explicitly exited
+- **Purpose**: Think, document, strategize, weigh alternatives, plan deep research - NO building or implementation
 
 ### Continuation
 - Mode rules apply to **everything** that follows in the conversation
