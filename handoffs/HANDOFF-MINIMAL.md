@@ -1,5 +1,20 @@
 # Minimal Handoff Instructions
 
+## 🔗 AGENT TASK ID (Provenance Chain)
+
+**Every handoff MUST have an Agent Task ID.**
+
+```bash
+# If you received a handoff with agent_task_id: REUSE IT
+# If starting fresh: Generate new one
+AGENT_TASK_ID=$(~/.agents/scripts/get-agent-task-id.sh handoff)
+# Returns: [UID]_[unix-timestamp] (e.g., a1b2c3d4_1736892345)
+```
+
+**Include in:** Frontmatter, footer, and next-session prompt.
+
+---
+
 ## ⚠️ CRITICAL: WHEN TO CREATE HANDOFFS
 
 **CREATE handoff when:**
@@ -59,6 +74,12 @@ If user mentions any of: "low context", "running out", "context limited", "quick
 
 2. **Write NEXT ACTIONS FIRST** (what to do, not what was done):
    ```markdown
+   ---
+   agent_task_id: [AGENT_TASK_ID]
+   created: [TIMESTAMP]
+   type: handoff-emergency
+   ---
+
    # Emergency Handoff - [timestamp]
 
    ## IMMEDIATE NEXT ACTIONS
@@ -72,6 +93,9 @@ If user mentions any of: "low context", "running out", "context limited", "quick
 
    ## Current State (one line)
    Was working on: [15 words max]
+
+   ---
+   **Agent Task ID:** [AGENT_TASK_ID]
    ```
    **SAVE FILE NOW**
 
@@ -82,6 +106,13 @@ If user mentions any of: "low context", "running out", "context limited", "quick
 
 ### Step 1: ACTION-FIRST Structure
 ```markdown
+---
+agent_task_id: [AGENT_TASK_ID]
+created: [YYYY-MM-DD-HH-MM-SSZ]
+project: [project-name]
+type: handoff
+---
+
 # Handoff: [Project] - [YYYY-MM-DD-HH-MM-SS]
 
 ## PRIORITY NEXT STEPS
@@ -110,6 +141,9 @@ If user mentions any of: "low context", "running out", "context limited", "quick
 ## Full Session Details (if audit exists)
 [ONLY include if an audit was created just before this handoff]
 For complete context, see: .dev/ai/audits/[timestamp]-conversation-summary.md
+
+---
+**Agent Task ID:** [AGENT_TASK_ID]
 ```
 
 ### Step 2: Keep It Lean (For Simple Tasks)
@@ -139,16 +173,17 @@ Not just at the end - weave references into action steps where agent needs them.
 
 After creating handoff, generate copy-paste prompt.
 
-**AGENTS.md First Rule:** If the project has an AGENTS.md file (check: does it exist?), the prompt MUST start with "read AGENTS.md". Only skip this if:
+**AGENTS.md First Rule:** If the project has an AGENTS.md file (check: does it exist?), the prompt MUST start with "Read AGENTS.md". Only skip this if:
 - You're in a browser context without file access
 - The project doesn't have an AGENTS.md file
 - You cannot confirm the file exists
 
 **With AGENTS.md (default for most projects):**
 ```markdown
-read AGENTS.md
+Read AGENTS.md
 
 I'm picking up work on [project-name].
+Agent Task ID: [AGENT_TASK_ID] (preserve this ID in any handoffs you create)
 
 1. Read the handoff at: [FULL ABSOLUTE PATH to handoff file]
 2. BEGIN EXECUTING Priority Next Steps immediately
@@ -159,6 +194,7 @@ The handoff is the complete action plan. Start work now - do not ask for confirm
 **Without AGENTS.md (browser contexts or projects without it):**
 ```markdown
 I'm picking up work on [project-name].
+Agent Task ID: [AGENT_TASK_ID] (preserve this ID in any handoffs you create)
 
 1. Read the handoff at: [FULL ABSOLUTE PATH to handoff file]
 2. BEGIN EXECUTING Priority Next Steps immediately

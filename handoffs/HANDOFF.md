@@ -1,5 +1,31 @@
 ## TWO-TIER HANDOFF SYSTEM
 
+### 🔗 AGENT TASK ID (Provenance Chain)
+
+**Every handoff MUST have a unique Agent Task ID for tracking work streams across sessions.**
+
+**Step 0: Generate or Inherit Agent Task ID**
+```bash
+# Check if conversation already has an agent task ID (from incoming handoff)
+# If yes: REUSE IT (maintains provenance chain)
+# If no: Generate a new one
+
+AGENT_TASK_ID=$(~/.agents/scripts/get-agent-task-id.sh handoff)
+# Returns: [UID]_[unix-timestamp] (e.g., a1b2c3d4_1736892345)
+```
+
+**Rules:**
+- If you received a handoff with an `agent_task_id`, **preserve it** in your handoff
+- If starting fresh work (no incoming handoff), **generate new ID**
+- The ID creates a provenance chain linking related work across sessions
+
+**Where the ID appears:**
+1. **Frontmatter** of handoff document (YAML `agent_task_id:`)
+2. **Footer** of handoff document (easy reference)
+3. **Next-session prompt** (so receiving agent can track provenance)
+
+---
+
 ### ⚠️ CRITICAL: WHEN TO CREATE HANDOFFS
 
 **CREATE handoffs when:**
@@ -97,6 +123,13 @@ FILE=".dev/ai/handoffs/${TIMESTAMP}-handoff-[project-id].md"
 **Structure (IN THIS ORDER):**
 
 ```markdown
+---
+agent_task_id: [AGENT_TASK_ID]
+created: [YYYY-MM-DD-HH-MM-SSZ]
+project: [project-name]
+type: handoff
+---
+
 # Handoff: [Project] - [TIMESTAMP]
 
 ## PRIORITY NEXT STEPS
@@ -126,6 +159,9 @@ FILE=".dev/ai/handoffs/${TIMESTAMP}-handoff-[project-id].md"
 ## Full Session Details (if applicable)
 [ONLY include if an audit was created just before this handoff]
 For complete session context: .dev/ai/audits/[timestamp]-conversation-summary.md
+
+---
+**Agent Task ID:** [AGENT_TASK_ID]
 ```
 
 **Rules:**
@@ -148,16 +184,17 @@ For complete session context: .dev/ai/audits/[timestamp]-conversation-summary.md
 
 Create copy-paste prompt for next agent.
 
-**AGENTS.md First Rule:** If the project has an AGENTS.md file (check: does it exist?), the prompt MUST start with "read AGENTS.md". Only skip this if:
+**AGENTS.md First Rule:** If the project has an AGENTS.md file (check: does it exist?), the prompt MUST start with "Read AGENTS.md". Only skip this if:
 - You're in a browser context without file access
 - The project doesn't have an AGENTS.md file
 - You cannot confirm the file exists
 
 **With AGENTS.md (default for most projects):**
 ```markdown
-read AGENTS.md
+Read AGENTS.md
 
 I'm picking up work on [project-name].
+Agent Task ID: [AGENT_TASK_ID] (preserve this ID in any handoffs you create)
 
 1. Read the handoff at: [FULL ABSOLUTE PATH to handoff file]
 2. BEGIN EXECUTING the priority next steps immediately
@@ -168,6 +205,7 @@ The handoff contains the complete action plan. Start work now - do not ask for c
 **Without AGENTS.md (browser contexts or projects without it):**
 ```markdown
 I'm picking up work on [project-name].
+Agent Task ID: [AGENT_TASK_ID] (preserve this ID in any handoffs you create)
 
 1. Read the handoff at: [FULL ABSOLUTE PATH to handoff file]
 2. BEGIN EXECUTING the priority next steps immediately

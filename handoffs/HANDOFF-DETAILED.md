@@ -1,6 +1,32 @@
 # Detailed Handoff Instructions
 **ONLY loaded for COMPLEX tasks requiring understanding before execution**
 
+## 🔗 AGENT TASK ID (Provenance Chain)
+
+**Every handoff MUST have an Agent Task ID.**
+
+```bash
+# If you received a handoff with agent_task_id: REUSE IT (maintains provenance chain)
+# If starting fresh: Generate new one
+AGENT_TASK_ID=$(~/.agents/scripts/get-agent-task-id.sh handoff)
+# Returns: [UID]_[unix-timestamp] (e.g., a1b2c3d4_1736892345)
+```
+
+**Include in:** Frontmatter, footer, and next-session prompt.
+
+**Frontmatter structure:**
+```yaml
+---
+agent_task_id: [AGENT_TASK_ID]
+created: [YYYY-MM-DD-HH-MM-SSZ]
+project: [project-name]
+type: handoff
+complexity: complex
+---
+```
+
+---
+
 ## ⚠️ CRITICAL: WHEN TO CREATE HANDOFFS
 
 **CREATE handoff when:**
@@ -221,7 +247,14 @@ Add context ONLY when it directly enables next actions:
 - Related decisions: `/full/absolute/path/docs/decisions/[decision].md`
 
 **Critical:** Include full absolute paths, not relative paths. Future agents need exact locations.
+
+---
+**Agent Task ID:** [AGENT_TASK_ID]
 ```
+
+**Remember:** Every handoff document needs:
+1. **Frontmatter** with `agent_task_id:` field
+2. **Footer** with `Agent Task ID:` for easy reference
 
 ## Size Management Rules
 
@@ -331,16 +364,17 @@ If all questions = "yes" → stop adding.
 
 After creating detailed handoff, generate copy-paste prompt.
 
-**AGENTS.md First Rule:** If the project has an AGENTS.md file (check: does it exist?), the prompt MUST start with "read AGENTS.md". Only skip this if:
+**AGENTS.md First Rule:** If the project has an AGENTS.md file (check: does it exist?), the prompt MUST start with "Read AGENTS.md". Only skip this if:
 - You're in a browser context without file access
 - The project doesn't have an AGENTS.md file
 - You cannot confirm the file exists
 
 **With AGENTS.md (default for most projects):**
 ```markdown
-read AGENTS.md
+Read AGENTS.md
 
 I'm picking up work on [project-name] - complex integration/synthesis task.
+Agent Task ID: [AGENT_TASK_ID] (preserve this ID in any handoffs you create)
 
 1. Read the COMPLETE handoff at: [FULL ABSOLUTE PATH to handoff file]
 2. Read it entirely - it contains Background, Strategy, Pitfalls, and Success Criteria
@@ -358,6 +392,7 @@ Start work immediately using this plan. Do not ask for confirmation, review, or 
 **Without AGENTS.md (browser contexts or projects without it):**
 ```markdown
 I'm picking up work on [project-name] - complex integration/synthesis task.
+Agent Task ID: [AGENT_TASK_ID] (preserve this ID in any handoffs you create)
 
 1. Read the COMPLETE handoff at: [FULL ABSOLUTE PATH to handoff file]
 2. Read it entirely - it contains Background, Strategy, Pitfalls, and Success Criteria
