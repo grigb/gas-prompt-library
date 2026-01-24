@@ -1,362 +1,119 @@
-## TWO-TIER HANDOFF SYSTEM
+# Agent Handoff: SDK Hierarchical Delegation Feature
 
-### 🔗 AGENT TASK ID (Provenance Chain)
-
-**Every handoff MUST have a unique Agent Task ID for tracking work streams across sessions.**
-
-**Step 0: Generate or Inherit Agent Task ID**
-```bash
-# Check if conversation already has an agent task ID (from incoming handoff)
-# If yes: REUSE IT (maintains provenance chain)
-# If no: Generate a new one
-
-AGENT_TASK_ID=$(~/.agents/scripts/get-agent-task-id.sh handoff)
-# Returns: [UID]_[unix-timestamp] (e.g., a1b2c3d4_1736892345)
-```
-
-**Rules:**
-- If you received a handoff with an `agent_task_id`, **preserve it** in your handoff
-- If starting fresh work (no incoming handoff), **generate new ID**
-- The ID creates a provenance chain linking related work across sessions
-
-**Where the ID appears:**
-1. **Frontmatter** of handoff document (YAML `agent_task_id:`)
-2. **Footer** of handoff document (easy reference)
-3. **Next-session prompt** (so receiving agent can track provenance)
+**Handoff Created:** 2026-01-23-09-36-57Z
+**Previous Agent:** Opus 4.5 (Claude Code session)
+**Context:** Device reboot pending
 
 ---
 
-### ⚠️ CRITICAL: WHEN TO CREATE HANDOFFS
+## 🎯 Mission Summary
 
-**CREATE handoffs when:**
-- ✅ There is UNFINISHED work to pass to the next agent
-- ✅ Work is INCOMPLETE and needs continuation
-- ✅ You are STOPPING mid-task and someone else needs to continue
-- ✅ There are SPECIFIC NEXT ACTIONS for another agent to execute
-- ✅ **USER EXPLICITLY REQUESTS a handoff**, regardless of work completion status
+**Task:** Add SDK-based hierarchical task delegation to `~/.agents/` infrastructure
 
-**DO NOT create handoffs when:**
-- ❌ User explicitly says they don't want a handoff
-- ❌ There are no actionable next steps AND user hasn't requested context preservation
-
-**Critical Rule:** Always respect explicit user requests for handoffs. If user says "create a handoff" or "your work qualifies as a necessary handoff", create the handoff regardless of whether work appears complete. Context preservation for ongoing systems takes precedence over completion status.
-
-**If work is complete AND user hasn't requested a handoff:** Create an audit/accomplishment file instead.
-
-### STEP 0: Assess Task Complexity (Critical First Step)
-
-**Simple tasks (use minimal handoff 30-50 lines):**
-- Run specific command or test
-- Update single file with clear instructions
-- Fix known bug with defined solution
-- Execute defined process step
-- Mechanical work with no judgment calls needed
-
-**Complex tasks (use detailed handoff 150-250 lines):**
-- Integration of multiple sources requiring synthesis
-- Design/architecture decisions requiring understanding
-- Tasks requiring context to make judgment calls
-- Multi-step tasks with interdependencies
-- Work requiring understanding of "why" and "how to approach"
-
-**Determine complexity BEFORE creating handoff.**
-
-### STEP 1: Assess Context Level
-Check user message for these triggers:
-
-- **Low Context Triggers**: "low context", "running out", "context limited", "quick", "emergency"
-- If found → Load ONLY Handoff-Minimal.md (emergency mode)
-- If not found → Load based on task complexity from Step 0
-
-### STEP 2: Load Instructions Based on Complexity
-```bash
-# Always load minimal instructions first
-cat ~/.agents/prompts/handoffs/HANDOFF-MINIMAL.md
-
-# Load detailed if task is complex:
-# 1. No low context triggers AND
-# 2. Task complexity = COMPLEX (from Step 0) AND
-# 3. Adequate context remains
-if [[ "$LOW_CONTEXT" != "true" ]] && [[ "$TASK_COMPLEXITY" == "complex" ]]; then
-    cat ~/.agents/prompts/handoffs/HANDOFF-DETAILED.md
-fi
-```
-
-### STEP 3: Execute Based on Loaded Instructions
-Follow the instructions from the loaded prompt(s).
-
-**Remember:** Action-first ≠ context-minimal. Action-first means lead with actions, support with understanding, not lead with accomplishments.
+**Goal:** Enable agents to spawn sub-agents that can themselves spawn further sub-agents using the Claude Agent SDK, providing better performance and observability than the current CLI-based approach.
 
 ---
 
-## LEGACY FULL PROMPT (Only if two-tier files unavailable)
+## 📍 Current State
 
-**⚠️ WARNING: This legacy prompt is deprecated. Use HANDOFF-MINIMAL.md + HANDOFF-DETAILED.md instead.**
+### Completed Work
 
-The legacy approach led to bloated handoffs. If you must use this, follow the ACTION-FIRST principle:
+1. ✅ **Audited existing infrastructure:**
+   - Read `~/.agents/AGENTS.md` (global agent rules)
+   - Read `~/.agents/.dev/readme.md` (meta-development guide)
+   - Read `~/.agents/docs/SUB-AGENT-ORCHESTRATION-GUIDE.md` (delegation rules)
+   - Read `~/.agents/docs/NESTED-AGENT-DELEGATION.md` (harness patterns)
+   - Reviewed Agent SDK at `~/.agents/tests/sdk-cascade-test/node_modules/@anthropic-ai/claude-agent-sdk/`
 
----
+2. ✅ **Created comprehensive proposal:**
+   - Location: `/Users/grig/.agents/.dev/ai/proposals/2026-01-20-23-45-00Z-sdk-hierarchical-delegation-proposal.md`
+   - Covers architecture, implementation phases, benefits, risks
 
-## HANDOFF CREATION PROCESS
+3. ✅ **Presented proposal to user** - Awaiting approval decision
 
-### STEP 1: Identify Next Actions (NOT session summary)
+### Pending Work
 
-**Focus:** What does the next agent need to DO?
-
-1. **Analyze current state:** Review conversation, check for incomplete work, identify blockers
-2. **Generate action list:** Create numbered, prioritized list of immediate next steps
-3. **Define success criteria:** For each action, state expected outcome
-
-**Output:** Concise action list (3-7 items, each with one-line context)
-
----
-
-### STEP 2: Create Action-First Handoff Document
-
-**File path:**
-```bash
-mkdir -p .dev/ai/handoffs/
-TIMESTAMP=$(~/.agents/scripts/get-filename-prefix.sh)
-FILE=".dev/ai/handoffs/${TIMESTAMP}-handoff-[project-id].md"
-```
-
-**Structure (IN THIS ORDER):**
-
-```markdown
----
-agent_task_id: [AGENT_TASK_ID]
-created: [YYYY-MM-DD-HH-MM-SSZ]
-project: [project-name]
-type: handoff
----
-
-# Handoff: [Project] - [TIMESTAMP]
-
-## PRIORITY NEXT STEPS
-
-1. **[Action 1]** - [Why/Context in one line]
-   - Command: `[if applicable]`
-   - Expected outcome: [success criteria]
-
-2. **[Action 2]** - [Why/Context]
-   - Location: [file/path if relevant]
-
-3. **[Action 3]** - [Why/Context]
-
-## CRITICAL CONTEXT (Minimal)
-[ONLY information needed to execute actions above]
-- Current state: [brief - one line]
-- Key blockers: [if any]
-- Prerequisites: [if any]
-
-## Work Status (Brief)
-- Outstanding: WO-xxx (next: [action])
-- Completed this session: WO-yyy ✓
-
-## References (If needed for actions)
-- Related docs: [specific files only]
-
-## Full Session Details (if applicable)
-[ONLY include if an audit was created just before this handoff]
-For complete session context: .dev/ai/audits/[timestamp]-conversation-summary.md
-
----
-**Agent Task ID:** [AGENT_TASK_ID]
-```
-
-**Rules:**
-- **Simple tasks:** Target 30-50 lines
-- **Complex tasks:** Target 150-250 lines (actions + understanding + strategy)
-- Lead with actions, not accomplishments
-- Context explains "why action matters" and "how to approach", not "what we did"
-- Save detailed session history to audit file, not handoff
-- **Reference documents:** Include full absolute paths inline where relevant (not just at end)
-
-**Save and track:**
-```bash
-~/.agents/scripts/track-project.sh "[project]" "Handoff created" \
-  "Handoff: [one-line summary]" "[agent]"
-```
+- ⏳ **User decision on proposal** - Options: Approve / Modify / Defer / Reject
+- ⏳ **Implementation** - If approved, 5 phases outlined in proposal
 
 ---
 
-### STEP 3: Generate Next-Session Prompt
+## 🔑 Key Findings
 
-Create copy-paste prompt for next agent.
+### Current Delegation Methods
 
-**AGENTS.md First Rule:** If the project has an AGENTS.md file (check: does it exist?), the prompt MUST start with "Read AGENTS.md". Only skip this if:
-- You're in a browser context without file access
-- The project doesn't have an AGENTS.md file
-- You cannot confirm the file exists
+| Method | Mechanism | Overhead | Limitation |
+|--------|-----------|----------|------------|
+| Task Tool | Claude Code session | Low | Session-scoped only |
+| Harness CLI | `claude -p` process | 30-60s/level | No lifecycle hooks |
 
-**With AGENTS.md (default for most projects):**
-```markdown
-Read AGENTS.md
+### SDK Advantages
 
-I'm picking up work on [project-name].
-Agent Task ID: [AGENT_TASK_ID] (preserve this ID in any handoffs you create)
-
-1. Read the handoff at: [FULL ABSOLUTE PATH to handoff file]
-2. BEGIN EXECUTING the priority next steps immediately
-
-The handoff contains the complete action plan. Start work now - do not ask for confirmation or review. The actions have been approved.
-```
-
-**Without AGENTS.md (browser contexts or projects without it):**
-```markdown
-I'm picking up work on [project-name].
-Agent Task ID: [AGENT_TASK_ID] (preserve this ID in any handoffs you create)
-
-1. Read the handoff at: [FULL ABSOLUTE PATH to handoff file]
-2. BEGIN EXECUTING the priority next steps immediately
-
-The handoff contains the complete action plan. Start work now - do not ask for confirmation or review. The actions have been approved.
-```
-
-**Critical:**
-- Include full absolute path to handoff file
-- Emphasize immediate execution - no asking for permission
-- The handoff IS the approval to proceed
+The SDK provides programmatic agent definitions via `query()`:
+- Define sub-agents with `agents` option
+- Track spawning with `SubagentStart`/`SubagentStop` hooks  
+- Use `permissionMode: 'bypassPermissions'` for autonomous execution
 
 ---
 
-## FINAL OUTPUT
+## 📁 Key Files to Reference
 
-Present in order:
-
-1. **Next actions list** (what to do, not what was done)
-2. **Handoff file content** (action-first structure)
-3. **Copy-paste prompt** (in code block)
-
-Confirm file saved and tracked.
-
----
-
-## EXAMPLES: When to Use Minimal vs Detailed
-
-### Example 1: Simple Task (Minimal Handoff 40 lines)
-**Task:** "Run tests and fix any failures"
-
-```markdown
-## PRIORITY NEXT STEPS
-
-1. **Run test suite** - Verify current failures
-   - Command: `npm test`
-   - Expected: See 3 failing tests (auth.test.js, api.test.js)
-
-2. **Fix each failure** - Check error messages and resolve
-   - Files: `src/auth/login.ts:142`, `src/api/users.ts:89,102`
-   - Reference: Test patterns in `/full/absolute/path/to/project/docs/testing-guide.md`
-
-3. **Verify and commit** - All tests pass
-   - Command: `npm test` (should show all green)
-   - Commit: `git commit -m "fix: resolve test failures"`
-
-## CRITICAL CONTEXT
-- Current state: PR ready except 3 failing tests
-- Blocker: Must pass before merge
-- Tests are regression from yesterday's auth changes
-
-## REFERENCES
-- Test suite guide: `/full/absolute/path/to/project/docs/testing-guide.md`
-```
-
-**Why minimal works:** Mechanical execution, clear success criteria, no judgment calls needed.
+| File | Purpose |
+|------|---------|
+| `/Users/grig/.agents/.dev/ai/proposals/2026-01-20-23-45-00Z-sdk-hierarchical-delegation-proposal.md` | **THE PROPOSAL** - Read this first |
+| `/Users/grig/.agents/docs/SUB-AGENT-ORCHESTRATION-GUIDE.md` | Current orchestration rules |
+| `/Users/grig/.agents/docs/NESTED-AGENT-DELEGATION.md` | Harness nested patterns |
+| `/Users/grig/.agents/harness/src/index.ts` | Harness entry point |
+| `/Users/grig/.agents/tests/sdk-cascade-test/node_modules/@anthropic-ai/claude-agent-sdk/sdk.d.ts` | SDK type definitions |
 
 ---
 
-### Example 2: Complex Task (Detailed Handoff 180 lines)
-**Task:** "Integrate two style guides with different philosophies"
+## 🚀 Next Steps for Resuming Agent
 
-```markdown
-## PRIORITY NEXT STEPS
-
-1. **Integrate WRITING-STYLE.md into STYLE-GUIDE-HYBRID.md**
-   - Create: `/full/absolute/path/to/project/.dev/discovery-kit/STYLE-GUIDE-MASTER.md`
-   - Method: Layered integration (strategic + tactical)
-   - Reference integration mapping: `/full/absolute/path/to/project/.dev/ai/handoffs/2025-10-10-integration-guide.md`
-
-2. **Follow layered approach** - Don't copy-paste, synthesize
-   - Layer 1: Keep all strategic principles from HYBRID
-   - Layer 2: Add tactical quality from WRITING-STYLE
-   - Layer 3: Synthesize overlapping sections
-   - Integration instructions: `/full/absolute/path/to/project/.dev/ai/handoffs/2025-10-10-integration-guide.md` (section 3)
-
-3. **Validate integration** - Test with real example
-   - Write decision: "Use SQLite for MVP" using ONLY Master guide
-   - Should provide: analogy, Why→What→How, filler removal, density levels, voice/tone
-   - Reference examples: `/full/absolute/path/to/project/.dev/discovery-kit/example-decisions.md`
-
-## BACKGROUND: Why This Integration Matters
-
-Discovery Kit generates 15-20 pages per module. Without consistent standards:
-- Some agents write verbose, rambling documents
-- Some write terse, incomplete documents
-- No consistency in analogies, rationale, structure
-
-We need unified guide combining strategic (WHAT to write) + tactical (HOW to write clearly).
-
-## UNDERSTANDING THE INPUTS
-
-**STYLE-GUIDE-HYBRID.md** (850+ lines at `/full/absolute/path/to/project/.dev/discovery-kit/STYLE-GUIDE-HYBRID.md`)
-- Contains: 5 Core Writing Principles, 5 Discovery Kit Principles, 11 document types
-- Strong on: Document structure, strategic principles, what sections to include
-- Weak on: Sentence-level clarity, word-level precision
-
-**WRITING-STYLE.md** (446 lines at `/full/absolute/path/to/project/.dev/discovery-kit/WRITING-STYLE.md`)
-- Contains: NO word limits, filler word list, density levels, voice/tone mapping
-- Strong on: Sentence clarity, word choice, operational tactics
-- Weak on: Document structure, strategic principles
-
-**Why complementary:** HYBRID = document/section level, WRITING-STYLE = sentence/word level.
-Both needed, not redundant.
-
-## INTEGRATION STRATEGY
-
-**Layer 1 (Strategic from HYBRID):**
-Keep all 10 principles, 11 document types, writer's checklist, examples
-
-**Layer 2 (Tactical from WRITING-STYLE):**
-Enhance existing sections with filler word list, density framework, voice/tone mapping
-
-**Layer 3 (Synthesize Overlaps):**
-Where both cover same topic (active voice), combine into single enhanced section
-
-**Critical:** Not copy-paste. Synthesize complementary content.
-Reference: Content overview at `/full/absolute/path/to/project/.dev/discovery-kit/STYLE-GUIDE-CONTENT-OVERVIEW.md`
-
-## POTENTIAL PITFALLS
-
-1. **Duplication** - Both cover "active voice." Synthesize, don't duplicate.
-2. **Seeming contradiction** - "No word limits" vs "clarity." Resolution: Long OK if structured.
-3. **Losing unique value** - Check preservation list at `/full/absolute/path/to/project/.dev/discovery-kit/STYLE-GUIDE-CONTENT-OVERVIEW.md` (section 4)
-4. **Over-simplifying** - This is complex. Budget 60-90 minutes. Read both guides completely first.
-
-## SUCCESS CRITERIA
-
-Write complete decision for "Use SQLite for MVP" using ONLY Master guide.
-
-Must provide guidance on:
-- ✓ Start with analogy
-- ✓ Structure as Why→What→How
-- ✓ Remove specific filler words (which ones?)
-- ✓ Use high information density (what does this mean?)
-- ✓ Use declarative factual voice (why for decisions?)
-
-## REFERENCES
-- Integration mapping: `/full/absolute/path/to/project/.dev/ai/handoffs/2025-10-10-integration-guide.md`
-- Content preservation: `/full/absolute/path/to/project/.dev/discovery-kit/STYLE-GUIDE-CONTENT-OVERVIEW.md`
-- Example decisions: `/full/absolute/path/to/project/.dev/discovery-kit/example-decisions.md`
-- Full session audit: `/full/absolute/path/to/project/.dev/ai/audits/2025-10-10-20-29-conversation-summary.md`
-```
-
-**Why detailed needed:** Requires understanding inputs, making synthesis judgments, avoiding pitfalls.
+1. **Read the proposal** at the location above
+2. **Ask user for decision** on the proposal if not already provided
+3. **If approved**, begin Phase 1:
+   - Add `@anthropic-ai/claude-agent-sdk` to `~/.agents/harness/package.json`
+   - Create `~/.agents/harness/src/providers/claude/sdk.ts`
+   - Implement `executeViaSDK()` function
 
 ---
 
-**Use minimal when:** Agent just needs to DO (mechanical execution)
-**Use detailed when:** Agent needs to UNDERSTAND before doing (synthesis/judgment)
+## ⚠️ Important Context
+
+- **SDK Version:** `@anthropic-ai/claude-agent-sdk` v0.2.12
+- **SDK requires API key auth** - Cannot use subscription credentials
+- **Existing harness uses CLI** - SDK runner would be an additional provider
+- **Keep CLI as fallback** - Don't break existing workflows
 
 ---
 
-**Remember:** Handoffs are action plans for agents with zero context. Provide minimum context for intelligent execution - no more, no less. Action-first doesn't mean context-last.
+## 📊 Proposal Implementation Phases
+
+| Phase | Duration | Focus |
+|-------|----------|-------|
+| 1 | 2-3 days | SDK Runner Foundation |
+| 2 | 1-2 days | Lifecycle Hooks Integration |
+| 3 | 2-3 days | Agent Definition Patterns |
+| 4 | 2-3 days | Testing & Benchmarking |
+| 5 | 1-2 days | Documentation |
+
+---
+
+## 🔧 Technical Notes
+
+- SDK's `query()` returns `AsyncGenerator<SDKMessage>`
+- `SDKResultMessage` contains `total_cost_usd` for cost tracking
+- `SubagentStart`/`SubagentStop` hooks fire when Task tool spawns agents
+- `permissionMode: 'bypassPermissions'` + `allowDangerouslySkipPermissions: true` for autonomous execution
+
+---
+
+## 📝 Session Artifacts
+
+- **Proposal file:** `/Users/grig/.agents/.dev/ai/proposals/2026-01-20-23-45-00Z-sdk-hierarchical-delegation-proposal.md`
+- **This handoff:** `/Users/grig/.agents/prompts/handoffs/HANDOFF.md`
+
+---
+
+**Handoff complete. Ready for next agent after device reboot.**

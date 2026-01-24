@@ -782,44 +782,68 @@ kill PPID
 - No automatic respawning
 - Applications work normally
 
-### Sub-Pattern 5a: Claude Code / MCP Server Zombies
+### Sub-Pattern 5a: Claude Code Orphan Processes (CRITICAL - CHECK FIRST)
 
-**Context**: Power users run many Claude Code terminal sessions for different projects. These are intentionally active. The challenge is distinguishing user's active work from orphaned zombies.
+**Context**: Power users run many Claude Code terminal sessions. When tabs are closed without clean exit, `claude` processes become orphaned and accumulate over days/weeks, causing severe performance degradation.
 
-**Detection Protocol - Active vs Zombie:**
+**⚠️ PROACTIVE CHECK**: When user reports slowness, HIGH MEMORY, or iTerm2 at high CPU, CHECK THIS FIRST:
 ```bash
-# ACTIVE claude sessions: S+ state (foreground in terminal), has TTY (s001, s002...)
-ps aux | grep "claude " | grep -v grep | grep "S+"
-
-# ZOMBIE claude sessions: S state without +, TTY shows ??
-ps aux | grep "claude " | grep -v grep | grep -v "S+"
-
-# ACTIVE MCP servers: Attached to terminal
-ps aux | grep "chrome-devtools-mcp" | grep -v grep | grep "S+"
-
-# ORPHANED MCP servers: Detached background processes
-ps aux | grep "chrome-devtools-mcp" | grep -v grep | grep -v "S+"
-
-# Quick count summary
-echo "Active claude: $(ps aux | grep 'claude ' | grep -v grep | grep 'S+' | wc -l)"
-echo "Zombie claude: $(ps aux | grep 'claude ' | grep -v grep | grep -v 'S+' | wc -l)"
-echo "Active MCP: $(ps aux | grep 'chrome-devtools-mcp' | grep -v grep | grep 'S+' | wc -l)"
-echo "Orphaned MCP: $(ps aux | grep 'chrome-devtools-mcp' | grep -v grep | grep -v 'S+' | wc -l)"
-
-# Memory consumed by zombies only
-ps aux | grep -E "claude|chrome-devtools-mcp" | grep -v grep | grep -v "S+" | \
-  awk '{sum+=$6} END {print "Zombie memory: " int(sum/1024) " MB"}'
+# Quick health check - run immediately
+TOTAL=$(ps aux | grep "[c]laude" | wc -l | tr -d ' ')
+ORPHANS=$(ps aux | grep "[c]laude" | grep " ?? " | wc -l | tr -d ' ')
+echo "Claude processes: $TOTAL total, $ORPHANS orphans"
+ps aux | grep "[c]laude" | awk '{sum+=$6; cpu+=$3} END {print "Resources: Memory:", int(sum/1024), "MB | CPU:", cpu, "%"}'
 ```
 
-**Root Cause**: When Claude Code sessions end ungracefully (terminal closed, crash), spawned `chrome-devtools-mcp` processes become orphaned (PPID=1, adopted by launchd). Each orphan consumes ~30-50 MB.
+**Warning Thresholds**:
+- Claude process count > 15 → Investigate
+- Orphan count > 5 → Recommend cleanup
+- Claude memory > 5 GB → Critical, immediate cleanup
+- Claude CPU > 200% → Critical, immediate cleanup
+
+**Detection Protocol - Active vs Orphan:**
+```bash
+# ACTIVE: Has TTY (s001, s002...) and S+ or R+ state - DO NOT KILL
+ps aux | grep "[c]laude" | awk '$7 ~ /s[0-9]/ && $8 ~ /\+/ {print "ACTIVE:", $2, $3"%", $7}'
+
+# ORPHANED: TTY shows ?? (detached from terminal) - SAFE TO KILL
+ps aux | grep "[c]laude" | grep " ?? " | awk '{print "ORPHAN:", $2, $3"% CPU", $4"% MEM"}'
+```
+
+**Root Cause**: When Claude Code sessions end ungracefully (terminal tab closed, iTerm quit, crash):
+- The `claude` process doesn't receive proper termination signal
+- Process becomes orphaned (TTY shows `??`, adopted by launchd with PPID=1)
+- Each orphan continues consuming 0.5-3% memory (~300MB-2GB) and can spike to 50-90% CPU
+- Accumulation over days: 49 orphans = 9+ GB memory, 300%+ CPU, swap exhaustion
+- Power users who never restart are especially affected
 
 **Surgical Cleanup (SAFE - only kills orphans):**
 ```bash
-# Kill ONLY orphaned MCP servers (detached background processes)
-ps aux | grep "chrome-devtools-mcp" | grep -v grep | grep -v "S+" | awk '{print $2}' | xargs kill 2>/dev/null
+# Kill orphaned Claude processes (detached, TTY = ??)
+ps aux | grep "[c]laude" | grep " ?? " | awk '{print $2}' | xargs kill -9 2>/dev/null
+
+# Verify cleanup
+ps aux | grep "[c]laude" | wc -l
 ```
 
-**DO NOT KILL**: Processes with `S+` state or numbered TTYs (s001, s002...) - these are user's active work.
+**DO NOT KILL**: Processes with TTY like `s001`, `s002`, `s222` - these are user's active terminal sessions.
+
+**Real-World Example (2026-01-23)**:
+- User reported: "iTerm2 at 100%, something spiking memory"
+- Found: 49 Claude processes, 9.7 GB memory, 308% CPU, swap at 96%
+- After cleanup: 4 processes, 1 GB memory, 62% CPU, swap freed 12+ GB
+- Root cause: Accumulated orphans from many closed terminal sessions
+
+**Prevention Advice for User**:
+```bash
+# Add to ~/.zshrc or ~/.bashrc
+alias claude-cleanup='ps aux | grep "[c]laude" | grep " ?? " | awk '\''{print $2}'\'' | xargs kill -9 2>/dev/null; echo "Cleaned orphaned Claude processes"'
+```
+
+**Related**: Also check for orphaned MCP servers:
+```bash
+ps aux | grep "chrome-devtools-mcp" | grep " ?? " | awk '{print $2}' | xargs kill 2>/dev/null
+```
 
 ## Pattern 6: Background System Tasks
 
@@ -1327,6 +1351,15 @@ cat ~/.agents/.dev/performance-diagnostics/knowledge-base/COMMON-ISSUES.md
 ```
 - **If user's symptoms match a known issue** → Apply proven solution immediately, skip redundant diagnosis
 - **If no match** → Proceed with full diagnostic
+
+### Step 2.5: QUICK CLAUDE ORPHAN CHECK (if user reports slowness/memory)
+**⚠️ CRITICAL**: For "slow system" or "high memory" reports, CHECK THIS IMMEDIATELY:
+```bash
+ORPHANS=$(ps aux | grep "[c]laude" | grep " ?? " | wc -l | tr -d ' ')
+[ "$ORPHANS" -gt 5 ] && echo "⚠️  Found $ORPHANS orphaned Claude processes - likely cause!"
+ps aux | grep "[c]laude" | awk '{sum+=$6; cpu+=$3} END {print "Claude: Memory:", int(sum/1024), "MB | CPU:", cpu, "%"}'
+```
+If orphan count > 5 OR Claude memory > 5GB → This is likely the root cause. See Pattern 5a.
 
 ### Step 3: Create Session Directory
 ```bash
