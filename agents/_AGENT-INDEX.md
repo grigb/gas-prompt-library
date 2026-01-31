@@ -1,15 +1,16 @@
 # Agent Index
 
-**Last Updated:** 2025-12-05
-**Total Agents:** 29
+**Last Updated:** 2026-01-30
+**Total Agents:** 30
 **Purpose:** Searchable metadata index for global agent library
 
 ---
 
 ## Quick Reference by Category
 
-### 🏗️ Core Development (5 agents)
-- `agent-orchestrator` - Multi-agent workflow coordination
+### 🏗️ Core Development (6 agents)
+- `agent-orchestrator` - Multi-agent workflow coordination (single project)
+- `agent-manager-orchestrator` - Coordinates multiple orchestrators (portfolio level)
 - `agent-dev-general-contractor` - QA lead and integration specialist
 - `agent-dev-overseer` - Development process monitor
 - `agent-dev-worker` - Core implementation specialist
@@ -71,6 +72,9 @@
 
 **orchestration, coordination, multi-agent, workflow**
 → `agent-orchestrator`, `agent-dev-overseer`
+
+**hierarchy, portfolio, multi-project, manager, beacon**
+→ `agent-manager-orchestrator`
 
 ### Research Keywords
 **research, investigation, analysis, evidence**
@@ -143,6 +147,9 @@
 
 **Complex multi-component project:**
 → `agent-orchestrator` → `agent-dev-worker` (coordinated workflow)
+
+**Multiple projects / portfolio coordination:**
+→ `agent-manager-orchestrator` → `agent-orchestrator` (hierarchical coordination)
 
 ### "Something's broken"
 **Network/connectivity issues:**
@@ -229,6 +236,7 @@
 | Marketing Expert | `agent-marketing-expert.md` | Senior Marketing Strategist with 25+ years of... | communication, data, design, development, documentation, process | See file for details |
 | Network Diagnostics Specialist | `agent-network-diagnostics-specialist.md` | Network diagnostics | network, diagnostics, troubleshooting | See file for details |
 | Orchestrator | `agent-orchestrator.md` | Master Agent Coordinator with 15+ years of ex... | communication, data, design, development, documentation, orchestrate | See file for details |
+| Manager Orchestrator | `agent-manager-orchestrator.md` | Coordinates orchestrators at portfolio level | portfolio, hierarchy, multi-project, beacon, manager, coordination | See file for details |
 | Process Analysis Retrospective Quick | `agent-process-analysis-retrospective-quick.md` | Senior Organizational Learning Architect | communication, data, design, development, documentation, process | See file for details |
 | Process Analysis Retrospective | `agent-process-analysis-retrospective.md` | Senior Systems Analyst with 15+ years | communication, data, design, development, documentation, process | See file for details |
 | Process Design Optimization | `agent-process-design-optimization.md` | Senior Process Engineer with 15+ years | communication, data, design, development, process, research | See file for details |
@@ -291,6 +299,7 @@ def get_agent_metadata(agent_name):
 ├── _agent-format-guide.md                       # Format specification
 │
 ├── agent-orchestrator.md                        # Strategic
+├── agent-manager-orchestrator.md                # Hierarchy (manages orchestrators)
 ├── agent-chief-of-staff.md
 ├── agent-chief-reality-officer.md
 ├── agent-strategic-intelligence.md
