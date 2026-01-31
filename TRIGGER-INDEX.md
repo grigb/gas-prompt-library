@@ -53,6 +53,40 @@
 
 ---
 
+### Orchestrator Agent (Multi-Agent Coordination)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `orchestrator` | `~/.agents/prompts/agents/agent-orchestrator.md` | Multi-agent workflow orchestration |
+| `orchestrate` | `~/.agents/prompts/agents/agent-orchestrator.md` | Coordinate agent workflow |
+| `coordinate` | `~/.agents/prompts/agents/agent-orchestrator.md` | Project coordination |
+| `orchestration` | `~/.agents/prompts/agents/agent-orchestrator.md` | Alias for orchestrator |
+| `launch orchestrator` | `~/.agents/prompts/agents/agent-orchestrator.md` | Explicit orchestrator launch |
+| `you are the orchestrator` | `~/.agents/prompts/agents/agent-orchestrator.md` | Role assignment phrase |
+| `act as orchestrator` | `~/.agents/prompts/agents/agent-orchestrator.md` | Role activation phrase |
+
+**Core Principle:** "Conductor, not musician." Delegates to workers, NEVER executes. One approval, then runs to completion.
+
+**Activation Regex:** `(?i)\b(orchestrat(or|e|ion)|coordinate|launch\s+orchestrator|act\s+as\s+orchestrator|you\s+are\s+(the\s+)?orchestrator)\b`
+
+---
+
+### Manager Orchestrator Agent (Portfolio Coordination)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `manager orchestrator` | `~/.agents/prompts/agents/agent-manager-orchestrator.md` | Portfolio-level orchestration |
+| `coordinate projects` | `~/.agents/prompts/agents/agent-manager-orchestrator.md` | Multi-project coordination |
+| `portfolio` | `~/.agents/prompts/agents/agent-manager-orchestrator.md` | Portfolio management mode |
+| `portfolio orchestration` | `~/.agents/prompts/agents/agent-manager-orchestrator.md` | Portfolio orchestration |
+| `manage orchestrators` | `~/.agents/prompts/agents/agent-manager-orchestrator.md` | Manage child orchestrators |
+
+**Core Principle:** "VP, not engineer." Coordinates OTHER orchestrators, not workers. Multi-project scope.
+
+**Activation Regex:** `(?i)\b(manager\s+orchestrator|coordinate\s+projects|portfolio(\s+orchestration)?|manage\s+orchestrators)\b`
+
+---
+
 ### Commit Agent (Smart Commits)
 
 | Trigger Phrase | Target Prompt | Description |
