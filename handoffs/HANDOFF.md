@@ -85,6 +85,41 @@ Follow the instructions from the loaded prompt(s).
 
 ---
 
+## ORCHESTRATION HANDOFFS
+
+For **orchestration handoffs** (when delegating to subtasks or coordinating parallel agents), use the specialized variant:
+
+**Reference:** `~/.agents/prompts/handoffs/ORCHESTRATION-HANDOFF.md`
+
+### Trigger Phrases
+
+Use orchestration handoffs when you see:
+- "create handoff" or "hand off" in orchestration context
+- Explicit file path for handoff output (e.g., `.dev/ai/subtask-comms/`)
+- Subtask delegation or parallel agent coordination
+- "orchestrate", "coordinate agents", "delegate to subtask"
+- Multi-agent workflow setup or continuation
+
+### Key Differences from Standard Handoffs
+
+| Aspect | Standard Handoff | Orchestration Handoff |
+|--------|-----------------|----------------------|
+| **Purpose** | Agent-to-agent session continuation | Subtask delegation, parallel coordination |
+| **Scope** | Full session context transfer | Focused task-specific context |
+| **Output** | `.dev/ai/handoffs/` | `.dev/ai/subtask-comms/` or specified path |
+| **Format** | Action-first with context layers | Minimal, task-focused, pre-work report style |
+
+### When to Use Orchestration Variant
+
+1. **Orchestrator delegating work** - Breaking down complex tasks into subtasks
+2. **Parallel agent setup** - Multiple agents working on related tasks
+3. **Subtask communication** - Inter-agent messaging within orchestrated workflow
+4. **User specifies output path** - When handoff location is explicitly provided
+
+**If in doubt:** Standard handoffs preserve full context; orchestration handoffs focus on immediate task execution.
+
+---
+
 ## LEGACY FULL PROMPT (Only if two-tier files unavailable)
 
 **⚠️ WARNING: This legacy prompt is deprecated. Use HANDOFF-MINIMAL.md + HANDOFF-DETAILED.md instead.**

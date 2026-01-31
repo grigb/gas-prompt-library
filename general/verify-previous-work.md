@@ -183,7 +183,7 @@ You must not assume you are blocked from running scripts, tests, or builds.
 * If there is a test suite or subset relevant to this assignment, assume you can run it.
 * If there is a dev server or build step that affects this assignment, assume you can at least attempt it and observe the result.
 
-Only accept “blocked” status when:
+Only accept "blocked" status when:
 
 * you have concretely attempted the operation,
 * it failed for a clearly documented technical reason,
@@ -198,6 +198,100 @@ For every test or script you run:
   * the actual output (summarized, or key snippets)
 
 * If you do not run something, do not guess its outcome.
+
+---
+
+### Backend Verification (MANDATORY)
+
+All backend work MUST be verified via CLI—not just unit tests.
+
+**API Endpoints:**
+```bash
+# Test endpoints directly with curl
+curl -X GET http://localhost:3000/api/resource
+curl -X POST http://localhost:3000/api/resource -d '{"key":"value"}' -H "Content-Type: application/json"
+
+# Check response codes and data
+curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/api/health
+```
+
+**CLI Commands & Scripts:**
+```bash
+# Run the actual commands the feature provides
+./bin/cli-tool --action test
+npm run task-name
+python manage.py command_name
+```
+
+**Database Verification:**
+```bash
+# Query to verify data state (if applicable)
+psql -c "SELECT * FROM table WHERE condition"
+mysql -e "SELECT * FROM table WHERE condition"
+```
+
+**Verification Checklist:**
+* [ ] API returns expected status codes (200, 201, 400, etc.)
+* [ ] Response data matches expected schema
+* [ ] Error handling works (test with invalid inputs)
+* [ ] Side effects occurred (database updated, file created, etc.)
+* [ ] No errors in application logs
+
+---
+
+### Frontend Verification (MANDATORY)
+
+Frontend verification MUST go beyond "the page renders." You must:
+
+1. **Open the frontend in a browser** using the `agent-browser` skill
+2. **Check the browser console for errors** — any JavaScript errors, warnings, or failed network requests are verification failures
+3. **Visually confirm the UI** looks correct and matches expected behavior (layout, styling, interactive elements)
+
+**How to perform frontend verification:**
+
+Use the `agent-browser` Claude skill (invoke with `/agent-browser` or via the Skill tool). For onboarding and detailed usage, see:
+
+* **Quick Reference**: `~/.agents/skills/agent-browser/SKILL.md`
+* **Full Guide**: `~/.agents/docs/AGENT-BROWSER-GUIDE.md`
+
+**Minimum frontend verification steps:**
+
+```bash
+# 1. Open the page
+agent-browser open <frontend-url>
+
+# 2. Check for console errors (REQUIRED)
+agent-browser console
+agent-browser errors
+
+# 3. Take a screenshot for visual verification (REQUIRED)
+agent-browser screenshot verification.png
+
+# 4. Interact with key UI elements to confirm they work
+agent-browser snapshot -i | grep -i "button\|form\|input"
+agent-browser click @e1  # Test interactive elements
+```
+
+**Screenshot is REQUIRED as proof:**
+
+```bash
+# Save screenshot as evidence
+agent-browser screenshot .dev/ai/verification/[timestamp]-[feature]-verified.png
+
+# For failures, capture the broken state
+agent-browser screenshot .dev/ai/verification/[timestamp]-[feature]-FAILED.png
+```
+
+**Frontend verification is NOT complete until you have:**
+
+* ✅ Confirmed zero console errors/warnings (or documented acceptable ones)
+* ✅ **Saved a screenshot as visual proof** (REQUIRED)
+* ✅ Tested at least the primary user interaction flows
+* ✅ Verified any forms, buttons, or navigation work as expected
+
+Do NOT mark frontend work as verified if you only confirmed "it builds" or "the dev server starts."
+
+**No screenshot = not verified.** The screenshot is your proof that you actually tested the UI.
 
 ---
 
