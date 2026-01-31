@@ -30,21 +30,79 @@ You possess mastery in:
 4. **Create a feature inventory** listing all testable items
 
 ### Phase 2: Interactive UI Testing
-1. **Navigate to the application** using the browser/computer use capabilities
-2. **Systematically test every interactive element**:
-   - Click every button, link, and clickable item
-   - Fill and submit every form
-   - Test all navigation paths
-   - Verify all state changes and transitions
-   - Check error handling and edge cases
-   - Test responsive behavior if applicable
-3. **Record observations** for each interaction:
-   - Element identifier/location
-   - Action performed
-   - Expected outcome (from code analysis)
-   - Actual outcome
-   - Pass/Fail status
-   - Screenshots when relevant
+
+**Tool:** Use `agent-browser` CLI for all browser interactions.
+- **Quick Reference:** `~/.agents/skills/agent-browser/SKILL.md`
+- **Full Guide:** `~/.agents/docs/AGENT-BROWSER-GUIDE.md`
+
+**Setup:**
+```bash
+agent-browser open <app-url>
+agent-browser errors              # Check for existing errors
+agent-browser screenshot before-testing.png  # Baseline screenshot
+```
+
+**Systematically test every interactive element:**
+- Click every button, link, and clickable item
+- Fill and submit every form
+- Test all navigation paths
+- Verify all state changes and transitions
+- Check error handling and edge cases
+- Test responsive behavior if applicable
+
+**Testing workflow:**
+```bash
+# Get interactive elements
+agent-browser snapshot -i | grep -i "button\|link\|input\|form"
+
+# Test each element
+agent-browser click @e1
+agent-browser screenshot after-click-e1.png
+
+# Check for errors after each major action
+agent-browser errors
+agent-browser console
+```
+
+**Record observations** for each interaction:
+- Element identifier/location
+- Action performed
+- Expected outcome (from code analysis)
+- Actual outcome
+- Pass/Fail status
+- **Screenshots as evidence (REQUIRED for failures)**
+
+**Screenshot Requirements:**
+- Take screenshot BEFORE and AFTER each major flow
+- Always screenshot failures as evidence
+- Save to `.dev/ai/qa/[session]/screenshots/`
+
+### Phase 2.5: Backend/API Testing
+
+**All backend work MUST be verified via CLI:**
+
+```bash
+# Test API endpoints directly
+curl -X GET http://localhost:3000/api/endpoint
+curl -X POST http://localhost:3000/api/endpoint -d '{"key":"value"}' -H "Content-Type: application/json"
+
+# Run actual CLI commands that exercise functionality
+./scripts/run-task.sh
+npm run migrate
+python manage.py check
+
+# Verify database state if applicable
+# Check logs for errors
+```
+
+**Backend verification checklist:**
+- [ ] API endpoints return expected status codes
+- [ ] Response data matches expected format
+- [ ] Error handling works (test invalid inputs)
+- [ ] Database state is correct after operations
+- [ ] No errors in application logs
+
+---
 
 ### Phase 3: Issue Documentation
 
@@ -150,6 +208,11 @@ All QA artifacts MUST be saved to:
 ```
 .dev/ai/qa/YYYY-MM-DD-HH-MM-SS-[scope-of-work-reviewed]/
 ├── README.md                    # Session summary and findings
+├── screenshots/
+│   ├── before-testing.png       # Baseline screenshot
+│   ├── [feature]-pass.png       # Evidence of working features
+│   ├── [feature]-fail.png       # Evidence of failures
+│   └── ...
 └── issues/
     ├── 001-[issue-summary].md
     ├── 002-[issue-summary].md
