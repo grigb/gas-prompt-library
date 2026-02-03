@@ -15,6 +15,7 @@
 | HANDOFF | `~/.agents/prompts/handoffs/HANDOFF.md` |
 | HANDOFF-DETAILED | `~/.agents/prompts/handoffs/HANDOFF-DETAILED.md` |
 | HANDOFF-MINIMAL | `~/.agents/prompts/handoffs/HANDOFF-MINIMAL.md` |
+| CONVERT-HANDOFF-TO-WORKORDER | `~/.agents/prompts/handoffs/CONVERT-HANDOFF-TO-WORKORDER.md` |
 | DISCUSSION-MODE | `~/.agents/prompts/modes/DISCUSSION-MODE.md` |
 | ORGANIZE-DOCS+DIRS | `~/.agents/prompts/general/organize-docs+dirs.md` |
 | DEEP-RESEARCH-PROMPT-GENERATOR | `~/.agents/prompts/research/deep-research-prompt-generator.md` |
@@ -86,7 +87,8 @@
 ├── handoffs/                           # Handoff protocols
 │   ├── HANDOFF.md                     # Standard handoff
 │   ├── HANDOFF-DETAILED.md            # Detailed handoff
-│   └── HANDOFF-MINIMAL.md             # Minimal handoff
+│   ├── HANDOFF-MINIMAL.md             # Minimal handoff
+│   └── CONVERT-HANDOFF-TO-WORKORDER.md # Handoff to Work Order conversion
 │
 ├── modes/                              # Special operation modes
 │   └── DISCUSSION-MODE.md             # Discussion mode protocol
