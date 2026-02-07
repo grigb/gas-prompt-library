@@ -1,399 +1,153 @@
-<!-- ============================================================== -->
-<!-- DO NOT OVERWRITE THIS FILE WITH SESSION HANDOFFS               -->
-<!-- This is an INSTRUCTION file that tells agents HOW to create    -->
-<!-- handoffs. Save actual session handoffs to: .dev/ai/handoffs/   -->
-<!-- ============================================================== -->
-
-## TWO-TIER HANDOFF SYSTEM
-
-### Agent Task ID (Provenance Chain)
-
-**Every handoff MUST have an Agent Task ID for traceability.**
-
-```bash
-# If you received a handoff with agent_task_id: REUSE IT (maintains chain)
-# If starting fresh: Generate new one
-AGENT_TASK_ID=$(~/.agents/scripts/get-agent-task-id.sh handoff)
-# Returns: [UID]_[unix-timestamp] (e.g., a1b2c3d4_1736892345)
-```
-
-Include in: Frontmatter, footer, and next-session prompt.
-
 ---
-
-### CRITICAL: When to Create Handoffs
-
-**CREATE handoff when:**
-- ✅ Work is UNFINISHED and needs continuation
-- ✅ You're stopping mid-task
-- ✅ There are SPECIFIC NEXT ACTIONS for another agent
-- ✅ **USER EXPLICITLY REQUESTS a handoff**, regardless of completion status
-
-**DO NOT create handoff when:**
-- ❌ User explicitly says they don't want a handoff
-- ❌ There are no actionable next steps AND user hasn't requested context preservation
-
-**Critical Rule:** Always respect explicit user requests for handoffs. Context preservation takes precedence over completion status.
-
-**If work is complete AND user hasn't requested a handoff:** Use audit/accomplishment instead.
-
----
-
-### STEP 0: Assess Task Complexity (Critical First Step)
-
-**Simple tasks (use minimal handoff 30-50 lines):**
-- Run specific command or test
-- Update single file with clear instructions
-- Fix known bug with defined solution
-- Execute defined process step
-- Mechanical work with no judgment calls needed
-
-**Complex tasks (use detailed handoff 150-250 lines):**
-- Integration of multiple sources requiring synthesis
-- Design/architecture decisions requiring understanding
-- Tasks requiring context to make judgment calls
-- Multi-step tasks with interdependencies
-- Work requiring understanding of "why" and "how to approach"
-
-**Determine complexity BEFORE creating handoff.**
-
-### STEP 1: Assess Context Level
-Check user message for these triggers:
-
-- **Low Context Triggers**: "low context", "running out", "context limited", "quick", "emergency"
-- If found → Load ONLY Handoff-Minimal.md (emergency mode)
-- If not found → Load based on task complexity from Step 0
-
-### STEP 2: Load Instructions Based on Complexity
-```bash
-# Always load minimal instructions first
-cat ~/.agents/prompts/handoffs/HANDOFF-MINIMAL.md
-
-# Load detailed if task is complex:
-# 1. No low context triggers AND
-# 2. Task complexity = COMPLEX (from Step 0) AND
-# 3. Adequate context remains
-if [[ "$LOW_CONTEXT" != "true" ]] && [[ "$TASK_COMPLEXITY" == "complex" ]]; then
-    cat ~/.agents/prompts/handoffs/HANDOFF-DETAILED.md
-fi
-```
-
-### STEP 3: Execute Based on Loaded Instructions
-Follow the instructions from the loaded prompt(s).
-
-**Remember:** Action-first ≠ context-minimal. Action-first means lead with actions, support with understanding, not lead with accomplishments.
-
----
-
-## ORCHESTRATION HANDOFFS
-
-For **orchestration handoffs** (when delegating to subtasks or coordinating parallel agents), use the specialized variant:
-
-**Reference:** `~/.agents/prompts/handoffs/ORCHESTRATION-HANDOFF.md`
-
-### Trigger Phrases
-
-Use orchestration handoffs when you see:
-- "create handoff" or "hand off" in orchestration context
-- Explicit file path for handoff output (e.g., `.dev/ai/subtask-comms/`)
-- Subtask delegation or parallel agent coordination
-- "orchestrate", "coordinate agents", "delegate to subtask"
-- Multi-agent workflow setup or continuation
-
-### Key Differences from Standard Handoffs
-
-| Aspect | Standard Handoff | Orchestration Handoff |
-|--------|-----------------|----------------------|
-| **Purpose** | Agent-to-agent session continuation | Subtask delegation, parallel coordination |
-| **Scope** | Full session context transfer | Focused task-specific context |
-| **Output** | `.dev/ai/handoffs/` | `.dev/ai/subtask-comms/` or specified path |
-| **Format** | Action-first with context layers | Minimal, task-focused, pre-work report style |
-
-### When to Use Orchestration Variant
-
-1. **Orchestrator delegating work** - Breaking down complex tasks into subtasks
-2. **Parallel agent setup** - Multiple agents working on related tasks
-3. **Subtask communication** - Inter-agent messaging within orchestrated workflow
-4. **User specifies output path** - When handoff location is explicitly provided
-
-**If in doubt:** Standard handoffs preserve full context; orchestration handoffs focus on immediate task execution.
-
----
-
-## LEGACY FULL PROMPT (Only if two-tier files unavailable)
-
-**⚠️ WARNING: This legacy prompt is deprecated. Use HANDOFF-MINIMAL.md + HANDOFF-DETAILED.md instead.**
-
-The legacy approach led to bloated handoffs. If you must use this, follow the ACTION-FIRST principle:
-
----
-
-## HANDOFF CREATION PROCESS
-
-### STEP 1: Identify Next Actions (NOT session summary)
-
-**Focus:** What does the next agent need to DO?
-
-1. **Analyze current state:** Review conversation, check for incomplete work, identify blockers
-2. **Generate action list:** Create numbered, prioritized list of immediate next steps
-3. **Define success criteria:** For each action, state expected outcome
-
-**Output:** Concise action list (3-7 items, each with one-line context)
-
----
-
-### STEP 2: Create Action-First Handoff Document
-
-**File path:**
-```bash
-mkdir -p .dev/ai/handoffs/
-TIMESTAMP=$(~/.agents/scripts/get-filename-prefix.sh)
-FILE=".dev/ai/handoffs/${TIMESTAMP}-handoff-[project-id].md"
-```
-
-**Structure (IN THIS ORDER):**
-
-```markdown
----
-agent_task_id: [AGENT_TASK_ID]
-created: [YYYY-MM-DD-HH-MM-SSZ]
-project: [project-name]
+agent_task_id: 10daf64d_1770102134
+created: 2026-02-07T07:00:00Z
+project: mzfusion-api
 type: handoff
+priority: high
 ---
 
-# Handoff: [Project] - [TIMESTAMP]
+# Handoff: LLM Integration for Client Report Narrative Generator
 
-## PRIORITY NEXT STEPS
+## SESSION SUMMARY
 
-1. **[Action 1]** - [Why/Context in one line]
-   - Command: `[if applicable]`
-   - Expected outcome: [success criteria]
+This session completed the LLM integration for the client-report tool's narrative generator. The problem was that generated narratives used hollow template phrases like "reflecting the complexity of the work involved" repeated 19 times. Now the tool uses Claude API for quality narrative generation with improved fallback.
 
-2. **[Action 2]** - [Why/Context]
-   - Location: [file/path if relevant]
+## WHAT WAS COMPLETED
 
-3. **[Action 3]** - [Why/Context]
+### 1. Created LLM Module
+**File:** `/Users/grig/.agents/tools/client-report/src/llm.py` (496 lines)
 
-## CRITICAL CONTEXT (Minimal)
-[ONLY information needed to execute actions above]
-- Current state: [brief - one line]
-- Key blockers: [if any]
-- Prerequisites: [if any]
+Key components:
+- `LLMNarrativeGenerator` class with Claude API integration
+- `NarrativeSection` dataclass for structured output
+- Blacklisted hollow phrases that must never appear
+- `generate_initiative_section()` - generates WHAT/WHY/VALUE for each initiative
+- `generate_executive_summary()` - synthesizes story across initiatives
+- `_generate_contextual_business_value()` - multi-sentence business value (fallback)
+- `_fallback_generation()` - improved template when LLM unavailable
+- Uses model: `claude-sonnet-4-20250514`
 
-## Work Status (Brief)
-- Outstanding: WO-xxx (next: [action])
-- Completed this session: WO-yyy ✓
+### 2. Updated Narrative Generator
+**File:** `/Users/grig/.agents/tools/client-report/src/narrative.py`
 
-## References (If needed for actions)
-- Related docs: [specific files only]
+Changes:
+- Added `from .llm import LLMNarrativeGenerator` import
+- `NarrativeGenerator.__init__()` now accepts `use_llm: bool = True`
+- `_generate_executive_summary()` uses LLM when available
+- `_generate_initiative_section()` uses LLM for all three sections
+- `_generate_business_value()` delegates to LLM's contextual method
+- Removed garbage template phrase "reflecting the complexity of the work involved"
+- `generate_narrative_from_file()` accepts `use_llm` parameter
 
-## Full Session Details (if applicable)
-[ONLY include if an audit was created just before this handoff]
-For complete session context: .dev/ai/audits/[timestamp]-conversation-summary.md
+### 3. Added CLI Flags
+**File:** `/Users/grig/.agents/tools/client-report/src/narrative.py` (lines 642-653)
 
----
-**Agent Task ID:** [AGENT_TASK_ID]
+```
+--use-llm    (default: enabled)
+--no-llm     (disables LLM, uses fallback)
 ```
 
-**Rules:**
-- **Simple tasks:** Target 30-50 lines
-- **Complex tasks:** Target 150-250 lines (actions + understanding + strategy)
-- Lead with actions, not accomplishments
-- Context explains "why action matters" and "how to approach", not "what we did"
-- Save detailed session history to audit file, not handoff
-- **Reference documents:** Include full absolute paths inline where relevant (not just at end)
+### 4. Updated Package Exports
+**File:** `/Users/grig/.agents/tools/client-report/src/__init__.py`
 
-**Save and track:**
+- Added exports: `NarrativeSection`, `LLMNarrativeGenerator`, `generate_narrative_with_llm`
+- Version bumped to `1.2.0`
+
+## KEY FILES MODIFIED
+
+| File | Change |
+|------|--------|
+| `~/.agents/tools/client-report/src/llm.py` | NEW - 496 lines |
+| `~/.agents/tools/client-report/src/narrative.py` | LLM integration |
+| `~/.agents/tools/client-report/src/__init__.py` | Exports, v1.2.0 |
+
+## GOLD STANDARD ARCHIVE
+
+Relocated the good example output to preserve it:
+
+**From:** `/Users/grig/.agents/outputs/client-reports/2026-02-04-fresh-run/archive-manual-run/`
+**To:** `/Users/grig/.agents/outputs/client-reports/_GOLD-STANDARD-manual-review/`
+
+This directory contains:
+- `NARRATIVE-PROGRESS-REPORT.md` - The good example (18KB)
+- `FULL-REPORT.md` - Complete report (66KB)
+- `COMPARISON-ANALYSIS.md` - Detailed comparison showing what made garbage bad
+- `EXECUTIVE-SUMMARY.md`, `HIGHLIGHTS-APPROVED.md`
+- `sections/` and `diagrams/` subdirectories
+
+## COMPARISON ANALYSIS KEY FINDINGS
+
+The garbage output had:
+- Same template phrase repeated 19 times: "This initiative spanned X days, reflecting the complexity of the work involved"
+- Generic business value fillers: "Advances the platform toward production readiness"
+- ~63 words per initiative vs gold standard's ~160 words
+- 0% unique "Why It Took Time" explanations
+
+The gold standard had:
+- Unique explanations per section
+- Problem-before-solution framing
+- 2-3 specific business value points per initiative
+- Storytelling structure
+
+## TEST RESULTS
+
+All 115 tests pass:
+```
+cd ~/.agents/tools/client-report && python -m pytest tests/ -v
+============================= 115 passed in 0.26s ==============================
+```
+
+## USAGE
+
+### With LLM (requires API key)
 ```bash
-# Source common functions for get_session_id()
-source ~/.agents/scripts/common.sh
-
-# Track with enhanced parameters
-~/.agents/scripts/track-project.sh "[project]" "Handoff created" "[one-line summary]" "[agent]" \
-  --session-id "$(get_session_id)" \
-  --reference-uri "file://$(pwd)/$FILE"
+export ANTHROPIC_API_KEY="your-key"
+cd ~/.agents/tools/client-report
+python -m src.narrative --generate-narrative HIGHLIGHTS-APPROVED.md --project-name "MZFusion API"
 ```
 
----
-
-### STEP 3: Generate Next-Session Prompt
-
-Create copy-paste prompt for next agent.
-
-**AGENTS.md First Rule:** If the project has an AGENTS.md file (check: does it exist?), the prompt MUST start with "Read AGENTS.md". Only skip this if:
-- You're in a browser context without file access
-- The project doesn't have an AGENTS.md file
-- You cannot confirm the file exists
-
-**With AGENTS.md (default for most projects):**
-```markdown
-Read AGENTS.md
-
-I'm picking up work on [project-name].
-Agent Task ID: [AGENT_TASK_ID] (preserve this ID in any handoffs you create)
-
-1. Read the handoff at: [FULL ABSOLUTE PATH to handoff file]
-2. BEGIN EXECUTING the priority next steps immediately
-
-The handoff contains the complete action plan. Start work now - do not ask for confirmation or review. The actions have been approved.
+### Without LLM (improved fallback)
+```bash
+python -m src.narrative --generate-narrative HIGHLIGHTS-APPROVED.md --no-llm
 ```
 
-**Without AGENTS.md (browser contexts or projects without it):**
-```markdown
-I'm picking up work on [project-name].
-Agent Task ID: [AGENT_TASK_ID] (preserve this ID in any handoffs you create)
+## ENVIRONMENT
 
-1. Read the handoff at: [FULL ABSOLUTE PATH to handoff file]
-2. BEGIN EXECUTING the priority next steps immediately
+- `ANTHROPIC_API_KEY` - Required for LLM mode, otherwise falls back
+- `anthropic` package installed (v0.75.0)
 
-The handoff contains the complete action plan. Start work now - do not ask for confirmation or review. The actions have been approved.
-```
+## WHAT REMAINS (OPTIONAL)
 
-**Critical:**
-- Include full absolute path to handoff file
-- Include Agent Task ID for provenance chain
-- Emphasize immediate execution - no asking for permission
-- The handoff IS the approval to proceed
+From original handoff, still optional:
+1. **Project Scanning** - Add `--highlights-only --project-path` mode
+2. **Legacy Format Migration** - Add `--migrate-legacy` flag for checkbox format
+3. **Test with real API key** - Verify LLM output quality
 
----
+## BLACKLISTED PHRASES
 
-## FINAL OUTPUT
+The LLM module explicitly forbids these:
+- "reflecting the complexity of the work involved"
+- "advances the platform toward production readiness"
+- "enables reliable operations"
+- "improves user experience"
+- "strengthens security"
+- "enables seamless connectivity"
+- "resolves issues to maintain platform stability"
 
-Present in order:
+## PROMPTS USED
 
-1. **Next actions list** (what to do, not what was done)
-2. **Handoff file content** (action-first structure)
-3. **Copy-paste prompt** (in code block)
+The LLM prompts in `llm.py` enforce:
+1. WHAT_WE_DELIVERED: Prose, not bullets. Context about what existed before.
+2. WHY_IT_TOOK_TIME: Specific technical challenges, not duration statements.
+3. BUSINESS_VALUE: 2-3 concrete benefits, quantifiable where possible.
 
-Confirm file saved and tracked.
+## PREVIOUS HANDOFF REFERENCE
 
----
+The session started from:
+`/Users/grig/work/monkeyzoo/repo/mzfusion-api/.dev/ai/handoffs/2026-02-07-05-24-00Z-handoff-client-report-implementation.md`
 
-## EXAMPLES: When to Use Minimal vs Detailed
-
-### Example 1: Simple Task (Minimal Handoff 40 lines)
-**Task:** "Run tests and fix any failures"
-
-```markdown
-## PRIORITY NEXT STEPS
-
-1. **Run test suite** - Verify current failures
-   - Command: `npm test`
-   - Expected: See 3 failing tests (auth.test.js, api.test.js)
-
-2. **Fix each failure** - Check error messages and resolve
-   - Files: `src/auth/login.ts:142`, `src/api/users.ts:89,102`
-   - Reference: Test patterns in `/full/absolute/path/to/project/docs/testing-guide.md`
-
-3. **Verify and commit** - All tests pass
-   - Command: `npm test` (should show all green)
-   - Commit: `git commit -m "fix: resolve test failures"`
-
-## CRITICAL CONTEXT
-- Current state: PR ready except 3 failing tests
-- Blocker: Must pass before merge
-- Tests are regression from yesterday's auth changes
-
-## REFERENCES
-- Test suite guide: `/full/absolute/path/to/project/docs/testing-guide.md`
-```
-
-**Why minimal works:** Mechanical execution, clear success criteria, no judgment calls needed.
+That handoff documented WO-001, WO-002, WO-003 completion (115 tests). This session added LLM integration as optional enhancement.
 
 ---
 
-### Example 2: Complex Task (Detailed Handoff 180 lines)
-**Task:** "Integrate two style guides with different philosophies"
-
-```markdown
-## PRIORITY NEXT STEPS
-
-1. **Integrate WRITING-STYLE.md into STYLE-GUIDE-HYBRID.md**
-   - Create: `/full/absolute/path/to/project/.dev/discovery-kit/STYLE-GUIDE-MASTER.md`
-   - Method: Layered integration (strategic + tactical)
-   - Reference integration mapping: `/full/absolute/path/to/project/.dev/ai/handoffs/2025-10-10-integration-guide.md`
-
-2. **Follow layered approach** - Don't copy-paste, synthesize
-   - Layer 1: Keep all strategic principles from HYBRID
-   - Layer 2: Add tactical quality from WRITING-STYLE
-   - Layer 3: Synthesize overlapping sections
-   - Integration instructions: `/full/absolute/path/to/project/.dev/ai/handoffs/2025-10-10-integration-guide.md` (section 3)
-
-3. **Validate integration** - Test with real example
-   - Write decision: "Use SQLite for MVP" using ONLY Master guide
-   - Should provide: analogy, Why→What→How, filler removal, density levels, voice/tone
-   - Reference examples: `/full/absolute/path/to/project/.dev/discovery-kit/example-decisions.md`
-
-## BACKGROUND: Why This Integration Matters
-
-Discovery Kit generates 15-20 pages per module. Without consistent standards:
-- Some agents write verbose, rambling documents
-- Some write terse, incomplete documents
-- No consistency in analogies, rationale, structure
-
-We need unified guide combining strategic (WHAT to write) + tactical (HOW to write clearly).
-
-## UNDERSTANDING THE INPUTS
-
-**STYLE-GUIDE-HYBRID.md** (850+ lines at `/full/absolute/path/to/project/.dev/discovery-kit/STYLE-GUIDE-HYBRID.md`)
-- Contains: 5 Core Writing Principles, 5 Discovery Kit Principles, 11 document types
-- Strong on: Document structure, strategic principles, what sections to include
-- Weak on: Sentence-level clarity, word-level precision
-
-**WRITING-STYLE.md** (446 lines at `/full/absolute/path/to/project/.dev/discovery-kit/WRITING-STYLE.md`)
-- Contains: NO word limits, filler word list, density levels, voice/tone mapping
-- Strong on: Sentence clarity, word choice, operational tactics
-- Weak on: Document structure, strategic principles
-
-**Why complementary:** HYBRID = document/section level, WRITING-STYLE = sentence/word level.
-Both needed, not redundant.
-
-## INTEGRATION STRATEGY
-
-**Layer 1 (Strategic from HYBRID):**
-Keep all 10 principles, 11 document types, writer's checklist, examples
-
-**Layer 2 (Tactical from WRITING-STYLE):**
-Enhance existing sections with filler word list, density framework, voice/tone mapping
-
-**Layer 3 (Synthesize Overlaps):**
-Where both cover same topic (active voice), combine into single enhanced section
-
-**Critical:** Not copy-paste. Synthesize complementary content.
-Reference: Content overview at `/full/absolute/path/to/project/.dev/discovery-kit/STYLE-GUIDE-CONTENT-OVERVIEW.md`
-
-## POTENTIAL PITFALLS
-
-1. **Duplication** - Both cover "active voice." Synthesize, don't duplicate.
-2. **Seeming contradiction** - "No word limits" vs "clarity." Resolution: Long OK if structured.
-3. **Losing unique value** - Check preservation list at `/full/absolute/path/to/project/.dev/discovery-kit/STYLE-GUIDE-CONTENT-OVERVIEW.md` (section 4)
-4. **Over-simplifying** - This is complex. Budget 60-90 minutes. Read both guides completely first.
-
-## SUCCESS CRITERIA
-
-Write complete decision for "Use SQLite for MVP" using ONLY Master guide.
-
-Must provide guidance on:
-- ✓ Start with analogy
-- ✓ Structure as Why→What→How
-- ✓ Remove specific filler words (which ones?)
-- ✓ Use high information density (what does this mean?)
-- ✓ Use declarative factual voice (why for decisions?)
-
-## REFERENCES
-- Integration mapping: `/full/absolute/path/to/project/.dev/ai/handoffs/2025-10-10-integration-guide.md`
-- Content preservation: `/full/absolute/path/to/project/.dev/discovery-kit/STYLE-GUIDE-CONTENT-OVERVIEW.md`
-- Example decisions: `/full/absolute/path/to/project/.dev/discovery-kit/example-decisions.md`
-- Full session audit: `/full/absolute/path/to/project/.dev/ai/audits/2025-10-10-20-29-conversation-summary.md`
-```
-
-**Why detailed needed:** Requires understanding inputs, making synthesis judgments, avoiding pitfalls.
-
----
-
-**Use minimal when:** Agent just needs to DO (mechanical execution)
-**Use detailed when:** Agent needs to UNDERSTAND before doing (synthesis/judgment)
-
----
-
-**Remember:** Handoffs are action plans for agents with zero context. Provide minimum context for intelligent execution - no more, no less. Action-first doesn't mean context-last.
+**Agent Task ID:** 10daf64d_1770102134
