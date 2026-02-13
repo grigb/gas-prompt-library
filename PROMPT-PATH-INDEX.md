@@ -9,6 +9,8 @@
 | CREATE-WORK-PROPOSAL | `~/.agents/prompts/creation/CREATE-WORK-PROPOSAL.md` |
 | CREATE-AUDITABLE-RECORD | `~/.agents/prompts/creation/CREATE-AUDITABLE-RECORD.md` |
 | CREATE-FEATURE-REQUEST | `~/.agents/prompts/creation/CREATE-FEATURE-REQUEST.md` |
+| CREATE-EXEMPLARY-PROJECT-STATE-PACK | `~/.agents/prompts/creation/CREATE-EXEMPLARY-PROJECT-STATE-PACK.md` |
+| CREATE-EXEMPLARY-PROJECT-STATE-PACK-LAN | `~/.agents/prompts/creation/CREATE-EXEMPLARY-PROJECT-STATE-PACK-LAN.md` |
 | CREATE-WORK-ORDER | `~/.agents/prompts/work-orders/CREATE-WORK-ORDER.md` |
 | EXECUTE-WORK-ORDER | `~/.agents/prompts/work-orders/EXECUTE-WORK-ORDER.md` |
 | WORK-ORDER-INDEX | `~/.agents/prompts/work-orders/WORK-ORDER-INDEX.md` |

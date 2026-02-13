@@ -75,13 +75,15 @@ Agent role definitions organized by expertise area:
 
 See [`agents/_AGENT-INDEX.md`](agents/_AGENT-INDEX.md) for complete list.
 
-### `creation/` — Artifact Generation (3 prompts)
+### `creation/` — Artifact Generation (5 prompts)
 Structured document creation:
 
 | File | Purpose |
 |------|---------|
 | `CREATE-AUDITABLE-RECORD.md` | Audit trails and compliance documentation |
 | `CREATE-FEATURE-REQUEST.md` | Feature requirements and specifications |
+| `CREATE-EXEMPLARY-PROJECT-STATE-PACK.md` | High-signal state pack with concise onboarding and deep evidence |
+| `CREATE-EXEMPLARY-PROJECT-STATE-PACK-LAN.md` | LAN-prefilled state-pack refresh prompt for consistent project summaries |
 | `CREATE-WORK-PROPOSAL.md` | Work proposals with scope and resources |
 
 ### `general/` — Core Workflows (20 prompts)
