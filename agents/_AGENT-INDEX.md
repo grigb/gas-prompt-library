@@ -1,12 +1,17 @@
 # Agent Index
 
-**Last Updated:** 2026-01-30
-**Total Agents:** 30
+**Last Updated:** 2026-02-14
+**Total Agents:** 33
 **Purpose:** Searchable metadata index for global agent library
 
 ---
 
 ## Quick Reference by Category
+
+### 🏛️ Hierarchy (3 agents)
+- `agent-blueprint-keeper` - Strategic vision guardian (Layer 2)
+- `agent-request-router` - Blueprint-aware request gatekeeper (Layer 3)
+- `agent-gas-manager` - Autonomous execution engine / PM (Layer 4)
 
 ### 🏗️ Core Development (6 agents)
 - `agent-orchestrator` - Multi-agent workflow coordination (single project)
@@ -75,6 +80,15 @@
 
 **hierarchy, portfolio, multi-project, manager, beacon**
 → `agent-manager-orchestrator`
+
+**work order execution, autonomous loop, PM, layer-4, worker spawning**
+→ `agent-gas-manager`
+
+**vision, blueprint, alignment, strategic, constraints, cascade**
+→ `agent-blueprint-keeper`
+
+**triage, routing, gatekeeper, intake, request, reject, defer**
+→ `agent-request-router`
 
 ### Research Keywords
 **research, investigation, analysis, evidence**
@@ -216,10 +230,100 @@
 
 ---
 
+## Team Compositions (Agent Teams)
+
+**When an Agent Team is warranted** (lateral communication needed, not just parallel fire-and-forget), use these compositions as starting points. The lead agent coordinates; teammates load their respective prompt files.
+
+### Build & Ship
+
+**"Build a complete feature with quality gates"**
+| Role | Agent | Why |
+|------|-------|-----|
+| Lead | `agent-orchestrator` | Coordinates, never implements |
+| Implementer | `agent-dev-worker` | Core coding |
+| QA | `agent-testing-validation` | Tests alongside, not after |
+| Reviewer | `agent-dev-general-contractor` | Integration checks, production readiness |
+
+**"Build a product from scratch"**
+| Role | Agent | Why |
+|------|-------|-----|
+| Lead | `agent-software-product-builder` | End-to-end product vision |
+| Dev | `agent-dev-worker` | Implementation |
+| Design | `agent-ux-design` | UX alongside dev, not after |
+| Security | `agent-security-compliance` | Baked in, not bolted on |
+
+### Research & Decide
+
+**"Evaluate options and converge on a decision"**
+| Role | Agent | Why |
+|------|-------|-----|
+| Lead | `agent-synthesis-integration` | Consolidates competing findings |
+| Researcher | `agent-research-analysis` | Deep investigation |
+| Devil's Advocate | `agent-chief-reality-officer` | Challenges assumptions, tests feasibility |
+| Innovator | `agent-innovation-ideation` | Surfaces non-obvious alternatives |
+
+**"Strategic analysis for a business decision"**
+| Role | Agent | Why |
+|------|-------|-----|
+| Lead | `agent-chief-of-staff` | Executive coordination |
+| Intel | `agent-strategic-intelligence` | Market and competitive landscape |
+| Finance | `agent-financial-analysis-planning` | ROI, budgets, forecasts |
+| Gaps | `agent-research-gap-analysis` | What we don't know yet |
+
+### Debug & Investigate
+
+**"Competing hypotheses for a hard bug"**
+| Role | Agent | Why |
+|------|-------|-----|
+| Lead | `agent-dev-overseer` | Monitors theories, prevents anchoring |
+| Investigator A | `agent-dev-worker` | Tests theory A |
+| Investigator B | `agent-dev-worker` | Tests theory B |
+| Network (if relevant) | `agent-network-diagnostics-specialist` | Infra-level diagnosis |
+
+### Review & Audit
+
+**"Multi-lens review of code, docs, or systems"**
+| Role | Agent | Why |
+|------|-------|-----|
+| Lead | `agent-synthesis-integration` | Synthesizes across lenses |
+| Security | `agent-security-compliance` | Vulnerability scan |
+| Quality | `agent-testing-validation` | Test coverage, edge cases |
+| Docs | `agent-document-analysis-audit` | Documentation completeness |
+
+**"Process retrospective"**
+| Role | Agent | Why |
+|------|-------|-----|
+| Lead | `agent-process-analysis-retrospective` | Deep retrospective |
+| Optimizer | `agent-process-design-optimization` | Redesign proposals |
+| Knowledge | `agent-learning-knowledge-management` | Capture lessons learned |
+
+### Launch & Communicate
+
+**"Prepare and execute a launch"**
+| Role | Agent | Why |
+|------|-------|-----|
+| Lead | `agent-project-coordinator` | Timeline and milestones |
+| Marketing | `agent-marketing-expert` | Campaign and messaging |
+| Content | `agent-content-crafting-alignment` | Aligned copy |
+| Stakeholders | `agent-communication-stakeholder` | Stakeholder updates |
+
+### Composition Principles
+
+- **Always have a dedicated lead.** The lead coordinates and synthesizes; it does NOT implement. Use delegate mode in Claude Code.
+- **Tension is a feature.** Pair agents that naturally challenge each other (`chief-reality-officer` + `innovation-ideation`, multiple `dev-worker` instances on competing theories).
+- **Keep teams small.** 3-5 teammates is the sweet spot. Beyond 5, coordination overhead outweighs benefit — use Gastown instead.
+- **Match agents to the communication need.** If agents don't need to talk to each other, use sub-agents instead of a team.
+- **Compositions are starting points.** Add or remove agents based on the specific task. A security review of a static site doesn't need `agent-security-compliance`.
+
+---
+
 ## Detailed Agent Metadata
 
 | Agent | File | Specialization | Primary Keywords | Use When |
 |-------|------|----------------|------------------|----------|
+| Blueprint Keeper | `agent-blueprint-keeper.md` | Strategic vision guardian (Layer 2 Hierarchy) | alignment, blueprint, cascade, constraints, hierarchy, strategic, vision | See file for details |
+| Request Router | `agent-request-router.md` | Blueprint-aware request gatekeeper (Layer 3 Hierarchy) | defer, gatekeeper, hierarchy, intake, reject, routing, triage, work-orders | See file for details |
+| GAS Manager | `agent-gas-manager.md` | Autonomous execution engine / PM (Layer 4 Hierarchy) | autonomous, execution, hierarchy, layer-4, orchestration, pm, wo-management | See file for details |
 | Chief Of Staff | `agent-chief-of-staff.md` | Strategic Planning Advisor with 15+ years spe... | communication, data, design, development, process, research | See file for details |
 | Chief Reality Officer | `agent-chief-reality-officer.md` | Strategic Risk Assessor with 15+ years valida... | communication, data, design, development, process, research | See file for details |
 | Communication Stakeholder | `agent-communication-stakeholder.md` | Senior Communication professional with | communication, data, design, development, documentation, process | See file for details |
@@ -298,6 +402,9 @@ def get_agent_metadata(agent_name):
 ├── AGENT-INDEX.md                               # This file - searchable index
 ├── _agent-format-guide.md                       # Format specification
 │
+├── agent-blueprint-keeper.md                    # Hierarchy (Layer 2)
+├── agent-request-router.md                     # Hierarchy (Layer 3)
+├── agent-gas-manager.md                         # Hierarchy (Layer 4)
 ├── agent-orchestrator.md                        # Strategic
 ├── agent-manager-orchestrator.md                # Hierarchy (manages orchestrators)
 ├── agent-chief-of-staff.md
