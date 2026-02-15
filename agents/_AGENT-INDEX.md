@@ -1,14 +1,15 @@
 # Agent Index
 
 **Last Updated:** 2026-02-14
-**Total Agents:** 33
+**Total Agents:** 34
 **Purpose:** Searchable metadata index for global agent library
 
 ---
 
 ## Quick Reference by Category
 
-### 🏛️ Hierarchy (3 agents)
+### 🏛️ Hierarchy (4 agents)
+- `agent-assistant` - Human's single point of contact (Layer 1)
 - `agent-blueprint-keeper` - Strategic vision guardian (Layer 2)
 - `agent-request-router` - Blueprint-aware request gatekeeper (Layer 3)
 - `agent-gas-manager` - Autonomous execution engine / PM (Layer 4)
@@ -80,6 +81,9 @@
 
 **hierarchy, portfolio, multi-project, manager, beacon**
 → `agent-manager-orchestrator`
+
+**assistant, user-facing, delegation, status, daemon, layer-1, bandwidth**
+→ `agent-assistant`
 
 **work order execution, autonomous loop, PM, layer-4, worker spawning**
 → `agent-gas-manager`
@@ -307,6 +311,19 @@
 | Content | `agent-content-crafting-alignment` | Aligned copy |
 | Stakeholders | `agent-communication-stakeholder` | Stakeholder updates |
 
+### Hierarchy Operations
+
+**"Run a project autonomously from vision to completion"**
+| Role | Agent | Why |
+|------|-------|-----|
+| User-Facing (L1) | `agent-assistant` | Single point of contact, delegates everything |
+| Strategic (L2) | `agent-blueprint-keeper` | Vision alignment, cascade on pivots |
+| Intake (L3) | `agent-request-router` | Evaluates requests against blueprint, creates WOs |
+| Execution (L4) | `agent-gas-manager` | Picks WOs, spawns workers, monitors completion |
+| Workers (L5) | `agent-dev-worker` (or Agent Teams) | Implements WOs per acceptance criteria |
+
+**Note:** L4 is invoked by `~/.agents/scripts/gas-manager-loop.sh` in a Ralph Loop pattern. L5 workers are spawned by L4, not directly. See `~/.agents/docs/overviews/GAS-HIERARCHY-OVERVIEW.md` for full architecture.
+
 ### Composition Principles
 
 - **Always have a dedicated lead.** The lead coordinates and synthesizes; it does NOT implement. Use delegate mode in Claude Code.
@@ -321,6 +338,7 @@
 
 | Agent | File | Specialization | Primary Keywords | Use When |
 |-------|------|----------------|------------------|----------|
+| Assistant | `agent-assistant.md` | Human's single point of contact (Layer 1 Hierarchy) | assistant, bandwidth, daemon, delegation, hierarchy, layer-1, status-synthesis, user-facing | See file for details |
 | Blueprint Keeper | `agent-blueprint-keeper.md` | Strategic vision guardian (Layer 2 Hierarchy) | alignment, blueprint, cascade, constraints, hierarchy, strategic, vision | See file for details |
 | Request Router | `agent-request-router.md` | Blueprint-aware request gatekeeper (Layer 3 Hierarchy) | defer, gatekeeper, hierarchy, intake, reject, routing, triage, work-orders | See file for details |
 | GAS Manager | `agent-gas-manager.md` | Autonomous execution engine / PM (Layer 4 Hierarchy) | autonomous, execution, hierarchy, layer-4, orchestration, pm, wo-management | See file for details |
@@ -402,6 +420,7 @@ def get_agent_metadata(agent_name):
 ├── AGENT-INDEX.md                               # This file - searchable index
 ├── _agent-format-guide.md                       # Format specification
 │
+├── agent-assistant.md                            # Hierarchy (Layer 1)
 ├── agent-blueprint-keeper.md                    # Hierarchy (Layer 2)
 ├── agent-request-router.md                     # Hierarchy (Layer 3)
 ├── agent-gas-manager.md                         # Hierarchy (Layer 4)
