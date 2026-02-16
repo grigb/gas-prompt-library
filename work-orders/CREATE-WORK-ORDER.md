@@ -58,7 +58,7 @@ User can override requirement with: "skip work order and proceed"
 When agent automatically creates work order (thresholds 1-3), agent MUST:
 1. Create work order with full context
 2. Save to disk and track
-3. **Immediately begin executing the work order**
+3. **Immediately begin executing the work order** (only if active role/mode permits implementation)
 4. Update status to IN_PROGRESS
 5. Continue working until complete
 

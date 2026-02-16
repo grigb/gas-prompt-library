@@ -133,8 +133,10 @@ Each generated work order will reference the parent proposal for full context.
 
 Generate a comprehensive work proposal for the identified problem or task. Execute all steps sequentially without pausing for review. **ALWAYS save the proposal to disk and track it in the project tracking system.**
 
+**MANDATORY TEMPLATE:** Read and follow `~/.agents/templates/PROPOSAL-TEMPLATE.md` for the canonical proposal structure. The template defines the required sections (1-10), frontmatter fields, and formatting conventions used by all GAS proposals. Do NOT invent your own structure.
+
 # Control Triggers
-- **Standard proposal:** Default behavior - generate full proposal with all sections, save, and track
+- **Standard proposal:** Default behavior - generate full proposal from template with all sections, save, and track
 - **Quick proposal:** If message includes "quick" → produce condensed 5-section version, save, and track
 - **With code samples:** If message includes "with samples" → include code snippets in implementation approach
 - **Skip tracking:** If message includes "no track" → save proposal but skip tracking system (rare)
