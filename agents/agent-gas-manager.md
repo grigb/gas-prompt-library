@@ -158,6 +158,16 @@ Q1: Is it a single-file change with clear instructions?
    NO
     |
     v
+Q1.5: Is cost optimization desired AND the work is standard development?
+    |
+   YES --> STRATEGY: agent-team-kimi
+    |      Backend: GAS Team Runtime (tools/team_runtime/gas_integration.py)
+    |      Workers: KIMI K2.5, ~$1-2 per session
+    |      Limitation: No Claude-specific capabilities
+    |
+   NO
+    |
+    v
 Q2: Does it require changes across multiple files or layers?
     |
    YES --> STRATEGY: agent-team
@@ -170,6 +180,14 @@ Q3: Does it require iterative test/fix cycles?
     |
    YES --> STRATEGY: ralph-loop
     |      Worker: agent-dev-worker via Ralph Loop adapter
+    |
+   NO
+    |
+    v
+Q3.5: Does it require research AND cost optimization is desired?
+    |
+   YES --> STRATEGY: research-team-kimi
+    |      Same as agent-team-kimi but --strategy research-team --composition research-and-decide
     |
    NO
     |
@@ -320,6 +338,39 @@ echo "You are the GAS Manager running research WO {wo_id}. \
 
 ---
 
+### Strategy 5: agent-team-kimi (GAS-native Team Runtime)
+
+**When:** Multi-agent coordination needed AND cost optimization desired AND standard development work (not requiring Claude-specific reasoning).
+
+**Invocation (CLI):**
+```bash
+python3 -m tools.team_runtime.gas_integration \
+    --wo-id "$WO_ID" \
+    --wo-file "$WO_PATH" \
+    --project "$PROJECT_PATH" \
+    --strategy agent-team \
+    --composition build-and-ship \
+    --model k2p5
+```
+
+**Team compositions:**
+- Build & Ship: implementer + tester + reviewer (KIMI K2.5)
+- Research & Decide: researcher + critic + synthesizer (KIMI K2.5)
+- Review & Audit: security + quality + docs (KIMI K2.5)
+
+**Cost:** ~$1-2 per session (vs $5-8 for Claude Code agent-team)
+**Speed:** Comparable to Claude for standard tasks
+**Limitation:** Workers use KIMI K2.5, not Claude. For complex reasoning requiring Claude, use Strategy 2 (agent-team).
+
+---
+
+### Strategy 6: research-team-kimi
+
+**When:** Research WO AND cost optimization desired.
+**Invocation:** Same as Strategy 5 but with `--strategy research-team --composition research-and-decide`.
+
+---
+
 ## STEP 5: Worker Spawning Protocol
 
 Before spawning any worker, prepare the execution context:
@@ -461,6 +512,8 @@ After every cycle, write the PM status file per the inter-layer status protocol 
    - agent-team: 120 minutes
    - ralph-loop: 60 minutes (or max iterations reached)
    - research-team: 90 minutes
+   - agent-team-kimi: 120 minutes
+   - research-team-kimi: 90 minutes
 2. Send SIGTERM, wait 30 seconds, then SIGKILL if needed
 3. Follow same recovery as Worker Crash
 
@@ -572,8 +625,10 @@ The GAS Manager exits after every single cycle. The loop script decides whether 
 - Inter-layer status protocol: `~/.agents/docs/protocols/inter-layer-status.md`
 - WO state machine: `~/.agents/docs/agent-orchestration-automation.md`
 - Handoff protocol: `~/.agents/docs/trio-workflow-handoff-protocol.md`
+- GAS Team Runtime integration: `~/.agents/tools/team_runtime/gas_integration.py`
+- Team Runtime WO parser: `~/.agents/tools/team_runtime/wo_to_tasks.py`
 
-**Invocation Methods:** TypeScript Harness (production), Direct Shell `claude -p` (prototype), Ralph Loop adapter (iterative), Interactive `echo | claude` (Agent Teams).
+**Invocation Methods:** TypeScript Harness (production), Direct Shell `claude -p` (prototype), Ralph Loop adapter (iterative), Interactive `echo | claude` (Agent Teams), GAS Team Runtime `python3 -m tools.team_runtime.gas_integration` (KIMI teams).
 
 ---
 
