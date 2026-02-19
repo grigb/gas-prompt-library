@@ -1,7 +1,8 @@
 Read AGENTS.md and PROJECT-RULES.md first, then execute.
 
 Context:
-K2B baseline for this project is already strong. Do not remain in maintenance-only mode.
+- K2B Stage 0 reset is complete (wide-lens rescope). Do not remain in maintenance-only mode.
+- Legacy Stage 5-7 chain (`WO-007/008/009`) is blocked until `WO-017` and `WO-018` complete.
 
 Roots:
 - Source root: /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha
@@ -16,14 +17,12 @@ Authority files:
 
 Execution sequence:
 1. Run strict validator with explicit artifact-root:
-   - /Users/grig/.agents/scripts/validate-k2b-gates.sh /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha --artifact-root /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai --strict
+   - /opt/homebrew/bin/bash /Users/grig/.agents/scripts/validate-k2b-gates.sh /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab --artifact-root /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai --strict
 2. If strict is not clean, perform minimal fixes and update:
    - /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/reports/K2B-BASELINE-MAINTENANCE-2026-02-19.md
 3. Resume critical-path WO chain in order:
-   - WO-PMDL-2026-02-18-006
-   - WO-PMDL-2026-02-18-007
-   - WO-PMDL-2026-02-18-008
-   - WO-PMDL-2026-02-18-009
+   - WO-PMDL-2026-02-19-017
+   - WO-PMDL-2026-02-19-018
 
 Mandatory output file for this run:
 - /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/reports/2026-02-19-critical-path-resume-peer-mesh-docker-lab.md
@@ -33,6 +32,7 @@ Report must contain:
 - whether K2B maintenance changes were needed
 - resumed WO and acceptance criteria progressed
 - files changed
+- promoted-source architectural/design pivots discovered in this run
 - blockers requiring user decision
 - exact next 3 executable shell commands
 

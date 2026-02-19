@@ -3,6 +3,12 @@ Read AGENTS.md and PROJECT-RULES.md for context first, then execute.
 Goal:
 Run a full K2B provenance audit for this project and produce one timestamped markdown report that is comprehensive enough for iterative gap closure.
 
+Cold-start rule:
+- Before audit extraction, state run intent in the report:
+  - why this run is happening now,
+  - which active/open work orders this audit is meant to unblock,
+  - which stage/gate is currently the bottleneck.
+
 Authority references (follow these if any conflict exists):
 - /Users/grig/.agents/docs/methodologies/k2b-provenance-audit-process.md
 - /Users/grig/.agents/docs/methodologies/knowledge-to-build-method.md
@@ -34,6 +40,7 @@ Mandatory audit tasks:
    - `/Users/grig/.agents/scripts/validate-k2b-gates.sh "$PROJECT_SOURCE_ROOT" --artifact-root "$K2B_ARTIFACT_ROOT"`
    - `/Users/grig/.agents/scripts/validate-k2b-gates.sh "$PROJECT_SOURCE_ROOT" --artifact-root "$K2B_ARTIFACT_ROOT" --strict`
    - Record both commands, both exit codes, summaries, and strict-log path.
+   - If validator execution fails due shell/runtime compatibility, rerun using explicit Bash 4+ and record the exact runtime binary used.
 4. Build complete ingestion inventory:
    - selected/deferred/excluded counts
    - internal/external source counts
@@ -45,7 +52,11 @@ Mandatory audit tasks:
    - If external source count is `0`, include explicit adjudication with evidence paths proving this was intentional and complete.
 7. Create gap backlog entries with IDs (`GAP-K2B-###`) and concrete remediation targets.
 8. Add iteration delta against latest prior provenance audit report (if one exists).
-9. End with exact next 3 executable shell commands for highest-impact closure.
+9. Include index-lens evidence:
+   - keyword/query families used (or reused) for Stage -1/0 candidate promotion.
+   - evidence path to keyword/query audit artifact.
+   - note whether lens coverage appears narrow, balanced, or overfit.
+10. End with exact next 3 executable shell commands for highest-impact closure.
    - Command 1 must be `cd "$PROJECT_SOURCE_ROOT"`.
    - Command 2 must run the highest-priority evidence/gap-closure check.
    - Command 3 must run strict validator and write output to `reports/k2b-provenance-audits/<timestamp>-strict-validator.log`.
@@ -59,6 +70,8 @@ Quality constraints:
 - If external source count is `0`, external adjudication is mandatory.
 - If selected-source adequacy mapping is missing, the audit is incomplete.
 - If any of the 3 next-action entries is not an executable shell command, the audit is incomplete.
+- If keyword/query lens evidence is missing, the audit is incomplete.
+- If report does not identify at least one concrete architecture/design pivot (or explicitly prove none), the audit is incomplete.
 
 Final response format in chat:
 - Resolved project source root

@@ -15,7 +15,15 @@ Decision logic:
 1. If validator exit is non-zero OR strict warnings/fails exist:
    - stay in K2B remediation mode
    - output exact remediation steps with file targets and commands
-2. If validator strict is clean and mandatory K2B artifacts exist:
+2. If next-3-commands output contains any bare filename/path instead of executable shell commands:
+   - treat report as incomplete
+   - stay in K2B remediation mode
+   - require corrected report with command-validity check
+3. If report lacks keyword/query-lens evidence path or lacks external-pivot mapping:
+   - treat report as incomplete
+   - stay in K2B remediation mode
+   - require a repair pass that adds missing evidence sections
+4. If validator strict is clean and mandatory K2B artifacts exist:
    - switch to critical-path mode
    - output WO sequence to resume and explicitly mark K2B follow-ups as non-blocking
 
@@ -29,6 +37,7 @@ Report must include:
 - decision: `k2b_remediation` or `critical_path_resume`
 - rationale with evidence paths
 - exact files to touch next
+- command-validity check result for next 3 commands
 - exact next 3 executable shell commands
 
 Final chat response format:

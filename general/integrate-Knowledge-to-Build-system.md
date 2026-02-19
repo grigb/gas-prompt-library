@@ -28,6 +28,16 @@ If this prompt and those files diverge, follow the authority files and record di
 Goal:
 Create or reconcile full Knowledge-to-Build (K2B) project infrastructure, including mandatory Stage -1 (resource gather) and Stage 0 (knowledge-index projection + corpus materialization), so this project can run K2B immediately regardless of current repo state.
 
+Cold-start alignment (mandatory before file edits):
+1. Read the active project state + work-order index and write a one-screen run-intent note:
+   - `K2B_ARTIFACT_ROOT/reports/K2B-COLD-START-CONTEXT-<YYYY-MM-DD-HH-MM-SS>.md`
+2. The note must explicitly state:
+   - why this run exists now (objective + trigger),
+   - current active stage and the next gate to close,
+   - active/open critical-path work orders that this run will advance,
+   - root policy decision (`PROJECT_SOURCE_ROOT` vs overridden `K2B_ARTIFACT_ROOT`) and reason.
+3. Do not continue if this context note is missing.
+
 Canonical references (do not duplicate these files, link to them):
 - /Users/grig/.agents/docs/methodologies/knowledge-to-build-method.md
 - /Users/grig/.agents/modes/KNOWLEDGE-TO-BUILD-MODE.md
@@ -107,19 +117,23 @@ K2B-README.md must include:
 - when to run `/Users/grig/.agents/scripts/validate-k2b-gates.sh`
 
 MANDATORY DELIVERABLES (required on every bootstrap/reconciliation run):
+- `K2B_ARTIFACT_ROOT/reports/K2B-COLD-START-CONTEXT-<YYYY-MM-DD-HH-MM-SS>.md`
 - `K2B_ARTIFACT_ROOT/reports/K2B-BOOTSTRAP-REPORT-<YYYY-MM-DD-HH-MM-SS>.md`
 - `K2B_ARTIFACT_ROOT/reports/K2B-DECISION-AUDIT-<YYYY-MM-DD-HH-MM-SS>.md`
+- `K2B_ARTIFACT_ROOT/reports/K2B-KEYWORD-QUERY-AUDIT-<YYYY-MM-DD-HH-MM-SS>.md`
 
 Hard requirement:
-- Both deliverables are mandatory on every bootstrap/reconciliation run.
-- Missing either file means the run is incomplete.
+- All four deliverables are mandatory on every bootstrap/reconciliation run.
+- Missing any file means the run is incomplete.
 
 Bootstrap report must include:
 - Executive summary
 - Detected starting state
+- Cold-start alignment summary (why this run now, active stage, active/open WO targets)
 - Stage -1 setup details:
   - candidate pools scanned
   - candidate count and dry-run disposition counts
+  - keyword/query families used for candidate promotion/defer/exclude decisions
 - Stage 0 setup details:
   - project master index used/created
   - materialization mode selected and why
@@ -134,6 +148,10 @@ Bootstrap report must include:
   - G1/G2/G3/G4/G5/G6/G7 where applicable
 - Blockers and risks
 - Validation commands run and outcomes
+- Architecture/design pivots discovered from broadened sources:
+  - source path
+  - decision or design artifact changed
+  - implementation status (`implemented`, `partially-implemented`, `not-implemented`)
 - K2B improvement feedback (critical):
   - what in K2B docs/mode/validator was unclear or brittle
   - false positives/false negatives in validation
@@ -154,21 +172,32 @@ Decision audit must include:
 - Evidence paths that prove each major decision
 - Residual risks created by those decisions
 - Reversal plan (how to undo/adjust key decisions safely)
+- Which query families materially expanded scope (before/after counts and promoted-source evidence path)
 
 Validation:
 - Verify every required path exists.
 - Verify all selected Stage 0 sources resolve (remote or local).
 - If enough artifacts exist, run:
   `/Users/grig/.agents/scripts/validate-k2b-gates.sh "$PROJECT_SOURCE_ROOT" --artifact-root "$K2B_ARTIFACT_ROOT"`
+- Also run strict mode:
+  `/Users/grig/.agents/scripts/validate-k2b-gates.sh "$PROJECT_SOURCE_ROOT" --artifact-root "$K2B_ARTIFACT_ROOT" --strict`
+- If validator fails due shell/runtime compatibility, rerun using an explicit Bash 4+ binary (for example `/opt/homebrew/bin/bash`) and record the exact runtime path used.
 - If artifacts are not sufficient yet, explicitly mark validator as "not applicable yet" and explain why.
+
+Command validity rule:
+- Final "next 3 commands" must be copy/paste runnable shell commands.
+- Command 1 must start with `cd "$PROJECT_SOURCE_ROOT"` (or equivalent absolute `cd`).
+- Bare filenames/paths are invalid and mean the run is incomplete.
 
 Final response format:
 - Resolved project source root
 - Resolved K2B artifact root
 - Resolved project name/id
 - Root policy decision (default or override, with reason)
+- Cold-start context report path
 - Bootstrap report path
 - Decision audit path
+- Keyword/query audit path
 - Materialization mode used
 - Project master index path used
 - Created paths

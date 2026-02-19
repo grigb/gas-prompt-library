@@ -1,409 +1,84 @@
-# HANDOFF INSTRUCTIONS (DO NOT OVERWRITE)
-
-> **STOP. THIS FILE IS A TEMPLATE, NOT A DESTINATION.**
->
-> This file contains INSTRUCTIONS for how agents should create handoffs.
-> **DO NOT replace this content with a session handoff.**
-> Save actual session handoffs to: `.dev/ai/handoffs/`
->
-> If you are about to write a handoff document here, you are making a mistake.
-> Create your handoff file at: `.dev/ai/handoffs/{timestamp}-handoff-{project}.md`
+# Keyboard Shortcut Audit Handoff
 
 ---
-
-## TWO-TIER HANDOFF SYSTEM
-
-### Agent Task ID (Provenance Chain)
-
-**Every handoff MUST have an Agent Task ID for traceability.**
-
-```bash
-# If you received a handoff with agent_task_id: REUSE IT (maintains chain)
-# If starting fresh: Generate new one
-AGENT_TASK_ID=$(~/.agents/scripts/get-agent-task-id.sh handoff)
-# Returns: [UID]_[unix-timestamp] (e.g., a1b2c3d4_1736892345)
-```
-
-Include in: Frontmatter, footer, and next-session prompt.
-
----
-
-### CRITICAL: When to Create Handoffs
-
-**CREATE handoff when:**
-- ✅ Work is UNFINISHED and needs continuation
-- ✅ You're stopping mid-task
-- ✅ There are SPECIFIC NEXT ACTIONS for another agent
-- ✅ **USER EXPLICITLY REQUESTS a handoff**, regardless of completion status
-
-**DO NOT create handoff when:**
-- ❌ User explicitly says they don't want a handoff
-- ❌ There are no actionable next steps AND user hasn't requested context preservation
-
-**Critical Rule:** Always respect explicit user requests for handoffs. Context preservation takes precedence over completion status.
-
-**If work is complete AND user hasn't requested a handoff:** Use audit/accomplishment instead.
-
----
-
-### STEP 0: Assess Task Complexity (Critical First Step)
-
-**Simple tasks (use minimal handoff 30-50 lines):**
-- Run specific command or test
-- Update single file with clear instructions
-- Fix known bug with defined solution
-- Execute defined process step
-- Mechanical work with no judgment calls needed
-
-**Complex tasks (use detailed handoff 150-250 lines):**
-- Integration of multiple sources requiring synthesis
-- Design/architecture decisions requiring understanding
-- Tasks requiring context to make judgment calls
-- Multi-step tasks with interdependencies
-- Work requiring understanding of "why" and "how to approach"
-
-**Determine complexity BEFORE creating handoff.**
-
-### STEP 1: Assess Context Level
-Check user message for these triggers:
-
-- **Low Context Triggers**: "low context", "running out", "context limited", "quick", "emergency"
-- If found → Load ONLY Handoff-Minimal.md (emergency mode)
-- If not found → Load based on task complexity from Step 0
-
-### STEP 2: Load Instructions Based on Complexity
-```bash
-# Always load minimal instructions first
-cat ~/.agents/prompts/handoffs/HANDOFF-MINIMAL.md
-
-# Load detailed if task is complex:
-# 1. No low context triggers AND
-# 2. Task complexity = COMPLEX (from Step 0) AND
-# 3. Adequate context remains
-if [[ "$LOW_CONTEXT" != "true" ]] && [[ "$TASK_COMPLEXITY" == "complex" ]]; then
-    cat ~/.agents/prompts/handoffs/HANDOFF-DETAILED.md
-fi
-```
-
-### STEP 3: Execute Based on Loaded Instructions
-Follow the instructions from the loaded prompt(s).
-
-**Remember:** Action-first ≠ context-minimal. Action-first means lead with actions, support with understanding, not lead with accomplishments.
-
----
-
-## ORCHESTRATION HANDOFFS
-
-For **orchestration handoffs** (when delegating to subtasks or coordinating parallel agents), use the specialized variant:
-
-**Reference:** `~/.agents/prompts/handoffs/ORCHESTRATION-HANDOFF.md`
-
-### Trigger Phrases
-
-Use orchestration handoffs when you see:
-- "create handoff" or "hand off" in orchestration context
-- Explicit file path for handoff output (e.g., `.dev/ai/subtask-comms/`)
-- Subtask delegation or parallel agent coordination
-- "orchestrate", "coordinate agents", "delegate to subtask"
-- Multi-agent workflow setup or continuation
-
-### Key Differences from Standard Handoffs
-
-| Aspect | Standard Handoff | Orchestration Handoff |
-|--------|-----------------|----------------------|
-| **Purpose** | Agent-to-agent session continuation | Subtask delegation, parallel coordination |
-| **Scope** | Full session context transfer | Focused task-specific context |
-| **Output** | `.dev/ai/handoffs/` | `.dev/ai/subtask-comms/` or specified path |
-| **Format** | Action-first with context layers | Minimal, task-focused, pre-work report style |
-
-### When to Use Orchestration Variant
-
-1. **Orchestrator delegating work** - Breaking down complex tasks into subtasks
-2. **Parallel agent setup** - Multiple agents working on related tasks
-3. **Subtask communication** - Inter-agent messaging within orchestrated workflow
-4. **User specifies output path** - When handoff location is explicitly provided
-
-**If in doubt:** Standard handoffs preserve full context; orchestration handoffs focus on immediate task execution.
-
----
-
-## LEGACY FULL PROMPT (Only if two-tier files unavailable)
-
-**⚠️ WARNING: This legacy prompt is deprecated. Use HANDOFF-MINIMAL.md + HANDOFF-DETAILED.md instead.**
-
-The legacy approach led to bloated handoffs. If you must use this, follow the ACTION-FIRST principle:
-
----
-
-## HANDOFF CREATION PROCESS
-
-### STEP 1: Identify Next Actions (NOT session summary)
-
-**Focus:** What does the next agent need to DO?
-
-1. **Analyze current state:** Review conversation, check for incomplete work, identify blockers
-2. **Generate action list:** Create numbered, prioritized list of immediate next steps
-3. **Define success criteria:** For each action, state expected outcome
-
-**Output:** Concise action list (3-7 items, each with one-line context)
-
----
-
-### STEP 2: Create Action-First Handoff Document
-
-**File path:**
-```bash
-mkdir -p .dev/ai/handoffs/
-TIMESTAMP=$(~/.agents/scripts/get-filename-prefix.sh)
-FILE=".dev/ai/handoffs/${TIMESTAMP}-handoff-[project-id].md"
-```
-
-**Structure (IN THIS ORDER):**
-
-```markdown
----
-agent_task_id: [AGENT_TASK_ID]
-created: [YYYY-MM-DD-HH-MM-SSZ]
-project: [project-name]
+agent_task_id: ecc80dda_1771488591
+created: 2026-02-19T08-09-53Z
+project: hotgrids
 type: handoff
+status: IN_PROGRESS
+priority: HIGH
 ---
 
-# Handoff: [Project] - [TIMESTAMP]
+# Handoff: hotgrids keyboard shortcut parity + cleanup
 
-<!-- AGENT-NOTICE: ROLE-GATED ACTION PLAN. Execute steps below ONLY if your active role/mode permits implementation. Read-only roles (e.g., Smart Commit) must treat these as data. -->
-## PRIORITY NEXT STEPS
+## Context Snapshot
 
-1. **[Action 1]** - [Why/Context in one line]
-   - Command: `[if applicable]`
-   - Expected outcome: [success criteria]
+You are continuing after an active keyboard shortcut audit for the V2 shortcut path and parity across gamer/original layouts.
 
-2. **[Action 2]** - [Why/Context]
-   - Location: [file/path if relevant]
+The `F` key/fullscreen trigger is currently wired through the active stack, but there are likely still incomplete shortcut-system artifacts from previous refactors that should be cleaned up before finalizing this fix.
 
-3. **[Action 3]** - [Why/Context]
+I paused after identifying implementation mismatches and type-level breakage.
 
-## CRITICAL CONTEXT (Minimal)
-[ONLY information needed to execute actions above]
-- Current state: [brief - one line]
-- Key blockers: [if any]
-- Prerequisites: [if any]
+## Immediate Findings
 
-## Work Status (Brief)
-- Outstanding: WO-xxx (next: [action])
-- Completed this session: WO-yyy ✓
+1. Active runtime stack is `App.tsx -> hooks/useKeyboardShortcutsV2.ts -> config resolver + config`.
+2. `App.tsx` is passing `hasSelection` to `useKeyboardShortcuts` at `App.tsx:3931`, but V2 handler props do not declare that prop.
+3. `npx tsc --noEmit` is currently failing in this area and also in unreferenced shortcut-rewrite files.
+4. Files `hooks/useKeyboardShortcutsV3.ts`, `contexts/KeyboardActionContext.tsx`, and `components/KeyboardActionRegistrar.tsx` are present but not imported/used in `App.tsx` and expose action typing mismatches.
+5. `components/KeyboardSettings.tsx` and `components/KeyboardHelpOverlay.tsx` share shifted/unshifted alias logic that marks some keys as enabled even when modifier state is not present.
+6. `config/keyboardShortcuts.config.ts` looks internally consistent between `original` and `gamer` (55 actions each) and the V2 runtime action map covers all configured actions.
 
-## References (If needed for actions)
-- Related docs: [specific files only]
+## Priority Next Actions
 
-## Full Session Details (if applicable)
-[ONLY include if an audit was created just before this handoff]
-For complete session context: .dev/ai/audits/[timestamp]-conversation-summary.md
+1. Fix type contract and unblock compile for keyboard path.
+   - Update `hooks/useKeyboardShortcutsV2.ts` props to include or remove `hasSelection`, or remove that prop from `App.tsx` usage at `App.tsx:3931`.
+   - Re-run `npx tsc --noEmit` and confirm zero keyboard-related errors.
 
----
-**Agent Task ID:** [AGENT_TASK_ID]
-```
+2. Resolve dual shortcut-stack cleanup decision.
+   - Decide whether V3/context/registrar files are intended as replacement architecture.
+   - If not intended, remove unused dead-end files and references: `hooks/useKeyboardShortcutsV3.ts`, `contexts/KeyboardActionContext.tsx`, `components/KeyboardActionRegistrar.tsx`.
+   - If intended, finish wiring and align `ActionName` + resolver contracts before they can be considered active.
 
-**Rules:**
-- **Simple tasks:** Target 30-50 lines
-- **Complex tasks:** Target 150-250 lines (actions + understanding + strategy)
-- Lead with actions, not accomplishments
-- Context explains "why action matters" and "how to approach", not "what we did"
-- Save detailed session history to audit file, not handoff
-- **Reference documents:** Include full absolute paths inline where relevant (not just at end)
+3. Tighten on-screen key display parity.
+   - In `components/KeyboardSettings.tsx`, review `getShortcutKeyAliases` and `keyToActions` behavior (around lines ~196-260) so shifted bindings do not falsely highlight unshifted keys.
+   - In `components/KeyboardHelpOverlay.tsx`, apply the same parity logic in `getShortcutKeyAliases` and key state checks (around lines ~108-123 and ~165-195).
+   - Validate that displayed key activation only lights keys with fully matching action+modifier combinations.
 
-**Save and track:**
-```bash
-# Source common functions for get_session_id()
-source ~/.agents/scripts/common.sh
+4. Verify keyboard parity audit against all modes/layouts.
+   - Confirm action availability in `hooks/useKeyboardShortcutsV2.ts`, config, and active settings overlay for both presets.
+   - Confirm overlay/action list parity for `gamer` and `original` in app by running in dev mode (`npm run dev -- --port 3007` from repo).
 
-# Track with enhanced parameters
-~/.agents/scripts/track-project.sh "[project]" "Handoff created" "[one-line summary]" "[agent]" \
-  --session-id "$(get_session_id)" \
-  --reference-uri "file://$(pwd)/$FILE"
-```
+5. Produce final validation pass.
+   - Run `npm run -s build` and keep as baseline.
+   - Run `npx tsc --noEmit` and ensure the keyboard-related errors are no longer blocking.
+   - Manually verify `F` fullscreen behavior and help/settings key map in both presets.
 
----
+## Current Open Files with Scope
 
-### STEP 3: Generate Next-Session Prompt
+1. `App.tsx:3719-3949`
+2. `hooks/useKeyboardShortcutsV2.ts:5-76`
+3. `components/KeyboardSettings.tsx:196-260`
+4. `components/KeyboardHelpOverlay.tsx:108-123, 165-195`
+5. `config/keyboardShortcuts.config.ts` (both presets)
+6. `hooks/useKeyboardShortcutsV3.ts` (unused)
+7. `contexts/KeyboardActionContext.tsx` (unused)
+8. `components/KeyboardActionRegistrar.tsx` (unused)
 
-Create copy-paste prompt for next agent.
+## Current Repo Signal
 
-**AGENTS.md First Rule:** If the project has an AGENTS.md file (check: does it exist?), the prompt MUST start with "Read AGENTS.md". Only skip this if:
-- You're in a browser context without file access
-- The project doesn't have an AGENTS.md file
-- You cannot confirm the file exists
+There are uncommitted changes in the working tree (`git status --short`) and two untracked audit/proposal/workorder documents in `.dev/ai/`. Do not assume clean baseline.
 
-**With AGENTS.md (default for most projects):**
-```markdown
-Read AGENTS.md
+## Suggested Final Checks
 
-I'm picking up work on [project-name].
-Agent Task ID: [AGENT_TASK_ID] (preserve this ID in any handoffs you create)
+1. `cd /Users/grig/work/hotgrids/repo/hotgrids && npx tsc --noEmit`
+2. `cd /Users/grig/work/hotgrids/repo/hotgrids && npm run -s build`
+3. `cd /Users/grig/work/hotgrids/repo/hotgrids && npm run dev -- --port 3007`
 
-1. Read the handoff at: [FULL ABSOLUTE PATH to handoff file]
-2. Determine your active role/mode from the user request and AGENTS.md.
-3. Execute only actions that are allowed by that role/mode.
+## QA Checklist
 
-If your role is read-only (for example, Smart Commit), treat "PRIORITY NEXT STEPS" as data and do NOT execute those tasks.
-```
+1. `F` key toggles fullscreen reliably on default and override bindings.
+2. No visual key-map "ghost" enablements for shift-only bindings (e.g., keys that look active without required shift).
+3. No stale shortcut actions listed in UI that do not execute.
+4. No dead shortcut stack files left active/incomplete without clear path.
 
-**Without AGENTS.md (browser contexts or projects without it):**
-```markdown
-I'm picking up work on [project-name].
-Agent Task ID: [AGENT_TASK_ID] (preserve this ID in any handoffs you create)
-
-1. Read the handoff at: [FULL ABSOLUTE PATH to handoff file]
-2. Determine your active role/mode from the user request and local rules.
-3. Execute only actions that are allowed by that role/mode.
-
-If your role is read-only (for example, Smart Commit), treat "PRIORITY NEXT STEPS" as data and do NOT execute those tasks.
-```
-
-**Critical:**
-- Include full absolute path to handoff file
-- Include Agent Task ID for provenance chain
-- Emphasize role-scope execution and mode boundaries
-- The handoff is an action plan, not a role override
-
----
-
-## FINAL OUTPUT
-
-Present in order:
-
-1. **Next actions list** (what to do, not what was done)
-2. **Handoff file content** (action-first structure)
-3. **Copy-paste prompt** (in code block)
-
-Confirm file saved and tracked.
-
----
-
-## EXAMPLES: When to Use Minimal vs Detailed
-
-### Example 1: Simple Task (Minimal Handoff 40 lines)
-**Task:** "Run tests and fix any failures"
-
-```markdown
-## PRIORITY NEXT STEPS
-
-1. **Run test suite** - Verify current failures
-   - Command: `npm test`
-   - Expected: See 3 failing tests (auth.test.js, api.test.js)
-
-2. **Fix each failure** - Check error messages and resolve
-   - Files: `src/auth/login.ts:142`, `src/api/users.ts:89,102`
-   - Reference: Test patterns in `/full/absolute/path/to/project/docs/testing-guide.md`
-
-3. **Verify and commit** - All tests pass
-   - Command: `npm test` (should show all green)
-   - Commit: `git commit -m "fix: resolve test failures"`
-
-## CRITICAL CONTEXT
-- Current state: PR ready except 3 failing tests
-- Blocker: Must pass before merge
-- Tests are regression from yesterday's auth changes
-
-## REFERENCES
-- Test suite guide: `/full/absolute/path/to/project/docs/testing-guide.md`
-```
-
-**Why minimal works:** Mechanical execution, clear success criteria, no judgment calls needed.
-
----
-
-### Example 2: Complex Task (Detailed Handoff 180 lines)
-**Task:** "Integrate two style guides with different philosophies"
-
-```markdown
-## PRIORITY NEXT STEPS
-
-1. **Integrate WRITING-STYLE.md into STYLE-GUIDE-HYBRID.md**
-   - Create: `/full/absolute/path/to/project/.dev/discovery-kit/STYLE-GUIDE-MASTER.md`
-   - Method: Layered integration (strategic + tactical)
-   - Reference integration mapping: `/full/absolute/path/to/project/.dev/ai/handoffs/2025-10-10-integration-guide.md`
-
-2. **Follow layered approach** - Don't copy-paste, synthesize
-   - Layer 1: Keep all strategic principles from HYBRID
-   - Layer 2: Add tactical quality from WRITING-STYLE
-   - Layer 3: Synthesize overlapping sections
-   - Integration instructions: `/full/absolute/path/to/project/.dev/ai/handoffs/2025-10-10-integration-guide.md` (section 3)
-
-3. **Validate integration** - Test with real example
-   - Write decision: "Use SQLite for MVP" using ONLY Master guide
-   - Should provide: analogy, Why→What→How, filler removal, density levels, voice/tone
-   - Reference examples: `/full/absolute/path/to/project/.dev/discovery-kit/example-decisions.md`
-
-## BACKGROUND: Why This Integration Matters
-
-Discovery Kit generates 15-20 pages per module. Without consistent standards:
-- Some agents write verbose, rambling documents
-- Some write terse, incomplete documents
-- No consistency in analogies, rationale, structure
-
-We need unified guide combining strategic (WHAT to write) + tactical (HOW to write clearly).
-
-## UNDERSTANDING THE INPUTS
-
-**STYLE-GUIDE-HYBRID.md** (850+ lines at `/full/absolute/path/to/project/.dev/discovery-kit/STYLE-GUIDE-HYBRID.md`)
-- Contains: 5 Core Writing Principles, 5 Discovery Kit Principles, 11 document types
-- Strong on: Document structure, strategic principles, what sections to include
-- Weak on: Sentence-level clarity, word-level precision
-
-**WRITING-STYLE.md** (446 lines at `/full/absolute/path/to/project/.dev/discovery-kit/WRITING-STYLE.md`)
-- Contains: NO word limits, filler word list, density levels, voice/tone mapping
-- Strong on: Sentence clarity, word choice, operational tactics
-- Weak on: Document structure, strategic principles
-
-**Why complementary:** HYBRID = document/section level, WRITING-STYLE = sentence/word level.
-Both needed, not redundant.
-
-## INTEGRATION STRATEGY
-
-**Layer 1 (Strategic from HYBRID):**
-Keep all 10 principles, 11 document types, writer's checklist, examples
-
-**Layer 2 (Tactical from WRITING-STYLE):**
-Enhance existing sections with filler word list, density framework, voice/tone mapping
-
-**Layer 3 (Synthesize Overlaps):**
-Where both cover same topic (active voice), combine into single enhanced section
-
-**Critical:** Not copy-paste. Synthesize complementary content.
-Reference: Content overview at `/full/absolute/path/to/project/.dev/discovery-kit/STYLE-GUIDE-CONTENT-OVERVIEW.md`
-
-## POTENTIAL PITFALLS
-
-1. **Duplication** - Both cover "active voice." Synthesize, don't duplicate.
-2. **Seeming contradiction** - "No word limits" vs "clarity." Resolution: Long OK if structured.
-3. **Losing unique value** - Check preservation list at `/full/absolute/path/to/project/.dev/discovery-kit/STYLE-GUIDE-CONTENT-OVERVIEW.md` (section 4)
-4. **Over-simplifying** - This is complex. Budget 60-90 minutes. Read both guides completely first.
-
-## SUCCESS CRITERIA
-
-Write complete decision for "Use SQLite for MVP" using ONLY Master guide.
-
-Must provide guidance on:
-- ✓ Start with analogy
-- ✓ Structure as Why→What→How
-- ✓ Remove specific filler words (which ones?)
-- ✓ Use high information density (what does this mean?)
-- ✓ Use declarative factual voice (why for decisions?)
-
-## REFERENCES
-- Integration mapping: `/full/absolute/path/to/project/.dev/ai/handoffs/2025-10-10-integration-guide.md`
-- Content preservation: `/full/absolute/path/to/project/.dev/discovery-kit/STYLE-GUIDE-CONTENT-OVERVIEW.md`
-- Example decisions: `/full/absolute/path/to/project/.dev/discovery-kit/example-decisions.md`
-- Full session audit: `/full/absolute/path/to/project/.dev/ai/audits/2025-10-10-20-29-conversation-summary.md`
-```
-
-**Why detailed needed:** Requires understanding inputs, making synthesis judgments, avoiding pitfalls.
-
----
-
-**Use minimal when:** Agent just needs to DO (mechanical execution)
-**Use detailed when:** Agent needs to UNDERSTAND before doing (synthesis/judgment)
-
----
-
-**Remember:** Handoffs are action plans for agents with zero context. Provide minimum context for intelligent execution - no more, no less. Action-first doesn't mean context-last.
+agent_task_id: ecc80dda_1771488591

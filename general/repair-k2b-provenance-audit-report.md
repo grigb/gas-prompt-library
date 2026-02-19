@@ -29,13 +29,19 @@ Mandatory corrections:
    - `/Users/grig/.agents/scripts/validate-k2b-gates.sh "$PROJECT_SOURCE_ROOT" --artifact-root "$K2B_ARTIFACT_ROOT" --strict`
 2. Persist strict output log to:
    - `K2B_ARTIFACT_ROOT/reports/k2b-provenance-audits/<timestamp>-strict-validator.log`
+   - if default shell/runtime fails, rerun with explicit Bash 4+ and record runtime binary path in report
 3. Add selected-source adequacy check:
    - map selected sources to active/open work orders and active decision files
    - create gaps for uncovered work items
 4. Handle external coverage correctly:
    - if external count > 0, provide external provenance chains
+   - include architecture/design pivot mapping from external sources to changed artifacts
    - if external count = 0, provide explicit adjudication and evidence proving intentional zero
-5. Fix Next Actions section:
+5. Add index-lens coverage evidence:
+   - keyword/query families used or inherited
+   - keyword-audit evidence path
+   - lens quality assessment (`narrow`, `balanced`, `overfit`)
+6. Fix Next Actions section:
    - exactly 3 entries
    - each entry must be an executable shell command
    - command 1 must be `cd "$PROJECT_SOURCE_ROOT"`

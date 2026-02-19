@@ -1,6 +1,11 @@
 Read AGENTS.md and PROJECT-RULES.md first, then execute.
 
-Context (already done):
+Guard clause (must check first):
+- If `/Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/workorders/WO-PMDL-2026-02-19-017.md` exists and is `NOT_STARTED` or `IN_PROGRESS`, this prompt is superseded.
+- In that case, stop here and execute:
+  - `/Users/grig/.agents-gas-prompt-library/general/docker-lab-execute-wo-017-stage1-3-now.md`
+
+Context (legacy path; use only if guard clause does not trigger):
 - K2B baseline maintenance is complete and strict validator is clean.
 - Do NOT stop at another maintenance summary.
 
