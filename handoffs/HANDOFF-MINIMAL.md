@@ -175,14 +175,15 @@ Not just at the end - weave references into action steps where agent needs them.
 
 After creating handoff, generate copy-paste prompt.
 
-**AGENTS.md First Rule:** If the project has an AGENTS.md file (check: does it exist?), the prompt MUST start with "Read AGENTS.md". Only skip this if:
+**AGENTS.md First Rule:** If the project has an AGENTS.md file (check: does it exist?), the prompt MUST start with "Read AGENTS.md for context. Then read PROJECT-RULES.md for onboarding." Only skip this if:
 - You're in a browser context without file access
 - The project doesn't have an AGENTS.md file
 - You cannot confirm the file exists
 
 **With AGENTS.md (default for most projects):**
 ```markdown
-Read AGENTS.md
+Read AGENTS.md for context.
+Then read PROJECT-RULES.md for onboarding.
 
 I'm picking up work on [project-name].
 Agent Task ID: [AGENT_TASK_ID] (preserve this ID in any handoffs you create)

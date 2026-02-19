@@ -1,4 +1,4 @@
-Read AGENTS.md and PROJECT-RULES.md first, then execute.
+Read AGENTS.md for context. Then read PROJECT-RULES.md for onboarding. Then execute the following.
 
 Context:
 - K2B Stage 0 reset is complete (wide-lens rescope). Do not remain in maintenance-only mode.

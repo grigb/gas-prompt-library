@@ -1,4 +1,4 @@
-Read AGENTS.md and PROJECT-RULES.md for context first, then execute.
+Read AGENTS.md for context. Then read PROJECT-RULES.md for onboarding. Then execute the following.
 
 Goal:
 Repair the latest K2B provenance audit output so it conforms to the canonical report contract and quality gates.

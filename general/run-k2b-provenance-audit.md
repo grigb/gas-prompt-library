@@ -1,4 +1,4 @@
-Read AGENTS.md and PROJECT-RULES.md for context first, then execute.
+Read AGENTS.md for context. Then read PROJECT-RULES.md for onboarding. Then execute the following.
 
 Goal:
 Run a full K2B provenance audit for this project and produce one timestamped markdown report that is comprehensive enough for iterative gap closure.

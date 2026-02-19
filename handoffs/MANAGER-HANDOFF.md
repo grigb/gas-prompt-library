@@ -34,7 +34,8 @@ Invoke this template when you encounter:
 
 **Non-negotiable.** Every manager handoff prompt MUST start with:
 ```
-Read AGENTS.md
+Read AGENTS.md for context.
+Then read PROJECT-RULES.md for onboarding.
 ```
 
 This ensures the continuation manager inherits project rules before reading manager instructions.
@@ -256,7 +257,8 @@ Task(
 ## NEXT-SESSION PROMPT (Copy-Paste Ready)
 
 ```markdown
-Read AGENTS.md
+Read AGENTS.md for context.
+Then read PROJECT-RULES.md for onboarding.
 
 I'm continuing manager orchestration on [portfolio/scope].
 Agent Task ID: [AGENT_TASK_ID] (preserve this ID in any handoffs you create)

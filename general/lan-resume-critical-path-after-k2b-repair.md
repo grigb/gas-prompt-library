@@ -1,4 +1,4 @@
-Read AGENTS.md and PROJECT-RULES.md first, then execute.
+Read AGENTS.md for context. Then read PROJECT-RULES.md for onboarding. Then execute the following.
 
 Context:
 K2B provenance-audit repair for LAN is already completed by Codex authority. Do not repeat K2B audit repair work in this run.

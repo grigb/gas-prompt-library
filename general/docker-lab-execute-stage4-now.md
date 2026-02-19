@@ -1,4 +1,4 @@
-Read AGENTS.md and PROJECT-RULES.md first, then execute.
+Read AGENTS.md for context. Then read PROJECT-RULES.md for onboarding. Then execute the following.
 
 Guard clause (must check first):
 - If `/Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/workorders/WO-PMDL-2026-02-19-017.md` exists and is `NOT_STARTED` or `IN_PROGRESS`, this prompt is superseded.

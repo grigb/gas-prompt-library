@@ -1,4 +1,4 @@
-Read AGENTS.md and PROJECT-RULES.md for context first, then execute.
+Read AGENTS.md for context. Then read PROJECT-RULES.md for onboarding. Then execute the following.
 
 Project context resolution (do not ask the user to fill placeholders):
 - `PROJECT_SOURCE_ROOT`: current working directory (`pwd`), treated as the source workspace root.

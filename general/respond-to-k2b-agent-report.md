@@ -1,4 +1,4 @@
-Read AGENTS.md and PROJECT-RULES.md first, then execute.
+Read AGENTS.md for context. Then read PROJECT-RULES.md for onboarding. Then execute the following.
 
 Goal:
 Given the latest K2B status report from this project agent, decide whether to:

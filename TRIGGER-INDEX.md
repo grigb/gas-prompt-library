@@ -161,7 +161,7 @@ When a user's first message matches any trigger phrase:
 1. **Explicit > Implicit**: "you are the dev agent" beats "use dev"
 2. **First Match Wins**: Process triggers left-to-right
 3. **Trio Overrides Singles**: "activate trio" supersedes individual triggers
-4. **Fallback**: No match = default agent behavior (read AGENTS.md)
+4. **Fallback**: No match = default agent behavior (read AGENTS.md for context)
 
 ### Ambiguous Trigger Handling
 
