@@ -87,6 +87,24 @@
 
 ---
 
+### GAS Manager Agent (L4 WO Execution)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `gas manager` | `~/.agents/prompts/agents/agent-gas-manager.md` | Layer 4 execution engine |
+| `gas team` | `~/.agents/prompts/agents/agent-gas-manager.md` | GAS Team launch/dispatch |
+| `gas teams` | `~/.agents/prompts/agents/agent-gas-manager.md` | GAS Teams launch/dispatch |
+| `launch gas team` | `~/.agents/prompts/agents/agent-gas-manager.md` | Explicit GAS Team launch |
+| `launch gas teams` | `~/.agents/prompts/agents/agent-gas-manager.md` | Explicit GAS Teams launch |
+| `execute work orders` | `~/.agents/prompts/agents/agent-gas-manager.md` | Execute next ready WO |
+| `run gas loop` | `~/.agents/prompts/agents/agent-gas-manager.md` | Start GAS manager loop behavior |
+
+**Core Principle:** L4 autonomous PM loop. Picks ready WOs, selects strategy, spawns workers, monitors completion, updates status.
+
+**Activation Regex:** `(?i)\b(gas\s+manager|gas\s+teams?|launch\s+gas\s+teams?|execute\s+work\s+orders|run\s+gas\s+loop)\b`
+
+---
+
 ### Commit Agent (Smart Commits)
 
 | Trigger Phrase | Target Prompt | Description |

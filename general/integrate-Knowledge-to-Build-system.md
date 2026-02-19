@@ -35,8 +35,18 @@ Canonical references (do not duplicate these files, link to them):
 - /Users/grig/.agents/knowledge-sources/PROCESS.md
 - /Users/grig/.agents/docs/vision/VISION-ADDENDUM-knowledge-index-to-build-mandate.md
 - /Users/grig/.agents/scripts/validate-k2b-gates.sh
+- /Users/grig/.agents/scripts/k2b-stage0-init.sh
 - /Users/grig/.agents/templates/k2b/K2B-BOOTSTRAP-REPORT-TEMPLATE.md
 - /Users/grig/.agents/templates/k2b/K2B-DECISION-AUDIT-TEMPLATE.md
+- /Users/grig/.agents/templates/k2b/STAGE0-PROJECT-MASTER-INDEX.md
+- /Users/grig/.agents/templates/k2b/STAGE0-SOURCE-SELECTION.md
+- /Users/grig/.agents/templates/k2b/STAGE0-MATERIALIZATION-MODE.md
+- /Users/grig/.agents/templates/k2b/STAGE0-SOURCE-MAP.md
+- /Users/grig/.agents/templates/k2b/LEDGER-TEMPLATE.md
+- /Users/grig/.agents/templates/k2b/GATES-TEMPLATE.md
+- /Users/grig/.agents/templates/k2b/EXTRACTION-INVENTORY-TEMPLATE.md
+- /Users/grig/.agents/templates/k2b/VALIDATION-REPORT-TEMPLATE.md
+- /Users/grig/.agents/templates/k2b/BUILD-EXTRACTION-TEMPLATE.md
 
 Execution constraints:
 1. Detect current state first and produce a gap list.
@@ -47,6 +57,8 @@ Execution constraints:
 6. Preserve provenance: any localized corpus artifact must map back to origin source paths.
 
 Stage -1 is mandatory before Stage 0:
+0. If Stage -1/0 files are missing, scaffold first (recommended):
+   - `/Users/grig/.agents/scripts/k2b-stage0-init.sh --project-root "$PROJECT_SOURCE_ROOT" --artifact-root "$K2B_ARTIFACT_ROOT" --project-name "$PROJECT_NAME" --mode localized`
 1. Create/refresh candidate inventory:
    - `K2B_ARTIFACT_ROOT/knowledge-index/CANDIDATE-SOURCES.md`
 2. Enumerate candidate pools and absolute paths from:
