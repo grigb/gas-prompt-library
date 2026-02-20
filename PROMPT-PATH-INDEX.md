@@ -25,7 +25,7 @@
 | INTERFACE-AUDIT-ORCHESTRATOR | `~/.agents/prompts/general/interface-audit-orchestrator.md` |
 | PARALLEL-REVIEW-ORCHESTRATOR | `~/.agents/prompts/general/parallel-review-orchestrator.md` |
 | REVIEW-LOOSE-ENDS | `~/.agents/prompts/general/review-loose-ends.md` |
-| RUN-K2B-AUTOPILOT | `~/.agents/prompts/general/run-k2b-autopilot.md` |
+| RUN-K2B-AUTOPILOT | `~/.agents/prompts/knowledge-to-build/run-k2b-autopilot.md` |
 | K2B-PROJECT-DIRECTIVES-README | `~/.agents/prompts/handoffs/k2b-project-directives/README.md` |
 | CONDUCT-MODEL-AUDIT | `~/.agents/prompts/research/CONDUCT-MODEL-AUDIT.md` |
 | TRI-AGENT-RESEARCH-PIPELINE | `~/.agents/prompts/research/tri-agent-research-pipeline.md` |
