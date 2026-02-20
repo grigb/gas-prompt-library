@@ -3,7 +3,7 @@ Read AGENTS.md for context. Then read PROJECT-RULES.md for onboarding. Then exec
 Guard clause (must check first):
 - If `/Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/workorders/WO-PMDL-2026-02-19-017.md` exists and is `NOT_STARTED` or `IN_PROGRESS`, this prompt is superseded.
 - In that case, stop here and execute:
-  - `/Users/grig/.agents-gas-prompt-library/general/docker-lab-execute-wo-017-stage1-3-now.md`
+  - `/Users/grig/.agents-gas-prompt-library/handoffs/k2b-project-directives/docker-lab/docker-lab-execute-wo-017-stage1-3-now.md`
 
 Context (legacy path; use only if guard clause does not trigger):
 - K2B baseline maintenance is complete and strict validator is clean.

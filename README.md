@@ -87,7 +87,8 @@ Structured document creation:
 | `CREATE-WORK-PROPOSAL.md` | Work proposals with scope and resources |
 
 ### `general/` — Core Workflows (20 prompts)
-Essential prompts for daily agent operations:
+Essential prompts for daily agent operations.
+Rule: `general/` is for reusable, project-agnostic prompts only. Project-specific directives must not live here.
 
 | File | Purpose |
 |------|---------|
@@ -109,8 +110,8 @@ Essential prompts for daily agent operations:
 | `whats-next.md` | Next steps identification |
 | `wrap-up-and-shutdown.md` | Session cleanup |
 
-### `handoffs/` — Work Transfer (6 prompts)
-Agent-to-agent work transfer protocols:
+### `handoffs/` — Work Transfer + Project Directives (6 prompts)
+Agent-to-agent work transfer protocols and project-bound directive packs:
 
 | File | Purpose |
 |------|---------|
@@ -120,6 +121,7 @@ Agent-to-agent work transfer protocols:
 | `MANAGER-HANDOFF.md` | Manager-level context transfer |
 | `ORCHESTRATION-HANDOFF.md` | Orchestrator-specific handoff |
 | `CONVERT-HANDOFF-TO-WORKORDER.md` | Convert handoff to executable WO |
+| `k2b-project-directives/` | Project-specific K2B directives (temporary, project-bound) |
 
 ### `modes/` — Behavioral Modes (2 prompts)
 Operational mode modifiers:

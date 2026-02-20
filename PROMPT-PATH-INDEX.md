@@ -25,6 +25,8 @@
 | INTERFACE-AUDIT-ORCHESTRATOR | `~/.agents/prompts/general/interface-audit-orchestrator.md` |
 | PARALLEL-REVIEW-ORCHESTRATOR | `~/.agents/prompts/general/parallel-review-orchestrator.md` |
 | REVIEW-LOOSE-ENDS | `~/.agents/prompts/general/review-loose-ends.md` |
+| RUN-K2B-AUTOPILOT | `~/.agents/prompts/general/run-k2b-autopilot.md` |
+| K2B-PROJECT-DIRECTIVES-README | `~/.agents/prompts/handoffs/k2b-project-directives/README.md` |
 | CONDUCT-MODEL-AUDIT | `~/.agents/prompts/research/CONDUCT-MODEL-AUDIT.md` |
 | TRI-AGENT-RESEARCH-PIPELINE | `~/.agents/prompts/research/tri-agent-research-pipeline.md` |
 
@@ -90,7 +92,8 @@
 │   ├── HANDOFF.md                     # Standard handoff
 │   ├── HANDOFF-DETAILED.md            # Detailed handoff
 │   ├── HANDOFF-MINIMAL.md             # Minimal handoff
-│   └── CONVERT-HANDOFF-TO-WORKORDER.md # Handoff to Work Order conversion
+│   ├── CONVERT-HANDOFF-TO-WORKORDER.md # Handoff to Work Order conversion
+│   └── k2b-project-directives/        # Project-bound K2B directives (not reusable)
 │
 ├── modes/                              # Special operation modes
 │   └── DISCUSSION-MODE.md             # Discussion mode protocol
@@ -118,6 +121,7 @@ If the file isn't in this index, THEN use search tools.
 - **Specialized agents**: Check `agents/` directory
 - **Modes**: Check `modes/` directory
 - **General prompts**: Check `general/` directory
+- **Project-specific K2B directives**: Check `handoffs/k2b-project-directives/` (never `general/`)
 
 ## Path Resolution
 
