@@ -174,6 +174,17 @@ Generate a structured work order containing:
 - **Requested by:** User or system that initiated
 - **Created:** [Timestamp]
 - **Estimated effort:** Time/complexity estimate
+- **Model Recommendation:** `opus` | `sonnet`
+  - **Default:** `opus` — only recommend `sonnet` when ALL Sonnet-safe criteria are met
+  - **Rationale:** [Why this model — reference specific criteria from the decision guide]
+  - **Sonnet-safe indicators** (required if recommending `sonnet`):
+    - [ ] Tight spec: inputs/outputs/constraints are explicit, step-by-step instructions provided
+    - [ ] Easy verification: correctness checkable mechanically (tests, lint, diffs)
+    - [ ] Low downside: subtle mistake costs minutes, not data loss/security/regression
+    - [ ] Short horizon: < ~10 dependent steps, no cross-system reasoning
+    - [ ] No steering: output does not feed into planning, architecture, or decisions
+  - **Escalation:** If Sonnet attempt produces uncertainty or rework, escalate to Opus
+  - **Guide:** `~/.agents-gas-prompt-library/workflows/opus_vs_sonnet_decision_guide_token_efficient.md`
 
 ### 2. Scope Statement
 - **Objective:** What must be accomplished

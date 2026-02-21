@@ -214,6 +214,14 @@ DEFAULT --> STRATEGY: sub-agent
 
 Record the assessment reasoning in pm-status.md.
 
+### Model Selection for Workers
+
+**Canonical guide:** `~/.agents-gas-prompt-library/workflows/opus_vs_sonnet_decision_guide_token_efficient.md`
+
+1. **Check the WO's `Model Recommendation` field first.** If present, use it — the WO author had context to evaluate.
+2. **If absent**, apply defaults: Opus for orchestrators/teams/research, Sonnet for sub-agent strategy (single-file, well-scoped).
+3. **Escalation:** If a Sonnet worker produces uncertainty or rework, re-run with Opus.
+
 ---
 
 ## STEP 4: Execution Strategies

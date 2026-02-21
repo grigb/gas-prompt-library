@@ -25,6 +25,7 @@
 | INTERFACE-AUDIT-ORCHESTRATOR | `~/.agents/prompts/general/interface-audit-orchestrator.md` |
 | PARALLEL-REVIEW-ORCHESTRATOR | `~/.agents/prompts/general/parallel-review-orchestrator.md` |
 | REVIEW-LOOSE-ENDS | `~/.agents/prompts/general/review-loose-ends.md` |
+| PROJECT-COMPLETION-AUDIT | `~/.agents/prompts/general/PROJECT-COMPLETION-AUDIT.md` |
 | RUN-K2B-AUTOPILOT | `~/.agents/prompts/knowledge-to-build/run-k2b-autopilot.md` |
 | K2B-PROJECT-DIRECTIVES-README | `~/.agents/prompts/handoffs/k2b-project-directives/README.md` |
 | CONDUCT-MODEL-AUDIT | `~/.agents/prompts/research/CONDUCT-MODEL-AUDIT.md` |
@@ -45,7 +46,8 @@
 │   ├── prepare-work-for-review.md
 │   ├── review-loose-ends.md           # AI work audit & loose ends extraction
 │   ├── review-my-plan.md
-│   └── verify-previous-work.md
+│   ├── verify-previous-work.md
+│   └── PROJECT-COMPLETION-AUDIT.md   # Systematic "are we really done?" audit
 │
 ├── agents/                             # Specialized AI agents
 │   ├── README.md                       # Agent directory index
@@ -133,5 +135,5 @@ Example resolution:
 
 ---
 
-**Last Updated**: 2025-12-08
+**Last Updated**: 2026-02-20
 **Maintained by**: Automated sync from directory structure
