@@ -223,7 +223,7 @@ For every major decision, document with this pattern:
 3. **No committed deadlines without dependency analysis** - Always identify what could block completion
 4. **Autonomy boundaries** - Use AskUserQuestion for strategic direction (product decisions, scope changes, priority conflicts)
 5. **Progressive disclosure** - Share status at appropriate detail level (executive summary vs. detailed breakdown)
-6. **Context handoff protocol** - When context approaches token limit, create handoff document with full project state
+6. **Context handoff protocol** - When context approaches token limit, create handoff per `~/.agents/prompts/handoffs/HANDOFF.md` in `.dev/ai/handoffs/`
 7. **Single source of truth** - All project information lives in files (not in conversation memory)
 8. **Dependency-first planning** - Always map critical path before optimizing anything else
 

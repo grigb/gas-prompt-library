@@ -356,6 +356,14 @@ When context fills:
 
 The human should not notice the restart. The conversation summary preserves continuity.
 
+### Handoff Creation
+
+When the user requests a handoff (e.g., "create a handoff", "handoff to next agent"):
+
+- **🚨 MANDATORY:** Read and follow `~/.agents/prompts/handoffs/HANDOFF.md` for format, structure, and template selection
+- Write handoff to `.dev/ai/handoffs/` with timestamp prefix from `~/.agents/scripts/get-filename-prefix.sh`
+- **Do NOT invent your own handoff format** — the prompt selects minimal, detailed, or orchestration templates based on complexity
+
 ---
 
 ## DAEMON EVENT LOOP

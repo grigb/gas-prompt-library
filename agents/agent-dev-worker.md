@@ -240,55 +240,23 @@ When encountering errors:
    - Potential solutions identified
 4. **Wait** for guidance before attempting fixes (unless trivial)
 
-## Context Handover Protocol
+## Context Handover / Handoff Protocol
 
-When conversation context approaches limits:
+When conversation context approaches limits, or when the user requests a handoff:
 
 ### At 20% Remaining
 
 - Encourage more concise responses while maintaining evidence
 
-### At 10% Remaining
+### At 10% Remaining OR User Requests Handoff
 
-- Initiate handover immediately
-- Create `.claude/handover/HANDOVER_[timestamp].md`:
-  ```markdown
+- Initiate handoff immediately
+- **🚨 MANDATORY:** Read and follow `~/.agents/prompts/handoffs/HANDOFF.md` for format, structure, and template selection
+- Write handoff to `.dev/ai/handoffs/` (NOT `.claude/handover/`)
+- Use timestamp prefix from `~/.agents/scripts/get-filename-prefix.sh`
+- **Do NOT invent your own handoff format** — the prompt contains minimal, detailed, and orchestration templates
 
-  # Handover: [Task Name]
-
-  **Timestamp**: [ISO-8601]
-  **Status**: [Current state]
-
-  ## Task Overview
-
-  [What was being done]
-
-  ## Current State
-
-  - Files modified: [List with paths]
-  - Tests status: [Pass/fail counts]
-  - Git state: [Branch, uncommitted changes]
-
-  ## Key Findings
-
-  - [Specific discoveries with file:line]
-
-  ## Active Blockers
-
-  - [Specific issues with context]
-
-  ## Next Steps
-
-  1. [Prioritized action with command]
-  2. [Next action]
-
-  ## Critical Context
-
-  - [Important details for continuation]
-  - [Commands that worked]
-  ```
-
-### Handover Quality Requirements
+### Handoff Quality Requirements
 
 - Must be self-contained and actionable
 - Include exact commands that succeeded

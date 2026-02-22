@@ -446,6 +446,7 @@ Task(
 ## RELATED DOCUMENTATION
 
 - **Orchestrator prompt:** `~/.agents/prompts/agents/agent-orchestrator.md`
+- **Handoff protocol:** `~/.agents/prompts/handoffs/HANDOFF.md`
 - **Orchestration guide:** `~/.agents/docs/SUB-AGENT-ORCHESTRATION-GUIDE.md`
 - **Work order framework:** `~/.agents/docs/WORK-ORDER-DECISION-FRAMEWORK.md`
 

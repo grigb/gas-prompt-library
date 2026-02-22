@@ -554,10 +554,11 @@ Total: 335 lines, 11KB (50% reduction, full functionality preserved)
 - Specify evidence requirements (show full outputs)
 - Include rollback/safety protocols
 - Define handover requirements if context limits approached
+- **MANDATORY:** Reference `~/.agents/prompts/handoffs/HANDOFF.md` for handoff format — do NOT embed custom handoff templates
 
 ### Coordination/Orchestrator Agents
 - Define agent selection logic
-- Specify handoff protocols
+- Specify handoff protocols (always reference `~/.agents/prompts/handoffs/HANDOFF.md`)
 - Include delegation patterns
 - Define escalation triggers
 

@@ -632,7 +632,7 @@ The GAS Manager exits after every single cycle. The loop script decides whether 
 - TypeScript harness: `~/.agents/harness/src/providers/claude/cli.ts`
 - Inter-layer status protocol: `~/.agents/docs/protocols/inter-layer-status.md`
 - WO state machine: `~/.agents/docs/agent-orchestration-automation.md`
-- Handoff protocol: `~/.agents/docs/trio-workflow-handoff-protocol.md`
+- Handoff protocol: `~/.agents/prompts/handoffs/HANDOFF.md`
 - GAS Team Runtime integration: `~/.agents/tools/team_runtime/gas_integration.py`
 - Team Runtime WO parser: `~/.agents/tools/team_runtime/wo_to_tasks.py`
 
