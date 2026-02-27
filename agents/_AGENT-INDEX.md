@@ -1,7 +1,7 @@
 # Agent Index
 
-**Last Updated:** 2026-02-14
-**Total Agents:** 34
+**Last Updated:** 2026-02-26
+**Total Agents:** 35
 **Purpose:** Searchable metadata index for global agent library
 
 ---
@@ -61,8 +61,9 @@
 - `agent-document-analysis-audit` - Document analysis
 - `agent-learning-knowledge-management` - Knowledge management
 
-### 🌐 Specialized (2 agents)
+### 🌐 Specialized (3 agents)
 - `agent-network-diagnostics-specialist` - Network troubleshooting
+- `agent-pa-maintenance` - PA infrastructure diagnosis, repair, and maintenance
 - Custom agents can be added here
 
 ---
@@ -152,6 +153,13 @@
 **tools, automation, scripting, efficiency**
 → `agent-tooling`
 
+### Infrastructure & Maintenance Keywords
+**pa maintenance, pa doctor, pa health, service restart, token rotation, credential management**
+→ `agent-pa-maintenance`
+
+**launchd, daemon, health check, infrastructure, ops**
+→ `agent-pa-maintenance`
+
 ---
 
 ## Search by Situation
@@ -178,6 +186,9 @@
 
 **Production issues:**
 → `agent-dev-general-contractor` (emergency response + audit)
+
+**PA infrastructure issues (services, tokens, daemons):**
+→ `agent-pa-maintenance` (diagnosis, restart, credential rotation)
 
 ### "I need to understand/research"
 **Technical decision or architecture:**
@@ -372,6 +383,7 @@
 | Testing Validation | `agent-testing-validation.md` | Senior Quality Engineer with 15+ years specia... | communication, data, deployment, design, development, documentation | See file for details |
 | Tooling | `agent-tooling.md` | Senior Architect and Implementation Specialis... | communication, data, design, development, documentation, process | See file for details |
 | Ux Design | `agent-ux-design.md` | User Experience & Design Specialist with 12+ ... | communication, data, design, development, process, research | See file for details |
+| PA Maintenance | `agent-pa-maintenance.md` | Senior Infrastructure Engineer for PA system diagnosis and repair | credentials, daemon, health-check, infrastructure, launchd, maintenance, ops, pa, token-rotation | See file for details |
 
 ## Usage Examples
 
@@ -459,7 +471,8 @@ def get_agent_metadata(agent_name):
 ├── agent-learning-knowledge-management.md
 ├── agent-synthesis-integration.md
 ├── agent-innovation-ideation.md
-└── agent-network-diagnostics-specialist.md
+├── agent-network-diagnostics-specialist.md
+└── agent-pa-maintenance.md                    # PA infrastructure maintenance
 ```
 
 ---

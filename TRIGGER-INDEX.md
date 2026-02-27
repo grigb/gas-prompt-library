@@ -105,6 +105,23 @@
 
 ---
 
+### PA Maintenance Agent (Infrastructure Maintenance)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `pa maintenance` | `~/.agents-gas-prompt-library/agents/agent-pa-maintenance.md` | Full PA maintenance session |
+| `pa doctor` | `~/.agents-gas-prompt-library/agents/agent-pa-maintenance.md` | PA health diagnosis |
+| `pa mechanic` | `~/.agents-gas-prompt-library/agents/agent-pa-maintenance.md` | PA repair and fix |
+| `maintain pa` | `~/.agents-gas-prompt-library/agents/agent-pa-maintenance.md` | PA maintenance trigger |
+| `fix pa` | `~/.agents-gas-prompt-library/agents/agent-pa-maintenance.md` | PA fix trigger |
+| `pa health` | `~/.agents-gas-prompt-library/agents/agent-pa-maintenance.md` | PA health check trigger |
+
+**Core Principle:** Maintenance only. Diagnose, repair, and document. Never implement new features.
+
+**Activation Regex:** `(?i)\b(pa\s+(maintenance|doctor|mechanic|health)|maintain\s+pa|fix\s+pa)\b`
+
+---
+
 ### Commit Agent (Smart Commits)
 
 | Trigger Phrase | Target Prompt | Description |
