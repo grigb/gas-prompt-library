@@ -1,7 +1,7 @@
 # Agent Index
 
 **Last Updated:** 2026-02-27
-**Total Agents:** 36
+**Total Agents:** 37
 **Purpose:** Searchable metadata index for global agent library
 
 ---
@@ -61,7 +61,8 @@
 - `agent-document-analysis-audit` - Document analysis
 - `agent-learning-knowledge-management` - Knowledge management
 
-### 🌐 Specialized (4 agents)
+### 🌐 Specialized (5 agents)
+- `agent-mac-performance-diagnostics-specialist` - macOS performance troubleshooting and optimization
 - `agent-network-diagnostics-specialist` - Network troubleshooting
 - `agent-pa-maintenance` - PA infrastructure diagnosis, repair, and maintenance
 - `agent-pa-doctor` - PA system doctor: diagnoses, fixes, logs everything, remembers patterns across sessions
@@ -149,6 +150,9 @@
 → `agent-security-compliance`, `agent-document-analysis-audit`
 
 ### Technical Keywords
+**macOS, performance, GPU, thermal, fan, disk, memory, cpu, diagnostics**
+→ `agent-mac-performance-diagnostics-specialist`
+
 **network, connectivity, diagnostics, performance**
 → `agent-network-diagnostics-specialist`
 
@@ -391,6 +395,7 @@
 | Ux Design | `agent-ux-design.md` | User Experience & Design Specialist with 12+ ... | communication, data, design, development, process, research | See file for details |
 | PA Maintenance | `agent-pa-maintenance.md` | Senior Infrastructure Engineer for PA system diagnosis and repair | credentials, daemon, health-check, infrastructure, launchd, maintenance, ops, pa, token-rotation | See file for details |
 | PA QA Tester | `agent-pa-qa-tester.md` | Adversarial QA tester for GAS Personal Assistant | adversarial, behavior, bug-finding, pa, qa, testing, tester | See file for details |
+| Mac Performance Diagnostics Specialist | `agent-mac-performance-diagnostics-specialist.md` | macOS performance troubleshooting and optimization | cpu, diagnostics, disk, fan, gpu, macos, memory, performance, thermal | See file for details |
 
 ## Usage Examples
 
