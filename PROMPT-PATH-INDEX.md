@@ -30,6 +30,8 @@
 | K2B-PROJECT-DIRECTIVES-README | `~/.agents/prompts/handoffs/k2b-project-directives/README.md` |
 | CONDUCT-MODEL-AUDIT | `~/.agents/prompts/research/CONDUCT-MODEL-AUDIT.md` |
 | TRI-AGENT-RESEARCH-PIPELINE | `~/.agents/prompts/research/tri-agent-research-pipeline.md` |
+| PROJECT-INCEPTION | `~/.agents/prompts/general/PROJECT-INCEPTION.md` |
+| PROJECT-TEAM-HANDOFF | `~/.agents/prompts/general/PROJECT-TEAM-HANDOFF.md` |
 
 ## Full Directory Structure
 
@@ -47,7 +49,9 @@
 │   ├── review-loose-ends.md           # AI work audit & loose ends extraction
 │   ├── review-my-plan.md
 │   ├── verify-previous-work.md
-│   └── PROJECT-COMPLETION-AUDIT.md   # Systematic "are we really done?" audit
+│   ├── PROJECT-COMPLETION-AUDIT.md   # Systematic "are we really done?" audit
+│   ├── PROJECT-INCEPTION.md          # Concept to execution-ready package (counterpart to handoff)
+│   └── PROJECT-TEAM-HANDOFF.md       # Transfer existing project to new team
 │
 ├── agents/                             # Specialized AI agents
 │   ├── README.md                       # Agent directory index

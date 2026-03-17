@@ -1,12 +1,15 @@
 # Agent Index
 
-**Last Updated:** 2026-02-27
-**Total Agents:** 37
+**Last Updated:** 2026-03-15
+**Total Agents:** 39
 **Purpose:** Searchable metadata index for global agent library
 
 ---
 
 ## Quick Reference by Category
+
+### Meta-Hierarchy (1 agent)
+- `agent-zero` - Agent Zero: owner's reasoning partner and meta-orchestrator (Layer 0). Triggers: agent zero, agent0, a0, GAS A0, M, owner's agent (legacy)
 
 ### 🏛️ Hierarchy (4 agents)
 - `agent-assistant` - Human's single point of contact (Layer 1)
@@ -61,12 +64,13 @@
 - `agent-document-analysis-audit` - Document analysis
 - `agent-learning-knowledge-management` - Knowledge management
 
-### 🌐 Specialized (5 agents)
-- `agent-mac-performance-diagnostics-specialist` - macOS performance troubleshooting and optimization
+### 🌐 Specialized (6 agents)
+- `agent-mac-performance-diagnostics-specialist` - macOS performance troubleshooting and optimization. Triggers: mac agent, mac help, mac technician, mac tech, mac diagnostics, mac performance, mac doctor
 - `agent-network-diagnostics-specialist` - Network troubleshooting
 - `agent-pa-maintenance` - PA infrastructure diagnosis, repair, and maintenance
 - `agent-pa-doctor` - PA system doctor: diagnoses, fixes, logs everything, remembers patterns across sessions
 - `agent-pa-qa-tester` - PA QA tester: adversarial behavior testing, bug finding, fix-and-retest
+- `agent-paperclip-worker` - Paperclip-managed heartbeat worker: wakes on heartbeat, checks inbox, does work, exits
 - Custom agents can be added here
 
 ---
@@ -85,6 +89,9 @@
 
 **hierarchy, portfolio, multi-project, manager, beacon**
 → `agent-manager-orchestrator`
+
+**meta-orchestrator, owner, board director, big picture, cross-domain, fabric, layer-0, priority, agent zero, agent0, a0, GAS A0**
+--> `agent-zero`
 
 **assistant, user-facing, delegation, status, daemon, layer-1, bandwidth**
 → `agent-assistant`
@@ -166,6 +173,9 @@
 **launchd, daemon, health check, infrastructure, ops**
 → `agent-pa-maintenance`
 
+**paperclip, heartbeat, managed agent, worker, control plane**
+→ `agent-paperclip-worker`
+
 ### Quality & Testing Keywords
 **qa, adversarial testing, behavior testing, pa testing**
 → `agent-pa-qa-tester`
@@ -242,6 +252,13 @@
 
 **Test coverage:**
 → `agent-testing-validation` (comprehensive testing)
+
+### "I need to think across everything"
+**Cross-domain reasoning, priority conflicts, big-picture thinking:**
+--> `agent-zero` (Agent Zero, meta-orchestrator, Layer 0)
+
+**Multi-company coordination:**
+--> `agent-zero` (Agent Zero, cross-domain delegation and arbitration)
 
 ### "I need strategic planning"
 **Executive-level coordination:**
@@ -337,6 +354,7 @@
 **"Run a project autonomously from vision to completion"**
 | Role | Agent | Why |
 |------|-------|-----|
+| Meta-Orchestrator (L0) | `agent-zero` | Agent Zero: cross-domain reasoning, priority arbitration (optional, for multi-domain work) |
 | User-Facing (L1) | `agent-assistant` | Single point of contact, delegates everything |
 | Strategic (L2) | `agent-blueprint-keeper` | Vision alignment, cascade on pivots |
 | Intake (L3) | `agent-request-router` | Evaluates requests against blueprint, creates WOs |
@@ -359,6 +377,7 @@
 
 | Agent | File | Specialization | Primary Keywords | Use When |
 |-------|------|----------------|------------------|----------|
+| Agent Zero | `agent-zero.md` | Agent Zero: owner's reasoning partner and meta-orchestrator (Layer 0) | agent-zero, agent0, a0, big-picture, board-director, cross-domain, fabric-awareness, hierarchy, layer-0, meta-orchestrator, owner, priority-arbitration | See file for details |
 | Assistant | `agent-assistant.md` | Human's single point of contact (Layer 1 Hierarchy) | assistant, bandwidth, daemon, delegation, hierarchy, layer-1, status-synthesis, user-facing | See file for details |
 | Blueprint Keeper | `agent-blueprint-keeper.md` | Strategic vision guardian (Layer 2 Hierarchy) | alignment, blueprint, cascade, constraints, hierarchy, strategic, vision | See file for details |
 | Request Router | `agent-request-router.md` | Blueprint-aware request gatekeeper (Layer 3 Hierarchy) | defer, gatekeeper, hierarchy, intake, reject, routing, triage, work-orders | See file for details |
@@ -395,6 +414,7 @@
 | Ux Design | `agent-ux-design.md` | User Experience & Design Specialist with 12+ ... | communication, data, design, development, process, research | See file for details |
 | PA Maintenance | `agent-pa-maintenance.md` | Senior Infrastructure Engineer for PA system diagnosis and repair | credentials, daemon, health-check, infrastructure, launchd, maintenance, ops, pa, token-rotation | See file for details |
 | PA QA Tester | `agent-pa-qa-tester.md` | Adversarial QA tester for GAS Personal Assistant | adversarial, behavior, bug-finding, pa, qa, testing, tester | See file for details |
+| Paperclip Worker | `agent-paperclip-worker.md` | Paperclip-managed heartbeat worker | heartbeat, managed, paperclip, worker | See file for details |
 | Mac Performance Diagnostics Specialist | `agent-mac-performance-diagnostics-specialist.md` | macOS performance troubleshooting and optimization | cpu, diagnostics, disk, fan, gpu, macos, memory, performance, thermal | See file for details |
 
 ## Usage Examples
@@ -444,6 +464,7 @@ def get_agent_metadata(agent_name):
 ├── AGENT-INDEX.md                               # This file - searchable index
 ├── _agent-format-guide.md                       # Format specification
 │
+├── agent-zero.md                                  # Meta-Hierarchy (Layer 0) — Agent Zero
 ├── agent-assistant.md                            # Hierarchy (Layer 1)
 ├── agent-blueprint-keeper.md                    # Hierarchy (Layer 2)
 ├── agent-request-router.md                     # Hierarchy (Layer 3)
@@ -484,6 +505,7 @@ def get_agent_metadata(agent_name):
 ├── agent-synthesis-integration.md
 ├── agent-innovation-ideation.md
 ├── agent-network-diagnostics-specialist.md
+├── agent-paperclip-worker.md                  # Paperclip-managed heartbeat worker
 └── agent-pa-maintenance.md                    # PA infrastructure maintenance
 ```
 

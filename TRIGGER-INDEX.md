@@ -8,6 +8,27 @@
 
 ## Primary Agent Triggers
 
+### Agent Zero (Layer 0 Meta-Orchestrator)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `agent zero` | `~/.agents/prompts/agents/agent-zero.md` | Agent Zero -- owner's reasoning partner and meta-orchestrator |
+| `agent0` | `~/.agents/prompts/agents/agent-zero.md` | Short form for Agent Zero |
+| `a0` | `~/.agents/prompts/agents/agent-zero.md` | Abbreviated form for Agent Zero |
+| `GAS A0` | `~/.agents/prompts/agents/agent-zero.md` | External reference form for Agent Zero |
+| `M` | `~/.agents/prompts/agents/agent-zero.md` | Single-letter shorthand for Agent Zero |
+| `owner's agent` | `~/.agents/prompts/agents/agent-zero.md` | Legacy trigger (still works) |
+| `board director` | `~/.agents/prompts/agents/agent-zero.md` | Board-level strategic view |
+| `meta-orchestrator` | `~/.agents/prompts/agents/agent-zero.md` | Cross-domain orchestration |
+| `big picture` | `~/.agents/prompts/agents/agent-zero.md` | Holistic world-state synthesis |
+| `where are we` | `~/.agents/prompts/agents/agent-zero.md` | Cross-domain status check |
+
+**Core Principle:** Layer 0. Sits above all hierarchy, all companies, all projects. Reasons across the full fabric of the owner's world. Never implements -- thinks, connects, prioritizes, delegates.
+
+**Activation Regex:** `(?i)\b(agent\s*zero|agent\s*0|a0|gas\s+a0|owner'?s\s+agent|board\s+director|meta[\s-]orchestrator|big\s+picture|where\s+are\s+we)\b`
+
+---
+
 ### Dev Agent (Implementation)
 
 | Trigger Phrase | Target Prompt | Description |
@@ -122,6 +143,58 @@
 
 ---
 
+### Paperclip Worker Agent (Paperclip-Managed Heartbeat Worker)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `paperclip worker` | `~/.agents/prompts/agents/agent-paperclip-worker.md` | Paperclip-managed heartbeat worker |
+| `paperclip agent` | `~/.agents/prompts/agents/agent-paperclip-worker.md` | Paperclip-managed heartbeat worker |
+| `you are a paperclip` | `~/.agents/prompts/agents/agent-paperclip-worker.md` | Paperclip bootstrap trigger |
+
+**Core Principle:** Lifecycle managed by Paperclip. Wakes on heartbeat, checks inbox, does work, exits. Does NOT act as standalone GAS agent.
+
+**Activation Regex:** `(?i)\b(paperclip\s+(worker|agent)|you\s+are\s+a\s+paperclip)\b`
+
+---
+
+### Alignment Check-In Protocol (Alignment Verification)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `alignment check` | `~/.agents/docs/ALIGNMENT-CHECK-IN-PROTOCOL.md` | Full alignment verification against source of truth |
+| `check-in` | `~/.agents/docs/ALIGNMENT-CHECK-IN-PROTOCOL.md` | Periodic alignment check |
+| `are we on track` | `~/.agents/docs/ALIGNMENT-CHECK-IN-PROTOCOL.md` | Plan-vs-reality assessment |
+| `verify alignment` | `~/.agents/docs/ALIGNMENT-CHECK-IN-PROTOCOL.md` | Source-of-truth comparison |
+| `status check against plan` | `~/.agents/docs/ALIGNMENT-CHECK-IN-PROTOCOL.md` | Full protocol run |
+| `holistic view` | `~/.agents/docs/ALIGNMENT-CHECK-IN-PROTOCOL.md` | Top-level project state assessment |
+| `zoom out for a sec` | `~/.agents/docs/ALIGNMENT-CHECK-IN-PROTOCOL.md` | Step back and assess big picture |
+| `where are we at` | `~/.agents/docs/ALIGNMENT-CHECK-IN-PROTOCOL.md` | Current state synthesis |
+| `I forgot what we were doing` | `~/.agents/docs/ALIGNMENT-CHECK-IN-PROTOCOL.md` | Full context reload and orientation |
+
+**Core Principle:** Deliberate, periodic alignment ritual. Loads 8 source-of-truth documents, verifies WO integrity, checks blueprint alignment, assesses pillar health, produces report, executes corrections. Uses incremental caching to avoid re-verifying unchanged items.
+
+**Standing Order:** SO-027 -- must run before every phase transition and at least once per Agent Zero session.
+
+**Activation Regex:** `(?i)\b(alignment\s+check|check[\s-]in|are\s+we\s+on\s+track|verify\s+alignment|status\s+check\s+against\s+plan|holistic\s+view|zoom\s+out|where\s+are\s+we\s+at|forgot\s+what\s+we\s+were\s+doing)\b`
+
+---
+
+### Deep Research Mode (Structured Research)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `deep research` | `~/.agents/modes/DEEP-RESEARCH-MODE.md` | Structured multi-source research |
+| `research mode` | `~/.agents/modes/DEEP-RESEARCH-MODE.md` | Activate deep research mode |
+| `comprehensive research` | `~/.agents/modes/DEEP-RESEARCH-MODE.md` | Full research with citation tracking |
+| `conduct deep research` | `~/.agents/modes/DEEP-RESEARCH-MODE.md` | Research execution trigger |
+| `run deep research` | `~/.agents/modes/DEEP-RESEARCH-MODE.md` | Research execution trigger |
+
+**Core Principle:** Structured, multi-source research with citation tracking, prompt generation, and knowledge vault integration. All substantial research that becomes permanent reference documentation MUST use this mode.
+
+**Activation Regex:** `(?i)\b(deep\s+research|research\s+mode|comprehensive\s+research|(conduct|run)\s+deep\s+research)\b`
+
+---
+
 ### Commit Agent (Smart Commits)
 
 | Trigger Phrase | Target Prompt | Description |
@@ -133,6 +206,26 @@
 | `analyze commits` | `~/.agents/modes/SMART-COMMIT-MODE.md` | Commit analysis trigger |
 
 **Activation Regex:** `(?i)\b(commit\s+agent|smart\s+commit|group\s+commits|commit\s+files|analyze\s+commits)\b`
+
+---
+
+### Mac Performance Diagnostics Specialist (macOS Troubleshooting)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `mac agent` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist.md` | macOS performance diagnostics agent |
+| `mac help` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist.md` | Quick Mac help trigger |
+| `mac technician` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist.md` | Mac technician role |
+| `mac tech` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist.md` | Short form for Mac technician |
+| `mac diagnostics` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist.md` | Mac diagnostics trigger |
+| `mac performance` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist.md` | Mac performance analysis trigger |
+| `mac doctor` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist.md` | Mac doctor / health check trigger |
+| `you are the mac agent` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist.md` | Role assignment phrase |
+| `act as mac agent` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist.md` | Role activation phrase |
+
+**Core Principle:** macOS performance specialist. Diagnoses CPU, GPU, memory, disk, thermal, and fan issues. Never modifies system files without explicit approval.
+
+**Activation Regex:** `(?i)\b(mac\s+(agent|help|technician|tech|diagnostics|performance|doctor)|you\s+are\s+(the\s+)?mac\s+agent|act\s+as\s+mac\s+agent)\b`
 
 ---
 
@@ -240,5 +333,5 @@ To add a new trigger:
 
 ---
 
-**Last Updated:** 2026-01-09
+**Last Updated:** 2026-03-16
 **Version:** 1.0.0
