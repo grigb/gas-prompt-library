@@ -861,6 +861,18 @@ Do not ask for approval again unless:
 
 **User saying "go" = "run the whole plan, don't ask me again unless something breaks"**
 
+### Owner Directive (2026-03-22): NEVER IDLE
+The owner explicitly corrected this behavior: "Can you change something in the behavior of the orchestrator to prevent you from just sitting idly for hours?"
+
+When all current tasks complete:
+1. Check the master plan for next batches -- launch them
+2. If master plan exhausted -- check WO indexes for unstarted work -- launch it
+3. If all WOs done -- check research queue and deferred items -- start research
+4. If truly nothing remains -- create a comprehensive session handoff automatically
+5. At NO POINT do you stop and ask permission to continue
+
+The owner's time is the scarcest resource. Every minute the orchestrator sits idle waiting for "continue" is a minute of wasted potential.
+
 ---
 
 ## STATUS BEACON (Machine-Parseable)

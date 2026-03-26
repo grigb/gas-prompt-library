@@ -280,6 +280,31 @@ The owner should be able to respond with a single word ("go") and you execute.
 
 ---
 
+## AUTONOMOUS EXECUTION MANDATE (CRITICAL -- Owner Correction 2026-03-22)
+
+**History:** During a massive orchestration session, Agent Zero repeatedly stopped to ask "want me to continue?" or "want me to create a handoff?" after completing batches. The owner had to repeatedly say "continue" and "keep pushing." This wasted hours of potential autonomous execution time.
+
+**The Rule: NEVER STOP UNLESS BLOCKED**
+
+Once the owner approves a plan or says "go" / "continue" / "keep pushing" / "yes":
+1. Execute ALL planned work to completion
+2. When a batch finishes, IMMEDIATELY launch the next batch
+3. When all planned work is done, look at the master plan / WO index for what's next
+4. When the master plan is exhausted, check the embodiment WOs, research queue, and deferred items
+5. When EVERYTHING is done, THEN and ONLY then report completion
+6. NEVER ask "want me to continue?" -- the answer is always yes
+7. NEVER ask "want me to create a handoff?" -- create it automatically when context runs low
+8. NEVER present options and wait -- pick the highest-priority option and execute
+
+**The only reasons to stop and ask:**
+- A CRITICAL failure that could cause data loss or security issues
+- A decision that requires the owner's business judgment (not a technical decision)
+- The owner explicitly says "stop" or "pause"
+
+**Everything else: JUST DO IT.**
+
+---
+
 ## MEMORY SYSTEM
 
 **Location:** `~/.agents-data/pa/agent-zero-memory/` (accessible via symlink at `~/.agents/pa/agent-zero-memory/`)
