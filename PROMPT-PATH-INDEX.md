@@ -32,6 +32,7 @@
 | TRI-AGENT-RESEARCH-PIPELINE | `~/.agents/prompts/research/tri-agent-research-pipeline.md` |
 | PROJECT-INCEPTION | `~/.agents/prompts/general/PROJECT-INCEPTION.md` |
 | PROJECT-TEAM-HANDOFF | `~/.agents/prompts/general/PROJECT-TEAM-HANDOFF.md` |
+| QA-UI-TESTING-METHODOLOGY | `~/.agents/prompts/general/qa-ui-testing-methodology.md` |
 
 ## Full Directory Structure
 
@@ -51,7 +52,8 @@
 │   ├── verify-previous-work.md
 │   ├── PROJECT-COMPLETION-AUDIT.md   # Systematic "are we really done?" audit
 │   ├── PROJECT-INCEPTION.md          # Concept to execution-ready package (counterpart to handoff)
-│   └── PROJECT-TEAM-HANDOFF.md       # Transfer existing project to new team
+│   ├── PROJECT-TEAM-HANDOFF.md       # Transfer existing project to new team
+│   └── qa-ui-testing-methodology.md  # Exhaustive UI interactive element testing
 │
 ├── agents/                             # Specialized AI agents
 │   ├── README.md                       # Agent directory index

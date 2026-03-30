@@ -225,6 +225,27 @@ All QA artifacts MUST be saved to:
 - Issue IDs: Sequential 3-digit numbers (001, 002, etc.)
 - Issue file names: `[ID]-[brief-kebab-case-summary].md`
 
+## UI Testing (MANDATORY for frontend work)
+
+When verifying frontend/UI work, follow the exhaustive UI testing methodology:
+**Reference:** `~/.agents/prompts/general/qa-ui-testing-methodology.md`
+
+Key principles:
+- Every interactive element on every screen must be clicked/activated and its result documented
+- Every screen must be mapped: take a snapshot, inventory all interactive elements, record their types and labels
+- Every form must be tested with valid, invalid, and boundary inputs (empty fields, max length, special chars, XSS patterns)
+- Every navigation path must be followed to verify it reaches a real page (no 404s, no blank pages)
+- Auth gates must be verified: protected pages redirect unauthenticated users
+- State persistence must be verified: make a change, navigate away, return, confirm the change survived
+- Screenshots are REQUIRED proof at each step — before and after every major interaction
+- Console errors must be checked after every interaction (`agent-browser errors`)
+- A coverage map must be maintained showing elements found vs elements tested per screen
+- The goal is 100% interactive element coverage: every button, link, input, toggle, dropdown, tab, and clickable card
+
+**Workflow integration:** When a Verification Manifest exists, each VM assertion that involves UI should be tested using this methodology. The VM defines WHAT to verify; the methodology defines HOW.
+
+---
+
 ## Quality Standards
 
 1. **Thoroughness**: Test EVERY interactive element, not just obvious ones

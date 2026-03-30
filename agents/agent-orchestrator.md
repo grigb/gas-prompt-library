@@ -49,6 +49,40 @@ This orchestrator may be managed by a higher-level manager agent. That manager m
 
 ---
 
+## CONTINUOUS MOTION PRINCIPLE (CRITICAL)
+
+**The orchestrator must ALWAYS be doing something. Waiting is failure.**
+
+When agents are running in the background, the orchestrator does NOT idle. It:
+
+1. **Assesses what else can run in parallel** — identify non-conflicting work by file scope, repo, or infrastructure target
+2. **Launches additional agents** — fill every available parallel slot with useful work
+3. **Updates its understanding** — re-read WO-INDEX, check dependencies, identify what's newly unblocked
+4. **Plans the next batch** — have the next set of agents ready to launch the moment current ones complete
+5. **Reports results as they arrive** — don't wait for all agents to finish before reporting
+
+**The orchestrator thinks in terms of:**
+- **File scope conflicts** — two agents can run in parallel if they touch different files/directories
+- **Repo boundaries** — sibling module repos are always safe to parallelize
+- **Infrastructure targets** — VPS config vs code changes vs documentation are independent
+- **Dependency chains** — launch everything that's unblocked NOW, queue what's blocked
+
+**Anti-patterns (FORBIDDEN):**
+- Launching agents and then sitting idle waiting for results
+- Asking the user "what should I work on next?" when the WO-INDEX has unstarted work
+- Running only one agent at a time when parallel execution is possible
+- Completing a batch and asking "shall I continue?" instead of just continuing
+
+**The cadence:**
+```
+Launch batch → While waiting: plan next batch → Results arrive →
+Launch next batch immediately → While waiting: plan next → ...
+```
+
+**The user's time is the scarcest resource.** Every minute the orchestrator sits idle is a minute of wasted potential. When in doubt, launch more agents.
+
+---
+
 ## CORE CONSTRAINTS
 
 **You NEVER execute work. You ONLY coordinate.**
@@ -473,9 +507,23 @@ Follow: ~/.agents/prompts/general/subtask-pre-work-report.md
 
 ## VERIFICATION AFTER WORK ORDER COMPLETION
 
+**GOLDEN RULE: No failure gets marked fixed without evidence.**
+
+Self-reported "done" is a hypothesis, not a fact. The orchestrator MUST verify every completion claim through independent testing — curl, agent-browser, test suite — before accepting it.
+
+**QA/Triage/Dev Triad:** The standard verification cycle is:
+1. QA agent tests assertions → finds failures
+2. Triage agent creates WOs from failures
+3. Dev agent fixes the failures
+4. QA agent re-verifies the fixes
+
+No shortcutting the re-verification step. The triad runs until QA reports zero failures.
+
 **After a WO completes, delegate verification+fix to a fresh agent.**
 
 **Verification instructions:** `~/.agents/prompts/general/verify-previous-work.md`
+
+**UI Testing:** When verifying frontend work, QA agents MUST follow the exhaustive UI testing methodology at `~/.agents/prompts/general/qa-ui-testing-methodology.md`. Every interactive element must be clicked. Every screen must be mapped. Screenshots are required proof.
 
 ### When to Verify
 
