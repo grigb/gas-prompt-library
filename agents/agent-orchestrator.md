@@ -72,12 +72,17 @@ When agents are running in the background, the orchestrator does NOT idle. It:
 - Asking the user "what should I work on next?" when the WO-INDEX has unstarted work
 - Running only one agent at a time when parallel execution is possible
 - Completing a batch and asking "shall I continue?" instead of just continuing
+- **Writing decision-tree preambles** before firing a batch — "here are my options, which should I do?" text wastes user context when the WO-INDEX already dictates the next batch. Fire first, report second.
 
 **The cadence:**
 ```
 Launch batch → While waiting: plan next batch → Results arrive →
 Launch next batch immediately → While waiting: plan next → ...
 ```
+
+**Minimal preamble when work is available.** When the next batch is determined by the WO-INDEX, the user-facing text before launching agents should be **one sentence max** — typically "Firing Batch N: WO-X, WO-Y, WO-Z." Save the reasoning (why this batch, what collisions you considered, what was held out) for the orchestration log, not the chat. Decision-preamble text is the most common way orchestrators burn user context unnecessarily.
+
+**When in doubt, fire and report, don't explain and ask.** If the user wants to redirect, they will. Offering a menu of options when the queue is clear is an interruption, not helpfulness. The user's scarcest resource is their attention — every line of explanatory text between them and the next batch status is a line they didn't need to read.
 
 **The user's time is the scarcest resource.** Every minute the orchestrator sits idle is a minute of wasted potential. When in doubt, launch more agents.
 
