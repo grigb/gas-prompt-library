@@ -131,26 +131,127 @@ Task(
 )
 ```
 
+### Runtime-Native Delegation Override (CRITICAL)
+
+If the current runtime exposes a native background-agent system, use it first.
+
+- **Codex:** use native background agents (`spawn_agent`; reuse with `send_input`; use `wait_agent` only as a bounded reconciliation step when blocked on known unresolved agents)
+- **Claude Code:** use the native Agent/Task tool with `run_in_background=true`
+- **Shell / non-native runtimes:** use external launchers such as `launch-wo.sh`
+
+**In Codex, NEVER route Codex-to-Codex delegation through `~/.agents/scripts/launch-wo.sh`, `invoke-model.sh`, the harness, or any other GAS fire-and-forget shell launcher.** Those paths spawn external CLI sessions and bypass Codex-native agent management.
+
+Codex workers must still:
+- Read the WO or task context fully
+- Write durable output to `.dev/ai/subtask-comms/`
+- Follow the same no-polling discipline as every other orchestrator
+
+The only thing that changes is **how the worker is launched**: native Codex background agent first, external launcher only for explicit cross-model dispatch.
+
+### Codex Model Quality Floor (CRITICAL)
+
+When orchestrating inside Codex, assume the default worker must use the strongest available Codex model unless the task is provably mechanical.
+
+- **Default Codex worker for real work:** `gpt-5.4` with `reasoning_effort="xhigh"`
+- **Allowed cheaper Codex worker:** `gpt-5.4-mini` with `reasoning_effort="low"` or `"medium"` ONLY for housekeeping tasks
+- **Housekeeping means:** commit grouping, status-file cleanup, straightforward file moves, deterministic grep/lookups, formatting-only rewrites, or similarly low-risk mechanical work
+
+**Do NOT use mini/low-effort Codex workers for:**
+- implementation that changes product behavior
+- debugging, root-cause analysis, or verification
+- architectural decisions or planning
+- anything ambiguous, multi-file, or user-visible
+- critical-path work orders
+
+If there is any doubt, use `gpt-5.4` with `xhigh`. Spending more reasoning on the worker is cheaper than rework, regression, or false completion claims.
+
+### Codex Open-Agent Budget (CRITICAL)
+
+Codex native background agents have a hard limit of **6 open agent threads** per session.
+
+This is NOT just a UI display limit.
+- Agent 7+ does not queue automatically
+- Agent 7+ does not run invisibly in the background
+- `spawn_agent` fails once 6 agent threads are open
+- **Completed agents still consume slots until they are explicitly closed**
+
+**Therefore, when orchestrating inside Codex:**
+- Never have more than **6 open agents total**
+- Treat the budget as `open`, not `currently running`
+- Before spawning a new Codex worker, close any completed workers with `close_agent`
+- If 6 agents are open and none are closable, do NOT spawn another and pretend it launched
+- If `spawn_agent` returns a thread-limit error, treat that as a real failed launch and update the orchestration state accordingly
+
+**Codex slot discipline:**
+1. Keep an explicit ledger of open Codex agents in the orchestration log
+2. Launch at most the currently available slots
+3. When a Codex worker completes and its result is no longer needed for follow-up, close it immediately
+4. Only then launch the replacement worker
+
+**Batch rule:** In Codex, "launch a batch" means "launch up to the remaining open-agent budget," not "fire every theoretically parallel task at once."
+
+### Codex Notification-Loss Recovery (CRITICAL)
+
+Codex normally notifies the orchestrator when background agents complete. If a completion notification appears to be missing, the fallback is **not** a polling loop. The fallback is a **single bounded reconciliation pass** over the specific unresolved agent ids.
+
+**Important runtime nuance:** a passive Codex completion notification may be appended to the thread without automatically waking the orchestrator into a fresh turn. Visibility is not the same as resumability.
+
+Therefore:
+- do **not** assume that a background agent completion will resume the orchestrator automatically
+- do **not** end the turn expecting a passive notification to wake you later
+- if the current orchestration step cannot proceed without the result, reconcile it inside the current turn with a bounded `wait_agent` call
+- if ending the turn/session with unresolved agents, record them explicitly in the handoff/orchestration log and require the next orchestrator turn to reconcile them
+
+**Built-in recovery tool:** `wait_agent`
+
+Use `wait_agent` ONLY in these cases:
+- the next critical-path action is blocked on one or more known agent results
+- the open-agent budget is exhausted and you need to determine whether any known open agents have already completed
+- before handoff/session end, to reconcile the final state of known open agents
+
+**Do NOT do this:**
+- do not run short timeout loops
+- do not repeatedly re-check the same unresolved set
+- do not build a timer-based busy-wait mechanism
+- do not "monitor" agents in the background
+
+**Reconciliation protocol:**
+1. Maintain a ledger of all open Codex agents: `agent_id`, purpose, launched_at, expected output path, and whether the result is on the critical path
+2. If one of the allowed trigger conditions occurs, call `wait_agent` once on the specific unresolved ids with a meaningful timeout
+3. Process any completions returned by that single call
+4. Read outputs, update orchestration state, and close completed agents whose slots should be released
+5. If the call times out, treat the agents as still unresolved and continue with other unblocked work or report blocked if nothing else can proceed
+
+**Important:** a one-shot `wait_agent` call on a known unresolved set is recovery. A repeated short-timeout loop is polling and is forbidden.
+
 ---
 
 ## OPERATIONAL PRINCIPLES
 
 Hard-won lessons encoded as standing rules. These govern how the orchestrator thinks about work, not just how it delegates.
 
-### Principle 1: Fire-and-Forget WO Execution
+### Principle 1: Runtime-Native WO Execution
 
-The orchestrator creates well-specified work orders, then launches agents to execute them using the **fire-and-forget protocol**. The WO file IS the agent's prompt. Results go to `.dev/ai/subtask-comms/`, not back into the orchestrator's context. The orchestrator only reads result files when it needs to (e.g., to check for blockers or synthesize outcomes).
+The orchestrator creates well-specified work orders, then launches agents to execute them using the **runtime's native background-agent system when available**. The WO file IS the agent's prompt. Results go to `.dev/ai/subtask-comms/`, not back into the orchestrator's context. The orchestrator only reads result files when it needs to (e.g., to check for blockers or synthesize outcomes).
 
-**Two delegation methods:**
+**Three delegation methods:**
 
 | Method | When to use | Context cost |
 |--------|-------------|-------------|
-| **Fire-and-forget (`launch-wo.sh`)** | WO exists with clear scope and acceptance criteria | ~0 tokens on orchestrator |
+| **Runtime-native background agents** | Current runtime supports native workers (Codex, Claude Agent/Task tool) | Lowest available in that runtime |
+| **Fire-and-forget (`launch-wo.sh`)** | Fallback for shell/non-native runtimes, or explicit cross-model dispatch | ~0 tokens on orchestrator |
 | **In-context (Agent tool)** | Quick tasks, no WO needed, or orchestrator needs the result immediately | 3000-8000 tokens |
 
-**Default to fire-and-forget.** Use in-context delegation only for small tasks where creating a WO would be more overhead than just doing it.
+**Default to runtime-native background agents when they exist.** In Codex, native background agents are the default. Use `launch-wo.sh` only outside Codex, or when the point of the task is to invoke an external non-Codex model.
 
-**Fire-and-forget flow:**
+**Runtime-native flow (preferred):**
+- Build a self-contained worker prompt from the WO
+- Pass the absolute WO path and required output path into the native background-agent launch
+- In Codex, spawn a native background agent instead of shelling out to `launch-wo.sh`
+- In Codex, respect the hard cap of **6 open agent threads** and close completed workers before launching replacements
+- Continue orchestrating while the worker runs; only wait when blocked on the result
+
+**External fire-and-forget fallback:**
 ```bash
 # Single WO
 ~/.agents/scripts/launch-wo.sh .dev/ai/workorders/WO-project-task.md
@@ -176,7 +277,7 @@ done
 
 **The orchestrator's job is to:**
 - Create work orders with enough context that a fresh agent can execute them without a separate prompt
-- Launch agents via `launch-wo.sh` (fire-and-forget) or Agent tool (in-context)
+- Launch agents via the runtime's native background-agent system when available; otherwise use `launch-wo.sh` as a shell fallback
 - Maintain the WO index and track queue state
 - Own the holistic view: critical path, dependency ordering, what's unblocked
 - Scan for BLOCKED files and resolve blockers
@@ -296,7 +397,7 @@ If you were spawned as a continuation orchestrator:
 
 1. **Re-read orchestrator instructions** (this file may have been updated)
 2. **Read the orchestration log** passed in your prompt
-3. **Check Task Tracker** for current status
+3. **Check Task Tracker and Open Codex Agents ledger** for current status
 4. **Read pending sub-agent outputs** if any completed while transitioning
 5. **Continue from where previous orchestrator stopped**
 
@@ -396,9 +497,24 @@ Each WO's Section 7 defines dependencies. Use to determine execution order:
 
 ## DELEGATION PROTOCOL
 
-### Method 1: Fire-and-Forget via `launch-wo.sh` (PREFERRED)
+### Method 1: Runtime-Native Background Agents (PREFERRED)
 
-**Use for any work that has a WO file.** Zero orchestrator context cost.
+**Use this whenever the runtime supports native background agents.**
+
+**Codex-specific rules:**
+- Spawn a native background agent instead of calling shell launchers
+- Pass the absolute WO path, required output path, and the instruction to read `~/.agents/AGENTS.md`
+- Reuse the same worker with `send_input` only when follow-up work belongs to that exact worker
+- Use `wait_agent` only when the next critical-path action is blocked on that worker's result, or as a single reconciliation pass when known notifications appear missing
+- If you are still in the active orchestration turn and cannot proceed without the result, reconcile it now with one bounded `wait_agent` call
+- If you are ending the turn or session with unresolved Codex workers, do not assume passive notifications will wake you later; record the unresolved agents in the orchestration log/handoff and require the next orchestrator turn to reconcile them
+- **Do NOT use `launch-wo.sh`, `invoke-model.sh`, or other external GAS launchers for Codex-to-Codex delegation**
+
+The worker still reads the WO, executes it, writes results to `.dev/ai/subtask-comms/`, updates the WO status, and exits. Only the launch mechanism changes.
+
+### Method 2: Fire-and-Forget via `launch-wo.sh` (FALLBACK ONLY)
+
+**Use this only when the runtime does not expose native background agents, or when you intentionally want an external non-Codex worker.**
 
 ```bash
 # Single WO execution
@@ -421,7 +537,7 @@ ls .dev/ai/subtask-comms/*-BLOCKED.md 2>/dev/null
 ls .dev/ai/subtask-comms/*-result.md 2>/dev/null | tail -10
 ```
 
-### Method 2: In-Context Agent Tool (USE SPARINGLY)
+### Method 3: In-Context Agent Tool (USE SPARINGLY)
 
 **Use ONLY when:**
 - The task is too small for a WO (one-line fix, quick lookup)
@@ -445,20 +561,30 @@ Agent(prompt="...", run_in_background=True, model="opus")
 
 **Why:** Every check consumes YOUR context tokens and provides zero value. You will be automatically notified when in-context agents complete. Fire-and-forget agents write result files you scan later. Monitoring accomplishes nothing except wasting your limited context window.
 
+**Codex exception for missed notifications:** A single `wait_agent` reconciliation pass on a known unresolved set is allowed when blocked or when the 6-slot budget is exhausted and you must determine whether a slot can be freed. This must not be implemented as a repeated loop.
+
 ### Parallel Strategy
 
-**For fire-and-forget:** Launch all independent WOs at once via `launch-wo.sh &`. They run fully in parallel with zero orchestrator involvement.
+**For runtime-native background agents:** Spawn all independent workers through the runtime's native tool. In Codex, this means native background agents, not shell `&` wrappers.
+
+**Codex-specific ceiling:** Never exceed **6 open native agents**. If the work graph has 12 parallelizable tasks, launch the best 6 first, then close completed agents and backfill the next tasks into the freed slots.
+
+**For fire-and-forget fallback:** Launch all independent WOs at once via `launch-wo.sh &`. Use this only in non-native runtimes or for explicit cross-model dispatch.
 
 **For in-context:** Group independent tasks in a single message. Wait for all notifications, then synthesize.
 
 ### Model Selection
 
-| Task Type | Model |
-|-----------|-------|
-| Complex/critical path / judgment work | opus |
-| Mechanical / well-specified / lookup | sonnet |
+| Runtime | Task Type | Model |
+|---------|-----------|-------|
+| **Codex** | Complex / critical path / judgment / implementation / review / debugging / verification | `gpt-5.4` + `reasoning_effort="xhigh"` |
+| **Codex** | Mechanical housekeeping only (commit grouping, cleanup, deterministic lookups) | `gpt-5.4-mini` + `reasoning_effort="low"` or `"medium"` |
+| **Claude** | Complex/critical path / judgment work | opus |
+| **Claude** | Mechanical / well-specified / lookup | sonnet |
 
 **Never use haiku.**
+
+**Codex default:** if you are spawning a native Codex background agent and the task is anything more than housekeeping, explicitly set `model="gpt-5.4"` and `reasoning_effort="xhigh"`.
 
 ---
 
@@ -907,6 +1033,12 @@ Use `~/.agents/scripts/get-filename-prefix.sh` for timestamp.
 | T1 | [desc] | - | pending | - | - | - | - |
 | T2 | [desc] | - | pending | - | - | - | - |
 
+## Open Codex Agents
+
+| Agent ID | Purpose | Model | Reasoning | Status | Launched | Last Reconciled | Expected Output | Critical Path | Close Ready |
+|----------|---------|-------|-----------|--------|----------|-----------------|-----------------|---------------|-------------|
+| [agent-id] | [purpose] | gpt-5.4 | xhigh | running | [time] | - | [path] | yes/no | no |
+
 ## Deferred Decisions
 
 | # | Timestamp | Topic | Default Applied | Risk | Reasoning | Status |
@@ -936,8 +1068,17 @@ Status: PENDING | APPLIED | ESCALATED | OVERRIDDEN
 **When task starts:**
 Update Task Tracker row: Status=running, Started=[time]
 
+**When a Codex worker launches:**
+Add/update Open Codex Agents row with: Agent ID, Purpose, Model, Reasoning, Status=running, Launched=[time], Expected Output=[path], Critical Path=[yes/no], Close Ready=no
+
 **When task completes:**
 Update Task Tracker row: Status=completed, Ended=[time], Duration=[calculated], Output File=[path]
+
+**When a Codex worker completion is observed or reconciled:**
+Update Open Codex Agents row with: Status=completed or blocked, Last Reconciled=[time]
+
+**When the worker's output has been processed and the slot should be released:**
+Set Close Ready=yes, call `close_agent`, and remove the row after logging the closure in Execution Log
 
 ```markdown
 ### [timestamp] - T1 Completed
