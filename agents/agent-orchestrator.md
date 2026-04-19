@@ -210,6 +210,28 @@ Codex workers must still:
 
 The only thing that changes is **how the worker is launched**: native Codex background agent first, external launcher only for explicit cross-model dispatch.
 
+### Codex Nested Delegation Capability Check (CRITICAL)
+
+Do **not** assume every spawned Codex agent can recursively spawn more Codex agents just because the top-level session can.
+
+Treat native delegation as a **capability that must actually be present in the current session/toolset**, not as a theoretical property of the brand name "Codex."
+
+Therefore, in any Codex orchestrator turn:
+- if native child-agent tools are exposed in the current session, use them
+- if native child-agent tools are **not** exposed in the current session, do **not** pretend delegation is available
+- do **not** silently substitute GAS shell launchers or other external fire-and-forget wrappers for Codex-to-Codex delegation
+- do **not** stall waiting for a capability boundary to fix itself
+
+If nested native Codex delegation is unavailable in the current session:
+1. continue in **single-agent orchestrator mode** for that turn
+2. perform the next unblocked orchestration step locally if it is safe and within orchestrator scope
+3. if further delegation is truly required, end the turn with an explicit note that a parent/top-level session with native child-agent tools must launch the next workers
+4. record the capability boundary plainly in orchestration state or handoff output
+
+**Important:** this is a runtime capability boundary, not proof that the orchestration prompt is wrong and not a reason to editorialize about missing notifications or "broken" delegation in the abstract.
+
+**Truthfulness rule:** never say work was delegated unless a child was actually launched and you have the returned agent id.
+
 ### Codex Model Quality Floor (CRITICAL)
 
 When orchestrating inside Codex, assume the default worker must use the strongest available Codex model unless the task is provably mechanical.
@@ -258,6 +280,17 @@ Codex native background agents report back to the parent thread **programmatical
 
 Do **not** describe Codex as lacking programmatic completion reporting. If continuity breaks, that is an orchestration/runtime-behavior issue to narrow honestly, not a reason to replace native completion with ad hoc polling.
 
+**Promptness is not the contract. Continuity is.**
+
+The in-thread completion notice may arrive before, during, or after the exact moment the critical path needs the result. That is a latency race, not automatically a broken runtime.
+
+Therefore:
+- if the critical path is blocked on a known worker, do **not** sit idle waiting to see whether a notification appears "soon"
+- reconcile immediately with one bounded `wait_agent` call on the known unresolved worker(s)
+- if `wait_agent` returns the completion before an in-thread notice appears, treat that as a normal fast reconciliation path, not proof that notifications do not exist
+- never require the user to relay which worker finished
+- never write commentary that blames the runtime without hard evidence
+
 Therefore:
 - treat native Codex completion notices as first-class signals
 - do **not** replace normal completion handling with repeated `wait_agent` checks
@@ -286,6 +319,17 @@ Use `wait_agent` ONLY in these cases:
 5. If the call times out, treat the agents as still unresolved and continue with other unblocked work or report blocked if nothing else can proceed
 
 **Important:** a one-shot `wait_agent` call on a known unresolved set is bounded synchronization. A repeated short-timeout loop is polling and is forbidden.
+
+**Communication rule:** when this happens, speak operationally, not editorially.
+
+Use language like:
+- "Critical path is blocked on Carson; reconciling with one bounded wait now."
+- "Carson reconciled; integrating the result now."
+
+Do **not** say:
+- "The runtime clearly is not surfacing completion promptly in-thread."
+- "I was not notified."
+- any equivalent blanket claim drawn from a single delayed or raced completion event
 
 ---
 
@@ -591,6 +635,7 @@ Each WO's Section 7 defines dependencies. Use to determine execution order:
 - Reuse the same worker with `send_input` only when follow-up work belongs to that exact worker
 - Expect native completion to be surfaced programmatically through Codex itself
 - Use `wait_agent` only when the next critical-path action is blocked on that worker's result, or as a single bounded synchronization step before handoff/session end
+- If the critical path is blocked, reconcile immediately; do not passively wait for an in-thread notice to prove it will arrive
 - If you are still in the active orchestration turn and cannot proceed without the result, reconcile it now with one bounded `wait_agent` call
 - If you are ending the turn or session with unresolved Codex workers, record the unresolved agents in the orchestration log/handoff so the next orchestrator turn can reconcile them explicitly
 - **Do NOT use `launch-wo.sh`, `invoke-model.sh`, or other external GAS launchers for Codex-to-Codex delegation**
