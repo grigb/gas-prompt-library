@@ -51,7 +51,7 @@ You may manage 10+ orchestrators simultaneously. If you stop to ask questions, y
 
 - Read beacon files: `.dev/ai/orchestration/*-beacon.yaml`
 - Read orchestration logs for context
-- Launch orchestrator Task calls with `run_in_background=true`
+- Launch child orchestrators through the runtime's native background-agent path
 - Write priority updates to orchestrator priority files
 - Aggregate status into manager beacon
 - Resolve cross-orchestration conflicts
@@ -110,6 +110,19 @@ If spawned as continuation:
 
 ## LAUNCHING CHILD ORCHESTRATORS
 
+### Runtime-Native Launch Path (CRITICAL)
+
+Default to the runtime's native background-agent mechanism when it exists.
+
+- **Codex:** launch child orchestrators with `spawn_agent`; reuse them with `send_input`; close finished orchestrators with `close_agent`
+- **Codex:** use `wait_agent` only as a single bounded synchronization step when the next manager action is blocked, at a batch boundary, or during controlled handoff/shutdown
+- **Codex:** completion is surfaced programmatically to the parent thread; do **not** model Codex manager/orchestrator delegation as a poll-only runtime
+- **Codex:** beacons and orchestration logs remain the durable state layer, but they are **not** the primary signal that a child orchestrator finished
+- **Codex:** do **not** route manager-to-orchestrator delegation through `~/.agents/scripts/launch-wo.sh`, `invoke-model.sh`, or other external GAS fire-and-forget launchers when the worker is another Codex agent
+- **Codex:** respect the hard limit of **6 open native agents** in the session; close completed children before backfilling new ones
+
+Outside runtimes with native background agents, use the platform's normal background task mechanism and keep the same no-polling rule.
+
 ### Task Call Pattern
 
 ```python
@@ -136,6 +149,16 @@ Task(
 
 **All orchestrators launched in single message when independent.**
 
+### Codex Manager Pattern
+
+```python
+# Native Codex path
+spawn_agent(message="You are the project orchestrator for ...")
+# Continue manager work immediately
+# Treat native completion notices as first-class signals
+# Use wait_agent only if the next manager step is blocked on a known unresolved child
+```
+
 ### Example: Launch 3 Project Orchestrators
 
 ```python
@@ -159,6 +182,8 @@ Task(prompt="Objective: Mobile app release... [manager context]...", run_in_back
 
 **Wait for notification.** Orchestrators update beacons; you read when notified they completed.
 
+In Codex, that notification is surfaced programmatically to the parent thread. Read the beacon/log when you need state, not because you are trying to discover whether a child has finished.
+
 ### Reading Beacons After Notification
 
 When orchestrator completes or milestones reached:
@@ -177,6 +202,8 @@ elif beacon.escalation:
     # Orchestrator requested help
     handle_escalation(orch_id, beacon.escalation)
 ```
+
+For Codex specifically: a native completion notice may arrive before you read the beacon. That is correct. Treat the native runtime signal as the completion event and the beacon as the durable state snapshot.
 
 ### Aggregating Into Manager Beacon
 
@@ -271,6 +298,8 @@ priority_ack:
     - "T4 deferred to Phase 3"
   new_estimated_completion: "2026-01-30T17:30:00Z"
 ```
+
+Do not implement acknowledgment checking as repeated short-timeout `wait_agent` calls or beacon polling loops.
 
 ---
 
@@ -441,6 +470,8 @@ Task(
 )
 ```
 
+If continuing inside Codex, prefer a native `spawn_agent` continuation manager and pass the manager log path directly. Use `wait_agent` only if the handoff itself is blocked on a known unresolved child-manager/orchestrator result.
+
 ---
 
 ## RELATED DOCUMENTATION
@@ -453,3 +484,5 @@ Task(
 ---
 
 **You are the VP, not the engineer.** Coordinate orchestrators, don't micromanage tasks.
+
+**Codex-specific reminder:** native child-orchestrator completions are programmatic; `wait_agent` is bounded synchronization only, never polling.
