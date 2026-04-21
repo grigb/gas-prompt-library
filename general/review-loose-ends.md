@@ -42,6 +42,7 @@ You must follow this strict sequential process. Do not skip phases.
 3. **Catalog Document Types by Tool**:
 
    **Claude Code CLI** (`.dev/ai/`):
+   - `sessions/` - Unified session-close records with `FORWARD` / `STATE` / `BACKWARD`
    - `handoffs/` - Agent handoff documents
    - `session-summaries/` - Session ending summaries
    - `workorders/` - Work order documents
@@ -52,6 +53,8 @@ You must follow this strict sequential process. Do not skip phases.
    - `audits/` - System audits
    - `plans/` - Implementation plans
    - Root-level files like `STATE-OF-THE-PROJECT.md`
+
+   Do **not** treat `.dev/ai/subtask-comms/` orchestration handoffs as session-close artifacts in this workflow unless the user explicitly asks to review orchestration output.
 
    **Cursor IDE** (`~/.cursor/projects/`):
    - Project-specific composer sessions
@@ -133,6 +136,15 @@ CONSIDER:
 FOLLOW.?UP
 ```
 
+Also search for unified session-record structure markers:
+- `## FORWARD`
+- `## STATE`
+- `## BACKWARD`
+- `### Priority Next Steps`
+- `### Blockers and How to Resolve`
+- `### Success Criteria`
+- `### Open Questions and Risks`
+
 **Extraction Rules**:
 
 1. For each match, capture:
@@ -148,7 +160,7 @@ FOLLOW.?UP
 **Example grep commands**:
 ```bash
 # Claude Code artifacts
-grep -riE "(NEXT ACTIONS?|TODO:|OWNER:.*USER|PENDING|VERIFY)" .dev/ai/ \
+grep -riE "(NEXT ACTIONS?|TODO:|OWNER:.*USER|PENDING|VERIFY|## FORWARD|## STATE|## BACKWARD|Priority Next Steps|Success Criteria|Open Questions and Risks)" .dev/ai/ \
   -A 5 -B 3 --include="*.md" > /tmp/loose-ends-claude.txt
 
 # Cursor artifacts (readable files only)
@@ -190,18 +202,27 @@ done
 ```
 
 **Priority Subdirectories** (read these first, they're most likely to have loose ends):
-1. `handoffs/` - Session handoffs always end with "Next Steps"
-2. `audits/` - Conversation summaries have "Next Actions and Owners" section
-3. `accomplishments/` - Completed work often suggests follow-up
-4. `workorders/` - May have incomplete checklist items
-5. `work-orders/` - Same as above
-6. `fixes/` - May have "remaining issues"
+1. `sessions/` - Unified session-close records; parse `FORWARD` for loose ends, `STATE` for unresolved work/risks, `BACKWARD` for evidence only
+2. `handoffs/` - Legacy session handoffs often end with "Next Steps"
+3. `audits/` - Conversation summaries have "Next Actions and Owners" section
+4. `accomplishments/` - Completed work often suggests follow-up
+5. `workorders/` - May have incomplete checklist items
+6. `work-orders/` - Same as above
+7. `fixes/` - May have "remaining issues"
 
 #### Step 2.5.2: Read End-of-Document Sections
 
 For each of the 10 most recent files in priority subdirectories, **read the last 100 lines** to find:
 
-**Standard Section Headers to Look For** (these appear at the end of handoffs/audits):
+**Standard Section Headers to Look For** (these appear in session records and near the end of handoffs/audits):
+- `## FORWARD`
+- `### Priority Next Steps`
+- `### Blockers and How to Resolve`
+- `### Success Criteria`
+- `## STATE`
+- `### Work Status`
+- `### Open Questions and Risks`
+- `## BACKWARD`
 - `## PRIORITY NEXT STEPS`
 - `## Next Actions`
 - `## Next Actions and Owners`
@@ -216,9 +237,17 @@ For each of the 10 most recent files in priority subdirectories, **read the last
 - `## Nice to Have`
 
 ```bash
+# Example: Read last 100 lines of most recent session record
+tail -100 "$(ls -t .dev/ai/sessions/*.md 2>/dev/null | head -1)"
+
 # Example: Read last 100 lines of most recent handoff
 tail -100 "$(ls -t .dev/ai/handoffs/*.md | head -1)"
 ```
+
+For session records, extract loose ends using this precedence:
+1. `FORWARD` - primary source for unfinished actions, blockers, and success criteria
+2. `STATE` - secondary source for unresolved work status, open questions, and risks
+3. `BACKWARD` - evidence/provenance only; promote an item from here only if it explicitly remains unresolved
 
 #### Step 2.5.3: Extract Subtle Recommendations
 
@@ -249,7 +278,7 @@ Read the `accomplishments/` directory to understand what was marked "complete" -
 **Goal**: Transform raw extractions into structured, non-redundant action items.
 
 1. **Remove Duplicates**:
-   - Same action mentioned in multiple documents (handoff → session summary)
+   - Same action mentioned in multiple documents (session record → handoff → session summary)
    - Keep the MOST RECENT or MOST DETAILED version
    - Note all source references
 
@@ -450,6 +479,7 @@ Based on dependencies and impact:
 
 | File | Loose Ends Count | Last Modified |
 |------|------------------|---------------|
+| `sessions/2026-04-20-...md` | 4 | 2026-04-20 |
 | `handoffs/2025-12-07-...md` | 5 | 2025-12-07 |
 | ... | ... | ... |
 
@@ -457,6 +487,7 @@ Based on dependencies and impact:
 
 | Subdirectory | Files Read | Loose Ends Found |
 |--------------|------------|------------------|
+| `sessions/` | 10 | 4 |
 | `handoffs/` | 10 | 3 |
 | `audits/` | 10 | 5 |
 | ... | ... | ... |
