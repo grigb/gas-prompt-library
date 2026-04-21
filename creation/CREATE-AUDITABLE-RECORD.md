@@ -1,9 +1,16 @@
 
-Capture an auditable record of this session using only this chat. Be explicit. No outside context.
+Capture a legacy auditable record of this session using only this chat. Be explicit. No outside context.
+
+# Legacy Compatibility Notice
+
+This prompt is a legacy audit alias. It is **not** a routine session-close method and it is **not** a parallel alternative to `/close-session`.
+
+If the user's goal is a normal end-of-session closeout, stop and use `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md` instead.
+Do **not** recreate the retired default pair of `CREATE-AUDITABLE-RECORD` + `HANDOFF` for routine closeout.
 
 # Preferred Workflow Notice
 
-This standalone audit prompt remains supported for backward compatibility and explicit user requests.
+This standalone audit prompt remains supported for backward compatibility, explicit user requests, and older audit-only integrations.
 
 For routine session-close use, prefer the unified `/close-session` workflow via `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md`.
 Use this legacy prompt when the user specifically wants a standalone audit artifact or when an older audit-only workflow must be preserved.

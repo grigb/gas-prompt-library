@@ -2,10 +2,11 @@
 
 ## SESSION-CLOSE WORKFLOW NOTICE
 
-This legacy standard handoff prompt remains supported for backward compatibility and explicit handoff requests.
+This legacy standard handoff prompt remains supported only for backward compatibility and explicit handoff requests.
 
-For routine end-of-session closeout, prefer `/close-session` with `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md`.
-Use this prompt when the user explicitly wants a standard handoff or when you need a handoff-only continuation artifact.
+Routine end-of-session closeout, including unfinished routine continuation between sessions, uses `/close-session` with `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md`.
+This file is **not** the default session-close choice.
+Use this prompt only when the user explicitly wants a standard handoff or when a compatibility workflow requires `.dev/ai/handoffs/` output.
 
 Orchestration and delegation handoffs remain active and are not deprecated.
 Continue using `~/.agents/prompts/handoffs/ORCHESTRATION-HANDOFF.md` and `~/.agents/prompts/handoffs/MANAGER-HANDOFF.md` for subtask, orchestrator, or portfolio coordination.
@@ -25,21 +26,24 @@ AGENT_TASK_ID=$(~/.agents/scripts/get-agent-task-id.sh handoff)
 
 ---
 
-## ⚠️ CRITICAL: WHEN TO CREATE HANDOFFS
+## ⚠️ CRITICAL: WHEN TO CREATE THIS LEGACY STANDARD HANDOFF
 
-**CREATE handoff when:**
-- ✅ Work is UNFINISHED and needs continuation
-- ✅ You're stopping mid-task
-- ✅ There are SPECIFIC NEXT ACTIONS for another agent
-- ✅ **USER EXPLICITLY REQUESTS a handoff**, regardless of work completion status
+**CREATE this handoff when:**
+- ✅ **USER EXPLICITLY REQUESTS a standard handoff**, regardless of work completion status
+- ✅ A compatibility workflow explicitly expects `.dev/ai/handoffs/` output
+- ✅ You must preserve a historical handoff-only process
 
-**DO NOT create handoff when:**
+**DO NOT create this handoff when:**
+- ❌ Work is unfinished but only needs routine session continuation
+- ❌ You're stopping mid-task without an explicit standard-handoff requirement
+- ❌ Low-context or emergency routine closeout is needed
+- ❌ Orchestration/delegation context should go through `ORCHESTRATION-HANDOFF`
 - ❌ User explicitly says they don't want a handoff
-- ❌ There are no actionable next steps AND user hasn't requested context preservation
+- ❌ There are no actionable next steps AND no compatibility requirement exists
 
-**Critical Rule:** Always respect explicit user requests for handoffs. If user says "create a handoff" or "your work qualifies as a necessary handoff", create the handoff regardless of whether work appears complete. Context preservation for ongoing systems takes precedence over completion status.
+**Critical Rule:** Always respect explicit user requests for standard handoffs. If no explicit legacy-handoff request or compatibility requirement exists, use `/close-session` and create a session record instead.
 
-**If work is complete AND user hasn't requested a handoff:** Use `/close-session` with `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md` for routine session close, or accomplishment if only milestone capture is needed.
+**If the user's goal is routine session close:** Use `/close-session` with `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md` regardless of whether work is complete or unfinished.
 
 ## CORE PRINCIPLE: ACTION-FIRST HANDOFF
 **The handoff is an ACTION PLAN for the next agent, not a status report.**
@@ -69,10 +73,13 @@ Structure handoffs like a briefing: "Here's what you need to do next, here's why
 
 ## CRITICAL: Check for Low Context Triggers
 If user mentions any of: "low context", "running out", "context limited", "quick", "emergency", "hitting limit"
-→ **USE LOW CONTEXT MODE** (skip to that section, don't load additional prompts)
+- Routine session close → use `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md` emergency / low-context variant
+- Legacy standard handoff explicitly required → **USE LOW CONTEXT MODE** below (skip to that section, don't load additional prompts)
 
 ## LOW CONTEXT MODE
 **Priority: Give next agent their immediate action items**
+
+Use this section only when a legacy standard handoff is explicitly required. Do **not** use it for routine session close.
 
 ### Immediate Actions (Save After Each):
 1. **Create file**:
@@ -150,9 +157,9 @@ type: handoff
 - Outstanding: WO-xxx (next: [action]), WO-yyy (blocked: [reason])
 - Completed: WO-zzz ✓
 
-## Full Session Details (if audit exists)
-[ONLY include if an audit was created just before this handoff]
-For complete context, see: .dev/ai/audits/[timestamp]-conversation-summary.md
+## Full Session Details (if session record exists)
+[ONLY include if a session record already exists and materially helps the reader]
+For complete context, see: .dev/ai/sessions/[timestamp]-session-[project].md
 
 ---
 **Agent Task ID:** [AGENT_TASK_ID]
@@ -161,7 +168,7 @@ For complete context, see: .dev/ai/audits/[timestamp]-conversation-summary.md
 ### Step 2: Keep It Lean (For Simple Tasks)
 - Lead with actions (what to do next)
 - Support with minimal context (why/how)
-- Save "what we did" for audit files, not handoffs
+- Save "what happened in the session" for the session record, not the handoff
 - **Include reference documents inline:** Full absolute paths where they're relevant to actions
 - Target: 30-50 lines for basic handoff
 
@@ -219,16 +226,18 @@ If your role is read-only (for example, Smart Commit), treat "PRIORITY NEXT STEP
 
 ## Decision Tree
 ```
-Low Context? → EMERGENCY MODE → Actions only
-Normal Context? → ACTION-FIRST STRUCTURE
+Routine session close? → CREATE-SESSION-RECORD
+Orchestration/delegation? → ORCHESTRATION-HANDOFF
+Low Context legacy handoff? → EMERGENCY MODE → Actions only
+Normal Context legacy handoff? → ACTION-FIRST STRUCTURE
 Need Why/How? → Load Handoff-Detailed.md for context sections
-Size > 50 lines? → Moving audit/history to separate doc
+Size > 50 lines? → Moving session history to separate session record or context doc
 ```
 
 ## Remember
 - **Actions first, history last** (or not at all)
 - Next agent needs a todo list, not a diary
 - Context is "why you need to do this", not "what I did"
-- Save comprehensive session records to audit files
+- Save comprehensive session records to the session record flow
 - **Reference documents throughout:** Include full absolute paths inline where relevant to actions
 - **Balance:** Enough context for intelligent execution, not so minimal agent must guess

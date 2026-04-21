@@ -3,10 +3,11 @@
 
 ## SESSION-CLOSE WORKFLOW NOTICE
 
-This legacy standard handoff prompt remains supported for backward compatibility and explicit handoff requests.
+This legacy standard handoff prompt remains supported only for backward compatibility and explicit handoff requests.
 
-For routine end-of-session closeout, prefer `/close-session` with `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md`.
-Use this prompt when the user explicitly wants a standard handoff or when you need a handoff-only continuation artifact.
+Routine end-of-session closeout, including unfinished routine continuation between sessions, uses `/close-session` with `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md`.
+This file is **not** the default session-close choice.
+Use this prompt only when the user explicitly wants a standard handoff or when a compatibility workflow requires `.dev/ai/handoffs/` output.
 
 Orchestration and delegation handoffs remain active and are not deprecated.
 Continue using `~/.agents/prompts/handoffs/ORCHESTRATION-HANDOFF.md` and `~/.agents/prompts/handoffs/MANAGER-HANDOFF.md` for subtask, orchestrator, or portfolio coordination.
@@ -37,21 +38,24 @@ complexity: complex
 
 ---
 
-## ⚠️ CRITICAL: WHEN TO CREATE HANDOFFS
+## ⚠️ CRITICAL: WHEN TO CREATE THIS LEGACY STANDARD HANDOFF
 
-**CREATE handoff when:**
-- ✅ Work is UNFINISHED and needs continuation
-- ✅ Complex task is partially complete
-- ✅ There are SPECIFIC NEXT ACTIONS requiring context
-- ✅ **USER EXPLICITLY REQUESTS a handoff**, regardless of work completion status
+**CREATE this handoff when:**
+- ✅ **USER EXPLICITLY REQUESTS a standard handoff**, regardless of work completion status
+- ✅ A compatibility workflow explicitly expects `.dev/ai/handoffs/` output
+- ✅ You must preserve a historical handoff-only process for a complex task
 
-**DO NOT create handoff when:**
+**DO NOT create this handoff when:**
+- ❌ Work is unfinished but only needs routine session continuation
+- ❌ Complex work is partially complete but there is no explicit standard-handoff requirement
+- ❌ Low-context or emergency routine closeout is needed
+- ❌ Orchestration/delegation context should go through `ORCHESTRATION-HANDOFF`
 - ❌ User explicitly says they don't want a handoff
-- ❌ There are no actionable next steps AND user hasn't requested context preservation
+- ❌ There are no actionable next steps AND no compatibility requirement exists
 
-**Critical Rule:** Always respect explicit user requests for handoffs. If user says "create a handoff" or "your work qualifies as a necessary handoff", create the handoff regardless of whether work appears complete. Context preservation for ongoing systems takes precedence over completion status.
+**Critical Rule:** Always respect explicit user requests for standard handoffs. If no explicit legacy-handoff request or compatibility requirement exists, use `/close-session` and create a session record instead.
 
-**If work is complete AND user hasn't requested a handoff:** Use `/close-session` with `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md` for routine session close, or accomplishment if only milestone capture is needed.
+**If the user's goal is routine session close:** Use `/close-session` with `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md` regardless of whether work is complete or unfinished.
 
 ## CORE PRINCIPLE: CONTEXT SERVES ACTION
 All context sections must answer: "What does the next agent need to know to take the next actions?"
@@ -70,8 +74,8 @@ All context sections must answer: "What does the next agent need to know to take
 - Multi-step work with interdependencies
 
 **DO NOT include:**
-- Detailed summaries of what was completed (save for audit files)
-- Session chronologies (save for audit files)
+- Detailed summaries of what was completed (save for the session record)
+- Session chronologies (save for the session record)
 - Extensive file listings (reference specific files only)
 - Celebratory status updates (focus on what's left to do)
 
@@ -259,7 +263,7 @@ Add context ONLY when it directly enables next actions:
 - Validation examples: `/full/absolute/path/to/test-cases.md`
 
 **For Context:**
-- Full session audit: `/full/absolute/path/.dev/ai/audits/[timestamp]-conversation-summary.md`
+- Full session record: `/full/absolute/path/.dev/ai/sessions/[timestamp]-session-[project].md`
 - Prior work orders: `/full/absolute/path/.dev/ai/workorders/WO-xxx.md`
 - Related decisions: `/full/absolute/path/docs/decisions/[decision].md`
 
@@ -279,7 +283,7 @@ Add context ONLY when it directly enables next actions:
 **Even complex tasks shouldn't need more than 250 lines. Refocus.**
 
 1. **Review and cut:**
-   - Remove "what we did" summaries → save to audit file
+   - Remove "what we did" summaries → save to the session record
    - Remove exhaustive file listings → reference specific files only
    - Check for redundancy in explanations
 
@@ -304,7 +308,7 @@ Add context ONLY when it directly enables next actions:
 ### When History Matters:
 Use the unified session-close record for comprehensive session documentation:
 ```bash
-# Preferred for routine session-close documentation
+# Required for routine session-close documentation
 ~/.agents/prompts/creation/CREATE-SESSION-RECORD.md
 
 # Use the legacy audit prompt only when a standalone audit is explicitly requested

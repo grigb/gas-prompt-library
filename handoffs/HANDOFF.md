@@ -13,16 +13,18 @@
 
 ## SESSION-CLOSE WORKFLOW NOTICE
 
-This standard handoff flow remains supported for backward compatibility and explicit handoff requests.
+This legacy standard handoff flow remains supported only for backward compatibility and explicit handoff requests.
 
-For routine end-of-session closeout, prefer `/close-session` with `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md`.
+Routine end-of-session closeout, including unfinished routine continuation between sessions, now uses `/close-session` with `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md`.
 That unified flow replaces the old "audit + standard handoff" pairing with one session-close record in `.dev/ai/sessions/`.
+This file is **not** the normal session-close path.
 
 Use this legacy standard handoff flow when:
-- the user explicitly asks for a handoff
-- you need a handoff-only continuation artifact without a full session-close record
+- the user explicitly asks for a standard handoff
+- an older workflow or downstream consumer explicitly expects a `.dev/ai/handoffs/` artifact
+- you must preserve compatibility with a historical handoff-only process
 
-Orchestration and delegation handoffs are not deprecated.
+For orchestration, delegation, and `.dev/ai/subtask-comms/` coordination, do **not** use this file.
 Continue using `~/.agents/prompts/handoffs/ORCHESTRATION-HANDOFF.md` and `~/.agents/prompts/handoffs/MANAGER-HANDOFF.md` for subtask, orchestrator, or portfolio coordination.
 
 ---
@@ -44,21 +46,24 @@ Include in: Frontmatter, footer, and next-session prompt.
 
 ---
 
-### CRITICAL: When to Create Handoffs
+### CRITICAL: When to Create This Legacy Standard Handoff
 
-**CREATE handoff when:**
-- ✅ Work is UNFINISHED and needs continuation
-- ✅ You're stopping mid-task
-- ✅ There are SPECIFIC NEXT ACTIONS for another agent
-- ✅ **USER EXPLICITLY REQUESTS a handoff**, regardless of completion status
+**CREATE this handoff when:**
+- ✅ **USER EXPLICITLY REQUESTS a standard handoff**, regardless of completion status
+- ✅ An older workflow or downstream consumer explicitly expects a `.dev/ai/handoffs/` artifact
+- ✅ You must preserve compatibility with a historical handoff-only process
 
-**DO NOT create handoff when:**
+**DO NOT create this handoff when:**
+- ❌ Work is unfinished but only needs routine session continuation
+- ❌ You're stopping mid-task without an explicit standard-handoff requirement
+- ❌ Low-context or emergency routine closeout is needed
+- ❌ Active delegation or orchestration context should go through `ORCHESTRATION-HANDOFF`
 - ❌ User explicitly says they don't want a handoff
-- ❌ There are no actionable next steps AND user hasn't requested context preservation
+- ❌ There are no actionable next steps AND no compatibility requirement exists
 
-**Critical Rule:** Always respect explicit user requests for handoffs. Context preservation takes precedence over completion status.
+**Critical Rule:** Always respect explicit user requests for standard handoffs. If no explicit legacy-handoff request or compatibility requirement exists, use `/close-session` and create a session record instead.
 
-**If work is complete AND user hasn't requested a handoff:** Use `/close-session` with `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md` for routine session close, or accomplishment if only milestone capture is needed.
+**If the user's goal is routine session close:** Use `/close-session` with `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md` regardless of whether work is complete or unfinished.
 
 ---
 
@@ -84,7 +89,8 @@ Include in: Frontmatter, footer, and next-session prompt.
 Check user message for these triggers:
 
 - **Low Context Triggers**: "low context", "running out", "context limited", "quick", "emergency"
-- If found → Load ONLY Handoff-Minimal.md (emergency mode)
+- If found during routine session close → STOP and use `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md` emergency / low-context variant
+- If found and a legacy standard handoff is explicitly required → Load ONLY Handoff-Minimal.md (legacy emergency mode)
 - If not found → Load based on task complexity from Step 0
 
 ### STEP 2: Load Instructions Based on Complexity
@@ -139,7 +145,7 @@ Use orchestration handoffs when you see:
 3. **Subtask communication** - Inter-agent messaging within orchestrated workflow
 4. **User specifies output path** - When handoff location is explicitly provided
 
-**If in doubt:** Standard handoffs preserve full context; orchestration handoffs focus on immediate task execution.
+**If in doubt:** Do not use this file for routine session close. Use the session record for normal closeout and the orchestration handoff for coordination.
 
 ---
 
@@ -212,8 +218,8 @@ type: handoff
 - Related docs: [specific files only]
 
 ## Full Session Details (if applicable)
-[ONLY include if an audit was created just before this handoff]
-For complete session context: .dev/ai/audits/[timestamp]-conversation-summary.md
+[ONLY include if a session record already exists and materially helps the reader]
+For complete session context: .dev/ai/sessions/[timestamp]-session-[project].md
 
 ---
 **Agent Task ID:** [AGENT_TASK_ID]
@@ -224,7 +230,7 @@ For complete session context: .dev/ai/audits/[timestamp]-conversation-summary.md
 - **Complex tasks:** Target 150-250 lines (actions + understanding + strategy)
 - Lead with actions, not accomplishments
 - Context explains "why action matters" and "how to approach", not "what we did"
-- Save detailed session history to audit file, not handoff
+- Save routine session history to the session record, not the handoff
 - **Reference documents:** Include full absolute paths inline where relevant (not just at end)
 
 **Save and track:**
@@ -410,7 +416,7 @@ Must provide guidance on:
 - Integration mapping: `/full/absolute/path/to/project/.dev/ai/handoffs/2025-10-10-integration-guide.md`
 - Content preservation: `/full/absolute/path/to/project/.dev/discovery-kit/STYLE-GUIDE-CONTENT-OVERVIEW.md`
 - Example decisions: `/full/absolute/path/to/project/.dev/discovery-kit/example-decisions.md`
-- Full session audit: `/full/absolute/path/to/project/.dev/ai/audits/2025-10-10-20-29-conversation-summary.md`
+- Full session record: `/full/absolute/path/to/project/.dev/ai/sessions/2025-10-10-20-29-session-project.md`
 ```
 
 **Why detailed needed:** Requires understanding inputs, making synthesis judgments, avoiding pitfalls.

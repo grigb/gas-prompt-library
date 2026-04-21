@@ -13,6 +13,13 @@ This replaces the end-of-session pair of:
 
 It does **not** replace orchestration handoffs used for delegation, subtask coordination, or `.dev/ai/subtask-comms/`.
 
+## Routing Rule
+
+- Routine session close, including low-context or emergency closeout, uses this prompt.
+- Explicit request for a legacy standard handoff uses `~/.agents/prompts/handoffs/HANDOFF.md` only as a compatibility surface, not as the default session-close choice.
+- Delegation, orchestration transfer, or `.dev/ai/subtask-comms/` coordination uses `~/.agents/prompts/handoffs/ORCHESTRATION-HANDOFF.md`.
+- Explicit request for a standalone historical audit or an older audit-only integration uses `~/.agents/prompts/creation/CREATE-AUDITABLE-RECORD.md` as a legacy audit alias.
+
 ## When to Use This Flow
 
 Use this prompt when the user requests any of:
@@ -27,6 +34,8 @@ You may also use it at a natural session close when the user clearly wants conti
 
 Do **not** use this flow when:
 - the user explicitly asks for an orchestration handoff
+- the user explicitly asks for a legacy standard handoff artifact
+- the user explicitly asks for standalone audit-only output
 - the destination path is `.dev/ai/subtask-comms/`
 - you are delegating work to another agent mid-execution
 - the artifact is for multi-agent coordination rather than session close
@@ -184,6 +193,12 @@ Agent Task ID: [AGENT_TASK_ID]
 
 ## STATE
 
+### Project / Initiative Context
+- System or feature being built: [plain-language description]
+- User/problem being solved: [why this work exists]
+- Current phase: [design|implementation|validation|rollout|maintenance]
+- This session's place in the larger effort: [how this session moved the project forward]
+
 ### Current Snapshot
 - Scope: [what this session covered]
 - Current state: [where work now stands]
@@ -244,6 +259,7 @@ Agent Task ID: [AGENT_TASK_ID]
 
 ### `STATE`
 - this is the shared current-state snapshot for both continuation and audit review
+- include enough project / initiative context that a future agent reading only a series of session records can tell what the system is, what problem it solves, and what phase the work is in
 - cite exact files with absolute paths
 - include IDs for work orders, proposals, findings, or reports when relevant
 - list only the files and artifacts that matter for continuation or review
