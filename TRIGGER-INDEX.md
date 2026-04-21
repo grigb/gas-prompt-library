@@ -209,6 +209,20 @@
 
 ---
 
+### Close Session Mode (Unified Session Record)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `/close-session` | `/Users/grig/.agents/prompts/creation/CREATE-SESSION-RECORD.md` | Create one unified session-close record |
+| `close session` | `/Users/grig/.agents/prompts/creation/CREATE-SESSION-RECORD.md` | Plain-language session-close trigger |
+| `create session record` | `/Users/grig/.agents/prompts/creation/CREATE-SESSION-RECORD.md` | Explicit session-record request |
+| `wrap this session` | `/Users/grig/.agents/prompts/creation/CREATE-SESSION-RECORD.md` | Session wrap-up alias |
+| `save the session` | `/Users/grig/.agents/prompts/creation/CREATE-SESSION-RECORD.md` | Session preservation alias |
+
+**Activation Regex:** `(?i)(/close-session|\bclose\s+session\b|\bcreate\s+session\s+record\b|\bwrap\s+this\s+session\b|\bsave\s+the\s+session\b)`
+
+---
+
 ### Mac Performance Diagnostics Specialist (macOS Troubleshooting)
 
 | Trigger Phrase | Target Prompt | Description |
