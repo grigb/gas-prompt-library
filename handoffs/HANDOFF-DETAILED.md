@@ -1,6 +1,16 @@
 # Detailed Handoff Instructions
 **ONLY loaded for COMPLEX tasks requiring understanding before execution**
 
+## SESSION-CLOSE WORKFLOW NOTICE
+
+This legacy standard handoff prompt remains supported for backward compatibility and explicit handoff requests.
+
+For routine end-of-session closeout, prefer `/close-session` with `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md`.
+Use this prompt when the user explicitly wants a standard handoff or when you need a handoff-only continuation artifact.
+
+Orchestration and delegation handoffs remain active and are not deprecated.
+Continue using `~/.agents/prompts/handoffs/ORCHESTRATION-HANDOFF.md` and `~/.agents/prompts/handoffs/MANAGER-HANDOFF.md` for subtask, orchestrator, or portfolio coordination.
+
 ## 🔗 AGENT TASK ID (Provenance Chain)
 
 **Every handoff MUST have an Agent Task ID.**
@@ -41,7 +51,7 @@ complexity: complex
 
 **Critical Rule:** Always respect explicit user requests for handoffs. If user says "create a handoff" or "your work qualifies as a necessary handoff", create the handoff regardless of whether work appears complete. Context preservation for ongoing systems takes precedence over completion status.
 
-**If work is complete AND user hasn't requested a handoff:** Use audit/accomplishment instead.
+**If work is complete AND user hasn't requested a handoff:** Use `/close-session` with `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md` for routine session close, or accomplishment if only milestone capture is needed.
 
 ## CORE PRINCIPLE: CONTEXT SERVES ACTION
 All context sections must answer: "What does the next agent need to know to take the next actions?"
@@ -292,9 +302,12 @@ Add context ONLY when it directly enables next actions:
 **Target for simple tasks: 30-50 lines (use HANDOFF-MINIMAL.md)**
 
 ### When History Matters:
-Move comprehensive session records to audit files:
+Use the unified session-close record for comprehensive session documentation:
 ```bash
-# Use the audit creation prompt for full session documentation
+# Preferred for routine session-close documentation
+~/.agents/prompts/creation/CREATE-SESSION-RECORD.md
+
+# Use the legacy audit prompt only when a standalone audit is explicitly requested
 ~/.agents/prompts/creation/CREATE-AUDITABLE-RECORD.md
 ```
 

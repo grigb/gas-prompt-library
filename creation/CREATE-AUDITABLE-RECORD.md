@@ -1,6 +1,13 @@
 
 Capture an auditable record of this session using only this chat. Be explicit. No outside context.
 
+# Preferred Workflow Notice
+
+This standalone audit prompt remains supported for backward compatibility and explicit user requests.
+
+For routine session-close use, prefer the unified `/close-session` workflow via `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md`.
+Use this legacy prompt when the user specifically wants a standalone audit artifact or when an older audit-only workflow must be preserved.
+
 # Automatic Save Behavior
 **ALWAYS save the full audit automatically** - no prompts or triggers required.
 

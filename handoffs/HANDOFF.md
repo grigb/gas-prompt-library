@@ -11,6 +11,22 @@
 
 ---
 
+## SESSION-CLOSE WORKFLOW NOTICE
+
+This standard handoff flow remains supported for backward compatibility and explicit handoff requests.
+
+For routine end-of-session closeout, prefer `/close-session` with `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md`.
+That unified flow replaces the old "audit + standard handoff" pairing with one session-close record in `.dev/ai/sessions/`.
+
+Use this legacy standard handoff flow when:
+- the user explicitly asks for a handoff
+- you need a handoff-only continuation artifact without a full session-close record
+
+Orchestration and delegation handoffs are not deprecated.
+Continue using `~/.agents/prompts/handoffs/ORCHESTRATION-HANDOFF.md` and `~/.agents/prompts/handoffs/MANAGER-HANDOFF.md` for subtask, orchestrator, or portfolio coordination.
+
+---
+
 ## TWO-TIER HANDOFF SYSTEM
 
 ### Agent Task ID (Provenance Chain)
@@ -42,7 +58,7 @@ Include in: Frontmatter, footer, and next-session prompt.
 
 **Critical Rule:** Always respect explicit user requests for handoffs. Context preservation takes precedence over completion status.
 
-**If work is complete AND user hasn't requested a handoff:** Use audit/accomplishment instead.
+**If work is complete AND user hasn't requested a handoff:** Use `/close-session` with `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md` for routine session close, or accomplishment if only milestone capture is needed.
 
 ---
 

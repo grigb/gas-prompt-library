@@ -1,5 +1,15 @@
 # Minimal Handoff Instructions
 
+## SESSION-CLOSE WORKFLOW NOTICE
+
+This legacy standard handoff prompt remains supported for backward compatibility and explicit handoff requests.
+
+For routine end-of-session closeout, prefer `/close-session` with `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md`.
+Use this prompt when the user explicitly wants a standard handoff or when you need a handoff-only continuation artifact.
+
+Orchestration and delegation handoffs remain active and are not deprecated.
+Continue using `~/.agents/prompts/handoffs/ORCHESTRATION-HANDOFF.md` and `~/.agents/prompts/handoffs/MANAGER-HANDOFF.md` for subtask, orchestrator, or portfolio coordination.
+
 ## 🔗 AGENT TASK ID (Provenance Chain)
 
 **Every handoff MUST have an Agent Task ID.**
@@ -29,7 +39,7 @@ AGENT_TASK_ID=$(~/.agents/scripts/get-agent-task-id.sh handoff)
 
 **Critical Rule:** Always respect explicit user requests for handoffs. If user says "create a handoff" or "your work qualifies as a necessary handoff", create the handoff regardless of whether work appears complete. Context preservation for ongoing systems takes precedence over completion status.
 
-**If work is complete AND user hasn't requested a handoff:** Use audit/accomplishment instead.
+**If work is complete AND user hasn't requested a handoff:** Use `/close-session` with `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md` for routine session close, or accomplishment if only milestone capture is needed.
 
 ## CORE PRINCIPLE: ACTION-FIRST HANDOFF
 **The handoff is an ACTION PLAN for the next agent, not a status report.**
