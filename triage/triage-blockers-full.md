@@ -1,20 +1,4 @@
-<!--
-PROMPT HEADER NOTE (added by WO-BLK-004, 2026-05-04):
-This prompt now emits durable per-blocker CATALOG FILES in addition to
-the original human-readable summary. See the "Output Mode" and "Catalog
-Emission Rules" sections below. In catalog mode (the default when invoked
-under `agent-blocker-cataloger.md` or with env var `BLOCKER_TRIAGE_MODE=catalog`),
-this prompt writes per-blocker bundle files conforming to the schema at
-`/Users/grig/.agents/docs/specs/blocker-file-schema.md` and refreshes the
-per-project `INDEX.md` per `/Users/grig/.agents/docs/specs/blocker-project-index-format.md`.
-In print mode (legacy), it skips file emission and prints only the summary.
-All ORIGINAL language and rules below are preserved verbatim — the new
-behavior is additive only.
--->
-
-You are acting as the orchestrator agent for this project.
-
-Your current task is to report ONLY the work that is blocked by user action.
+Your task is to report ONLY the work that is blocked by user action.
 
 Do not summarize completed work.
 Do not list all work orders.
@@ -28,7 +12,7 @@ Your output must be optimized for fast human action.
 
 This prompt operates in TWO MODES:
 
-- **catalog mode** (default when invoked under `agent-blocker-cataloger.md`):
+- **catalog mode** (default when invoked under `agent-blocker-supervisor-cataloger.md`):
   Emit durable blocker files at `{project_path}/.dev/ai/blockers/{prefix}-{slug}.md`,
   update `{project_path}/.dev/ai/blockers/INDEX.md`, then print the human-readable summary.
 - **print mode** (legacy, when user invokes directly without orchestrator):
@@ -54,11 +38,11 @@ Notes for catalog mode:
 
 For each blocker you would have reported, perform the following deterministic
 steps. The schema source-of-truth is
-`/Users/grig/.agents/docs/specs/blocker-file-schema.md`; the file template is
-`/Users/grig/.agents/templates/BLOCKER-TEMPLATE.md`; the per-project index
+`~/.agents/docs/specs/blocker-file-schema.md`; the file template is
+`~/.agents/templates/BLOCKER-TEMPLATE.md`; the per-project index
 spec is
-`/Users/grig/.agents/docs/specs/blocker-project-index-format.md` (template:
-`/Users/grig/.agents/templates/BLOCKER-PROJECT-INDEX-TEMPLATE.md`).
+`~/.agents/docs/specs/blocker-project-index-format.md` (template:
+`~/.agents/templates/BLOCKER-PROJECT-INDEX-TEMPLATE.md`).
 
 1. **Compute signature.**
    `signature = sha1(project_path + ":" + category + ":" + normalized(user_action_required))`
@@ -78,7 +62,7 @@ spec is
 4. **If no match is found** (or only terminal matches `resolved` /
    `unresolvable` / `stale` exist — recurrence creates a NEW file with a NEW id):
    CREATE a new file using the template at
-   `/Users/grig/.agents/templates/BLOCKER-TEMPLATE.md`. Filename:
+   `~/.agents/templates/BLOCKER-TEMPLATE.md`. Filename:
    `{prefix}-{slug}.md` where `{prefix}` is the value emitted by
    `~/.agents/scripts/get-filename-prefix.sh` at file-creation time and
    `{slug}` is the kebab-case slug derived from the blocker's short name,
@@ -170,13 +154,13 @@ because `resolved` / `unresolvable` are terminal per the schema lifecycle.
 This section is ADDITIVE to the Catalog Emission Rules above. It was added
 by WO-BLK-017 to retrofit the prompt for the workstream extension shipped
 in WO-BLK-014. The schema source-of-truth is
-`/Users/grig/.agents/docs/specs/blocker-file-schema.md` §10.3. All rules
+`~/.agents/docs/specs/blocker-file-schema.md` §10.3. All rules
 above remain in force; the rules below refine HOW the emitter populates
 two specific fields and HOW the dedup signature is computed when a project
 has multiple workstreams declared.
 
 A "workstream" is a named subset of a project's scope, declared in
-`/Users/grig/.agents/agents/blocker-engineer/projects.yaml` under the
+`~/.agents/agents/blocker-engineer/projects.yaml` under the
 project's optional `workstreams` list. Each workstream has a `name` and
 an ordered `roots` list of absolute paths. When `workstreams` is absent
 from a project entry, the project has exactly one implicit workstream
@@ -187,14 +171,14 @@ as equivalent).
 ### How to read the workstream registry (do NOT parse YAML directly)
 
 When determining the active workstream context for a project, the prompt
-MUST shell out to `/Users/grig/.agents/scripts/blocker-projects.sh` and
+MUST shell out to `~/.agents/scripts/blocker-projects.sh` and
 use its `workstream-list` subcommand rather than parsing
 `projects.yaml` inline. This avoids duplicating yaml-parsing logic and
 keeps the workstream registry's interpretation in a single place. Example
 invocation (illustrative; an executing agent would run this via shell):
 
 ```
-/Users/grig/.agents/scripts/blocker-projects.sh workstream-list /Users/grig/.agents
+~/.agents/scripts/blocker-projects.sh workstream-list ~/.agents
 ```
 
 If the command lists no workstreams (exit 0, empty output), treat the
@@ -271,9 +255,9 @@ unchanged from the V1 definition.
 
 When generating `where_to_act` hints in catalog mode, the prompt MUST
 treat the workstream's full `roots` set as in-scope. A blocker whose
-resolution requires touching `/Users/grig/.agents-projects/foo/...`
+resolution requires touching `~/.agents-projects/foo/...`
 under workstream `gas-runtime` (whose `roots` include
-`/Users/grig/.agents-projects`) is in-scope; do NOT downgrade the
+`~/.agents-projects`) is in-scope; do NOT downgrade the
 `where_to_act` to a project-root-only path or refuse to emit it.
 
 ### Cross-workstream dependency hints (refinement of `dependency_hints`)
@@ -291,26 +275,26 @@ reference into a concrete blocker ID; do NOT short-circuit to
 
 ### Worked example
 
-Project: `/Users/grig/.agents` with one declared workstream `gas-runtime`
+Project: `~/.agents` with one declared workstream `gas-runtime`
 whose `roots` are
-`[/Users/grig/.agents, /Users/grig/.agents-projects]` (per the
+`[~/.agents, ~/.agents-projects]` (per the
 `projects.yaml` shape in §9.1 of the schema spec). A blocker observed
 during triage references files under
-`/Users/grig/.agents-projects/foo/...`.
+`~/.agents-projects/foo/...`.
 
 The prompt MUST emit:
 
 - `workstream: gas-runtime`
 - `external_dirs:` containing the relevant absolute paths under
-  `/Users/grig/.agents-projects/foo/...` (e.g.,
-  `[/Users/grig/.agents-projects/foo/cmd/server]`), deduplicated and
+  `~/.agents-projects/foo/...` (e.g.,
+  `[~/.agents-projects/foo/cmd/server]`), deduplicated and
   sorted lexicographically.
 - A V2-form signature that incorporates the workstream:
-  `sha1("/Users/grig/.agents:gas-runtime:" + category + ":" + normalized(user_action_required))`.
+  `sha1("~/.agents:gas-runtime:" + category + ":" + normalized(user_action_required))`.
 
 The same logical blocker observed under a different workstream of the
 same project (e.g., `blocker-engineer` whose `roots` is just
-`[/Users/grig/.agents]`) produces a SEPARATE blocker file because the
+`[~/.agents]`) produces a SEPARATE blocker file because the
 signature differs.
 
 For an implicit-default project (no `workstreams` declared), the prompt
@@ -420,9 +404,9 @@ exact heading and bullet-list shape (no markdown tables):
 ```
 ## Files written/updated
 
-- /Users/grig/.../<project>/.dev/ai/blockers/INDEX.md
-- /Users/grig/.../<project>/.dev/ai/blockers/{prefix}-{slug-1}.md
-- /Users/grig/.../<project>/.dev/ai/blockers/{prefix}-{slug-2}.md
+- ~/.../<project>/.dev/ai/blockers/INDEX.md
+- ~/.../<project>/.dev/ai/blockers/{prefix}-{slug-1}.md
+- ~/.../<project>/.dev/ai/blockers/{prefix}-{slug-2}.md
 ```
 
 Rules for this block:
@@ -435,3 +419,40 @@ Rules for this block:
 - Omit this entire block when running in print mode.
 - If no files were written (catalog mode, no blockers, only INDEX.md
   refreshed), still list `INDEX.md` so callers can confirm the scan ran.
+
+### Optional post-emission view refresh (catalog mode only)
+
+After the closing "Files written/updated" block has been printed, an
+OPTIONAL final step refreshes this project's `INDEX.md` and the master
+`MASTER-INDEX.md` from the canonical files just emitted, so direct
+triage runs (invoked outside the cataloger) keep the cross-project
+master fresh:
+
+```
+if [ -x ~/.agents/scripts/blocker-views-refresh.py ] || [ -f ~/.agents/scripts/blocker-views-refresh.py ]; then
+    python3 ~/.agents/scripts/blocker-views-refresh.py --project "<project_path>"
+fi
+```
+
+Substitute `<project_path>` with the absolute project root passed in via
+`PROJECT_PATH` (the same value used elsewhere in this prompt). Rules
+for this hook:
+
+- The hook is OPTIONAL with explicit graceful fallback. If
+  `~/.agents/scripts/blocker-views-refresh.py` does NOT exist on disk
+  (e.g. during early WO-BLK-027 rollout where this prompt landed before
+  the script), skip the invocation silently. The cataloger or the user
+  will refresh views later; this prompt MUST NOT abort or fail when the
+  script is absent.
+- If the script exists and returns exit code 0, proceed silently.
+- If the script exists and returns a non-zero exit code, print a single
+  one-line warning of the form
+  `view refresh failed (exit {code}); INDEX and master may be stale until next cataloger run`
+  via `printf` (never `echo`) and proceed.
+- This hook is catalog-mode only. Print mode MUST NOT invoke it. The
+  hook fires AFTER the "Files written/updated" block has been emitted
+  in full so callers always see the canonical file list before the
+  refresh runs.
+- The hook is additive — it does not replace any existing emission step
+  in this prompt. Bundle creation, signature dedup, and `INDEX.md`
+  authoring all run unchanged before the hook fires.
