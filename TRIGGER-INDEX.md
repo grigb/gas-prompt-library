@@ -143,6 +143,42 @@
 
 ---
 
+### Blocker Cataloger Agent (Cross-Project Blocker Scanner)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `blocker cataloger` | `~/.agents/prompts/agents/agent-blocker-cataloger.md` | Cross-project blocker scanner |
+| `scan blockers` | `~/.agents/prompts/agents/agent-blocker-cataloger.md` | Scan registered projects for blockers |
+| `catalog blockers` | `~/.agents/prompts/agents/agent-blocker-cataloger.md` | Generate per-project + master blocker indexes |
+| `scan for blockers` | `~/.agents/prompts/agents/agent-blocker-cataloger.md` | Cross-project blocker scan trigger |
+
+**Core Principle:** Scanner ONLY. Reads the registered project list, generates per-project blocker catalog files, ages blockers to `stale`, releases expired claims, regenerates the GAS-internal master index. NEVER resolves blockers — resolution is the unblocker super-agent's job.
+
+**Activation Regex:** `(?i)\b(blocker\s+cataloger|scan(\s+for)?\s+blockers|catalog\s+blockers)\b`
+
+---
+
+### Blocker Unblocker Agent (Blocker Resolution Super-Agent)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `blocker engineer` | `~/.agents/prompts/agents/agent-blocker-unblocker.md` | Resolution super-agent for the Blocker Engineer subsystem |
+| `blocker unblocker` | `~/.agents/prompts/agents/agent-blocker-unblocker.md` | Picks idle blockers and attempts resolution |
+| `unblock me` | `~/.agents/prompts/agents/agent-blocker-unblocker.md` | Pick up one idle blocker, claim atomically, attempt resolution |
+| `unblock work` | `~/.agents/prompts/agents/agent-blocker-unblocker.md` | Resolve work blockers across the portfolio |
+| `work blockers` | `~/.agents/prompts/agents/agent-blocker-unblocker.md` | Surface and resolve outstanding work blockers |
+| `unblock workstream {ws}` | `~/.agents/prompts/agents/agent-blocker-unblocker.md` | Workstream-scoped resolution within the implicit current project |
+| `unblock workstream {ws} in {abs-path}` | `~/.agents/prompts/agents/agent-blocker-unblocker.md` | Workstream-scoped resolution against a specific project's absolute path |
+| `unblock me workstream {ws} [in {abs-path}]` | `~/.agents/prompts/agents/agent-blocker-unblocker.md` | Long-form variant of the workstream-scoped trigger; identical semantics |
+
+**Core Principle:** Resolver ONLY. One blocker per work cycle. Reads the master blocker index, claims an `idle` blocker atomically, attempts resolution via browser MCP tools, terminal commands, and on-disk playbooks. Surfaces unresolvable blockers to the user. NEVER scans, regenerates indexes, or deletes blocker files.
+
+**Workstream Scoping (BLK-014 retrofit):** Any base trigger MAY be suffixed with `workstream {ws-name}` and optionally `in {absolute-project-path}`. When a workstream is specified, the unblocker filters the candidate set by `(project, workstream)` per `/Users/grig/.agents/docs/specs/blocker-file-schema.md` Section 10.5. `null` and `"default"` are equivalent.
+
+**Activation Regex:** `(?i)\b(blocker\s+(engineer|unblocker)|unblock\s+(me|work|workstream\s+\S+(\s+in\s+\S+)?)|work\s+blockers)\b`
+
+---
+
 ### Paperclip Worker Agent (Paperclip-Managed Heartbeat Worker)
 
 | Trigger Phrase | Target Prompt | Description |
