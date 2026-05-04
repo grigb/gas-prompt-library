@@ -64,15 +64,16 @@
 - `agent-document-analysis-audit` - Document analysis
 - `agent-learning-knowledge-management` - Knowledge management
 
-### 🌐 Specialized (8 agents)
+### 🌐 Specialized (9 agents)
 - `agent-mac-performance-diagnostics-specialist` - macOS performance troubleshooting and optimization. Triggers: mac agent, mac help, mac technician, mac tech, mac diagnostics, mac performance, mac doctor
 - `agent-network-diagnostics-specialist` - Network troubleshooting
 - `agent-pa-maintenance` - PA infrastructure diagnosis, repair, and maintenance
 - `agent-pa-doctor` - PA system doctor: diagnoses, fixes, logs everything, remembers patterns across sessions
 - `agent-pa-qa-tester` - PA QA tester: adversarial behavior testing, bug finding, fix-and-retest
 - `agent-paperclip-worker` - Paperclip-managed heartbeat worker: wakes on heartbeat, checks inbox, does work, exits
-- `agent-blocker-cataloger` - Cross-project blocker scanner: emits per-project + master blocker indexes. Scanner only. Triggers: blocker cataloger, scan blockers, catalog blockers, scan for blockers
-- `agent-blocker-unblocker` - Blocker resolution super-agent: picks one idle blocker per cycle, claims atomically, attempts resolution. Resolver only. Triggers: blocker engineer, blocker unblocker, unblock me, unblock work, work blockers
+- `agent-blocker-supervisor` - Cross-project blocker supervisor router: identifies user intent and dispatches to catalog scan, resolution, registry CLI, or master-index inspection. Default mode is ADVISOR. Triggers: blocker supervisor, you are the supervisor, act as supervisor, supervisor (when context is blockers)
+- `agent-blocker-supervisor-cataloger` - Cross-project blocker scanner: emits per-project + master blocker indexes. Scanner only. Triggers: blocker cataloger, scan blockers, catalog blockers, scan for blockers
+- `agent-blocker-supervisor-unblocker` - Blocker resolution supervisor: picks one idle blocker per cycle, claims atomically, attempts resolution. Resolver only. Triggers: blocker engineer, blocker unblocker, unblock me, unblock work, work blockers
 - Custom agents can be added here
 
 ---
@@ -418,8 +419,9 @@
 | PA QA Tester | `agent-pa-qa-tester.md` | Adversarial QA tester for GAS Personal Assistant | adversarial, behavior, bug-finding, pa, qa, testing, tester | See file for details |
 | Paperclip Worker | `agent-paperclip-worker.md` | Paperclip-managed heartbeat worker | heartbeat, managed, paperclip, worker | See file for details |
 | Mac Performance Diagnostics Specialist | `agent-mac-performance-diagnostics-specialist.md` | macOS performance troubleshooting and optimization | cpu, diagnostics, disk, fan, gpu, macos, memory, performance, thermal | See file for details |
-| Blocker Cataloger | `agent-blocker-cataloger.md` | Cross-project blocker scanner, generates per-project and master indexes (scanner only) | blocker, catalog, cataloger, cross-project, index, scan, scanner, stale | See file for details |
-| Blocker Unblocker | `agent-blocker-unblocker.md` | Blocker resolution super-agent, claims idle blockers and attempts resolution (resolver only) | blocker, claim, engineer, idle, playbook, resolve, resolver, unblock | See file for details |
+| Blocker Supervisor | `agent-blocker-supervisor.md` | Cross-project blocker router, identifies intent and dispatches to catalog/resolution/registry/inspection (advisor by default) | blocker, dispatch, intent, portfolio, registry, router, supervisor | See file for details |
+| Blocker Cataloger | `agent-blocker-supervisor-cataloger.md` | Cross-project blocker scanner, generates per-project and master indexes (scanner only) | blocker, catalog, cataloger, cross-project, index, scan, scanner, stale | See file for details |
+| Blocker Unblocker | `agent-blocker-supervisor-unblocker.md` | Blocker resolution supervisor, claims idle blockers and attempts resolution (resolver only) | blocker, claim, engineer, idle, playbook, resolve, resolver, unblock | See file for details |
 
 ## Usage Examples
 

@@ -147,35 +147,52 @@
 
 | Trigger Phrase | Target Prompt | Description |
 |----------------|---------------|-------------|
-| `blocker cataloger` | `~/.agents/prompts/agents/agent-blocker-cataloger.md` | Cross-project blocker scanner |
-| `scan blockers` | `~/.agents/prompts/agents/agent-blocker-cataloger.md` | Scan registered projects for blockers |
-| `catalog blockers` | `~/.agents/prompts/agents/agent-blocker-cataloger.md` | Generate per-project + master blocker indexes |
-| `scan for blockers` | `~/.agents/prompts/agents/agent-blocker-cataloger.md` | Cross-project blocker scan trigger |
+| `blocker cataloger` | `~/.agents/prompts/agents/agent-blocker-supervisor-cataloger.md` | Cross-project blocker scanner |
+| `scan blockers` | `~/.agents/prompts/agents/agent-blocker-supervisor-cataloger.md` | Scan registered projects for blockers |
+| `catalog blockers` | `~/.agents/prompts/agents/agent-blocker-supervisor-cataloger.md` | Generate per-project + master blocker indexes |
+| `scan for blockers` | `~/.agents/prompts/agents/agent-blocker-supervisor-cataloger.md` | Cross-project blocker scan trigger |
 
-**Core Principle:** Scanner ONLY. Reads the registered project list, generates per-project blocker catalog files, ages blockers to `stale`, releases expired claims, regenerates the GAS-internal master index. NEVER resolves blockers — resolution is the unblocker super-agent's job.
+**Core Principle:** Scanner ONLY. Reads the registered project list, generates per-project blocker catalog files, ages blockers to `stale`, releases expired claims, regenerates the GAS-internal master index. NEVER resolves blockers — resolution is the unblocker supervisor's job.
 
 **Activation Regex:** `(?i)\b(blocker\s+cataloger|scan(\s+for)?\s+blockers|catalog\s+blockers)\b`
 
 ---
 
-### Blocker Unblocker Agent (Blocker Resolution Super-Agent)
+### Blocker Unblocker Agent (Blocker Resolution Supervisor)
 
 | Trigger Phrase | Target Prompt | Description |
 |----------------|---------------|-------------|
-| `blocker engineer` | `~/.agents/prompts/agents/agent-blocker-unblocker.md` | Resolution super-agent for the Blocker Engineer subsystem |
-| `blocker unblocker` | `~/.agents/prompts/agents/agent-blocker-unblocker.md` | Picks idle blockers and attempts resolution |
-| `unblock me` | `~/.agents/prompts/agents/agent-blocker-unblocker.md` | Pick up one idle blocker, claim atomically, attempt resolution |
-| `unblock work` | `~/.agents/prompts/agents/agent-blocker-unblocker.md` | Resolve work blockers across the portfolio |
-| `work blockers` | `~/.agents/prompts/agents/agent-blocker-unblocker.md` | Surface and resolve outstanding work blockers |
-| `unblock workstream {ws}` | `~/.agents/prompts/agents/agent-blocker-unblocker.md` | Workstream-scoped resolution within the implicit current project |
-| `unblock workstream {ws} in {abs-path}` | `~/.agents/prompts/agents/agent-blocker-unblocker.md` | Workstream-scoped resolution against a specific project's absolute path |
-| `unblock me workstream {ws} [in {abs-path}]` | `~/.agents/prompts/agents/agent-blocker-unblocker.md` | Long-form variant of the workstream-scoped trigger; identical semantics |
+| `blocker engineer` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker.md` | Resolution supervisor for the Blocker Engineer subsystem |
+| `blocker unblocker` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker.md` | Picks idle blockers and attempts resolution |
+| `unblock me` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker.md` | Pick up one idle blocker, claim atomically, attempt resolution |
+| `unblock work` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker.md` | Resolve work blockers across the portfolio |
+| `work blockers` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker.md` | Surface and resolve outstanding work blockers |
+| `unblock workstream {ws}` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker.md` | Workstream-scoped resolution within the implicit current project |
+| `unblock workstream {ws} in {abs-path}` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker.md` | Workstream-scoped resolution against a specific project's absolute path |
+| `unblock me workstream {ws} [in {abs-path}]` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker.md` | Long-form variant of the workstream-scoped trigger; identical semantics |
 
 **Core Principle:** Resolver ONLY. One blocker per work cycle. Reads the master blocker index, claims an `idle` blocker atomically, attempts resolution via browser MCP tools, terminal commands, and on-disk playbooks. Surfaces unresolvable blockers to the user. NEVER scans, regenerates indexes, or deletes blocker files.
 
-**Workstream Scoping (BLK-014 retrofit):** Any base trigger MAY be suffixed with `workstream {ws-name}` and optionally `in {absolute-project-path}`. When a workstream is specified, the unblocker filters the candidate set by `(project, workstream)` per `/Users/grig/.agents/docs/specs/blocker-file-schema.md` Section 10.5. `null` and `"default"` are equivalent.
+**Workstream Scoping (BLK-014 retrofit):** Any base trigger MAY be suffixed with `workstream {ws-name}` and optionally `in {absolute-project-path}`. When a workstream is specified, the unblocker filters the candidate set by `(project, workstream)` per `~/.agents/docs/specs/blocker-file-schema.md` Section 10.5. `null` and `"default"` are equivalent.
 
 **Activation Regex:** `(?i)\b(blocker\s+(engineer|unblocker)|unblock\s+(me|work|workstream\s+\S+(\s+in\s+\S+)?)|work\s+blockers)\b`
+
+---
+
+### Blocker Supervisor Agent (Cross-Project Router / Role Entry Point)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `blocker supervisor` | `~/.agents/prompts/agents/agent-blocker-supervisor.md` | Cross-project blocker supervisor — router for catalog, unblock, registry management |
+| `you are the blocker supervisor` | `~/.agents/prompts/agents/agent-blocker-supervisor.md` | Role assignment phrase |
+| `act as blocker supervisor` | `~/.agents/prompts/agents/agent-blocker-supervisor.md` | Role activation phrase |
+| `you are the supervisor` | `~/.agents/prompts/agents/agent-blocker-supervisor.md` | Generic supervisor role assignment (defaults to blocker supervisor) |
+| `act as supervisor` | `~/.agents/prompts/agents/agent-blocker-supervisor.md` | Generic supervisor role activation |
+| `supervisor` | `~/.agents/prompts/agents/agent-blocker-supervisor.md` | Generic supervisor activation when context is clearly blockers / projects / catalog work |
+
+**Core Principle:** Router, not implementer. Identifies user intent and routes to the right capability — registry CLI for project add/remove/list, catalog scan (loads cataloger function prompt), resolution (loads unblocker function prompt), inspection of master / per-project index, manual lifecycle transitions, supervisor improvement-log appends. Operates at portfolio scope; never edits project source. Default mode is ADVISOR for any authority not explicitly enabled in `~/.agents/agents/blocker-engineer/SUPERVISOR-AUTHORITIES.md`.
+
+**Activation Regex:** `(?i)\b((blocker\s+)?supervisor|you\s+are\s+(the\s+)?(blocker\s+)?supervisor|act\s+as\s+(the\s+)?(blocker\s+)?supervisor)\b`
 
 ---
 
