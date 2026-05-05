@@ -53,13 +53,43 @@ Scope:
 - Refresh each project's per-project INDEX.md
 - Age unseen blockers to `stale` and release expired claims
 - Regenerate the master index at ~/.agents/.dev/ai/blockers/MASTER-INDEX.md
+- Regenerate the human supervisor status and live dashboard data
 - Write a final cross-project summary report
 
 I am a SCANNER, not an UNBLOCKER. I will not attempt to resolve any blocker.
 Resolution is handled by ~/.agents/prompts/agents/agent-blocker-supervisor-unblocker.md.
 ```
 
-After printing the greeting, proceed immediately to Section 2.
+After printing the greeting, proceed immediately to Section 1.5.
+
+---
+
+## 1.5 Mandatory Startup Context
+
+Before cataloging, scanning, acquiring the lockfile, creating directories, or
+writing any index, the cataloger MUST read:
+
+- `~/.agents/agents/blocker-engineer/SUPERVISOR-STARTUP-CONTEXT.md`
+- `~/.agents/docs/AGENT-ONBOARDING-CHECKLIST.md`
+- `~/.agents/pa/doctor/OWNER-CONTEXT.md`
+- `~/.agents/agents/blocker-engineer/SUPERVISOR.md`
+- `~/.agents/agents/blocker-engineer/SUPERVISOR-STATUS.md`
+- `~/.agents/agents/blocker-engineer/SUPERVISOR-AUTHORITIES.md`
+- `~/.agents/agents/blocker-engineer/memory/MEMORY.md`
+- `~/.agents/agents/blocker-engineer/memory/blocker-operating-taxonomy.md`
+- `~/.agents/agents/blocker-engineer/memory/portfolio-decision-memory.md`
+- `~/.agents/agents/blocker-engineer/memory/project-dependency-map.md`
+- `~/.agents/agents/blocker-engineer/memory/contact-and-stakeholder-context.md`
+
+The cataloger uses this startup context to keep scan output aligned with the
+supervisor's memory, authority model, contacts, and owner preferences. If a
+required file is missing, report the missing absolute path and abort before
+acquiring the cataloger lock or scanning projects, unless the user explicitly
+directs a one-off bypass. Reading onboarding is mandatory context loading;
+executing the full onboarding maintenance checklist remains governed by global
+onboarding rules and explicit user request.
+
+After the startup context read completes, proceed to Section 2.
 
 ---
 
@@ -84,6 +114,9 @@ via the upgraded triage prompt. It MUST NOT modify any file outside of:
 - `{project_path}/.dev/ai/blockers/` (per-project blocker bundles + INDEX.md)
 - `~/.agents/.dev/ai/blockers/` (master index + lockfile)
 - `~/.agents/.dev/ai/reports/` (final summary report only)
+- `~/.agents/agents/blocker-engineer/SUPERVISOR-STATUS.md` (generated human status)
+- `~/.agents/agents/blocker-engineer/SUPERVISOR-STATUS.json` (generated dashboard data)
+- `~/.agents/agents/blocker-engineer/SUPERVISOR-DASHBOARD.html` (static dashboard shell; create if missing, do not overwrite manual UI edits)
 
 Any other write is forbidden. Source code, project documentation, work orders,
 state files, and configuration outside the listed paths MUST be left untouched.
@@ -908,6 +941,8 @@ User attention needed: {u}
 
 Master index: ~/.agents/.dev/ai/blockers/MASTER-INDEX.md
 Full report:  ~/.agents/.dev/ai/reports/{prefix}-blocker-catalog-summary.md
+Supervisor status: ~/.agents/agents/blocker-engineer/SUPERVISOR-STATUS.md
+Live dashboard:     ~/.agents/agents/blocker-engineer/SUPERVISOR-DASHBOARD.html
 ```
 
 If `M < N` or there are notes, append a single line:
@@ -1191,10 +1226,20 @@ built during Sections 4 and 5. Concretely it needs:
   values from `~/.agents/scripts/blocker-projects.sh list --paths`
   output (Section 3.1). Used for fuzzy project-keyword matching in
   hints.
+- The supervisor project dependency map at
+  `~/.agents/agents/blocker-engineer/memory/project-dependency-map.md`.
+  This file provides portfolio-level upstream/downstream aliases that
+  individual project agents may not encode consistently in
+  `dependency_hints`.
 
 The linker MUST NOT re-read project source code, MUST NOT invoke the
 triage prompt, MUST NOT modify any file outside the per-bundle write
 described in 11.5 below.
+
+When dependency-map aliases match a blocker but no confident concrete edge can
+be written, the linker records the item in the run report as a memory-derived
+unresolved dependency. It MUST NOT fabricate a `depends_on_blockers` edge
+without a concrete upstream blocker ID.
 
 ### 11.3 V1 heuristic (linker scoring)
 
@@ -1876,8 +1921,9 @@ existing numbered steps in Section 10 still apply):
 
 The detector adds NO new lockfile semantics, NO new I/O outside the
 already-permitted scopes (per-project blocker dirs + GAS master blocker
-dir + reports dir), and NO new dependencies on external services. It is a
-pure read-of-bundles + write-of-two-fields phase.
+dir + reports dir + generated supervisor status/dashboard surfaces), and
+NO new dependencies on external services. It is a pure read-of-bundles +
+write-of-two-fields phase.
 
 ### 12.11 V1 boundaries (intentional)
 

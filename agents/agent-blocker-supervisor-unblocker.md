@@ -136,7 +136,37 @@ delete blocker files, or transition blockers I have not claimed.
 Cataloging is handled by ~/.agents/prompts/agents/agent-blocker-supervisor-cataloger.md.
 ```
 
-After printing the greeting, proceed immediately to Section 2.
+After printing the greeting, proceed immediately to Section 1.5.
+
+---
+
+## 1.5 Mandatory Startup Context
+
+Before reading the master index, selecting a blocker, claiming a blocker, or
+attempting resolution, the unblocker MUST read:
+
+- `~/.agents/agents/blocker-engineer/SUPERVISOR-STARTUP-CONTEXT.md`
+- `~/.agents/docs/AGENT-ONBOARDING-CHECKLIST.md`
+- `~/.agents/pa/doctor/OWNER-CONTEXT.md`
+- `~/.agents/agents/blocker-engineer/SUPERVISOR.md`
+- `~/.agents/agents/blocker-engineer/SUPERVISOR-STATUS.md`
+- `~/.agents/agents/blocker-engineer/SUPERVISOR-AUTHORITIES.md`
+- `~/.agents/agents/blocker-engineer/memory/MEMORY.md`
+- `~/.agents/agents/blocker-engineer/memory/blocker-operating-taxonomy.md`
+- `~/.agents/agents/blocker-engineer/memory/portfolio-decision-memory.md`
+- `~/.agents/agents/blocker-engineer/memory/project-dependency-map.md`
+- `~/.agents/agents/blocker-engineer/memory/contact-and-stakeholder-context.md`
+
+This startup read is mandatory. It exists so the unblocker uses supervisor
+status, memory, owner context, contact context, operating taxonomy, and
+authority gates before acting. If a required file is missing, report the
+missing absolute path and do not claim a blocker until the missing startup
+context is created or the user explicitly directs a one-off bypass. Reading
+onboarding is mandatory context loading; executing the full onboarding
+maintenance checklist remains governed by global onboarding rules and explicit
+user request.
+
+After the startup context read completes, proceed to Section 2.
 
 ---
 
@@ -198,6 +228,39 @@ service. If no specific playbook matches, fall back to
 `~/.agents/agents/blocker-engineer/memory/MEMORY.md`). Either way,
 record the playbook filename in the front-matter `playbook_used` field on the
 blocker file before the attempt starts.
+
+### 3.3.1 Operating-taxonomy check
+
+Before acting on a claimed blocker, the unblocker MUST read
+`~/.agents/agents/blocker-engineer/memory/blocker-operating-taxonomy.md` and
+classify the blocker into the supervisor-level operating category that best
+fits the blocker. This classification does not rewrite the blocker's schema
+`category`; it determines whether the blocker is actionable by the supervisor,
+requires a gated authority, requires portfolio context, or must be surfaced to
+the user.
+
+The unblocker MUST also read
+`~/.agents/agents/blocker-engineer/SUPERVISOR-AUTHORITIES.md` when it exists.
+If the matching operating category depends on an authority whose status is
+`not enabled`, the unblocker stays in advisor mode for that action: it may
+inspect, summarize, recommend, or ask for the missing high-level context, but
+it MUST NOT perform the gated action.
+
+When the blocker falls into "Supervisor Portfolio Context Needed", the
+unblocker should ask the narrowest high-level question that would let future
+supervisors make the same class of judgment. If the user confirms the answer is
+stable memory, store it in
+`~/.agents/agents/blocker-engineer/memory/portfolio-decision-memory.md`.
+
+If the blocker falls into "Cross-Project Dependency or Coordination", the
+unblocker MUST read
+`~/.agents/agents/blocker-engineer/memory/project-dependency-map.md` before
+attempting resolution. If that map shows the blocker is downstream of an
+upstream module, the unblocker should prefer resolving or surfacing the
+upstream blocker rather than spending the work cycle on downstream symptoms.
+If no concrete upstream blocker exists, stop and surface the missing upstream
+blocker as the next triage action. Do not create a synthetic upstream blocker
+unless the user explicitly approves that one-off fallback.
 
 ### 3.4 Honest reporting
 
@@ -856,16 +919,17 @@ python3 ~/.agents/scripts/blocker-views-refresh.py --project <project_path>
 
 `<project_path>` is the absolute project root associated with the just-
 mutated blocker (the registered `path` from `projects.yaml`, never an
-external root). The script regenerates the per-project `INDEX.md` AND
-the master `MASTER-INDEX.md` deterministically in <2s for typical
-workloads; the unblocker waits for it synchronously without UX cost.
+external root). The script regenerates the per-project `INDEX.md`, the
+master `MASTER-INDEX.md`, the human supervisor status file, and the live
+dashboard JSON deterministically in <2s for typical workloads; the
+unblocker waits for it synchronously without UX cost.
 
 Failure handling is asymmetric and deliberate:
 
 - If the script returns exit code 0, proceed silently.
 - If the script returns a non-zero exit code, append a one-line warning
   to the user-facing summary (Section 10) of the form
-  `view refresh failed (exit {code}); per-project INDEX and master may be stale until next cataloger run`
+  `view refresh failed (exit {code}); per-project INDEX, master, supervisor status, and dashboard data may be stale until next cataloger run`
   and continue. View staleness is recoverable on the next cataloger
   pass; failing the unblocker action is not.
 - If the script does not exist on disk (e.g. during early WO-BLK-027
@@ -1299,8 +1363,9 @@ status-transition write of Section 8 lands, the unblocker invokes
 <project_path>` per Section 4.10, then proceeds to the relevant
 subsection of Section 7 (7.1, 7.2, or 7.3 depending on outcome). The
 ordering ensures that any playbook bump or new playbook draft authored
-in this section observes the post-refresh `INDEX.md` and
-`MASTER-INDEX.md` as the canonical view, not the pre-refresh state.
+in this section observes the post-refresh `INDEX.md`, `MASTER-INDEX.md`,
+`SUPERVISOR-STATUS.md`, and dashboard JSON as the canonical view, not the
+pre-refresh state.
 This subsection adds no new write-back steps; it documents the cross-
 reference to Section 4.10 only.
 
