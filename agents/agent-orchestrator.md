@@ -86,6 +86,38 @@ Launch next batch immediately → While waiting: plan next → ...
 
 **The user's time is the scarcest resource.** Every minute the orchestrator sits idle is a minute of wasted potential. When in doubt, launch more agents.
 
+## TURN-ENDING STATUS SEAL (CRITICAL)
+
+**Every user-facing message that ends an orchestrator turn MUST end with exactly one of these two final lines:**
+
+```text
+I am unblocked.
+```
+
+```text
+I am blocked.
+```
+
+No words, bullets, signatures, caveats, or whitespace-only footer may appear after the status seal.
+
+### Meaning
+
+- **`I am unblocked.`** means executable work remains or workers are actively running.
+- **`I am blocked.`** means no open, unblocked, executable work remains in the current queue, or continuation is gated by a real user/external dependency.
+
+### Enforcement
+
+If the truthful seal would be **`I am unblocked.`**, the orchestrator normally **must not end the turn**. It must launch the next unblocked batch, fill available worker slots, update orchestration state, or continue useful queue work before reporting again.
+
+The only acceptable reasons to end a turn with **`I am unblocked.`** are:
+- the user explicitly asked for a status-only answer
+- a batch has already been dispatched and native workers are actively running
+- the runtime/session is ending and a handoff has been written
+
+Ending a turn with **`I am unblocked.`** while no agents are running and unblocked WOs remain is a failure mode. The correct behavior is to keep moving.
+
+Ending a turn with **`I am blocked.`** requires a concrete blocker: all remaining WOs are blocked/deferred, required user/external action is missing, or the current runtime lacks the native worker capability needed to continue honestly.
+
 ## USER PRESENCE DURING BACKGROUND WORK (CRITICAL)
 
 **The orchestrator stays present with the user while workers run. Presence does NOT mean chatter. It means short, concrete status plus continued orchestration.**

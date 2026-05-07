@@ -98,6 +98,94 @@ WO-BLK-013) can round-trip without a schema migration:
 - `possible_recurrence_of: null`
 - `recurrence_confidence: null`
 
+### Provenance and handoff-target fields (must be present on new blockers)
+
+Every NEW blocker file MUST also include the WO-BLK-035 provenance and
+handoff-target fields from `~/.agents/docs/specs/blocker-file-schema.md`.
+These fields solve the routing problem where the blocker file physically lives
+under one project but the unblock message belongs to a different waiting agent
+or work order.
+
+Populate them as follows:
+
+- `agent_task_id`: if the triage request came from a handoff/session/subtask
+  that has `agent_task_id`, reuse it. If no incoming chain exists, generate a
+  new ID once with `~/.agents/scripts/get-agent-task-id.sh blocker` and reuse it
+  for every blocker emitted from this triage invocation.
+- `source_artifact_type`, `source_artifact_id`, `source_artifact_path`: record
+  the durable source artifact when known. Supported types are `handoff`,
+  `subtask-comms`, `workorder`, `session`, `chat`, `unknown`, or `null`.
+- `origin_project_path`: the absolute project/workspace root where the creating
+  agent believed it was working when it discovered the blocker. If the
+  cataloged project is also the origin, set this to `project_path` rather than
+  leaving it ambiguous.
+- `origin_cwd`: the absolute current working directory of the creating agent
+  when known.
+- `handoff_target_project`: the project/workstream name the user or supervisor
+  should notify when this blocker resolves. If the receiver is the same as the
+  cataloged project, write that explicitly.
+- `handoff_target_project_path`: the absolute `/Users/...` path of the
+  project/agent context that should receive the unblock message. This is the
+  critical field for preventing Social/STC/LAN-style routing confusion.
+- `handoff_target_work_order_id`: the exact work order expected to resume when
+  this blocker resolves, if known. Prefer the most specific WO from
+  `related_work`.
+- `handoff_target_agent_role`: the target lane or agent role when known
+  (for example, `LAN project agent`, `Save The Creators site agent`, or
+  `Social Module orchestrator`).
+- `handoff_target_notes`: a short disambiguation note when labels or paths are
+  likely to confuse a human.
+- `handoff_targets`: optional list of target objects for multi-agent
+  notification. Use this when one blocker unlocks multiple waiting agents. Each
+  object may include `project`, `project_path`, `work_order_id`, `agent_role`,
+  and `notes`. When present, make the flat `handoff_target_*` fields summarize
+  the first/primary target.
+
+If environment variables are supplied by the cataloger/orchestrator, prefer
+them over inference:
+
+- `BLOCKER_AGENT_TASK_ID`
+- `BLOCKER_SOURCE_ARTIFACT_TYPE`
+- `BLOCKER_SOURCE_ARTIFACT_ID`
+- `BLOCKER_SOURCE_ARTIFACT_PATH`
+- `BLOCKER_ORIGIN_PROJECT_PATH`
+- `BLOCKER_ORIGIN_CWD`
+- `BLOCKER_HANDOFF_TARGET_PROJECT`
+- `BLOCKER_HANDOFF_TARGET_PROJECT_PATH`
+- `BLOCKER_HANDOFF_TARGET_WORK_ORDER_ID`
+- `BLOCKER_HANDOFF_TARGET_AGENT_ROLE`
+- `BLOCKER_HANDOFF_TARGET_NOTES`
+
+Do NOT infer a handoff target from brand shorthand alone. If a label like
+`STC`, `LAN`, `payments`, `auth`, or `Social Module` could refer to more than
+one project/thread, either write the exact target path or set
+`handoff_target_notes` to say the target is ambiguous. A blocker with an
+ambiguous receiver is not ready for a human-facing unblock handoff until the
+receiver is disambiguated.
+
+### Owner action summary (required on new blockers when useful context exists)
+
+Every NEW blocker file MUST include the optional front-matter field
+`owner_action_summary` with one or two human-readable sentences for the owner.
+This is the field the dashboard shows before raw `user_action_required` or
+`unresolvable_reason`, so write it for fast human action.
+
+The summary MUST answer:
+
+1. What is blocked.
+2. What the owner needs to decide, provide, approve, authenticate, or confirm.
+3. Where the owner should act, only when a path, URL, or artifact is essential.
+
+The summary MUST NOT be only an absolute path, raw `requires_*` code, a copied
+`unresolvable_reason`, or a cryptic blocker ID. Good summaries are specific
+without forcing the owner to open another file just to understand the ask.
+
+When updating an existing non-terminal blocker, preserve any existing
+non-empty `owner_action_summary` unless the currently observed source artifact
+clearly supersedes it. If the existing blocker lacks the field and the current
+scan has enough context to write a useful summary, add it. Existing blockers
+without this field remain valid.
+
 ### `dependency_hints` population guidance
 
 When the user-action description hints at an upstream blocker that itself
