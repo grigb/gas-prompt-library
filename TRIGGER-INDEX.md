@@ -248,6 +248,22 @@
 
 ---
 
+### Burn Mode (End-of-Cycle Token Optimization)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `burn mode` | `~/.agents/modes/BURN-MODE.md` | Activate end-of-cycle focused execution |
+| `mad dash` | `~/.agents/modes/BURN-MODE.md` | Burn remaining tokens on highest-priority work |
+| `use remaining tokens` | `~/.agents/modes/BURN-MODE.md` | Spend remaining budget before cycle end |
+| `burn remaining budget` | `~/.agents/modes/BURN-MODE.md` | Explicit budget burn trigger |
+| `end of cycle` | `~/.agents/modes/BURN-MODE.md` | Billing cycle end trigger |
+
+**Core Principle:** When token budget is low relative to the billing period, focus all remaining capacity on highest-priority unblocked work. T1 first, then T2, then T3. T4 stops. No worktrees. One agent per WO. Supervisor coordinates only.
+
+**Activation Regex:** `(?i)\b(burn\s+mode|mad\s+dash|use\s+remaining\s+tokens|burn\s+remaining\s+budget|end\s+of\s+cycle)\b`
+
+---
+
 ### Commit Agent (Smart Commits)
 
 | Trigger Phrase | Target Prompt | Description |

@@ -483,6 +483,29 @@ Each blocker must answer:
 
 If any blocker fails that test, rewrite it before responding.
 
+## Owner-Facing Clarity Requirements
+
+Every blocker surfaced to the owner in the human-readable summary MUST include all four:
+
+1. **Plain-language situation** (2-3 sentences). No blocker IDs, schema jargon, or unexpanded acronyms as the primary explanation. A non-technical reader must understand on first read.
+2. **Action type** (exactly one of): `verbal approval`, `choose between options`, `provide information`, `do something external`, `delegate to someone`.
+3. **Exact ask**. Copy-pasteable: an approval sentence the owner can reply with, lettered choices with one-line consequences, the specific question to answer, the URL and steps to follow, or who to contact and what to tell them.
+4. **What this unblocks** (one sentence). State impact in terms the owner cares about — project progress, user-facing capability, deadline — not blocker IDs or internal queue state.
+
+Map these to the Required Format fields: situation goes in `Blocked because`, action type goes in `Category` context or `Decision needed`, exact ask goes in `User action required` and `Decision needed`, unblock impact goes in `Unblocks`.
+
+## Deferred WO Awareness
+
+During triage, scan the project's WO index (typically `{project_path}/.dev/ai/workorders/WO-INDEX.md` or `INDEX.yaml`) for entries with status `BLOCKED` or `DEFERRED`. For each, check whether the stated blocker condition has been resolved (e.g., a credential was provided, an upstream dependency shipped, an approval was given). If a previously-blocked WO is now unblockable, surface it in the human-readable summary as an informational item:
+
+```
+### Newly unblocked: [WO-ID] [short name]
+Previously blocked by: [original reason]
+Now actionable because: [what changed]
+```
+
+This is informational, not a blocker. Place it AFTER the blocker list, BEFORE "Files written/updated". If the project has no WO index or no BLOCKED/DEFERRED entries, skip silently.
+
 ## Files written/updated (catalog mode only)
 
 After the human-readable summary above, append a closing block listing the
@@ -507,6 +530,10 @@ Rules for this block:
 - Omit this entire block when running in print mode.
 - If no files were written (catalog mode, no blockers, only INDEX.md
   refreshed), still list `INDEX.md` so callers can confirm the scan ran.
+
+### Unblock file emission (catalog mode only)
+
+When blockers are resolved during a triage run (status changed to `resolved`), write ONE bundled unblock file per affected project to `{project_path}/.dev/ai/unblocks/{prefix}-{slug}.md` where `{prefix}` comes from `~/.agents/scripts/get-filename-prefix.sh`. The file must be brief (3-8 sentences, no headers, no YAML front matter) and state: what was blocked, what resolved it, and what work can now resume. Bundle multiple resolved blockers for the same project into a single file. This creates an audit trail and gives the owner a path to paste to the project agent as a "you are unblocked" notification. Include unblock files in the "Files written/updated" list.
 
 ### Optional post-emission view refresh (catalog mode only)
 
@@ -544,3 +571,36 @@ for this hook:
 - The hook is additive — it does not replace any existing emission step
   in this prompt. Bundle creation, signature dedup, and `INDEX.md`
   authoring all run unchanged before the hook fires.
+
+## End-of-Run Protocol
+
+After all blocker discovery, emission, and view refresh steps are complete, perform these closing steps in order:
+
+1. **Update blocker INDEX files.** Ensure `{project_path}/.dev/ai/blockers/INDEX.md` reflects the current scan (already handled by catalog emission rules above).
+2. **Write unblock files.** For any blockers resolved during this run, emit unblock files per the "Unblock file emission" section above.
+3. **Surface newly-unblocked WOs.** Per the "Deferred WO Awareness" section above, report any BLOCKED/DEFERRED WOs whose conditions are now met.
+4. **Emit the status seal.** End your final output with the status seal per the section below.
+
+## Turn-Ending Status Seal (MANDATORY)
+
+Every triage run MUST end with exactly one of these two lines as the final output. No text, bullets, or whitespace may appear after it.
+
+```
+I am unblocked.
+```
+
+```
+I am blocked.
+```
+
+**Semantics:**
+
+- **`I am unblocked.`** = background agents are running, more work to launch, or work is in progress within your own project. The user does NOT need to act.
+- **`I am blocked.`** = waiting on user decision, external project agent, or owner/external input. The user MUST act.
+
+**Key distinctions:**
+
+- Waiting on your OWN dispatched background agents = `I am unblocked.`
+- Waiting on a DIFFERENT project's agent to deliver work = `I am blocked.` (user may need to monitor and relay)
+- All blockers resolved, no remaining work gated on the user = `I am unblocked.`
+- Active blockers remain that only the user can resolve = `I am blocked.`

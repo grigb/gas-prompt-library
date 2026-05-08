@@ -18,6 +18,7 @@
 | HANDOFF-DETAILED | `~/.agents/prompts/handoffs/HANDOFF-DETAILED.md` |
 | HANDOFF-MINIMAL | `~/.agents/prompts/handoffs/HANDOFF-MINIMAL.md` |
 | CONVERT-HANDOFF-TO-WORKORDER | `~/.agents/prompts/handoffs/CONVERT-HANDOFF-TO-WORKORDER.md` |
+| BURN-MODE | `~/.agents/modes/BURN-MODE.md` |
 | DISCUSSION-MODE | `~/.agents/prompts/modes/DISCUSSION-MODE.md` |
 | ORGANIZE-DOCS+DIRS | `~/.agents/prompts/general/organize-docs+dirs.md` |
 | DEEP-RESEARCH-PROMPT-GENERATOR | `~/.agents/prompts/research/deep-research-prompt-generator.md` |

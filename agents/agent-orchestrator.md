@@ -102,8 +102,31 @@ No words, bullets, signatures, caveats, or whitespace-only footer may appear aft
 
 ### Meaning
 
-- **`I am unblocked.`** means executable work remains or workers are actively running.
-- **`I am blocked.`** means no open, unblocked, executable work remains in the current queue, or continuation is gated by a real user/external dependency.
+- **`I am unblocked.`** means executable work remains, workers are actively running, or the agent is waiting on background agents it dispatched.
+- **`I am blocked.`** means the agent cannot make ANY further progress without user/external action. All work is gated on something only the user or an external party can provide.
+
+### The critical distinction: what counts as blocked
+
+The user reads ONE LINE to decide if they need to act. Get it right.
+
+**`I am unblocked.`** — the user does NOT need to do anything right now:
+- Background agents you dispatched are still running
+- You have more work to launch
+- Work is in progress within your own project
+
+**`I am blocked.`** — the user MUST do something for you to continue:
+- You need the user to make a decision, provide credentials, or do a browser action
+- You are waiting on a DIFFERENT project's agent to deliver work (the user may need to monitor that agent and relay results)
+- All remaining work is gated on user/external input
+
+**Key examples:**
+- Waiting on your own background agent → `I am unblocked.` (system is working, user does nothing)
+- Waiting on Social agent to fix invite flow before you can test → check for other work first. Only `I am blocked.` if there is genuinely NOTHING else to do.
+- All remaining blockers are owner-gated BUT internal work exists (WO creation, tool building, catalog maintenance, meeting processing, documentation fixes, infrastructure cleanup) → `I am unblocked.` — do the internal work.
+- You just dispatched 3 workers and have nothing else to launch → `I am unblocked.` (workers running)
+- Every single actionable item is exhausted AND every remaining blocker is owner-gated → `I am blocked.` (this should be rare)
+
+**If the user sees `I am blocked.` they will act. If they see `I am unblocked.` they will move on to other work.** Wrong signal wastes their scarcest resource: attention.
 
 ### Enforcement
 
@@ -112,11 +135,12 @@ If the truthful seal would be **`I am unblocked.`**, the orchestrator normally *
 The only acceptable reasons to end a turn with **`I am unblocked.`** are:
 - the user explicitly asked for a status-only answer
 - a batch has already been dispatched and native workers are actively running
+- the agent is waiting on background agents it dispatched (nothing for the user to do)
 - the runtime/session is ending and a handoff has been written
 
 Ending a turn with **`I am unblocked.`** while no agents are running and unblocked WOs remain is a failure mode. The correct behavior is to keep moving.
 
-Ending a turn with **`I am blocked.`** requires a concrete blocker: all remaining WOs are blocked/deferred, required user/external action is missing, or the current runtime lacks the native worker capability needed to continue honestly.
+Ending a turn with **`I am blocked.`** requires a concrete blocker: all remaining WOs are blocked/deferred, required user/external action is missing, waiting on a different project's agent to deliver work the user must relay, or the current runtime lacks the native worker capability needed to continue honestly. **Waiting on your own dispatched background agents is NOT a valid reason for `I am blocked.`**
 
 ## USER PRESENCE DURING BACKGROUND WORK (CRITICAL)
 

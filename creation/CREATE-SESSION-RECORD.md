@@ -182,14 +182,23 @@ Use this template and scale detail to the selected complexity tier.
 - [Concrete verification target]
 
 ### Next-Session Prompt
+
+**Template (populate all bracketed fields from session context):**
+
+```
 Read AGENTS.md for context.
 
-I'm resuming work on [project].
-Agent Task ID: [AGENT_TASK_ID]
+You are the [ROLE — e.g., blocker supervisor agent / dev worker / orchestrator / triage agent]. Resume work on [project].
+Agent Task ID: [AGENT_TASK_ID] (preserve this ID in any handoffs you create)
 
-1. Read the session record at: [full absolute path]
-2. Confirm your role/mode from the user request and project rules.
-3. Execute the Priority Next Steps that are permitted by that role/mode.
+1. Read the session record at: [FULL ABSOLUTE PATH to saved file]
+2. Execute the Priority Next Steps immediately.
+3. If a step is blocked, report the blocker and continue to the next unblocked step.
+
+Do not present a menu of options. The Priority Next Steps are your instructions.
+```
+
+**Populating the ROLE field:** Capture the role from the current session context. If the agent was operating as a supervisor, the prompt says supervisor. If dev, says dev. If orchestrator, says orchestrator. If no specific role was active, use "continuation agent" and describe the work scope (e.g., "You are the continuation agent for GPU cluster monitoring").
 
 ## STATE
 
@@ -256,6 +265,18 @@ Agent Task ID: [AGENT_TASK_ID]
 - include success criteria whenever unfinished work remains
 - if work is complete, say so directly and keep only any real follow-on or monitoring item
 - do not write filler such as `continue from here`
+
+**Priority Next Steps requirements — each step MUST have:**
+- **Action**: what to do (verb-first, unambiguous)
+- **Location**: absolute file path, URL, or service endpoint
+- **Expected outcome**: what success looks like (measurable or verifiable)
+- Commands must be exact and runnable, not vague (e.g., `pytest tools/pse/tests/ -v` not "run the tests")
+- If a step requires an owner decision before execution, present it as a **Blocker** ("Owner must decide X before Y can proceed"), not as a menu option for the agent
+
+**Anti-patterns (do NOT do these):**
+- Do NOT present a list of options for the user to choose from. The Priority Next Steps are INSTRUCTIONS, not suggestions.
+- Do NOT write "consider doing X or Y" — pick the right action or flag it as a blocker requiring owner input.
+- Do NOT use vague language like "continue work on...", "look into...", "explore options for..." — state the exact action.
 
 ### `STATE`
 - this is the shared current-state snapshot for both continuation and audit review
@@ -347,3 +368,6 @@ Confirm all of the following:
 - `agent_task_id` is present
 - for complex records where the reduction target matters, the draft is intentionally shaped toward 217-235 lines / 4.8-5.2k tokens
 - orchestration handoff content was not mixed into this artifact
+- the Next-Session Prompt includes a concrete ROLE (not generic)
+- every Priority Next Step has action + location + expected outcome
+- **Continuation quality gate:** Could a fresh agent with ZERO context from this conversation read only the Next-Session Prompt + FORWARD section and start executing immediately? If not, add the missing context. The test is: paste the Next-Session Prompt into a blank conversation — does the agent know what it is, what to do first, and where to do it?
