@@ -32,7 +32,7 @@ Check Parity 1 (Vision to Design). Systematically verify that the project's desi
 
 ## Canonical Method
 
-`/Users/grig/.agents/docs/methodologies/design-parity-audit-methodology.md`
+`~/.agents/docs/methodologies/design-parity-audit-methodology.md`
 
 ---
 

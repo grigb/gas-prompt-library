@@ -17,7 +17,7 @@
 
 **Before proceeding, read the complete Project Completion Methodology:**
 
-`/Users/grig/.agents/docs/methodologies/project-completion-methodology.md`
+`~/.agents/docs/methodologies/project-completion-methodology.md`
 
 That document defines the five-phase process, the Two-Parity Principle, integration points with Blueprint Mode and the Work Order system, quality gates, and the output contract. This prompt is the entry point; the methodology is the process.
 
@@ -66,7 +66,7 @@ If the mode is ambiguous, ask the user: "Do you want me to (A) verify the declar
 
 ### Step 0: Read the Methodology
 
-Read `/Users/grig/.agents/docs/methodologies/project-completion-methodology.md` in full.
+Read `~/.agents/docs/methodologies/project-completion-methodology.md` in full.
 
 ### Step 1: Create the Living Verification Log (Phase 5)
 

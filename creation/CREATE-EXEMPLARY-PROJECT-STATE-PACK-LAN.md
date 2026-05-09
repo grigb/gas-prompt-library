@@ -8,15 +8,15 @@ You are creating or updating a **Project State Pack** for Local Artist Network.
 
 ## Fixed Project Inputs
 
-- Project root: `/Users/grig/work/lan/lan-platform`
+- Project root: `~/work/lan/lan-platform`
 - Project name: `Local Artist Network (lan-platform)`
 - Current phase: `Post-Board Demo Reset -> Design + Ingestion Audit -> Phase 2 Execution (Delegated)`
-- Canonical state file: `/Users/grig/work/lan/lan-platform/.dev/ai/STATE-OF-THE-PROJECT.md`
-- Canonical work-order index: `/Users/grig/work/lan/lan-platform/.dev/ai/workorders/WO-INDEX.md`
-- Canonical decision directory: `/Users/grig/work/lan/lan-platform/.dev/ai/decisions/`
-- Canonical ingestion ledger: `/Users/grig/work/lan/lan-platform/.dev/ai/ingestion/LEDGER.md`
-- Canonical milestone pipeline: `/Users/grig/work/lan/lan-platform/.dev/ai/planning/milestone-pipeline.md`
-- Output docs directory: `/Users/grig/work/lan/lan-platform/docs/lan-holistic`
+- Canonical state file: `~/work/lan/lan-platform/.dev/ai/STATE-OF-THE-PROJECT.md`
+- Canonical work-order index: `~/work/lan/lan-platform/.dev/ai/workorders/WO-INDEX.md`
+- Canonical decision directory: `~/work/lan/lan-platform/.dev/ai/decisions/`
+- Canonical ingestion ledger: `~/work/lan/lan-platform/.dev/ai/ingestion/LEDGER.md`
+- Canonical milestone pipeline: `~/work/lan/lan-platform/.dev/ai/planning/milestone-pipeline.md`
+- Output docs directory: `~/work/lan/lan-platform/docs/lan-holistic`
 
 ## Non-Negotiables
 
@@ -34,14 +34,14 @@ You are creating or updating a **Project State Pack** for Local Artist Network.
 
 Create or update these files:
 
-1. `/Users/grig/work/lan/lan-platform/docs/lan-holistic/00-Start Here.md`
-2. `/Users/grig/work/lan/lan-platform/docs/lan-holistic/LAN Holistic Overview.md`
-3. `/Users/grig/work/lan/lan-platform/docs/lan-holistic/01-Truth Reconciliation.md`
-4. `/Users/grig/work/lan/lan-platform/docs/lan-holistic/02-Source Coverage Audit.md`
-5. `/Users/grig/work/lan/lan-platform/docs/lan-holistic/03-Deferred Source Decisions.md`
-6. `/Users/grig/work/lan/lan-platform/docs/lan-holistic/04-Milestone Gates.md`
-7. `/Users/grig/work/lan/lan-platform/docs/lan-holistic/05-Progress Tracker.md`
-8. `/Users/grig/work/lan/lan-platform/docs/README.md`
+1. `~/work/lan/lan-platform/docs/lan-holistic/00-Start Here.md`
+2. `~/work/lan/lan-platform/docs/lan-holistic/LAN Holistic Overview.md`
+3. `~/work/lan/lan-platform/docs/lan-holistic/01-Truth Reconciliation.md`
+4. `~/work/lan/lan-platform/docs/lan-holistic/02-Source Coverage Audit.md`
+5. `~/work/lan/lan-platform/docs/lan-holistic/03-Deferred Source Decisions.md`
+6. `~/work/lan/lan-platform/docs/lan-holistic/04-Milestone Gates.md`
+7. `~/work/lan/lan-platform/docs/lan-holistic/05-Progress Tracker.md`
+8. `~/work/lan/lan-platform/docs/README.md`
 
 Use Obsidian wiki-link syntax (`[[...]]`) for internal navigation.
 

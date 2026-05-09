@@ -4,9 +4,9 @@ Context:
 K2B provenance-audit repair for LAN is already completed by Codex authority. Do not repeat K2B audit repair work in this run.
 
 Authority artifacts:
-- /Users/grig/work/lan/lan-platform/.dev/ai/reports/k2b-provenance-audits/2026-02-19-05-00-58-lan-platform-k2b-provenance-audit.md
-- /Users/grig/work/lan/lan-platform/.dev/ai/reports/k2b-provenance-audits/REPORT-INDEX.md
-- /Users/grig/.agents/.dev/ai/handoffs/k2b-agent-guidance/2026-02-19-k2b-guidance-lan-platform.md
+- ~/work/lan/lan-platform/.dev/ai/reports/k2b-provenance-audits/2026-02-19-05-00-58-lan-platform-k2b-provenance-audit.md
+- ~/work/lan/lan-platform/.dev/ai/reports/k2b-provenance-audits/REPORT-INDEX.md
+- ~/.agents/.dev/ai/handoffs/k2b-agent-guidance/2026-02-19-k2b-guidance-lan-platform.md
 
 Execution objective:
 Return to LAN critical-path delivery under interface-first rules.
@@ -23,7 +23,7 @@ Scope guardrails:
 - Prioritize deliverable movement on Group A work orders.
 
 Mandatory output file:
-- /Users/grig/work/lan/lan-platform/.dev/ai/reports/2026-02-19-interface-first-critical-path-resume.md
+- ~/work/lan/lan-platform/.dev/ai/reports/2026-02-19-interface-first-critical-path-resume.md
 
 Report must contain:
 - work order resumed first and rationale

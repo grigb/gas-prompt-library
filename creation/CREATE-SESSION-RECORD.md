@@ -40,7 +40,7 @@ Do **not** use this flow when:
 - you are delegating work to another agent mid-execution
 - the artifact is for multi-agent coordination rather than session close
 
-For those cases, use `/Users/grig/.agents/prompts/handoffs/ORCHESTRATION-HANDOFF.md` or the orchestrator-specific handoff flow.
+For those cases, use `~/.agents/prompts/handoffs/ORCHESTRATION-HANDOFF.md` or the orchestrator-specific handoff flow.
 
 ## Save Target
 
@@ -357,6 +357,38 @@ If the user asked for a visible close-out, give a short summary in chat that inc
 - next logical step
 - exact absolute path to the saved session record
 
+## PROJECT-STATUS.md Update (MANDATORY at session close)
+
+As part of session close, update `{project_root}/.dev/ai/PROJECT-STATUS.md` to
+reflect the final state. This gives the supervisor a one-line status check.
+
+If work remains unblocked:
+```
+status: working
+updated: <ISO timestamp>
+agent: <role from this session>
+
+## Active Work
+- <remaining WO or task>
+- <next planned item>
+```
+
+If work is blocked:
+```
+status: blocked
+updated: <ISO timestamp>
+agent: <role from this session>
+
+## Blocked Items (priority order)
+1. <what is blocked> — <plain-language reason>
+
+## Completed This Session
+- <what was done before hitting blocks>
+```
+
+Write atomically (temp file + mv). Line 1 must be `status: working` or
+`status: blocked`. Never delete this file — only overwrite.
+
 ## Final Check Before Saving
 
 Confirm all of the following:
@@ -371,3 +403,4 @@ Confirm all of the following:
 - the Next-Session Prompt includes a concrete ROLE (not generic)
 - every Priority Next Step has action + location + expected outcome
 - **Continuation quality gate:** Could a fresh agent with ZERO context from this conversation read only the Next-Session Prompt + FORWARD section and start executing immediately? If not, add the missing context. The test is: paste the Next-Session Prompt into a blank conversation — does the agent know what it is, what to do first, and where to do it?
+- PROJECT-STATUS.md at `{project_root}/.dev/ai/PROJECT-STATUS.md` has been updated with final state

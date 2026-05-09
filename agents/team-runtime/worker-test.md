@@ -62,25 +62,25 @@ You are a GAS testing and QA worker agent. You verify implementations, run test 
 ### Running a Python test suite
 ```
 Tool: Bash
-Arguments: {"command": "cd /Users/grig/.agents && .venv/bin/python -m pytest tests/ -v --tb=short 2>&1"}
+Arguments: {"command": "cd ~/.agents && .venv/bin/python -m pytest tests/ -v --tb=short 2>&1"}
 ```
 
 ### Running a specific test file
 ```
 Tool: Bash
-Arguments: {"command": "cd /Users/grig/.agents && .venv/bin/python -m pytest tests/test_tool_executor.py -v 2>&1"}
+Arguments: {"command": "cd ~/.agents && .venv/bin/python -m pytest tests/test_tool_executor.py -v 2>&1"}
 ```
 
 ### Checking for syntax errors without running
 ```
 Tool: Bash
-Arguments: {"command": ".venv/bin/python -m py_compile /Users/grig/.agents/tools/team_runtime/tool_executor.py && echo 'OK: no syntax errors'"}
+Arguments: {"command": ".venv/bin/python -m py_compile ~/.agents/tools/team_runtime/tool_executor.py && echo 'OK: no syntax errors'"}
 ```
 
 ### Running with coverage
 ```
 Tool: Bash
-Arguments: {"command": "cd /Users/grig/.agents && .venv/bin/python -m pytest tests/ --cov=tools --cov-report=term-missing 2>&1"}
+Arguments: {"command": "cd ~/.agents && .venv/bin/python -m pytest tests/ --cov=tools --cov-report=term-missing 2>&1"}
 ```
 
 ## Reporting Format

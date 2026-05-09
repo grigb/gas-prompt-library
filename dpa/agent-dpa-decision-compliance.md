@@ -32,7 +32,7 @@ Verify that every stakeholder decision has been propagated into specifications a
 
 ## Canonical Method
 
-`/Users/grig/.agents/docs/methodologies/design-parity-audit-methodology.md`
+`~/.agents/docs/methodologies/design-parity-audit-methodology.md`
 
 ---
 

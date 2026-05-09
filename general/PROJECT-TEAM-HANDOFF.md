@@ -150,19 +150,19 @@ Do NOT embellish. Write what is actually true. Distinguish three categories clea
 List applicable GAS standards the new team must internalize. Use absolute paths.
 
 **Tier 1 -- Mandatory day-1 reading (before writing any code or WOs):**
-- Work Order Decision Framework: `/Users/grig/.agents/docs/WORK-ORDER-DECISION-FRAMEWORK.md`
-- Git Operating Rules: Section in `/Users/grig/.agents/AGENTS.md` (search "VERSION CONTROL & GIT OPERATING RULES")
-- Coding Rules: `/Users/grig/.agents/docs/coding-rules/INDEX.md` (especially G1: no duplicates, G3: imports, G10: tests, G12: error handling)
-- Verification Protocols (L1-L4): `/Users/grig/.agents/docs/VERIFICATION-PROTOCOLS.md`
-- Artifact Ecosystem + Blueprint System: `/Users/grig/.agents/docs/ARTIFACT-ECOSYSTEM.md` and `/Users/grig/.agents/docs/BLUEPRINT-SYSTEM-INDEX.md`
+- Work Order Decision Framework: `~/.agents/docs/WORK-ORDER-DECISION-FRAMEWORK.md`
+- Git Operating Rules: Section in `~/.agents/AGENTS.md` (search "VERSION CONTROL & GIT OPERATING RULES")
+- Coding Rules: `~/.agents/docs/coding-rules/INDEX.md` (especially G1: no duplicates, G3: imports, G10: tests, G12: error handling)
+- Verification Protocols (L1-L4): `~/.agents/docs/VERIFICATION-PROTOCOLS.md`
+- Artifact Ecosystem + Blueprint System: `~/.agents/docs/ARTIFACT-ECOSYSTEM.md` and `~/.agents/docs/BLUEPRINT-SYSTEM-INDEX.md`
 
 **Tier 2 -- Required within first week:**
-- Sub-Agent Orchestration: `/Users/grig/.agents/docs/SUB-AGENT-ORCHESTRATION-GUIDE.md`
-- Testing Practices: `/Users/grig/.agents/docs/TESTING-PRACTICES.md`
-- Discovery/Findings Protocol: `/Users/grig/.agents/docs/DISCOVERY-FINDINGS-GUIDE.md`
-- Path and Filename Conventions: `/Users/grig/.agents/docs/PATH-CONVENTIONS.md`
-- Timestamp Utilities: `/Users/grig/.agents/docs/TIMESTAMP-UTILITIES-GUIDE.md`
-- Terminal Output Standards: `/Users/grig/.agents/docs/TERMINAL-OUTPUT-STANDARDS.md`
+- Sub-Agent Orchestration: `~/.agents/docs/SUB-AGENT-ORCHESTRATION-GUIDE.md`
+- Testing Practices: `~/.agents/docs/TESTING-PRACTICES.md`
+- Discovery/Findings Protocol: `~/.agents/docs/DISCOVERY-FINDINGS-GUIDE.md`
+- Path and Filename Conventions: `~/.agents/docs/PATH-CONVENTIONS.md`
+- Timestamp Utilities: `~/.agents/docs/TIMESTAMP-UTILITIES-GUIDE.md`
+- Terminal Output Standards: `~/.agents/docs/TERMINAL-OUTPUT-STANDARDS.md`
 
 ### 6. External Dependencies and Credential Health
 List EVERY external dependency the project relies on and its CURRENT health.

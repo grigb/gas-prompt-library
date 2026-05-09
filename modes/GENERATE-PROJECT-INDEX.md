@@ -1,6 +1,6 @@
 ---
 description: Generates a comprehensive, keyword-based knowledge index for a specific project domain.
-author: PeerMesh Agents
+author: Global Agents System
 created: 2026-01-15
 version: 1.0
 priority: high

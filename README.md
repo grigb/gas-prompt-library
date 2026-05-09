@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Status: Active Development](https://img.shields.io/badge/Status-Active%20Development-orange.svg)](#disclaimer)
 
-A collection of **80+ prompt templates and agent instructions** for AI agent orchestration systems. Part of the [Global Agents System](https://github.com/grigb/agents-global-system) ecosystem.
+A collection of **80+ prompt templates and agent instructions** for AI agent orchestration systems. Part of the [Global Agents System](https://github.com/YOUR_ORG/agents-global-system) ecosystem.
 
 ---
 
@@ -175,7 +175,7 @@ Complete work order lifecycle:
 
 ## Integration
 
-These prompts are designed for use with the [Global Agents System](https://github.com/grigb/agents-global-system) (GAS) but can be adapted for:
+These prompts are designed for use with the [Global Agents System](https://github.com/YOUR_ORG/agents-global-system) (GAS) but can be adapted for:
 
 - Claude Code / Claude Desktop
 - Cursor IDE
@@ -197,7 +197,7 @@ These prompts are designed for use with the [Global Agents System](https://githu
 
 ## Related Resources
 
-- [Global Agents System](https://github.com/grigb/agents-global-system) — Core infrastructure
+- [Global Agents System](https://github.com/YOUR_ORG/agents-global-system) — Core infrastructure
 - [PROMPT-PATH-INDEX.md](PROMPT-PATH-INDEX.md) — Fast file lookup index
 - [TRIGGER-INDEX.md](TRIGGER-INDEX.md) — Mode trigger phrases
 - [agents/_AGENT-INDEX.md](agents/_AGENT-INDEX.md) — Complete agent catalog

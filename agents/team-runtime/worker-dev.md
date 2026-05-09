@@ -46,16 +46,16 @@ You are a GAS development worker agent. You implement code changes, fix bugs, an
 **Step 1** -- Find files related to "config":
 ```
 Tool: Glob
-Arguments: {"pattern": "**/*config*.py", "path": "/Users/grig/.agents"}
+Arguments: {"pattern": "**/*config*.py", "path": "~/.agents"}
 Result:
-/Users/grig/.agents/tools/llm_gateway/config.py
-/Users/grig/.agents/scripts/config_loader.py
+~/.agents/tools/llm_gateway/config.py
+~/.agents/scripts/config_loader.py
 ```
 
 **Step 2** -- Read the config file:
 ```
 Tool: Read
-Arguments: {"file_path": "/Users/grig/.agents/tools/llm_gateway/config.py"}
+Arguments: {"file_path": "~/.agents/tools/llm_gateway/config.py"}
 Result:
      1	"""LLM Gateway configuration."""
      2	import os
@@ -67,9 +67,9 @@ Result:
 **Step 1** -- Search for the function to modify:
 ```
 Tool: Grep
-Arguments: {"pattern": "def load_config", "path": "/Users/grig/.agents", "output_mode": "content", "context": 3}
+Arguments: {"pattern": "def load_config", "path": "~/.agents", "output_mode": "content", "context": 3}
 Result:
-/Users/grig/.agents/tools/llm_gateway/config.py
+~/.agents/tools/llm_gateway/config.py
   10:  def load_config(path: str) -> dict:
   11:      """Load config from YAML file."""
   12:      with open(path) as f:
@@ -80,19 +80,19 @@ Result:
 ```
 Tool: Edit
 Arguments: {
-  "file_path": "/Users/grig/.agents/tools/llm_gateway/config.py",
+  "file_path": "~/.agents/tools/llm_gateway/config.py",
   "old_string": "def load_config(path: str) -> dict:\n    \"\"\"Load config from YAML file.\"\"\"\n    with open(path) as f:\n        return yaml.safe_load(f)",
   "new_string": "def load_config(path: str) -> dict:\n    \"\"\"Load config from YAML file.\"\"\"\n    if not os.path.exists(path):\n        raise FileNotFoundError(f\"Config not found: {path}\")\n    with open(path) as f:\n        return yaml.safe_load(f)"
 }
 Result:
-Replaced 1 occurrence(s) in /Users/grig/.agents/tools/llm_gateway/config.py
+Replaced 1 occurrence(s) in ~/.agents/tools/llm_gateway/config.py
 ```
 
 ### Example 3: Running tests to verify
 
 ```
 Tool: Bash
-Arguments: {"command": "cd /Users/grig/.agents && .venv/bin/python -m pytest tests/test_config.py -v"}
+Arguments: {"command": "cd ~/.agents && .venv/bin/python -m pytest tests/test_config.py -v"}
 Result:
 tests/test_config.py::test_load_valid PASSED
 tests/test_config.py::test_load_missing PASSED

@@ -10,12 +10,12 @@ Cold-start rule:
   - which stage/gate is currently the bottleneck.
 
 Authority references (follow these if any conflict exists):
-- /Users/grig/.agents/docs/methodologies/k2b-provenance-audit-process.md
-- /Users/grig/.agents/docs/methodologies/knowledge-to-build-method.md
-- /Users/grig/.agents/modes/KNOWLEDGE-TO-BUILD-MODE.md
-- /Users/grig/.agents/docs/vision/VISION-ADDENDUM-knowledge-index-to-build-mandate.md
-- /Users/grig/.agents/scripts/validate-k2b-gates.sh
-- /Users/grig/.agents/templates/k2b/K2B-PROVENANCE-AUDIT-REPORT-TEMPLATE.md
+- ~/.agents/docs/methodologies/k2b-provenance-audit-process.md
+- ~/.agents/docs/methodologies/knowledge-to-build-method.md
+- ~/.agents/modes/KNOWLEDGE-TO-BUILD-MODE.md
+- ~/.agents/docs/vision/VISION-ADDENDUM-knowledge-index-to-build-mandate.md
+- ~/.agents/scripts/validate-k2b-gates.sh
+- ~/.agents/templates/k2b/K2B-PROVENANCE-AUDIT-REPORT-TEMPLATE.md
 
 Context resolution (do not ask user for placeholders):
 - PROJECT_SOURCE_ROOT: current working directory (`pwd`)
@@ -37,8 +37,8 @@ Mandatory audit tasks:
 1. List all files actually read (absolute path + why each file was read).
 2. Compute Stage -1, Stage 0, and G1-G7 status with evidence file paths.
 3. Run validator:
-   - `/Users/grig/.agents/scripts/validate-k2b-gates.sh "$PROJECT_SOURCE_ROOT" --artifact-root "$K2B_ARTIFACT_ROOT"`
-   - `/Users/grig/.agents/scripts/validate-k2b-gates.sh "$PROJECT_SOURCE_ROOT" --artifact-root "$K2B_ARTIFACT_ROOT" --strict`
+   - `~/.agents/scripts/validate-k2b-gates.sh "$PROJECT_SOURCE_ROOT" --artifact-root "$K2B_ARTIFACT_ROOT"`
+   - `~/.agents/scripts/validate-k2b-gates.sh "$PROJECT_SOURCE_ROOT" --artifact-root "$K2B_ARTIFACT_ROOT" --strict`
    - Record both commands, both exit codes, summaries, and strict-log path.
    - If validator execution fails due shell/runtime compatibility, rerun using explicit Bash 4+ and record the exact runtime binary used.
 4. Build complete ingestion inventory:

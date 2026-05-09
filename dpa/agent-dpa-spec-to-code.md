@@ -32,7 +32,7 @@ Check Parity 2 (Design to Implementation) for a SINGLE SURFACE. Compare the surf
 
 ## Canonical Method
 
-`/Users/grig/.agents/docs/methodologies/design-parity-audit-methodology.md`
+`~/.agents/docs/methodologies/design-parity-audit-methodology.md`
 
 ---
 

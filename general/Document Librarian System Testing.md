@@ -13,9 +13,9 @@
 **What is Document Librarian?**
 A production-ready CLI tool for intelligent document organization with zero data loss guarantees.
 
-**Location:** `/Users/grig/.agents/lib/document-librarian/`
+**Location:** `~/.agents/lib/document-librarian/`
 
-**Command:** `/Users/grig/.agents/bin/document-librarian`
+**Command:** `~/.agents/bin/document-librarian`
 
 **Key Features:**
 - 15 independent safety mechanisms (zero data loss)
@@ -86,7 +86,7 @@ document-librarian scan ~/test-document-librarian/test-scan
 ✅ Report generated
 
 **If Feature Fails:**
-Create bug report: `/Users/grig/.agents/.dev/ai/bugs/document-librarian-scan-YYYYMMDD.md`
+Create bug report: `~/.agents/.dev/ai/bugs/document-librarian-scan-YYYYMMDD.md`
 
 ---
 
@@ -120,7 +120,7 @@ ls -la ~/test-document-librarian/test-scan
 ```
 
 **If Feature Fails:**
-Create bug report: `/Users/grig/.agents/.dev/ai/bugs/document-librarian-clean-dryrun-YYYYMMDD.md`
+Create bug report: `~/.agents/.dev/ai/bugs/document-librarian-clean-dryrun-YYYYMMDD.md`
 
 ---
 
@@ -160,7 +160,7 @@ cat ~/.document-librarian/audit.log
 ```
 
 **If Feature Fails:**
-Create bug report: `/Users/grig/.agents/.dev/ai/bugs/document-librarian-clean-execute-YYYYMMDD.md`
+Create bug report: `~/.agents/.dev/ai/bugs/document-librarian-clean-execute-YYYYMMDD.md`
 
 ---
 
@@ -195,7 +195,7 @@ cat ~/restored-file.txt
 ```
 
 **If Feature Fails:**
-Create bug report: `/Users/grig/.agents/.dev/ai/bugs/document-librarian-restore-YYYYMMDD.md`
+Create bug report: `~/.agents/.dev/ai/bugs/document-librarian-restore-YYYYMMDD.md`
 
 ---
 
@@ -224,7 +224,7 @@ document-librarian query --path "*.txt" --after 2024-01-01 --format json
 ✅ Fast performance
 
 **If Feature Fails:**
-Create bug report: `/Users/grig/.agents/.dev/ai/bugs/document-librarian-query-YYYYMMDD.md`
+Create bug report: `~/.agents/.dev/ai/bugs/document-librarian-query-YYYYMMDD.md`
 
 ---
 
@@ -249,7 +249,7 @@ document-librarian stats
 ✅ No errors
 
 **If Feature Fails:**
-Create bug report: `/Users/grig/.agents/.dev/ai/bugs/document-librarian-stats-YYYYMMDD.md`
+Create bug report: `~/.agents/.dev/ai/bugs/document-librarian-stats-YYYYMMDD.md`
 
 ---
 
@@ -287,7 +287,7 @@ document-librarian clean ~/test-document-librarian/test-git --execute
 ✅ Warning shown
 
 **If Feature Fails:**
-Create bug report: `/Users/grig/.agents/.dev/ai/bugs/document-librarian-git-protection-YYYYMMDD.md`
+Create bug report: `~/.agents/.dev/ai/bugs/document-librarian-git-protection-YYYYMMDD.md`
 
 ---
 
@@ -324,14 +324,14 @@ document-librarian clean ~/test-document-librarian --execute
 ✅ Configuration loaded
 
 **If Feature Fails:**
-Create bug report: `/Users/grig/.agents/.dev/ai/bugs/document-librarian-whitelist-YYYYMMDD.md`
+Create bug report: `~/.agents/.dev/ai/bugs/document-librarian-whitelist-YYYYMMDD.md`
 
 ---
 
 #### Feature 2.4-2.15: Remaining Safety Mechanisms
 **Test via automated test suite:**
 ```bash
-cd /Users/grig/.agents/lib/document-librarian/tests
+cd ~/.agents/lib/document-librarian/tests
 python3 run_all_tests.py
 ```
 
@@ -346,7 +346,7 @@ python3 run_all_tests.py
 #### Feature 3.1: Throughput (120-150 GB/hour)
 **How to Test:**
 ```bash
-cd /Users/grig/.agents/lib/document-librarian/tests
+cd ~/.agents/lib/document-librarian/tests
 pytest performance/test_throughput.py -v -s
 ```
 
@@ -360,7 +360,7 @@ pytest performance/test_throughput.py -v -s
 ✅ Throughput ≥120 GB/hour
 
 **If Feature Fails:**
-Create bug report: `/Users/grig/.agents/.dev/ai/bugs/document-librarian-throughput-YYYYMMDD.md`
+Create bug report: `~/.agents/.dev/ai/bugs/document-librarian-throughput-YYYYMMDD.md`
 
 ---
 
@@ -380,7 +380,7 @@ pytest accuracy/test_classification_accuracy.py -v
 ✅ False positives <1%
 
 **If Feature Fails:**
-Create bug report: `/Users/grig/.agents/.dev/ai/bugs/document-librarian-accuracy-YYYYMMDD.md`
+Create bug report: `~/.agents/.dev/ai/bugs/document-librarian-accuracy-YYYYMMDD.md`
 
 ---
 
@@ -400,7 +400,7 @@ pytest performance/test_resource_usage.py -v -s
 ✅ Resources within limits
 
 **If Feature Fails:**
-Create bug report: `/Users/grig/.agents/.dev/ai/bugs/document-librarian-resource-usage-YYYYMMDD.md`
+Create bug report: `~/.agents/.dev/ai/bugs/document-librarian-resource-usage-YYYYMMDD.md`
 
 ---
 
@@ -410,7 +410,7 @@ For remaining categories (Archive System, Configuration, Reporting, AI Standards
 
 **Run comprehensive test suite:**
 ```bash
-cd /Users/grig/.agents/lib/document-librarian/tests
+cd ~/.agents/lib/document-librarian/tests
 python3 run_all_tests.py
 ```
 
@@ -422,7 +422,7 @@ python3 run_all_tests.py
 
 When a feature fails, create individual bug reports:
 
-**File:** `/Users/grig/.agents/.dev/ai/bugs/document-librarian-FEATURE-YYYYMMDD.md`
+**File:** `~/.agents/.dev/ai/bugs/document-librarian-FEATURE-YYYYMMDD.md`
 
 **Template:**
 ```markdown
@@ -480,7 +480,7 @@ When a feature fails, create individual bug reports:
 
 After testing all features, create:
 
-**File:** `/Users/grig/.agents/.dev/ai/reports/document-librarian-test-report-YYYYMMDD.md`
+**File:** `~/.agents/.dev/ai/reports/document-librarian-test-report-YYYYMMDD.md`
 
 **Template:**
 ```markdown
@@ -534,8 +534,8 @@ After testing all features, create:
 
 After completing this test:
 
-1. **Final report:** `/Users/grig/.agents/.dev/ai/reports/document-librarian-test-report-YYYYMMDD.md`
-2. **Bug reports:** One per failure at `/Users/grig/.agents/.dev/ai/bugs/`
+1. **Final report:** `~/.agents/.dev/ai/reports/document-librarian-test-report-YYYYMMDD.md`
+2. **Bug reports:** One per failure at `~/.agents/.dev/ai/bugs/`
 3. **Production readiness assessment**
 
 ---

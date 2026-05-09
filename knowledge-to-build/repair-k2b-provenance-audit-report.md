@@ -4,9 +4,9 @@ Goal:
 Repair the latest K2B provenance audit output so it conforms to the canonical report contract and quality gates.
 
 Authority references (follow these if any conflict exists):
-- /Users/grig/.agents/docs/methodologies/k2b-provenance-audit-process.md
-- /Users/grig/.agents/templates/k2b/K2B-PROVENANCE-AUDIT-REPORT-TEMPLATE.md
-- /Users/grig/.agents/scripts/validate-k2b-gates.sh
+- ~/.agents/docs/methodologies/k2b-provenance-audit-process.md
+- ~/.agents/templates/k2b/K2B-PROVENANCE-AUDIT-REPORT-TEMPLATE.md
+- ~/.agents/scripts/validate-k2b-gates.sh
 
 Context resolution:
 - PROJECT_SOURCE_ROOT: current working directory (`pwd`)
@@ -25,8 +25,8 @@ Repair protocol:
 
 Mandatory corrections:
 1. Run both validators and record both:
-   - `/Users/grig/.agents/scripts/validate-k2b-gates.sh "$PROJECT_SOURCE_ROOT" --artifact-root "$K2B_ARTIFACT_ROOT"`
-   - `/Users/grig/.agents/scripts/validate-k2b-gates.sh "$PROJECT_SOURCE_ROOT" --artifact-root "$K2B_ARTIFACT_ROOT" --strict`
+   - `~/.agents/scripts/validate-k2b-gates.sh "$PROJECT_SOURCE_ROOT" --artifact-root "$K2B_ARTIFACT_ROOT"`
+   - `~/.agents/scripts/validate-k2b-gates.sh "$PROJECT_SOURCE_ROOT" --artifact-root "$K2B_ARTIFACT_ROOT" --strict`
 2. Persist strict output log to:
    - `K2B_ARTIFACT_ROOT/reports/k2b-provenance-audits/<timestamp>-strict-validator.log`
    - if default shell/runtime fails, rerun with explicit Bash 4+ and record runtime binary path in report

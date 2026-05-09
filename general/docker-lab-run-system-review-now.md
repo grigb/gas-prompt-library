@@ -1,7 +1,7 @@
 Run a full end-to-end system review now (not a review of the review process).
 
 Project root:
-`/Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab`
+`~/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab`
 
 Goal:
 Execute one real review cycle using the charter method, derive system intent from source docs, validate against implementation + runnable checks, and produce concrete improvement suggestions.
@@ -30,7 +30,7 @@ Do this exactly:
 - `sub-repos/docker-lab/docs/`
 
 3) Run these non-destructive checks and use results as evidence:
-- `cd /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/sub-repos/docker-lab`
+- `cd ~/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/sub-repos/docker-lab`
 - `./scripts/deploy.sh --validate --evidence-root /tmp/claude-system-review-deploy --evidence-tag claude-system-review`
 - `./scripts/security/validate-supply-chain.sh --severity-threshold CRITICAL --output-dir /tmp/claude-system-review-supply-chain`
 - `./scripts/scalability/run-wave1-validation.sh --output-dir /tmp/claude-system-review-wave1`

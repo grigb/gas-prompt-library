@@ -32,7 +32,7 @@ Verify that each validated persona's needs are systematically served by the curr
 
 ## Canonical Method
 
-`/Users/grig/.agents/docs/methodologies/design-parity-audit-methodology.md`
+`~/.agents/docs/methodologies/design-parity-audit-methodology.md`
 
 ---
 

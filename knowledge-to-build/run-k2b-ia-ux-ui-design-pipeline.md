@@ -15,12 +15,12 @@ This method must work as:
 Do not stop at report-only output unless hard-blocked.
 
 Authority references (follow these if any conflict exists):
-- `/Users/grig/.agents/docs/methodologies/knowledge-to-build-method.md`
-- `/Users/grig/.agents/docs/methodologies/ia-synthesis-methodology.md`
-- `/Users/grig/.agents/docs/methodologies/ia-pattern-optimization-and-journey-analysis-reference.md`
-- `/Users/grig/.agents/modes/KNOWLEDGE-TO-BUILD-MODE.md`
-- `/Users/grig/.agents/docs/vision/VISION-ADDENDUM-knowledge-index-to-build-mandate.md`
-- `/Users/grig/.agents/scripts/validate-k2b-gates.sh`
+- `~/.agents/docs/methodologies/knowledge-to-build-method.md`
+- `~/.agents/docs/methodologies/ia-synthesis-methodology.md`
+- `~/.agents/docs/methodologies/ia-pattern-optimization-and-journey-analysis-reference.md`
+- `~/.agents/modes/KNOWLEDGE-TO-BUILD-MODE.md`
+- `~/.agents/docs/vision/VISION-ADDENDUM-knowledge-index-to-build-mandate.md`
+- `~/.agents/scripts/validate-k2b-gates.sh`
 
 Execution mode resolution:
 - Resolve `DESIGN_RUN_MODE` in this order:
@@ -125,7 +125,7 @@ Stage execution contract:
   - design per-surface navigation hierarchies and passive-surface programming rules
   - define cross-surface state handoffs and phase-gated IA scope
   - run IA pattern optimization and journey analysis per:
-    - `/Users/grig/.agents/docs/methodologies/ia-pattern-optimization-and-journey-analysis-reference.md`
+    - `~/.agents/docs/methodologies/ia-pattern-optimization-and-journey-analysis-reference.md`
   - prioritize top journeys, generate at least 2 IA variants per journey, and score variants using the elegance model
   - enforce cognitive-load constraints:
     - top-level nav items per surface: <= 7
@@ -246,8 +246,8 @@ Stage execution contract:
 
 6) Validation stage (`validate_only` or required at end of `full_pipeline`)
 - Run K2B gate validator (baseline + strict):
-  - `/Users/grig/.agents/scripts/validate-k2b-gates.sh "$PROJECT_SOURCE_ROOT" --artifact-root "$K2B_ARTIFACT_ROOT"`
-  - `/Users/grig/.agents/scripts/validate-k2b-gates.sh "$PROJECT_SOURCE_ROOT" --artifact-root "$K2B_ARTIFACT_ROOT" --strict`
+  - `~/.agents/scripts/validate-k2b-gates.sh "$PROJECT_SOURCE_ROOT" --artifact-root "$K2B_ARTIFACT_ROOT"`
+  - `~/.agents/scripts/validate-k2b-gates.sh "$PROJECT_SOURCE_ROOT" --artifact-root "$K2B_ARTIFACT_ROOT" --strict`
 - If shell/runtime compatibility fails, rerun using explicit Bash 4+ and record runtime path.
 - Persist strict log to:
   - `K2B_ARTIFACT_ROOT/reports/K2B-DESIGN-PIPELINE-STRICT-<YYYY-MM-DD-HH-MM-SS>.log`

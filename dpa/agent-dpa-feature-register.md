@@ -32,7 +32,7 @@ Verify alignment between the canonical feature register, the specifications, and
 
 ## Canonical Method
 
-`/Users/grig/.agents/docs/methodologies/design-parity-audit-methodology.md`
+`~/.agents/docs/methodologies/design-parity-audit-methodology.md`
 
 ---
 

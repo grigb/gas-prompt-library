@@ -40,8 +40,8 @@ Operating stance:
 ## 2. First Actions (Every Iteration)
 At the start of each iteration, do this in order:
 1. Read the current test log at the path provided by the invoker.
-2. Read `/Users/grig/.agents/pa/identity/SOUL.md` for expected identity and tone.
-3. Read `/Users/grig/.agents/pa/doctor/KNOWN-CONDITIONS.md` for known failure patterns.
+2. Read `~/.agents/pa/identity/SOUL.md` for expected identity and tone.
+3. Read `~/.agents/pa/doctor/KNOWN-CONDITIONS.md` for known failure patterns.
 4. Collect unresolved issues and severities from the latest entries.
 5. Confirm runtime availability (`http://127.0.0.1:8201/healthz`).
 6. Choose testing focus with strict priority:
@@ -89,7 +89,7 @@ Example prompts:
 - "Who created you?"
 - "What are you responsible for?"
 Pass criteria:
-- Responses align with `/Users/grig/.agents/pa/identity/SOUL.md`.
+- Responses align with `~/.agents/pa/identity/SOUL.md`.
 - No fabricated ownership, mission, or role claims.
 
 ### Memory
@@ -196,7 +196,7 @@ Pass criteria:
 Goal:
 - Validate behavior during partial service degradation and restoration.
 Example flow:
-- Run `/Users/grig/.agents/scripts/pa-vitals.sh` to identify degraded state.
+- Run `~/.agents/scripts/pa-vitals.sh` to identify degraded state.
 - Send baseline and stress prompts while degraded.
 - Restore affected service and rerun baseline checks.
 Pass criteria:
@@ -284,14 +284,14 @@ Also include:
 
 ## 9. Forbidden Actions
 Never do any of the following:
-- Modify `/Users/grig/.agents/pa/identity/SOUL.md`.
+- Modify `~/.agents/pa/identity/SOUL.md`.
 - Change PA LLM model configuration.
 - Delete or truncate PA databases (`membrane.db`, `pse.db`, `runtime-sessions.db`).
 - Send test traffic to real Matrix channels.
 - Use any channel other than `channel="test"`.
 - Hide failed tests by omitting them from logs.
 Protected paths and data guidance:
-- `/Users/grig/.agents/pa/identity/SOUL.md` is read-only for this role.
-- `/Users/grig/.agents/pa/doctor/KNOWN-CONDITIONS.md` is reference context; do not rewrite history unless explicitly directed.
+- `~/.agents/pa/identity/SOUL.md` is read-only for this role.
+- `~/.agents/pa/doctor/KNOWN-CONDITIONS.md` is reference context; do not rewrite history unless explicitly directed.
 - Credentials, private keys, and secret material are out of scope for QA probing.
 - Redact credential-like values in logs and captured evidence.

@@ -5,10 +5,10 @@ Context (already done):
 - Do NOT run another K2B provenance audit in this run.
 
 Authority artifacts:
-- /Users/grig/work/lan/lan-platform/.dev/ai/reports/k2b-provenance-audits/2026-02-19-05-00-58-lan-platform-k2b-provenance-audit.md
-- /Users/grig/work/lan/lan-platform/.dev/ai/reports/k2b-provenance-audits/REPORT-INDEX.md
-- /Users/grig/work/lan/lan-platform/.dev/ai/workorders/WO-interface-first-foundation-groups.md
-- /Users/grig/work/lan/lan-platform/docs/product/decisions/2026-02-18-interface-first-foundation-gate.md
+- ~/work/lan/lan-platform/.dev/ai/reports/k2b-provenance-audits/2026-02-19-05-00-58-lan-platform-k2b-provenance-audit.md
+- ~/work/lan/lan-platform/.dev/ai/reports/k2b-provenance-audits/REPORT-INDEX.md
+- ~/work/lan/lan-platform/.dev/ai/workorders/WO-interface-first-foundation-groups.md
+- ~/work/lan/lan-platform/docs/product/decisions/2026-02-18-interface-first-foundation-gate.md
 
 Primary objective for this run:
 - Execute Group A critical-path work with concrete deliverable movement.
@@ -29,10 +29,10 @@ Minimum change bar (anti-stall):
 - If WO-lan-screen-onboarding-canvas is blocked, immediately switch to WO-lan-ember-gallery-navigation and complete one concrete delta there in the same run.
 
 Validation command (required):
-- /Users/grig/.agents/scripts/validate-k2b-gates.sh /Users/grig/work/lan/lan-platform --artifact-root /Users/grig/work/lan/lan-platform/.dev/ai --strict
+- ~/.agents/scripts/validate-k2b-gates.sh ~/work/lan/lan-platform --artifact-root ~/work/lan/lan-platform/.dev/ai --strict
 
 Required run report:
-- /Users/grig/work/lan/lan-platform/.dev/ai/reports/2026-02-19-interface-first-critical-path-resume.md
+- ~/work/lan/lan-platform/.dev/ai/reports/2026-02-19-interface-first-critical-path-resume.md
 
 Report must include:
 - which Group A WO was advanced first and why

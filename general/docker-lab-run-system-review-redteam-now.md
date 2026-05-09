@@ -1,7 +1,7 @@
 Run an adversarial (red-team) end-to-end system review now (not a meta-review).
 
 Project root:
-`/Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab`
+`~/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab`
 
 Mission:
 Try to break the system on paper and in validation checks: find where future agents could produce wrong conclusions while appearing compliant.
@@ -11,7 +11,7 @@ Execution steps:
 1) Read the same canonical docs + charter and derive goals/design intent.
 2) Inspect implementation in `sub-repos/docker-lab/`.
 3) Run these checks for evidence:
-- `cd /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/sub-repos/docker-lab`
+- `cd ~/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/sub-repos/docker-lab`
 - `./scripts/deploy.sh --validate --evidence-root /tmp/claude-redteam-deploy --evidence-tag claude-redteam`
 - `./scripts/security/validate-supply-chain.sh --severity-threshold CRITICAL --output-dir /tmp/claude-redteam-supply-chain`
 - `./scripts/scalability/run-wave1-validation.sh --output-dir /tmp/claude-redteam-wave1`

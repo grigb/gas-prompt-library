@@ -2,11 +2,11 @@
 
 ## Purpose
 
-Process a work session meeting transcript or notes into the 4 standard DC extracts. This is the same distillation methodology used for WhatsApp chat processing (WO-SUP-005), adapted for longer-form meeting content.
+Process a work session meeting transcript or notes into 4 standard extracts. This is the same distillation methodology used for chat processing, adapted for longer-form meeting content.
 
 ## Input
 
-A markdown file from `~/work/obsidian-vault/distributed-creatives-vault/general/meetings/work-sessions/`. Meeting files may be:
+A markdown file from `~/work/example-vault/general/meetings/work-sessions/`. Meeting files may be:
 
 - Raw transcripts (conversational, speaker-attributed)
 - Agent briefs (already structured by an LLM from a transcript)
@@ -185,7 +185,7 @@ Produce exactly 4 extract files in the companion `-extracts/` directory alongsid
 ## <Project Name>
 - <Bullet point summary of what was discussed/decided>
 - <Another point>
-- <Speaker attribution where relevant: "Grig: '<quote>'">
+- <Speaker attribution where relevant: "Speaker A: '<quote>'">
 
 ## <Next Project>
 - ...
@@ -196,7 +196,7 @@ Produce exactly 4 extract files in the companion `-extracts/` directory alongsid
 - **peers.social** -- The social network/platform
 - **Local Artist Network (LAN)** -- Digital signage, venue network, local infrastructure
 - **Save The Creators (STC) / CAFI** -- Advocacy, policy, campaigns
-- **PeerMesh / Universal Manifest** -- Protocol, standards, federation
+- **Protocol / Standards** -- Protocol, standards, federation
 - **EverArchive** -- Permanent storage, provenance, proof-of-ownership
 - **DC (Organization)** -- Organizational matters, team, legal, governance
 - **Distributed Studios** -- Creator-economy studio concept

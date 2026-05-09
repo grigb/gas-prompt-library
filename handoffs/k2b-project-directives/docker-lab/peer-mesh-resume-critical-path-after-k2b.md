@@ -5,27 +5,27 @@ Context:
 - Legacy Stage 5-7 chain (`WO-007/008/009`) is blocked until `WO-017` and `WO-018` complete.
 
 Roots:
-- Source root: /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha
-- Module root: /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab
-- Artifact root: /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai
+- Source root: ~/work/peermesh/repo/knowledge-graph-lab-alpha
+- Module root: ~/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab
+- Artifact root: ~/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai
 
 Authority files:
-- /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/STATE-OF-PROJECT.md
-- /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/STATE-OF-THE-PROJECT.md
-- /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/workorders/WO-INDEX.md
-- /Users/grig/.agents/.dev/ai/handoffs/k2b-agent-guidance/2026-02-19-k2b-guidance-peer-mesh-docker-lab.md
+- ~/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/STATE-OF-PROJECT.md
+- ~/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/STATE-OF-THE-PROJECT.md
+- ~/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/workorders/WO-INDEX.md
+- ~/.agents/.dev/ai/handoffs/k2b-agent-guidance/2026-02-19-k2b-guidance-peer-mesh-docker-lab.md
 
 Execution sequence:
 1. Run strict validator with explicit artifact-root:
-   - /opt/homebrew/bin/bash /Users/grig/.agents/scripts/validate-k2b-gates.sh /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab --artifact-root /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai --strict
+   - /opt/homebrew/bin/bash ~/.agents/scripts/validate-k2b-gates.sh ~/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab --artifact-root ~/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai --strict
 2. If strict is not clean, perform minimal fixes and update:
-   - /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/reports/K2B-BASELINE-MAINTENANCE-2026-02-19.md
+   - ~/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/reports/K2B-BASELINE-MAINTENANCE-2026-02-19.md
 3. Resume critical-path WO chain in order:
    - WO-PMDL-2026-02-19-017
    - WO-PMDL-2026-02-19-018
 
 Mandatory output file for this run:
-- /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/reports/2026-02-19-critical-path-resume-peer-mesh-docker-lab.md
+- ~/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/reports/2026-02-19-critical-path-resume-peer-mesh-docker-lab.md
 
 Report must contain:
 - strict validator command and exit code

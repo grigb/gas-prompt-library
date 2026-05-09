@@ -20,9 +20,9 @@ Resolved context variables for this run:
 - `PROJECT_NAME`
 
 Rule authority (this prompt is an entrypoint, not the source of truth):
-- `/Users/grig/.agents/docs/methodologies/knowledge-to-build-method.md`
-- `/Users/grig/.agents/modes/KNOWLEDGE-TO-BUILD-MODE.md`
-- `/Users/grig/.agents/docs/vision/VISION-ADDENDUM-knowledge-index-to-build-mandate.md`
+- `~/.agents/docs/methodologies/knowledge-to-build-method.md`
+- `~/.agents/modes/KNOWLEDGE-TO-BUILD-MODE.md`
+- `~/.agents/docs/vision/VISION-ADDENDUM-knowledge-index-to-build-mandate.md`
 If this prompt and those files diverge, follow the authority files and record divergence in decision audit.
 
 Goal:
@@ -39,24 +39,24 @@ Cold-start alignment (mandatory before file edits):
 3. Do not continue if this context note is missing.
 
 Canonical references (do not duplicate these files, link to them):
-- /Users/grig/.agents/docs/methodologies/knowledge-to-build-method.md
-- /Users/grig/.agents/modes/KNOWLEDGE-TO-BUILD-MODE.md
-- /Users/grig/.agents/knowledge-sources/INDEX.md
-- /Users/grig/.agents/knowledge-sources/PROCESS.md
-- /Users/grig/.agents/docs/vision/VISION-ADDENDUM-knowledge-index-to-build-mandate.md
-- /Users/grig/.agents/scripts/validate-k2b-gates.sh
-- /Users/grig/.agents/scripts/k2b-stage0-init.sh
-- /Users/grig/.agents/templates/k2b/K2B-BOOTSTRAP-REPORT-TEMPLATE.md
-- /Users/grig/.agents/templates/k2b/K2B-DECISION-AUDIT-TEMPLATE.md
-- /Users/grig/.agents/templates/k2b/STAGE0-PROJECT-MASTER-INDEX.md
-- /Users/grig/.agents/templates/k2b/STAGE0-SOURCE-SELECTION.md
-- /Users/grig/.agents/templates/k2b/STAGE0-MATERIALIZATION-MODE.md
-- /Users/grig/.agents/templates/k2b/STAGE0-SOURCE-MAP.md
-- /Users/grig/.agents/templates/k2b/LEDGER-TEMPLATE.md
-- /Users/grig/.agents/templates/k2b/GATES-TEMPLATE.md
-- /Users/grig/.agents/templates/k2b/EXTRACTION-INVENTORY-TEMPLATE.md
-- /Users/grig/.agents/templates/k2b/VALIDATION-REPORT-TEMPLATE.md
-- /Users/grig/.agents/templates/k2b/BUILD-EXTRACTION-TEMPLATE.md
+- ~/.agents/docs/methodologies/knowledge-to-build-method.md
+- ~/.agents/modes/KNOWLEDGE-TO-BUILD-MODE.md
+- ~/.agents/knowledge-sources/INDEX.md
+- ~/.agents/knowledge-sources/PROCESS.md
+- ~/.agents/docs/vision/VISION-ADDENDUM-knowledge-index-to-build-mandate.md
+- ~/.agents/scripts/validate-k2b-gates.sh
+- ~/.agents/scripts/k2b-stage0-init.sh
+- ~/.agents/templates/k2b/K2B-BOOTSTRAP-REPORT-TEMPLATE.md
+- ~/.agents/templates/k2b/K2B-DECISION-AUDIT-TEMPLATE.md
+- ~/.agents/templates/k2b/STAGE0-PROJECT-MASTER-INDEX.md
+- ~/.agents/templates/k2b/STAGE0-SOURCE-SELECTION.md
+- ~/.agents/templates/k2b/STAGE0-MATERIALIZATION-MODE.md
+- ~/.agents/templates/k2b/STAGE0-SOURCE-MAP.md
+- ~/.agents/templates/k2b/LEDGER-TEMPLATE.md
+- ~/.agents/templates/k2b/GATES-TEMPLATE.md
+- ~/.agents/templates/k2b/EXTRACTION-INVENTORY-TEMPLATE.md
+- ~/.agents/templates/k2b/VALIDATION-REPORT-TEMPLATE.md
+- ~/.agents/templates/k2b/BUILD-EXTRACTION-TEMPLATE.md
 
 Execution constraints:
 1. Detect current state first and produce a gap list.
@@ -68,18 +68,18 @@ Execution constraints:
 
 Stage -1 is mandatory before Stage 0:
 0. If Stage -1/0 files are missing, scaffold first (recommended):
-   - `/Users/grig/.agents/scripts/k2b-stage0-init.sh --project-root "$PROJECT_SOURCE_ROOT" --artifact-root "$K2B_ARTIFACT_ROOT" --project-name "$PROJECT_NAME" --mode localized`
+   - `~/.agents/scripts/k2b-stage0-init.sh --project-root "$PROJECT_SOURCE_ROOT" --artifact-root "$K2B_ARTIFACT_ROOT" --project-name "$PROJECT_NAME" --mode localized`
 1. Create/refresh candidate inventory:
    - `K2B_ARTIFACT_ROOT/knowledge-index/CANDIDATE-SOURCES.md`
 2. Enumerate candidate pools and absolute paths from:
    - project docs/work orders/reports/decisions/research/handoffs
-   - relevant global index artifacts under `/Users/grig/.agents/knowledge-sources/`
+   - relevant global index artifacts under `~/.agents/knowledge-sources/`
    - approved external source pools
 3. Produce dry-run disposition proposal (`selected`, `deferred`, `excluded`) with counts and rationale.
 
 Stage 0 is mandatory before Stage 1:
 1. Create or locate a project-lens master index in:
-   - /Users/grig/.agents/knowledge-sources/project-indexes/
+   - ~/.agents/knowledge-sources/project-indexes/
 2. Create project-local Stage 0 artifacts:
    - `K2B_ARTIFACT_ROOT/knowledge-index/PROJECT-MASTER-INDEX.md`
    - `K2B_ARTIFACT_ROOT/knowledge-index/SOURCE-SELECTION.md`
@@ -114,7 +114,7 @@ K2B-README.md must include:
 - chosen application profile(s)
 - stage-by-stage artifact map for this project (Stage -1 through Stage 7)
 - command examples for running K2B in this repo
-- when to run `/Users/grig/.agents/scripts/validate-k2b-gates.sh`
+- when to run `~/.agents/scripts/validate-k2b-gates.sh`
 
 MANDATORY DELIVERABLES (required on every bootstrap/reconciliation run):
 - `K2B_ARTIFACT_ROOT/reports/K2B-COLD-START-CONTEXT-<YYYY-MM-DD-HH-MM-SS>.md`
@@ -178,9 +178,9 @@ Validation:
 - Verify every required path exists.
 - Verify all selected Stage 0 sources resolve (remote or local).
 - If enough artifacts exist, run:
-  `/Users/grig/.agents/scripts/validate-k2b-gates.sh "$PROJECT_SOURCE_ROOT" --artifact-root "$K2B_ARTIFACT_ROOT"`
+  `~/.agents/scripts/validate-k2b-gates.sh "$PROJECT_SOURCE_ROOT" --artifact-root "$K2B_ARTIFACT_ROOT"`
 - Also run strict mode:
-  `/Users/grig/.agents/scripts/validate-k2b-gates.sh "$PROJECT_SOURCE_ROOT" --artifact-root "$K2B_ARTIFACT_ROOT" --strict`
+  `~/.agents/scripts/validate-k2b-gates.sh "$PROJECT_SOURCE_ROOT" --artifact-root "$K2B_ARTIFACT_ROOT" --strict`
 - If validator fails due shell/runtime compatibility, rerun using an explicit Bash 4+ binary (for example `/opt/homebrew/bin/bash`) and record the exact runtime path used.
 - If artifacts are not sufficient yet, explicitly mark validator as "not applicable yet" and explain why.
 

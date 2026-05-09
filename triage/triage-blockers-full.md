@@ -1,12 +1,23 @@
-Your task is to report ONLY the work that is blocked by user action.
+Your task is to report ONLY blockers the current agent cannot resolve itself.
+
+A blocker is any work that cannot move forward with the current agent's
+available tools, permissions, context, and executable queue. This includes
+items waiting on a user/owner, a specific time/date window, another project or
+team, an external service, credentials/access, hardware availability, legal or
+policy review, or a runtime/tool capability gap.
+
+Do NOT limit the report to user-action blockers. Also do NOT report work that
+is merely unstarted, low priority, deferred by planning choice, or waiting for
+the current agent to dispatch/complete work it is capable of doing.
 
 Do not summarize completed work.
 Do not list all work orders.
-Do not include internal implementation detail unless it is necessary for the user to unblock the item.
+Do not include internal implementation detail unless it is necessary to route
+or unblock the item.
 Do not compress blockers into cryptic one-line references.
 Do not require the user to ask follow-up questions to understand the block.
 
-Your output must be optimized for fast human action.
+Your output must be optimized for fast human routing and action.
 
 ## Output Mode
 
@@ -163,18 +174,21 @@ one project/thread, either write the exact target path or set
 ambiguous receiver is not ready for a human-facing unblock handoff until the
 receiver is disambiguated.
 
-### Owner action summary (required on new blockers when useful context exists)
+### Owner / routing action summary (required on new blockers when useful context exists)
 
 Every NEW blocker file MUST include the optional front-matter field
 `owner_action_summary` with one or two human-readable sentences for the owner.
 This is the field the dashboard shows before raw `user_action_required` or
-`unresolvable_reason`, so write it for fast human action.
+`unresolvable_reason`, so write it for fast human routing and action.
 
 The summary MUST answer:
 
 1. What is blocked.
-2. What the owner needs to decide, provide, approve, authenticate, or confirm.
-3. Where the owner should act, only when a path, URL, or artifact is essential.
+2. What non-agent condition must change: owner decision/input, external-team
+   delivery, scheduled time, service/dashboard action, credential/access,
+   hardware availability, policy/legal review, or runtime/tool capability.
+3. Where the responsible person/system should act, only when a path, URL, or
+   artifact is essential.
 
 The summary MUST NOT be only an absolute path, raw `requires_*` code, a copied
 `unresolvable_reason`, or a cryptic blocker ID. Good summaries are specific
@@ -188,7 +202,7 @@ without this field remain valid.
 
 ### `dependency_hints` population guidance
 
-When the user-action description hints at an upstream blocker that itself
+When the unblock-condition description hints at an upstream blocker that itself
 needs to be resolved first (for example: "waiting on auth-service SSO",
 "depends on Cloudflare DNS provisioning", "blocked by upstream payment-gateway
 migration"), append a short natural-language string capturing the hint to
@@ -196,7 +210,7 @@ migration"), append a short natural-language string capturing the hint to
 human-readable. The hint is NOT a concrete blocker ID — that is the linker's
 job in WO-BLK-012. If no upstream hint is present, leave the list empty
 (`dependency_hints: []`). Do NOT invent dependencies you cannot ground in
-the user-action text.
+the unblock-condition text.
 
 This rule applies WITH PARTICULAR FORCE to **cross-project dependencies**:
 when the blocker is gated on work happening in a different project (e.g.,
@@ -212,7 +226,7 @@ upstream dependency. Each hint MUST include:
    §11.3).
 2. The **capability being awaited** (e.g., "SSO support", "parquet output",
    "webhook secrets endpoint") so the linker can score on tag/category/
-   user-action keyword overlap as a secondary signal.
+   unblock-condition keyword overlap as a secondary signal.
 
 Do NOT attempt to resolve a cross-project hint to a concrete blocker ID
 yourself; the prompt has no read access to other projects' blocker
@@ -221,7 +235,7 @@ linker is the correct division of labor: the triage prompt produces
 high-recall natural-language hints; the linker produces high-precision
 edges by scoring across the global catalog.
 
-One hint per distinct upstream dependency. If a single user-action text
+One hint per distinct upstream dependency. If a single unblock-condition text
 implies two cross-project dependencies (e.g., "blocked by auth-service
 SSO AND by billing-api webhook secrets"), emit TWO hint strings. If the
 text only implies one upstream concern with multiple sub-aspects, emit
@@ -290,7 +304,7 @@ For every blocker file the prompt creates or updates in catalog mode:
   matching workstream's `name` as a string, chosen by inspecting where
   the work-in-progress files (the files the blocker is grounded in,
   including `where_to_act` paths and any source files referenced in
-  the user-action description) live relative to each workstream's
+  the unblock-condition description) live relative to each workstream's
   `roots` list. Use longest-common-prefix matching against `roots[0]`
   to break ties when multiple workstreams' `roots` overlap, identical
   to the cataloger's tie-breaking rule in §10.4.
@@ -351,7 +365,7 @@ under workstream `gas-runtime` (whose `roots` include
 ### Cross-workstream dependency hints (refinement of `dependency_hints`)
 
 The `dependency_hints` population guidance above remains in force. As
-an additive refinement: when the user-action description hints at a
+an additive refinement: when the unblock-condition description hints at a
 blocker that lives in ANOTHER workstream of the SAME project (for
 example: "waiting on the gas-runtime workstream's PSE deploy") the
 prompt MUST still record the hint as free-text — workstream-aware
@@ -359,7 +373,7 @@ dependency resolution is the linker's job (WO-BLK-012), not the
 triage prompt's. Do NOT attempt to resolve the cross-workstream
 reference into a concrete blocker ID; do NOT short-circuit to
 `depends_on_blockers`. Append the natural-language hint to
-`dependency_hints` exactly as the user-action text describes it.
+`dependency_hints` exactly as the unblock-condition text describes it.
 
 ### Worked example
 
@@ -395,19 +409,22 @@ Produce a short, decision-ready blocker report that tells the user:
 
 1. What is blocked.
 2. Why it is blocked.
-3. What the user must do.
-4. Where the user must go, if applicable.
-5. What decision or approval is needed.
+3. Who or what must change the condition.
+4. Where the responsible person/system must act, if applicable.
+5. What decision, delivery, access, time window, or external event is needed.
 6. Which option you recommend.
-7. What becomes unblocked after the user acts.
+7. What becomes unblocked after the condition clears.
 
 ## Output Rules
 
 - Include ONLY currently blocked items.
 - Exclude anything you can resolve yourself.
 - Exclude anything that is merely low-confidence but not blocked.
-- Merge duplicate blockers that require the same user action.
-- Group related blockers under one item when one user action unblocks multiple tasks.
+- Exclude anything that is merely waiting for your own dispatched background
+  agents or for work you can dispatch yourself.
+- Merge duplicate blockers that require the same unblock condition.
+- Group related blockers under one item when one unblock condition unblocks
+  multiple tasks.
 - Use plain language.
 - Avoid work-order IDs unless they are necessary for traceability.
 - If including IDs, place them at the end under `Related work`.
@@ -430,6 +447,9 @@ Classify each blocker as exactly one of:
 - `Policy/legal decision needed`
 - `Architecture/product decision needed`
 - `Manual verification needed`
+- `External project/team dependency`
+- `Time/date window needed`
+- `Runtime/tool capability needed`
 - `Unknown blocker`
 
 ## Required Format
@@ -444,20 +464,24 @@ Use this exact format for every blocked item:
 **Blocked because:**  
 [One or two plain-language sentences explaining the actual blocker.]
 
-**User action required:**  
-[The concrete action the user must take.]
+**Unblock condition:**  
+[The concrete condition that must change. If a user/owner must act, state the
+action. If not, state the responsible external project/team/service, time
+window, hardware/access condition, or runtime/tool capability gap.]
 
 **Where to act:**  
 [Link, file path, dashboard, website, repo, document, or “Not applicable.”]
 
-**Decision needed:**  
-[The exact decision, approval, credential, login, file, or confirmation needed.]
+**Decision / delivery needed:**  
+[The exact decision, approval, credential, login, file, confirmation, external
+delivery, time/date arrival, hardware availability, or runtime capability
+needed.]
 
 **Recommended choice:**  
 [Your best recommendation, with a brief reason. If no recommendation is possible, say “No recommendation; user-specific judgment required.”]
 
 **Unblocks:**  
-[What work can continue once this is resolved.]
+[What work can continue once this condition clears.]
 
 **Related work:**  
 [Only include work-order IDs, issue numbers, PRs, branches, files, or tickets if useful. Otherwise write “Not needed.”]
@@ -468,7 +492,7 @@ Use this exact format for every blocked item:
 
 Respond only with:
 
-`No user-blocked items remain.`
+`No unresolved blockers remain.`
 
 ## Quality Bar
 
@@ -477,9 +501,9 @@ Before responding, verify that each blocker is understandable by a user who has 
 Each blocker must answer:
 
 - What is the actual obstacle?
-- What exact action does the user take?
-- Where does the user take that action?
-- What happens after the action is complete?
+- What exact condition must change, and who/what controls it?
+- Where does the responsible person/system act, if applicable?
+- What happens after the condition clears?
 
 If any blocker fails that test, rewrite it before responding.
 
@@ -488,11 +512,18 @@ If any blocker fails that test, rewrite it before responding.
 Every blocker surfaced to the owner in the human-readable summary MUST include all four:
 
 1. **Plain-language situation** (2-3 sentences). No blocker IDs, schema jargon, or unexpanded acronyms as the primary explanation. A non-technical reader must understand on first read.
-2. **Action type** (exactly one of): `verbal approval`, `choose between options`, `provide information`, `do something external`, `delegate to someone`.
-3. **Exact ask**. Copy-pasteable: an approval sentence the owner can reply with, lettered choices with one-line consequences, the specific question to answer, the URL and steps to follow, or who to contact and what to tell them.
+2. **Action type** (exactly one of): `verbal approval`, `choose between options`, `provide information`, `do something external`, `delegate to someone`, `external dependency`, `wait for scheduled time`, `runtime/tool capability gap`, `no owner action available`.
+3. **Exact ask or condition**. Copy-pasteable when user/owner action exists:
+   an approval sentence the owner can reply with, lettered choices with
+   one-line consequences, the specific question to answer, the URL and steps to
+   follow, who to contact and what to tell them, or the external/time/runtime
+   condition that must clear when no owner action exists.
 4. **What this unblocks** (one sentence). State impact in terms the owner cares about — project progress, user-facing capability, deadline — not blocker IDs or internal queue state.
 
-Map these to the Required Format fields: situation goes in `Blocked because`, action type goes in `Category` context or `Decision needed`, exact ask goes in `User action required` and `Decision needed`, unblock impact goes in `Unblocks`.
+Map these to the Required Format fields: situation goes in `Blocked because`,
+action type goes in `Category` context or `Decision / delivery needed`, exact
+ask or condition goes in `Unblock condition` and `Decision / delivery needed`,
+unblock impact goes in `Unblocks`.
 
 ## Deferred WO Awareness
 
@@ -572,6 +603,54 @@ for this hook:
   in this prompt. Bundle creation, signature dedup, and `INDEX.md`
   authoring all run unchanged before the hook fires.
 
+## PROJECT-STATUS.md Maintenance (MANDATORY)
+
+Every triage run MUST update the project's status file at
+`{project_path}/.dev/ai/PROJECT-STATUS.md`. This file gives the supervisor a
+single-line answer to "is this project blocked?" without parsing blocker indexes.
+
+### At triage START, write:
+
+```
+status: working
+updated: <ISO timestamp>
+agent: blocker-triage
+
+## Active Work
+- Blocker triage scan in progress
+```
+
+### At triage END, write one of:
+
+**If blockers exist:**
+```
+status: blocked
+updated: <ISO timestamp>
+agent: blocker-triage
+
+## Blocked Items (priority order)
+1. <short blocker name> — <plain-language reason>
+2. <short blocker name> — <plain-language reason>
+
+## Completed This Session
+- Blocker triage scan completed, <N> blockers cataloged
+```
+
+**If no blockers:**
+```
+status: working
+updated: <ISO timestamp>
+agent: blocker-triage
+
+## Active Work
+- No blockers found — project is clear
+- <next planned WO or task if known>
+```
+
+Write atomically: write to a temp file in the same directory, then `mv` to the
+final path. Never delete this file — only overwrite with new state. Line 1 is
+always `status: working` or `status: blocked` so `head -1` gives the answer.
+
 ## End-of-Run Protocol
 
 After all blocker discovery, emission, and view refresh steps are complete, perform these closing steps in order:
@@ -596,11 +675,14 @@ I am blocked.
 **Semantics:**
 
 - **`I am unblocked.`** = background agents are running, more work to launch, or work is in progress within your own project. The user does NOT need to act.
-- **`I am blocked.`** = waiting on user decision, external project agent, or owner/external input. The user MUST act.
+- **`I am blocked.`** = unresolved blockers remain that the current agent cannot
+  clear itself. The blocker may require user action, external project/team
+  delivery, time/date arrival, service/dashboard action, credentials/access,
+  hardware availability, policy/legal review, or a runtime/tool capability.
 
 **Key distinctions:**
 
 - Waiting on your OWN dispatched background agents = `I am unblocked.`
-- Waiting on a DIFFERENT project's agent to deliver work = `I am blocked.` (user may need to monitor and relay)
-- All blockers resolved, no remaining work gated on the user = `I am unblocked.`
-- Active blockers remain that only the user can resolve = `I am blocked.`
+- Waiting on a DIFFERENT project's agent/team/service to deliver work = `I am blocked.`
+- All blockers resolved, no remaining work gated on a non-agent condition = `I am unblocked.`
+- Active blockers remain that the current agent cannot resolve = `I am blocked.`

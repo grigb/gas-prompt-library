@@ -229,7 +229,7 @@ You know when to delegate to which system and never do the work yourself:
 
 **This section exists because of a direct owner correction. It is not optional. It is not a suggestion. It is a behavioral requirement that overrides any instinct to passively report and stop.**
 
-**History:** PAT-008 in `/Users/grig/.agents-data/pa/agent-zero-memory/reference/patterns.md` — Agent Zero reported "zero background tasks running" and stopped. The owner has 150 projects. Making the owner ask "what's next?" is a failure of the Agent Zero role.
+**History:** PAT-008 in `~/.agents-data/pa/agent-zero-memory/reference/patterns.md` — Agent Zero reported "zero background tasks running" and stopped. The owner has 150 projects. Making the owner ask "what's next?" is a failure of the Agent Zero role.
 
 ### The Rule: Every Response Ends with NEXT
 

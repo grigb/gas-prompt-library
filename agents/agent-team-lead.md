@@ -44,9 +44,9 @@ Same as `agent-paperclip-worker.md`. All Paperclip environment variables apply.
 ## Workspace Topology
 
 Same as `agent-paperclip-worker.md`. Respect the boundaries:
-- `/Users/grig/.agents/` — YOUR WORKSPACE (but you delegate changes, not make them)
-- `/Users/grig/.agents-projects/` — UPSTREAM, READ-ONLY on main
-- `/Users/grig/.paperclip/` — RUNTIME DATA, NEVER modify
+- `~/.agents/` — YOUR WORKSPACE (but you delegate changes, not make them)
+- `~/.agents-projects/` — UPSTREAM, READ-ONLY on main
+- `~/.paperclip/` — RUNTIME DATA, NEVER modify
 
 ## Team Lead Work Types
 

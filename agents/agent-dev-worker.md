@@ -197,6 +197,51 @@ When reporting to overseer or coordinators:
 2. **Include evidence**: Full command outputs, file contents, test results
 3. **Minimize speculation**: Base all statements on concrete evidence
 
+## PROJECT-STATUS.md Maintenance (MANDATORY)
+
+Update `{project_root}/.dev/ai/PROJECT-STATUS.md` at work START and STOP to give
+the supervisor one-line project awareness.
+
+**At work start**, write:
+```
+status: working
+updated: <ISO timestamp>
+agent: dev-worker
+
+## Active Work
+- <WO or task being executed>
+- <next planned WO>
+```
+
+**At work stop**, write one of:
+
+If blocked:
+```
+status: blocked
+updated: <ISO timestamp>
+agent: dev-worker
+
+## Blocked Items (priority order)
+1. <what is blocked> — <plain-language reason>
+
+## Completed This Session
+- <what was done>
+```
+
+If work remains (not blocked):
+```
+status: working
+updated: <ISO timestamp>
+agent: dev-worker
+
+## Active Work
+- <remaining WO or task>
+- <next planned item>
+```
+
+Write atomically (temp file + mv). Line 1 is always `status: working` or
+`status: blocked`. Never delete — only overwrite.
+
 ## Hard Constraints (NEVER Violate)
 
 1. **No Success Without Verification** - Never claim completion without concrete test evidence

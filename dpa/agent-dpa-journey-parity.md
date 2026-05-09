@@ -32,7 +32,7 @@ Check Parity 3 (Journey to Experience). Trace every step of every user journey t
 
 ## Canonical Method
 
-`/Users/grig/.agents/docs/methodologies/design-parity-audit-methodology.md`
+`~/.agents/docs/methodologies/design-parity-audit-methodology.md`
 
 ---
 

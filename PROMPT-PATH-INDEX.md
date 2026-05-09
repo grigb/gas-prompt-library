@@ -34,6 +34,7 @@
 | PROJECT-INCEPTION | `~/.agents/prompts/general/PROJECT-INCEPTION.md` |
 | PROJECT-TEAM-HANDOFF | `~/.agents/prompts/general/PROJECT-TEAM-HANDOFF.md` |
 | QA-UI-TESTING-METHODOLOGY | `~/.agents/prompts/general/qa-ui-testing-methodology.md` |
+| PROJECT-KNOWLEDGE-VAULT-DISCOVERY-PASS | `~/.agents/prompts/general/project-knowledge-vault-discovery-pass.md` |
 
 ## Full Directory Structure
 
@@ -54,6 +55,7 @@
 │   ├── PROJECT-COMPLETION-AUDIT.md   # Systematic "are we really done?" audit
 │   ├── PROJECT-INCEPTION.md          # Concept to execution-ready package (counterpart to handoff)
 │   ├── PROJECT-TEAM-HANDOFF.md       # Transfer existing project to new team
+│   ├── project-knowledge-vault-discovery-pass.md # Search vault docs for project-relevant forgotten knowledge
 │   └── qa-ui-testing-methodology.md  # Exhaustive UI interactive element testing
 │
 ├── agents/                             # Specialized AI agents

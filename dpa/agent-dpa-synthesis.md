@@ -32,7 +32,7 @@ Merge all audit agent findings into a unified master report, generate the machin
 
 ## Canonical Method
 
-`/Users/grig/.agents/docs/methodologies/design-parity-audit-methodology.md`
+`~/.agents/docs/methodologies/design-parity-audit-methodology.md`
 
 ---
 
@@ -168,7 +168,7 @@ Write `{OUTPUT_DIR}/delta-report.md`.
 
 For every CRITICAL and HIGH finding from the de-duplicated unified finding list:
 1. Create a WO file: `{OUTPUT_DIR}/work-orders/WO-DPA-{NNN}-{slug}.md`
-2. Follow the standard GAS WO format (see `/Users/grig/.agents/prompts/work-orders/WORK-ORDER-INDEX.md` for format reference)
+2. Follow the standard GAS WO format (see `~/.agents/prompts/work-orders/WORK-ORDER-INDEX.md` for format reference)
 3. Include in each WO:
    - Unified finding reference (e.g., F-UNIFIED-001)
    - Original agent finding references (e.g., F-VP-003, F-JP-007)

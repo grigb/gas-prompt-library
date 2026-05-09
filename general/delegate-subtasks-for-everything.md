@@ -230,7 +230,7 @@ Phase 5 (Final verification):
 ```
 Task: Scan .dev/examples/ for hardcoded secrets
 
-Scan all files in /Users/grig/project/.dev/examples/ for:
+Scan all files in ~/project/.dev/examples/ for:
 - AWS keys (AKIA...)
 - API tokens (sk-..., token_...)
 - Passwords in plaintext

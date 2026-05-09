@@ -1,50 +1,50 @@
 Read AGENTS.md for context. Then read PROJECT-RULES.md for onboarding. Then execute the following.
 
 Guard clause (must check first):
-- If `/Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/workorders/WO-PMDL-2026-02-19-017.md` exists and is `NOT_STARTED` or `IN_PROGRESS`, this prompt is superseded.
+- If `~/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/workorders/WO-PMDL-2026-02-19-017.md` exists and is `NOT_STARTED` or `IN_PROGRESS`, this prompt is superseded.
 - In that case, stop here and execute:
-  - `/Users/grig/.agents-gas-prompt-library/handoffs/k2b-project-directives/docker-lab/docker-lab-execute-wo-017-stage1-3-now.md`
+  - `~/.agents-gas-prompt-library/handoffs/k2b-project-directives/docker-lab/docker-lab-execute-wo-017-stage1-3-now.md`
 
 Context (legacy path; use only if guard clause does not trigger):
 - K2B baseline maintenance is complete and strict validator is clean.
 - Do NOT stop at another maintenance summary.
 
 Roots:
-- Source root: /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha
-- Module root: /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab
-- Artifact root: /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai
+- Source root: ~/work/peermesh/repo/knowledge-graph-lab-alpha
+- Module root: ~/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab
+- Artifact root: ~/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai
 
 Primary objective for this run:
 - Execute WO-PMDL-2026-02-18-006 forward (real progress), not just reporting.
 
 Authority work order:
-- /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/workorders/WO-PMDL-2026-02-18-006.md
+- ~/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/workorders/WO-PMDL-2026-02-18-006.md
 
 Mandatory execution requirements:
 1) Complete or materially advance WO-006 tasks T1-T4 with file evidence.
 2) You must produce real file changes in this run, including all of:
-   - /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/research/k2b-stage4/GAP-REGISTRY.md
-   - /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/research/RESEARCH-INDEX.md
+   - ~/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/research/k2b-stage4/GAP-REGISTRY.md
+   - ~/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/research/RESEARCH-INDEX.md
    - At least 2 topic files under:
-     /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/research/k2b-stage4/
+     ~/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/research/k2b-stage4/
    - WO status/progress update in:
-     /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/workorders/WO-PMDL-2026-02-18-006.md
+     ~/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/workorders/WO-PMDL-2026-02-18-006.md
 3) Run strict validator with explicit artifact root:
-   - /Users/grig/.agents/scripts/validate-k2b-gates.sh /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha --artifact-root /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai --strict
+   - ~/.agents/scripts/validate-k2b-gates.sh ~/work/peermesh/repo/knowledge-graph-lab-alpha --artifact-root ~/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai --strict
 4) Save strict validator output to:
-   - /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/reports/2026-02-19-stage4-strict-validator.log
+   - ~/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/reports/2026-02-19-stage4-strict-validator.log
 
 Momentum rule (anti-stall):
 - If WO-006 acceptance criteria are fully met in this run, immediately start WO-PMDL-2026-02-18-007 by creating:
-  - /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/specs/k2b-stage5/
-  - /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/specs/k2b-stage5/DEPLOYMENT-OPERABILITY-SPEC.md
+  - ~/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/specs/k2b-stage5/
+  - ~/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/specs/k2b-stage5/DEPLOYMENT-OPERABILITY-SPEC.md
 
 Disallowed output pattern:
 - Do not end with only “applied/report created.”
 - Do not end without file changes and validator evidence.
 
 Mandatory report for this run:
-- /Users/grig/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/reports/2026-02-19-wo-006-execution-progress.md
+- ~/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/reports/2026-02-19-wo-006-execution-progress.md
 
 Report must include:
 - acceptance criteria status for WO-006 (each checkbox)
