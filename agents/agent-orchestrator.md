@@ -90,8 +90,10 @@ The correct behavior between dispatch waves:
 
 BACKGROUND agents are parallel and non-blocking — dispatching them is GOOD.
 INLINE tool calls are serial and blocking — running them while waiting is BAD.
-HEARTBEAT automations are the Codex lifecycle band-aid — they are REQUIRED when
-native workers are unresolved at turn end and are NOT polling loops.
+HEARTBEAT automations are a Codex-only lifecycle band-aid — they are REQUIRED in
+Codex when native workers are unresolved at turn end and are NOT polling loops.
+Claude Code does NOT need heartbeats — its background agents notify the parent
+automatically on completion.
 
 ## CONTINUOUS MOTION PRINCIPLE (CRITICAL)
 
@@ -187,11 +189,14 @@ The user reads ONE LINE to decide if they need to act. Get it right.
 
 **After writing `I am working.` the orchestrator MUST already have active work in progress.** It does NOT stop. It does NOT wait for user input. It has active/effective background workers with launch evidence, or it is doing immediate owner-requested inline work in this turn. The user seeing "I am working" means work is actually running, not that the orchestrator may work later.
 
-**Codex heartbeat precondition:** If the active work is one or more unresolved
-native Codex workers, `I am working.` is valid ONLY after the self-retiring
-2-minute heartbeat automation has been created/updated and logged, or after a
-failed heartbeat-registration attempt has been logged with the exact tool/runtime
-reason. Do not end a Codex worker-dispatch turn on launch evidence alone.
+**Codex heartbeat precondition (Codex only — does not apply to Claude Code):**
+If the active work is one or more unresolved native Codex workers, `I am
+working.` is valid ONLY after the self-retiring 2-minute heartbeat automation
+has been created/updated and logged, or after a failed heartbeat-registration
+attempt has been logged with the exact tool/runtime reason. Do not end a Codex
+worker-dispatch turn on launch evidence alone. Claude Code agents are exempt
+from this precondition — Claude Code's Agent tool notifies the parent
+automatically when background agents complete, so no heartbeat is needed.
 
 The only acceptable reasons to end a turn with **`I am working.`** are:
 - a batch has already been dispatched and native workers are actively/effectively running with launch evidence
@@ -462,7 +467,13 @@ Therefore:
 - if the current orchestration step cannot proceed without a known result, use a bounded `wait_agent` call as a synchronization primitive inside the current turn
 - if ending the turn/session with unresolved agents, record them explicitly in the handoff/orchestration log so the next orchestrator turn knows exactly what remains open
 
-### Codex Lifecycle Band-Aid Automation (TEMPORARY, COST-CONTROLLED)
+### Codex Lifecycle Band-Aid Automation (TEMPORARY, COST-CONTROLLED, CODEX ONLY)
+
+**Claude Code exemption:** This entire section applies ONLY to Codex. Claude
+Code's Agent tool has built-in completion notifications — background agents
+automatically notify the parent when they finish. Claude Code orchestrators
+must NOT create heartbeat automations, poll for agent completion, or implement
+any workaround for a problem that does not exist in their runtime.
 
 Until Codex provides durable parent-bound child-terminal wake events, or GAS
 ships one central completion bridge, every Codex orchestrator conversation
@@ -748,7 +759,9 @@ If you were spawned as a continuation orchestrator:
 
 Verify: What's IN_PROGRESS? What's BLOCKED? What's the critical path?
 
-### Heartbeat Resume Exception
+### Heartbeat Resume Exception (Codex Only)
+
+This section applies only to Codex. Claude Code does not use heartbeats.
 
 Heartbeat resumes are not fresh continuation orchestrators. If the active
 orchestration log records that this prompt was already read for the workstream,
@@ -1454,7 +1467,7 @@ Update Task Tracker row: Status=running, Started=[time]
 **When a Codex worker launches:**
 Add/update Open Codex Agents row with: Agent ID, Nickname, Reasoning, Work Order Path, Status=running, Launched=[time], Expected Output=[path], Visible To Owner=yes/no/unknown, Close Policy=keep running unless explicit owner request, duplicate/conflict, wrong scope, harmful behavior, or confirmed stale/shutdown
 
-**When a Codex native-worker batch is active:**
+**When a Codex native-worker batch is active (Codex only — skip in Claude Code):**
 Create or update the self-retiring heartbeat automation for this conversation
 workstream per the Codex Lifecycle Band-Aid Automation section. Use the
 mandatory 2-minute active-worker cadence. Log the automation id, cadence, and
@@ -1469,7 +1482,7 @@ Update Open Codex Agents row with: Status=completed or blocked, Last Reconciled=
 **When the worker's output has been processed and the slot should be released:**
 Set Close Ready=yes, call `close_agent`, and remove the row after logging the closure in Execution Log
 
-**When no Codex workers remain or the queue is blocked/empty:**
+**When no Codex workers remain or the queue is blocked/empty (Codex only — skip in Claude Code):**
 Delete the workstream heartbeat automation and log that it was removed. Do not
 leave an idle heartbeat running.
 
