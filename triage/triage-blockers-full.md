@@ -19,6 +19,47 @@ Do not require the user to ask follow-up questions to understand the block.
 
 Your output must be optimized for fast human routing and action.
 
+## Delta Detection (Token Conservation)
+
+Before running the full triage process, check whether this project's blocker
+state has materially changed since the last scan. This avoids burning tokens
+on a full re-scan when nothing moved.
+
+**Step 1 — Read the existing INDEX.md:**
+Check `{project_path}/.dev/ai/blockers/INDEX.md` for `last_scanned_at` and
+the `totals` block (idle, claimed, in_progress, resolved, unresolvable counts).
+
+**Step 2 — Quick-check for changes since last scan:**
+Run a lightweight check for material changes:
+```bash
+# Files modified in blockers dir since last scan
+find {project_path}/.dev/ai/blockers -name "*.md" -newer {project_path}/.dev/ai/blockers/INDEX.md 2>/dev/null | head -1
+# WO status changes since last scan
+find {project_path}/.dev/ai/workorders -name "*.md" -newer {project_path}/.dev/ai/blockers/INDEX.md 2>/dev/null | head -1
+# Subtask-comms results since last scan
+find {project_path}/.dev/ai/subtask-comms -name "*.md" -newer {project_path}/.dev/ai/blockers/INDEX.md 2>/dev/null | head -1
+```
+
+**Step 3 — Decide scan depth:**
+- If NO files are newer than INDEX.md AND the agent has not completed any
+  work since the last scan: run in **refresh-only mode**. Update only
+  `last_scanned_at` in INDEX.md and PROJECT-STATUS.md. Print the existing
+  blocker summary from INDEX.md without re-scanning. Emit the status seal.
+  This costs ~200 tokens instead of ~5000+.
+- If ANY files are newer, OR the agent completed work that may have resolved
+  blockers, OR no INDEX.md exists: run the **full triage process** below.
+
+Refresh-only mode MUST still:
+- Update `last_scanned_at` in INDEX.md
+- Update PROJECT-STATUS.md timestamp
+- Print the human-readable summary (from existing INDEX data)
+- Emit the status seal
+
+Refresh-only mode MUST NOT:
+- Skip the full process when INDEX.md does not exist (first scan)
+- Skip the full process when the agent explicitly requests a full rescan
+- Alter any blocker file status or content
+
 ## Output Mode
 
 This prompt operates in TWO MODES:
@@ -250,6 +291,20 @@ on existing files (and only if the scan timestamp differs). The signature
 is the dedup key. Recurrence of a previously-resolved (terminal) blocker
 is the one exception: it intentionally creates a NEW file with a NEW id,
 because `resolved` / `unresolvable` are terminal per the schema lifecycle.
+
+### Incremental signature matching (token conservation)
+
+When running a full scan (not refresh-only), skip signature recomputation
+for existing blocker files whose modification time is OLDER than the last
+scan timestamp in INDEX.md. These files have not changed and their
+signatures are stable. Only compute signatures for:
+- Newly discovered blockers (no existing file)
+- Existing blocker files modified since the last scan
+- Blockers whose source artifacts (WOs, subtask-comms) are newer than
+  the blocker file itself
+
+This avoids reading and hashing every blocker file on every scan when most
+are unchanged.
 
 ## Workstream-aware emission (catalog mode only)
 
