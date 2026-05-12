@@ -737,11 +737,16 @@ This prevents the same correction from being needed across multiple sessions.
 Read in parallel, using whatever exists in the current project/system:
 1. Project instruction files: `AGENTS.md`, `CLAUDE.md`, `README.md`, local runbooks
 2. Project state file: `.dev/ai/STATE-OF-THE-PROJECT.md` or local equivalent
-3. Queue/index files: `.dev/ai/workorders/WO-INDEX.md`, `INDEX.yaml`, `tasks/`, backlog files, or local equivalent
-4. Active outputs / partial results: `.dev/ai/subtask-comms/active/` or local equivalent
-5. Recent handoffs / orchestration logs
-6. Project identity / metadata files such as `PROJECT-ID.md` if they exist
-7. Learned-patterns files under `~/.agents/` only if they exist in the current environment
+3. **Blocker state (MANDATORY — read before planning any work):**
+   - `.dev/ai/PROJECT-STATUS.md` — line 1 is `status: blocked` or `status: working`; if blocked, the file lists the specific blockers in priority order. This is the fastest signal for whether the project can make progress.
+   - `.dev/ai/blockers/INDEX.md` — the full blocker catalog index with counts, categories, and per-blocker summaries. Read this to understand what is blocking work, who must act, and what becomes unblocked after each condition clears.
+   - If the project is blocked, surface the blockers to the user BEFORE planning or dispatching any work. Blockers define the critical path ceiling — no amount of orchestration can bypass an owner-gated or external-dependency blocker.
+   - Blocker workflow reference: `~/.agents-gas-prompt-library/triage/triage-blockers-full.md`
+4. Queue/index files: `.dev/ai/workorders/WO-INDEX.md`, `INDEX.yaml`, `tasks/`, backlog files, or local equivalent
+5. Active outputs / partial results: `.dev/ai/subtask-comms/active/` or local equivalent
+6. Recent handoffs / orchestration logs
+7. Project identity / metadata files such as `PROJECT-ID.md` if they exist
+8. Learned-patterns files under `~/.agents/` only if they exist in the current environment
 
 If no durable queue exists, create a minimal local one before delegating significant work.
 

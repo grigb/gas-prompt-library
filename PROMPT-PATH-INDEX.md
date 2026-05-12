@@ -35,6 +35,7 @@
 | PROJECT-TEAM-HANDOFF | `~/.agents/prompts/general/PROJECT-TEAM-HANDOFF.md` |
 | QA-UI-TESTING-METHODOLOGY | `~/.agents/prompts/general/qa-ui-testing-methodology.md` |
 | PROJECT-KNOWLEDGE-VAULT-DISCOVERY-PASS | `~/.agents/prompts/general/project-knowledge-vault-discovery-pass.md` |
+| COPY-FIRST-WEB | `~/.agents/skills/copy-first-web/methodology.md` |
 
 ## Full Directory Structure
 

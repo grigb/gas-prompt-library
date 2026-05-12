@@ -389,6 +389,18 @@ Agent: "Dev Worker agent activated. Ready to investigate and fix the auth bug in
 
 ---
 
+## Skill and Methodology Triggers
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `copy first` | `~/.agents/skills/copy-first-web/methodology.md` | Copy-first web development: perfect copy in markdown before building pages |
+| `copy-first web` | `~/.agents/skills/copy-first-web/methodology.md` | Full name trigger |
+| `markdown first` | `~/.agents/skills/copy-first-web/methodology.md` | Alternate trigger |
+| `write the website` | `~/.agents/skills/copy-first-web/methodology.md` | Natural-language trigger |
+| `content before code` | `~/.agents/skills/copy-first-web/methodology.md` | Principle trigger |
+
+---
+
 ## Validation Checklist
 
 - [ ] `use the dev tool` activates dev agent without reading AGENTS.md header
