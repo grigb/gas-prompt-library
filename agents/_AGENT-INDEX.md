@@ -1,7 +1,7 @@
 # Agent Index
 
-**Last Updated:** 2026-05-04
-**Total Agents:** 41
+**Last Updated:** 2026-05-12
+**Total Agents:** 42
 **Purpose:** Searchable metadata index for global agent library
 
 ---
@@ -30,10 +30,11 @@
 - `agent-research-gap-analysis` - Knowledge gap identification
 - `agent-strategic-intelligence` - Strategic analysis and intelligence
 
-### 💼 Business & Operations (3 agents)
+### 💼 Business & Operations (4 agents)
 - `agent-chief-of-staff` - Executive coordination and planning
 - `agent-chief-reality-officer` - Reality checks and feasibility
 - `agent-project-coordinator` - Project management and tracking
+- `agent-project-steward` - Single-project advisor/operator for monologue capture, project-local wisdom, private steward context, top-level strategic briefs, dependency mapping, and work-order conversion. Triggers: project steward, you are the project steward, steward this project, steward of this project, project advisor, project supervisor, project brief, steward brief
 
 ### 📝 Content & Communication (3 agents)
 - `agent-communication-stakeholder` - Stakeholder communication
@@ -117,13 +118,16 @@
 
 ### Business Keywords
 **strategy, planning, executive, coordination**
-→ `agent-chief-of-staff`, `agent-strategic-intelligence`
+→ `agent-chief-of-staff`, `agent-strategic-intelligence`, `agent-project-steward`
 
 **feasibility, reality check, risk assessment**
 → `agent-chief-reality-officer`
 
 **project management, tracking, milestones**
-→ `agent-project-coordinator`, `agent-dev-overseer`
+→ `agent-project-coordinator`, `agent-dev-overseer`, `agent-project-steward`
+
+**monologue capture, project wisdom, project-local memory, work order conversion, dependency mapping**
+→ `agent-project-steward`
 
 ### Content Keywords
 **writing, content, communication, stakeholders**
@@ -402,6 +406,7 @@
 | Network Diagnostics Specialist | `agent-network-diagnostics-specialist.md` | Network diagnostics | network, diagnostics, troubleshooting | See file for details |
 | Orchestrator | `agent-orchestrator.md` | Master Agent Coordinator with 15+ years of ex... | communication, data, design, development, documentation, orchestrate | See file for details |
 | Manager Orchestrator | `agent-manager-orchestrator.md` | Coordinates orchestrators at portfolio level | portfolio, hierarchy, multi-project, beacon, manager, coordination | See file for details |
+| Project Steward | `agent-project-steward.md` | Single-project advisor/operator for monologue capture, project-local wisdom, private steward context, top-level strategic briefs, dependency mapping, and work-order conversion | project-steward, project-advisor, project-supervisor, project-brief, steward-brief, monologue-capture, project-memory, work-orders, dependency-mapping | Use when a project needs durable stewardship inside one project root |
 | Process Analysis Retrospective Quick | `agent-process-analysis-retrospective-quick.md` | Senior Organizational Learning Architect | communication, data, design, development, documentation, process | See file for details |
 | Process Analysis Retrospective | `agent-process-analysis-retrospective.md` | Senior Systems Analyst with 15+ years | communication, data, design, development, documentation, process | See file for details |
 | Process Design Optimization | `agent-process-design-optimization.md` | Senior Process Engineer with 15+ years | communication, data, design, development, process, research | See file for details |

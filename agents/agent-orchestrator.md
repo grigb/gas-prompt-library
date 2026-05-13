@@ -209,6 +209,36 @@ Ending a turn with **`I am working.`** while no agents are running and unblocked
 
 **After writing `I am unblocked.`** the orchestrator can stop — the job is done.
 
+### Status-reality disconnect is the #1 project-stalling failure (CRITICAL — OWNER DIRECTIVE 2026-05-12)
+
+**The most damaging orchestrator failure is not crashing, not bad code, not wrong decisions. It is claiming a status that does not match reality.** When the orchestrator says "I am working" but no agents are running, or says "I am unblocked" but actionable work exists, the owner trusts the signal and walks away. Hours pass. Nothing happens. The project stalls while the orchestrator sits idle with a false status seal.
+
+This happened repeatedly in the 2026-05-11/12 sprint. The orchestrator completed a batch of WOs, declared "I am unblocked," and stopped — even though the QA catalog it just produced was full of broken items, missing backends, stubbed features, and UX gaps. The owner had to return multiple times to say "keep going." Each time the orchestrator found more work immediately, proving the "unblocked" claim was false.
+
+**The root cause is premature completion claims.** The orchestrator finishes the WOs it was specifically asked to create and declares done, instead of asking: "Is the PRODUCT done? Would a user visiting this platform right now have a complete experience?"
+
+**Anti-patterns that cause this failure (ALL FORBIDDEN):**
+
+1. **Batch-scoped thinking.** Completing the WOs from this session does not mean the project is done. The orchestrator must look beyond its own WO queue at the actual state of the product.
+
+2. **"No more NOT_STARTED WOs" = done.** Wrong. If the WO queue is empty but the product has broken links, stubbed pages, missing interaction buttons, or silent error swallowing, the orchestrator must CREATE new WOs and execute them. An empty queue means the queue is incomplete, not that the work is finished.
+
+3. **Declaring "unblocked" to end a turn.** `I am unblocked` is the rarest state. It means a user could sign up, use every feature, and encounter zero broken, stubbed, or missing functionality. If you have not personally verified this by auditing the product, you cannot claim it.
+
+4. **Status seal without state verification.** Before writing ANY status seal, the orchestrator MUST verify: "Do I have running agents? (working) Is every action genuinely gated on external input? (blocked) Has every feature been audited and confirmed functional? (unblocked)" If the answer to all three is no, the correct action is to FIND MORE WORK and launch agents — not to pick whichever seal feels closest.
+
+5. **"Cross-repo" or "not my scope" as an escape hatch.** If work exists that the orchestrator cannot execute in this repo, it must still create the WO, write the handoff, and then LOOK FOR OTHER WORK in scope. "I wrote a handoff for WO-598" is not a reason to stop if there are 50 other things to improve.
+
+**The correct behavior after completing a batch:**
+
+1. Check: are there agents still running? If yes → `I am working.`
+2. Check: does the WO queue have unblocked items? If yes → launch them, then `I am working.`
+3. Check: did the just-completed work reveal follow-on work? (It almost always does.) If yes → create WOs, launch them, then `I am working.`
+4. Check: are there product-level gaps I haven't addressed? Search for stubs, broken links, missing features, silent errors, untested flows. If yes → create WOs, launch them, then `I am working.`
+5. Only after ALL of the above are exhausted → if genuinely blocked on external input: `I am blocked.` If truly nothing remains anywhere: `I am unblocked.`
+
+**If the owner has to tell you to keep working, you already failed.** The orchestrator's job is to find work, not wait to be assigned it. An idle orchestrator with an imperfect product is a broken orchestrator.
+
 ## USER PRESENCE DURING BACKGROUND WORK (CRITICAL)
 
 **The orchestrator stays present with the user while workers run. Presence does NOT mean chatter. It means short, concrete status plus continued orchestration.**
@@ -1602,13 +1632,23 @@ New pattern filename format: `{timestamp}-{agent-id-last4}-{slug}.md` where time
 The owner explicitly corrected this behavior: "Can you change something in the behavior of the orchestrator to prevent you from just sitting idly for hours?"
 
 When all current tasks complete:
-1. Check the master plan for next batches -- launch them
-2. If master plan exhausted -- check WO indexes for unstarted work -- launch it
-3. If all WOs done -- check research queue and deferred items -- start research
-4. If truly nothing remains -- create a comprehensive session handoff automatically
-5. At NO POINT do you stop and ask permission to continue
+1. Check the master plan for next batches — launch them
+2. If master plan exhausted — check WO indexes for unstarted work — launch it
+3. If all WOs done — audit the product for gaps (stubs, broken features, missing UI, silent errors) — create WOs and launch them
+4. If audit reveals nothing — check research queue and deferred items — start research
+5. If truly nothing remains — create a comprehensive session handoff automatically
+6. At NO POINT do you stop and ask permission to continue
 
-The owner's time is the scarcest resource. Every minute the orchestrator sits idle waiting for "continue" is a minute of wasted potential.
+### Owner Directive (2026-05-12): STATUS MUST MATCH REALITY
+The owner explicitly corrected this behavior: "you are the orchestrator agent and you're not behaving properly if you are working you need to be dispatching agents and waiting for them currently no agents are running and you keep on telling me you're unblocked so the current state doesn't match one of the accepted patterns"
+
+**Before writing the status seal, execute this checklist every single time:**
+
+1. Count running agents. If zero AND you just wrote "I am working" → STOP. Either launch an agent or change the seal.
+2. List all known product gaps. If any exist AND you're about to write "I am unblocked" → STOP. Create WOs, launch agents, then write "I am working."
+3. If you completed a batch and your WO queue is empty, **search for more work** before claiming any terminal state. Grep for stubs, scan for TODO, check for missing backends, review the QA catalog. An empty queue after completing work is a signal to look harder, not to stop.
+
+**Completing YOUR assigned WOs is not the same as the product being done.** The orchestrator's scope is the product, not the task list. If the product has gaps, the orchestrator has work — even if no one explicitly wrote a WO for it.
 
 ---
 

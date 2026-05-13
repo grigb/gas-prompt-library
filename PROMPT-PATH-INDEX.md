@@ -35,6 +35,10 @@
 | PROJECT-TEAM-HANDOFF | `~/.agents/prompts/general/PROJECT-TEAM-HANDOFF.md` |
 | QA-UI-TESTING-METHODOLOGY | `~/.agents/prompts/general/qa-ui-testing-methodology.md` |
 | PROJECT-KNOWLEDGE-VAULT-DISCOVERY-PASS | `~/.agents/prompts/general/project-knowledge-vault-discovery-pass.md` |
+| PROJECT-STEWARD | `~/.agents/prompts/agents/agent-project-steward.md` |
+| PROJECT-STEWARD-BOOTSTRAP | `~/.agents/docs/PROJECT-STEWARD-BOOTSTRAP-CHECKLIST.md` |
+| PROJECT-STEWARD-BRIEF-TEMPLATE | `~/.agents/templates/project-steward/PROJECT-STEWARD-BRIEF-TEMPLATE.md` |
+| PROJECT-STEWARD-PRIVATE-CONTEXT-TEMPLATE | `~/.agents/templates/project-steward/PRIVATE-CONTEXT-TEMPLATE.md` |
 | COPY-FIRST-WEB | `~/.agents/skills/copy-first-web/methodology.md` |
 
 ## Full Directory Structure
@@ -74,6 +78,7 @@
 │   ├── agent-financial-analysis-planning.md
 │   ├── agent-marketing-expert.md
 │   ├── agent-project-coordinator.md
+│   ├── agent-project-steward.md
 │   ├── agent-ux-design.md
 │   ├── agent-content-crafting-alignment.md
 │   ├── agent-innovation-ideation.md

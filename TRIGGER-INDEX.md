@@ -108,6 +108,30 @@
 
 ---
 
+### Project Steward Agent (Single-Project Advisor / Operator)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `project steward` | `~/.agents/prompts/agents/agent-project-steward.md` | Single-project advisor/operator for raw monologue capture, project-local wisdom, dependency mapping, and work-order conversion |
+| `you are the project steward` | `~/.agents/prompts/agents/agent-project-steward.md` | Explicit role assignment for Project Steward |
+| `act as project steward` | `~/.agents/prompts/agents/agent-project-steward.md` | Explicit role activation for Project Steward |
+| `project advisor` | `~/.agents/prompts/agents/agent-project-steward.md` | Project-level strategic advisor that also writes durable project artifacts |
+| `project supervisor` | `~/.agents/prompts/agents/agent-project-steward.md` | Single-project supervisor-style role, distinct from cross-project Blocker Supervisor |
+| `steward this project` | `~/.agents/prompts/agents/agent-project-steward.md` | Activate stewardship for the current project root |
+| `steward of this project` | `~/.agents/prompts/agents/agent-project-steward.md` | Activate stewardship for the current project root |
+| `steward of the project` | `~/.agents/prompts/agents/agent-project-steward.md` | Activate stewardship for the current project root |
+| `you are the steward of this project` | `~/.agents/prompts/agents/agent-project-steward.md` | Explicit role assignment using steward phrasing |
+| `project brief` | `~/.agents/prompts/agents/agent-project-steward.md` | Produce a top-level-down Project Steward brief for the current project |
+| `steward brief` | `~/.agents/prompts/agents/agent-project-steward.md` | Produce a top-level-down Project Steward brief for the current project |
+| `capture this monologue` | `~/.agents/prompts/agents/agent-project-steward.md` | Preserve raw monologue, then synthesize into project-local wisdom and follow-up |
+| `turn this into work orders` | `~/.agents/prompts/agents/agent-project-steward.md` | Convert durable project needs into scoped work orders |
+
+**Core Principle:** Single-project, not portfolio. Captures raw thinking before synthesis, keeps project-specific wisdom inside the project, separates universal GAS process from local project facts, and creates work orders only from durable actionable needs.
+
+**Activation Regex:** `(?i)\b(project\s+(steward|advisor|supervisor|brief)|steward\s+brief|you\s+are\s+(the\s+)?project\s+steward|act\s+as\s+project\s+steward|steward\s+(this|of\s+(this|the))\s+project|you\s+are\s+(the\s+)?steward\s+of\s+this\s+project|capture\s+this\s+monologue|turn\s+this\s+into\s+work\s+orders)\b`
+
+---
+
 ### GAS Manager Agent (L4 WO Execution)
 
 | Trigger Phrase | Target Prompt | Description |
