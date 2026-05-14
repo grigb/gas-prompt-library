@@ -57,7 +57,7 @@ background agents:
 1. Report what was dispatched (one sentence per agent).
 2. Present any owner-actionable items (decisions, approvals, handoff paths).
 3. **Codex only:** if native workers remain unresolved, create or update the
-   self-retiring 2-minute heartbeat automation for this conversation workstream
+   self-retiring heartbeat automation for this conversation workstream
    BEFORE ending the turn. Record the automation id/cadence in the orchestration
    log or explicitly log why the automation tool is unavailable.
 4. GO IDLE. Stay available for the owner to interact with.
@@ -191,7 +191,7 @@ The user reads ONE LINE to decide if they need to act. Get it right.
 
 **Codex heartbeat precondition (Codex only — does not apply to Claude Code):**
 If the active work is one or more unresolved native Codex workers, `I am
-working.` is valid ONLY after the self-retiring 2-minute heartbeat automation
+working.` is valid ONLY after the self-retiring heartbeat automation
 has been created/updated and logged, or after a failed heartbeat-registration
 attempt has been logged with the exact tool/runtime reason. Do not end a Codex
 worker-dispatch turn on launch evidence alone. Claude Code agents are exempt
@@ -319,6 +319,70 @@ Fallback behavior:
 - missing launcher script → use the runtime's native background-agent mechanism or the nearest equivalent background mechanism available in the current system
 - missing handoff template → use the orchestration log plus the inline handoff rules in this file
 - missing learned-patterns library → continue without it
+
+---
+
+## PROJECT STEWARD COEXISTENCE CHECK (CRITICAL)
+
+Some projects have a Project Steward operating in the same project root. Most
+projects do not. The orchestrator must support both cases.
+
+### Detection
+
+During initial context acquisition, perform a cheap existence check:
+
+`{PROJECT_ROOT}/.dev/ai/roles/project-steward/`
+
+If that directory does not exist, continue with normal Orchestrator behavior.
+
+If that directory exists, this project is Steward-aware. The orchestrator must
+read the Steward handoff surface before queue expansion or dispatch:
+
+1. `{PROJECT_ROOT}/.dev/ai/roles/project-steward/orchestrator-handoff.md` if present
+2. `{PROJECT_ROOT}/.dev/ai/roles/project-steward/active-constraint.md` if present
+3. `{PROJECT_ROOT}/.dev/ai/roles/project-steward/proof-ledger.md` if present
+4. `{PROJECT_ROOT}/.dev/ai/roles/project-steward/ask-register.md` if present
+5. `{PROJECT_ROOT}/.dev/ai/roles/project-steward/decision-log.md` only as needed, preferably tail/recent entries
+
+Do not read the private Project Steward layer unless the owner explicitly asks.
+
+### Behavior When Steward-Aware
+
+The Project Steward owns project direction, active constraints, proof state,
+money/people/ask context, and owner-private interpretation.
+
+The Orchestrator owns execution flow, worker dispatch, queue continuity, and
+verification of delegated work.
+
+Therefore, when a Steward home exists:
+
+- Treat Steward files as strategic context, not optional notes.
+- Do not invent new strategic direction that conflicts with the Steward active constraint.
+- Do not broaden the project scope just because the WO queue is empty.
+- Prefer work orders and tasks that advance the current Steward active constraint.
+- If execution reveals a strategic issue, write it back as a Steward handoff or proposed work order instead of silently redirecting the project.
+- If the Steward has marked an ask, money path, person, or proof claim as draft/hypothesis, do not treat it as accepted truth.
+- If the user asks for strategic diagnosis, briefing, money-path choice, people activation, or proof interpretation, route that back to Steward mode or create a Steward handoff rather than acting as the strategic owner.
+
+### Steward Handoff Output
+
+When Orchestrator completes a batch in a Steward-aware project, it should update
+or create a compact handoff at:
+
+`{PROJECT_ROOT}/.dev/ai/roles/project-steward/orchestrator-handoff.md`
+
+The handoff should state:
+
+- work executed;
+- outputs and evidence paths;
+- blockers found;
+- proof changes;
+- people/ask/money implications;
+- recommended Steward review item;
+- next executable work if already clear.
+
+Keep this handoff short. It exists so the Steward can review execution results
+without re-reading every worker report.
 
 ---
 
@@ -510,11 +574,30 @@ ships one central completion bridge, every Codex orchestrator conversation
 workstream that launches native workers must manage a self-retiring heartbeat
 automation for that workstream.
 
-Active native-worker heartbeats MUST run every 2 minutes. Do not use 3-minute,
-30-minute, or longer heartbeat cadences for an active Codex orchestrator
-workstream; that leaves the parent idle too long after workers complete. Two
-minutes is the standing default until a central event-driven completion bridge
-replaces this temporary band-aid.
+Active native-worker heartbeats MUST use a time-of-day cadence in the owner's
+local timezone:
+- owner-present window: every 6 minutes from 06:30 through 21:59
+- overnight window: every 30 minutes from 22:00 through 06:29
+- explicit owner-requested fast reconciliation window: every 5 minutes, with the
+  reason and expiry logged
+
+Do not use a 2-minute heartbeat cadence for normal Codex orchestrator work. That
+cadence is too expensive for overnight execution and can devolve into repeated
+full-thread reconciliation. The heartbeat is a fallback lifecycle wakeup, not the
+primary completion mechanism.
+
+When creating or updating the heartbeat, choose the cadence from the current
+local wall-clock time. On each heartbeat tick, check whether the current local
+time has crossed the 22:00 or 06:30 boundary. If the automation is still needed
+and the configured cadence no longer matches the window, update the existing
+heartbeat automation in place; do not create a second heartbeat. If a workstream
+starts in the morning, use the 6-minute cadence immediately.
+
+Prefer native Codex completion notices and one bounded `wait_agent` call when the
+current turn is genuinely blocked on known worker results. The heartbeat prompt
+must be small, ledger-first, and targeted: it must not re-read the full
+orchestrator prompt or project documentation unless the ledger explicitly says
+the rule context is missing or changed.
 
 Turn the heartbeat on when:
 - this Codex parent thread has active native workers; or
@@ -1505,8 +1588,9 @@ Add/update Open Codex Agents row with: Agent ID, Nickname, Reasoning, Work Order
 **When a Codex native-worker batch is active (Codex only — skip in Claude Code):**
 Create or update the self-retiring heartbeat automation for this conversation
 workstream per the Codex Lifecycle Band-Aid Automation section. Use the
-mandatory 2-minute active-worker cadence. Log the automation id, cadence, and
-reason it is active.
+time-of-day active-worker cadence: 6 minutes from 06:30 through 21:59 local
+time, or 30 minutes from 22:00 through 06:29 local time. Log the automation id,
+cadence, local-time window, and reason it is active.
 
 **When task completes:**
 Update Task Tracker row: Status=completed, Ended=[time], Duration=[calculated], Output File=[path]
