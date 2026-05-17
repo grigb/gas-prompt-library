@@ -619,7 +619,13 @@ Rules for this block:
 
 ### Unblock file emission (catalog mode only)
 
-When blockers are resolved during a triage run (status changed to `resolved`), write ONE bundled unblock file per affected project to `{project_path}/.dev/ai/unblocks/{prefix}-{slug}.md` where `{prefix}` comes from `~/.agents/scripts/get-filename-prefix.sh`. The file must be brief (3-8 sentences, no headers, no YAML front matter) and state: what was blocked, what resolved it, and what work can now resume. Bundle multiple resolved blockers for the same project into a single file. This creates an audit trail and gives the owner a path to paste to the project agent as a "you are unblocked" notification. Include unblock files in the "Files written/updated" list.
+When blockers are resolved during a triage run (status changed to `resolved`), write ONE bundled unblock file per affected project to `{project_path}/.dev/ai/unblocks/{prefix}-{slug}.md` where `{prefix}` comes from `~/.agents/scripts/get-filename-prefix.sh`. The file must be brief (3-8 sentences, no headers, no YAML front matter) and state: what was blocked, what resolved it, and what work can now resume. Bundle multiple resolved blockers for the same project into a single file.
+
+This is the primary delivery mechanism. When the owner says "unblocked" to a
+project orchestrator, the orchestrator reads the newest file in
+`{project_path}/.dev/ai/unblocks/` to know what changed and what to do next.
+The owner does NOT need to paste any text — just the word "unblocked" is enough.
+Include unblock files in the "Files written/updated" list.
 
 ### Optional post-emission view refresh (catalog mode only)
 
@@ -677,7 +683,7 @@ agent: blocker-triage
 
 ### At triage END, write one of:
 
-**If blockers exist:**
+**If blockers exist AND open/dispatchable WOs exist:**
 ```
 status: blocked
 updated: <ISO timestamp>
@@ -687,20 +693,53 @@ agent: blocker-triage
 1. <short blocker name> — <plain-language reason>
 2. <short blocker name> — <plain-language reason>
 
+## Dispatchable Now
+- <WO-ID> <short name> — can proceed despite other blockers
+- <WO-ID> <short name> — partial lane, unblocked
+
 ## Completed This Session
 - Blocker triage scan completed, <N> blockers cataloged
 ```
 
-**If no blockers:**
+**If blockers exist but some work can still proceed (partial lanes):**
+Use `status: blocked` but ALWAYS include the `## Dispatchable Now` section
+listing WOs that are NOT gated by any active blocker. The supervisor reads this
+section to know which lanes to wake. A project with 5 blockers and 3
+dispatchable WOs is partially unblocked — those 3 WOs represent real work
+that an agent can do right now.
+
+**If no blockers AND open/dispatchable WOs exist:**
 ```
 status: working
 updated: <ISO timestamp>
 agent: blocker-triage
 
-## Active Work
-- No blockers found — project is clear
-- <next planned WO or task if known>
+## Dispatchable Now
+- <WO-ID> <short name>
+- <WO-ID> <short name>
+
+## Completed This Session
+- No blockers found — project is clear, <N> WOs ready
 ```
+
+**If no blockers AND no open/dispatchable WOs (queue is empty):**
+```
+status: parked
+updated: <ISO timestamp>
+agent: blocker-triage
+
+## Queue Empty
+- No active blockers and no open work orders
+- Deferred items: <N> (future-posture/hardening only)
+- Next activation: when new WOs are created or deferred items are promoted
+
+## Completed This Session
+- Blocker triage scan completed, queue empty
+```
+
+The `parked` status tells the supervisor: do NOT recommend waking this agent.
+There is nothing for it to do. The supervisor must not waste the owner's time
+sending relay text to a parked project.
 
 Write atomically: write to a temp file in the same directory, then `mv` to the
 final path. Never delete this file — only overwrite with new state. Line 1 is
@@ -729,11 +768,15 @@ I am blocked.
 
 **Semantics:**
 
-- **`I am unblocked.`** = background agents are running, more work to launch, or work is in progress within your own project. The user does NOT need to act.
+- **`I am unblocked.`** = open WOs exist and are dispatchable. Background agents
+  are running, more work to launch, or work is in progress. The user does NOT
+  need to act. This includes partial lanes: if some WOs are blocked but others
+  can proceed, the agent is unblocked for those lanes.
 - **`I am blocked.`** = unresolved blockers remain that the current agent cannot
-  clear itself. The blocker may require user action, external project/team
-  delivery, time/date arrival, service/dashboard action, credentials/access,
-  hardware availability, policy/legal review, or a runtime/tool capability.
+  clear itself AND no dispatchable WOs exist. Every open WO is gated.
+- **`I am parked.`** = no active blockers AND no open/dispatchable WOs. The queue
+  is empty. Nothing to do until new work is created or deferred items are
+  promoted. The supervisor must NOT recommend waking this agent.
 
 **Key distinctions:**
 
@@ -741,3 +784,5 @@ I am blocked.
 - Waiting on a DIFFERENT project's agent/team/service to deliver work = `I am blocked.`
 - All blockers resolved, no remaining work gated on a non-agent condition = `I am unblocked.`
 - Active blockers remain that the current agent cannot resolve = `I am blocked.`
+- No blockers AND no open WOs = `I am parked.`
+- Blockers exist but some WOs are NOT gated = `I am unblocked.` (partial lanes)

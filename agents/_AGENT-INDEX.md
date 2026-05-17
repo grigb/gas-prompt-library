@@ -23,6 +23,7 @@
 - `agent-dev-general-contractor` - QA lead and integration specialist
 - `agent-dev-overseer` - Development process monitor
 - `agent-dev-worker` - Core implementation specialist
+- `agent-project-worker` - Lightweight fire-and-forget worker dispatched by the supervisor to execute unblocked WOs in a project. No sub-agent dispatch. Reads queue, does work, runs triage, exits.
 - `agent-software-product-builder` - End-to-end product development
 
 ### 🔬 Research & Analysis (3 agents)

@@ -239,13 +239,19 @@ The only generated-view write it may trigger is the deterministic
 `blocker-views-refresh.py --project <project_path>` hook after its own status
 transition.
 
-### 3.2 One blocker per work cycle
+### 3.2 One blocker per internal cycle
 
-Each invocation of the unblocker resolves at most one blocker. After writing
-the terminal status (`resolved` or `unresolvable`), refreshing views, recording
-the handoff, and creating/updating any clear follow-on work-order or handoff
-metadata, the unblocker exits. The router or higher-level supervisor decides
-whether to invoke the unblocker again for the next supervisor-owned blocker.
+Each invocation of the unblocker resolves at most one blocker. This is an
+internal safety boundary, not the meaning of the owner's `work` command. When
+the owner says `work`, the higher-level supervisor should invoke blocker cycles
+repeatedly until no supervisor-actionable project-moving unblock remains or
+every remaining path is owner/external/capability gated.
+
+After writing the terminal status (`resolved` or `unresolvable`), refreshing
+views, recording the handoff, and creating/updating any clear follow-on
+work-order or handoff metadata, the unblocker exits. If the cycle produced
+project work that can start, the higher-level supervisor must deliver or surface
+that relay before invoking lower-priority cycles or cleanup.
 
 Resolving a blocker can make project work possible again. The unblocker does
 not implement that project work inline and does not dispatch ordinary project
