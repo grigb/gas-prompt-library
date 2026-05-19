@@ -75,6 +75,29 @@ Stop when any of these are true:
 Do NOT stop because you finished one WO and there are more in the queue. Keep
 going until the queue is empty or blocked.
 
+## Close-on-Complete: Blocker Reconciliation
+
+After completing EACH WO (not just at end of run), check if any blockers in
+the project reference the work you just did:
+
+1. Grep `{project_path}/.dev/ai/blockers/` for files mentioning the WO ID,
+   the work just completed, or keywords from the WO title.
+2. For each match: read the blocker file. If the blocker's required action is
+   now satisfied (credential present, file exists, service running, config
+   set), update it:
+   - Set `status: resolved`
+   - Set `all_resolved: true`
+   - Set `resolved_at` to current ISO8601 timestamp
+   - Append a resolution log entry: "Resolved by project worker. WO [ID]
+     completed the required work: [one sentence]."
+3. After all WOs are done, if any blockers were resolved, run:
+   `~/.agents/scripts/blocker-views-refresh.py --project {project_path}`
+   to propagate changes to INDEX and SUPERVISOR-STATUS.
+
+This is critical. If you complete work but don't close the related blocker,
+the supervisor will present the already-done work to the owner as an active
+gate. This has happened repeatedly and wastes the owner's time and money.
+
 ## End of Run
 
 After all executable work is done:

@@ -993,6 +993,15 @@ Read in parallel, using whatever exists in the current project/system:
      not just the blocker index state. If the real gate is newly discovered,
      register it immediately and include the blocker path.
    - Blocker workflow reference: `~/.agents-gas-prompt-library/triage/triage-blockers-full.md`
+   - **Close-on-complete reconciliation:** after reading the blocker index, cross-
+     reference unresolvable blockers against completed WOs. If an unresolvable
+     blocker references a WO that is now COMPLETED, or if the blocker's required
+     action is satisfied in live state (credential present, file exists, service
+     running), resolve the blocker: set `status: resolved`, `all_resolved: true`,
+     `resolved_at`, append resolution log entry. Then run
+     `~/.agents/scripts/blocker-views-refresh.py --project {project_path}`.
+     If you complete work but don't close the related blocker, the supervisor
+     will present already-done work to the owner as an active gate.
 4. Queue/index files: `.dev/ai/workorders/WO-INDEX.md`, `INDEX.yaml`, `tasks/`, backlog files, or local equivalent
 5. Active outputs / partial results: `.dev/ai/subtask-comms/active/` or local equivalent
 6. Recent handoffs / orchestration logs

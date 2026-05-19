@@ -242,6 +242,28 @@ agent: dev-worker
 Write atomically (temp file + mv). Line 1 is always `status: working` or
 `status: blocked`. Never delete — only overwrite.
 
+## Close-on-Complete: Blocker Reconciliation
+
+After completing a WO or resolving a task, check if any blockers in the project
+reference the work you just did:
+
+1. Grep `{project_root}/.dev/ai/blockers/` for files mentioning the WO ID,
+   the work just completed, or keywords from the task (credential name, service
+   name, feature name).
+2. For each match: read the blocker file. If the blocker's required action is
+   now satisfied (credential present, file exists, service running, config
+   set), update it:
+   - Set `status: resolved`, `all_resolved: true`
+   - Set `resolved_at` to current ISO8601 timestamp
+   - Append a resolution log entry: "Resolved by dev worker. [WO/task]
+     completed the required work: [one sentence]."
+3. After all work is done, if any blockers were resolved, run:
+   `~/.agents/scripts/blocker-views-refresh.py --project {project_root}`
+
+If you complete work but don't close the related blocker, the supervisor will
+present the already-done work to the owner as an active gate. This wastes the
+owner's time and money.
+
 ## Hard Constraints (NEVER Violate)
 
 1. **No Success Without Verification** - Never claim completion without concrete test evidence
