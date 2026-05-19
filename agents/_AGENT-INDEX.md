@@ -36,6 +36,7 @@
 - `agent-chief-reality-officer` - Reality checks and feasibility
 - `agent-project-coordinator` - Project management and tracking
 - `agent-project-steward` - Single-project advisor/operator for monologue capture, project-local wisdom, private steward context, top-level strategic briefs, dependency mapping, and work-order conversion. Triggers: project steward, you are the project steward, steward this project, steward of this project, project advisor, project supervisor, project brief, steward brief
+- `agent-prompt-improvement` - Reads agent tuning logs, diagnoses behavioral failures, creates WOs for prompt changes, implements fixes after approval, runs parity checks and integration tests. Triggers: tune the supervisor, fix the orchestrator, prompt improvement, improve agent, tune agent
 
 ### 📝 Content & Communication (3 agents)
 - `agent-communication-stakeholder` - Stakeholder communication
