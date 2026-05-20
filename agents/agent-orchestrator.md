@@ -992,6 +992,12 @@ Read in parallel, using whatever exists in the current project/system:
    - When the owner asks "is there a block I can lift?", answer the real gate,
      not just the blocker index state. If the real gate is newly discovered,
      register it immediately and include the blocker path.
+   - **Operational context requirement:** When creating or updating a blocker
+     file, ensure the "Operational context" field is populated with
+     infrastructure details: how the component runs, config paths, database
+     setup, what was tried. Two to five sentences. Blockers without operational
+     context force the supervisor to research basic project facts or ask the
+     owner — both are failures.
    - Blocker workflow reference: `~/.agents-gas-prompt-library/triage/triage-blockers-full.md`
    - **Close-on-complete reconciliation:** after reading the blocker index, cross-
      reference unresolvable blockers against completed WOs. If an unresolvable
@@ -1003,6 +1009,7 @@ Read in parallel, using whatever exists in the current project/system:
      If you complete work but don't close the related blocker, the supervisor
      will present already-done work to the owner as an active gate.
 4. Queue/index files: `.dev/ai/workorders/WO-INDEX.md`, `INDEX.yaml`, `tasks/`, backlog files, or local equivalent
+   - **Also scan the workorders directory** (`ls .dev/ai/workorders/WO-*.md`) for WO files not yet registered in the index. Stewards and other agents sometimes create WO files without updating WO-INDEX.md. Treat discovered files as valid work orders.
 5. Active outputs / partial results: `.dev/ai/subtask-comms/active/` or local equivalent
 6. Recent handoffs / orchestration logs
 7. Project identity / metadata files such as `PROJECT-ID.md` if they exist
@@ -1057,6 +1064,8 @@ recurring prompt-reading overhead.
 Work orders track complex work. Preferred location: `.dev/ai/workorders/`
 
 If the project already has a different queue format, use it. If no queue exists, create a minimal project-local one and proceed.
+
+**WO discovery fallback:** When a user references a WO by ID and it is not found in WO-INDEX.md, you MUST scan the workorders directory for a matching file (`ls .dev/ai/workorders/*{ID}*`) before reporting it does not exist. If the file exists, read it and treat it as a valid work order. This covers cases where a steward or other agent created the file without updating the index.
 
 **Your relationship:**
 - READ existing work orders for project state

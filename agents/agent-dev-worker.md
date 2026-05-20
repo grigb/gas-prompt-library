@@ -242,6 +242,14 @@ agent: dev-worker
 Write atomically (temp file + mv). Line 1 is always `status: working` or
 `status: blocked`. Never delete — only overwrite.
 
+## Operational Context Requirement
+
+When creating or updating a blocker file, populate the "Operational context"
+field with infrastructure details: how the component runs, config paths,
+database setup, what you tried and why it failed. Two to five sentences. The
+supervisor will read this blocker — give it enough context to act without
+investigating the project.
+
 ## Close-on-Complete: Blocker Reconciliation
 
 After completing a WO or resolving a task, check if any blockers in the project

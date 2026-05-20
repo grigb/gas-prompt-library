@@ -60,6 +60,54 @@ Refresh-only mode MUST NOT:
 - Skip the full process when the agent explicitly requests a full rescan
 - Alter any blocker file status or content
 
+## Blocker Reconciliation Pass (Run Before Discovery)
+
+Before discovering new blockers, reconcile all existing blocker files in
+the project's `.dev/ai/blockers/` directory.
+
+For each blocker file with status `idle`, `claimed`, `in_progress`, or
+`unresolvable`:
+
+### Step 1: Liveness check
+Verify the blocking condition still exists:
+- If the blocker says "needs env var X" — check if X is now set
+- If the blocker says "needs credential Y" — check if Y is now in the expected location
+- If the blocker says "needs service Z running" — check if Z is running or configured
+- If the blocker says "needs file/migration/config" — check if it exists
+- Use at most 3 tool calls per blocker for verification
+
+If the condition is resolved:
+- Set `status: resolved`, `resolved_at` to current timestamp, `all_resolved: true`
+- Append to Resolution log: "Resolved during triage reconciliation: [what changed]"
+- Update the project's `.dev/ai/blockers/INDEX.md`
+
+### Step 2: Schema version check
+Read the blocker's `schema_version` field (missing = "1.0").
+Compare against the current schema version (currently **1.1**).
+
+If outdated:
+- Rewrite the blocker to current format:
+  - Add any missing front-matter fields with appropriate defaults
+  - Add any missing body sections (e.g., "Operational context")
+  - Populate new fields using project context you already have
+  - PRESERVE the `## Resolution log` section verbatim — never rewrite history
+  - PRESERVE the `id`, `created_at`, and all provenance fields — never change identity
+- Set `schema_version` to the current version
+- Set `updated_at` to current timestamp
+
+### Step 3: Freshness
+If the blocker is over 14 days old with no resolution log activity and no
+schema version change needed, flag it for supervisor attention by appending
+to the Resolution log: "Stale: no activity for 14+ days. Supervisor should
+verify this blocker is still relevant."
+
+### Bounds
+Process at most 20 blocker files per reconciliation pass. If more exist,
+process the oldest 20 (by `created_at`) and note "N blockers skipped —
+run reconciliation again for full coverage."
+
+After reconciliation, proceed to normal blocker discovery.
+
 ## Output Mode
 
 This prompt operates in TWO MODES:
@@ -542,6 +590,15 @@ needed.]
 [Only include work-order IDs, issue numbers, PRs, branches, files, or tickets if useful. Otherwise write “Not needed.”]
 
 ---
+
+## Operational Context Requirement (MANDATORY for catalog mode)
+
+When creating a blocker file, always populate the "Operational context" field
+with infrastructure details the supervisor needs: how the service runs (Docker,
+VPS, local, serverless), relevant config file paths, database setup, deployment
+method, what you already tried and why it failed, and project-specific
+constraints. Two to five sentences. If you don't know, write "Unknown — project
+agent did not have this context." Never leave it blank.
 
 ## If There Are No Blockers
 

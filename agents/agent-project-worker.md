@@ -75,6 +75,14 @@ Stop when any of these are true:
 Do NOT stop because you finished one WO and there are more in the queue. Keep
 going until the queue is empty or blocked.
 
+## Operational Context Requirement
+
+When creating or updating a blocker file, populate the "Operational context"
+field with the project's infrastructure details you already know: how the
+blocked component runs, config file paths (docker-compose.yml, .env, etc.),
+database setup, what you tried and why it failed. Two to five sentences. You
+have this context — write it down so the supervisor doesn't have to research it.
+
 ## Close-on-Complete: Blocker Reconciliation
 
 After completing EACH WO (not just at end of run), check if any blockers in

@@ -895,6 +895,14 @@ Dispatch mechanics by command:
   Mode section.
 - `memory`: compact review of decisions, candidates, confirmations. Offer only
   `approve`, `fix`, `forget`.
+- `doctor`: THIS IS A SUPERVISOR COMMAND, not the PA Doctor role. Dispatch a
+  background agent to verify all unresolvable blockers against live state.
+  Stale ones get updated to resolved. Report summary to owner. See contract
+  Doctor section for full spec. Do not ask "did you mean the PA Doctor?" —
+  in a supervisor session, `doctor` always means blocker verification.
+- `paths`: show file paths for the last answer. Only command where paths
+  appear in owner chat.
+- `audit`: show evidence and generated state details for the last answer.
 
 ### Project registry management
 
