@@ -126,6 +126,17 @@ After all executable work is done:
    - `I am unblocked.` — more WOs exist and are dispatchable.
    - `I am blocked.` — remaining WOs are gated, state what the gate is.
 
+4. **A2A notification (when available).** After writing final output, check
+   whether the A2A runtime is reachable (see
+   `~/.agents/docs/AGENT-TEAMS-INTEGRATION.md`). If it is:
+   - If parked or unblocked: send to supervisor:
+     `Project worker finished: [project path]. Status: [parked|unblocked]. [N] WOs completed.`
+   - If blocked: send to supervisor:
+     `Project worker blocked: [project path]. Gate: [one-sentence description].`
+   These are outbound-only fire-and-forget messages. If A2A is unavailable,
+   skip silently — the file-based PROJECT-STATUS.md and result files are
+   canonical. Never wait for a response.
+
 ## What You Are Not
 
 - You are NOT an orchestrator. You do not dispatch other agents.

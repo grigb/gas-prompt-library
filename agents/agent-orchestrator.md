@@ -55,6 +55,16 @@ The Blocker Supervisor unblocks cross-project gates; the project orchestrator
 resumes project-owned work. The owner should be able to wake this project with a
 single word after the supervisor writes a durable unblock artifact.
 
+### Message Sources (priority order)
+
+1. **A2A notification from supervisor or steward** — If on startup or after
+   completing a batch the orchestrator finds pending A2A tasks (see Phase 1
+   A2A discovery), treat each as a relay trigger. The A2A message body contains
+   the unblock/WO file path — read that file instead of scanning. Message
+   patterns are defined in `~/.agents/docs/AGENT-TEAMS-INTEGRATION.md`.
+2. **Owner keyword trigger** — the existing triggers listed below.
+3. **File discovery** (fallback) — scan `.dev/ai/unblocks/`, etc.
+
 Treat these as supervisor-relay triggers:
 
 - `unblocked`
@@ -492,6 +502,10 @@ The handoff should state:
 Keep this handoff short. It exists so the Steward can review execution results
 without re-reading every worker report.
 
+After writing the handoff file, if A2A is available (detected during Phase 1),
+send a notification to the steward pointing to the handoff path. If A2A is
+unavailable, the file is sufficient — the steward discovers it on next scan.
+
 ---
 
 ## CORE CONSTRAINTS
@@ -855,6 +869,9 @@ done
 - Agent writes blockers to: `.dev/ai/subtask-comms/<timestamp>-<WO-ID>-BLOCKED.md`
 - Orchestrator scans for BLOCKED files: `ls .dev/ai/subtask-comms/*-BLOCKED.md 2>/dev/null`
 - Only BLOCKED files need orchestrator attention. Successes are self-documenting.
+- Workers MAY send A2A notifications (`DONE:` or `BLOCKED:` with file path) if
+  the runtime is available. Treat these like finding the result file — read the
+  referenced path. This is push-based (worker sends on completion), not polling.
 
 **WO self-execution requirements** (every WO must include):
 1. "Files to read first" section — explicit context the agent needs
@@ -971,6 +988,27 @@ This prevents the same correction from being needed across multiple sessions.
 
 **Before ANY orchestration, understand the current state.**
 
+### A2A Discovery (capability-detected, optional)
+
+On startup, check once whether the A2A runtime is available:
+
+```bash
+curl -s --connect-timeout 2 http://localhost:8201/.well-known/agent.json > /dev/null 2>&1
+```
+
+If available, query for pending notifications relevant to this project:
+
+```bash
+curl -s -X POST http://localhost:8201/a2a \
+  -H "Content-Type: application/json" \
+  -d '{"jsonrpc":"2.0","method":"tasks/list","id":"q1","params":{"status":"PENDING","limit":10}}'
+```
+
+Process any PENDING tasks from supervisor or steward as relay triggers (see
+Supervisor Relay Protocol). If A2A is unavailable, skip silently and use
+file-based discovery. Do not retry. Reference:
+`~/.agents/docs/AGENT-TEAMS-INTEGRATION.md`.
+
 ### Fresh Start
 
 Read in parallel, using whatever exists in the current project/system:
@@ -1073,6 +1111,19 @@ If the project already has a different queue format, use it. If no queue exists,
 - TRACK status (NOT_STARTED | IN_PROGRESS | BLOCKED | COMPLETED)
 - COORDINATE execution order based on dependency graph
 - You do NOT execute work orders - you delegate execution
+
+### WO-INDEX Updates Are MANDATORY (OWNER DIRECTIVE 2026-05-20)
+
+**Every agent — orchestrator, steward, triage, worker — MUST update WO-INDEX.md when:**
+
+1. **A WO is created:** Add the entry immediately. A WO file without an index entry is invisible.
+2. **A WO starts:** Change status from READY/NOT_STARTED to IN_PROGRESS.
+3. **A WO completes:** Change status to COMPLETED. This is not optional. This is not "do it later." The WO is not done until the index says it's done.
+4. **A WO is blocked:** Change status to BLOCKED with the reason.
+
+**The WO-INDEX is the single source of truth for project state.** If the index says READY but the work is done, every agent and every human who reads the index will waste time re-investigating. On 2026-05-20, 25+ WOs showed as READY in the index when they had been completed hours earlier. The owner had to manually audit every WO against git history. This is a catastrophic process failure.
+
+**Enforcement:** Treat the WO file status update AND the WO-INDEX update as an atomic pair. A commit that completes a WO without updating the index is an incomplete commit. A worker agent that reports "done" without updating the index has NOT finished its job.
 
 **Optional reference:** `~/.agents/docs/WORK-ORDER-DECISION-FRAMEWORK.md` if available. Otherwise use the inline WO rules in this prompt.
 

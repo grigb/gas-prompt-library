@@ -134,6 +134,20 @@ created or the user explicitly directs a one-off bypass. Reading onboarding is
 required for context; executing full onboarding maintenance remains governed by
 global onboarding rules and explicit user request.
 
+### A2A Runtime Discovery (after mandatory reads)
+
+Check once whether the A2A runtime is available:
+
+```bash
+curl -s --connect-timeout 2 http://localhost:8201/.well-known/agent.json > /dev/null 2>&1
+```
+
+Record the result for the session: `a2a_available: true` or `a2a_available: false`.
+If available, the supervisor can deliver unblock notifications directly to project
+orchestrators instead of requiring owner relay. If unavailable, all existing
+file-based behavior is unchanged. Do not retry during the session.
+See `~/.agents/docs/AGENT-TEAMS-INTEGRATION.md` for patterns and curl commands.
+
 ## Immediate Unblock Digest
 
 The owner expects the supervisor to surface relay-ready unblock information at
@@ -144,10 +158,13 @@ response after required startup context MUST include an immediate unblock digest
 before any single-blocker deep dive.
 
 The digest must be short, plain, and immediately actionable. For each
-unblocked/idle project, include the PASTE-READY relay text the owner can send
-to that project's agent right now. Do not just list project names as "idle" —
-that forces the owner to ask a follow-up question. The owner needs one copyable
-message per unblocked agent.
+unblocked/idle project, if A2A was available at startup and the notification
+succeeded, mark that project as `delivered-via-a2a` in the digest instead of
+generating paste-ready relay text. For projects where A2A delivery failed or
+was unavailable, include the PASTE-READY relay text the owner can send to that
+project's agent right now. Do not just list project names as "idle" — that
+forces the owner to ask a follow-up question. The owner needs either a
+delivery confirmation or one copyable message per unblocked agent.
 
 **"Unblocked" means the project has dispatchable work.** A project with some
 blockers but also WOs that can proceed is unblocked for those lanes. A project
@@ -266,7 +283,17 @@ explicit handoff/history needs, not the default restart path.
    unblocked you". That phrase means the project agent/orchestrator must re-read
    that project's `.dev/ai/blockers/INDEX.md`, the resolved blocker file, and
    `~/.agents/agents/blocker-engineer/SUPERVISOR-STATUS.md`, then
-   continue the project-owned follow-on work from the now-unblocked gate. If the
+   continue the project-owned follow-on work from the now-unblocked gate.
+
+   **A2A direct delivery (preferred when available):** If `a2a_available` is true
+   for this session, send the unblock notification directly via A2A `tasks/send`
+   instead of asking the owner to relay. Use the message pattern:
+   `Supervisor unblocked [project]. Read: [absolute unblock file path]. Proceed with: [WO-IDs].`
+   Report to owner: "Notified [project] orchestrator directly via A2A." If the
+   A2A send fails, fall back to owner relay without retrying. See
+   `~/.agents/docs/AGENT-TEAMS-INTEGRATION.md` for the curl command and patterns.
+
+   If the
    runtime exposes native background-agent delegation, the supervisor may use it
    only for supervisor-owned work by default: blocker verification, catalog
    metadata, owner-action briefs, work-order/handoff creation, dispatch ledgers,
@@ -768,12 +795,22 @@ and any safety boundaries.
 Use `/Users/grig/.agents/scripts/blocker-delivery-targets.py write-unblock
 <target> --items-json ...` when the target project is known.
 
-Owner-facing output is just the project name and "say unblocked":
+**A2A delivery (preferred when `a2a_available` is true):** After writing the
+unblock file, send a notification via A2A `tasks/send` with the message:
+`Supervisor unblocked [project]. Read: [absolute unblock file path]. Proceed with: [WO-IDs].`
+If the send succeeds, report to owner:
+`Delivered directly to [project] orchestrator via A2A.`
+Record transport status as `delivered-via-a2a`. The owner does not need to relay.
+
+**Owner relay (fallback when A2A unavailable or send fails):** Owner-facing
+output is just the project name and "say unblocked":
 `Delivered: Storage has WO-019 ready. Say "unblocked" to Storage.`
+Record transport status as `manual-relay-required`.
 
 The project orchestrator reads `.dev/ai/unblocks/` when the owner says
-"unblocked". No paste needed. Do not show paste-ready relay chunks during
-`work` unless the owner explicitly asks for `relay`.
+"unblocked" or when it receives an A2A notification. No paste needed. Do not
+show paste-ready relay chunks during `work` unless the owner explicitly asks
+for `relay`.
 
 After writing unblock files, continue the `work` loop automatically. Delivery
 is a step, not a stopping point.

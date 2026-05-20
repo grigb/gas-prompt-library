@@ -272,6 +272,21 @@ If you complete work but don't close the related blocker, the supervisor will
 present the already-done work to the owner as an active gate. This wastes the
 owner's time and money.
 
+## A2A Notifications (when available)
+
+After completing blocker reconciliation and running `blocker-views-refresh.py`,
+check whether the A2A runtime is reachable (see
+`~/.agents/docs/AGENT-TEAMS-INTEGRATION.md` for the detection pattern). If it is:
+
+- **Blocker resolved:** Send notification to supervisor:
+  `Blocker resolved: [blocker-id] in [project path]. Resolved by completing [WO-ID].`
+- **Work blocked:** If you created a `*-BLOCKED.md` file, send notification to
+  orchestrator: `BLOCKED: [WO-ID]. Blocker at [absolute path to blocker file].`
+
+These are fire-and-forget courtesy notifications. The file-based blocker and
+result files are canonical. If A2A is unavailable, skip silently — the
+supervisor discovers state changes on its next scan.
+
 ## Hard Constraints (NEVER Violate)
 
 1. **No Success Without Verification** - Never claim completion without concrete test evidence
