@@ -386,49 +386,49 @@
 
 | Agent | File | Specialization | Primary Keywords | Use When |
 |-------|------|----------------|------------------|----------|
-| Agent Zero | `agent-zero.md` | Agent Zero: owner's reasoning partner and meta-orchestrator (Layer 0) | agent-zero, agent0, a0, big-picture, board-director, cross-domain, fabric-awareness, hierarchy, layer-0, meta-orchestrator, owner, priority-arbitration | See file for details |
-| Assistant | `agent-assistant.md` | Human's single point of contact (Layer 1 Hierarchy) | assistant, bandwidth, daemon, delegation, hierarchy, layer-1, status-synthesis, user-facing | See file for details |
-| Blueprint Keeper | `agent-blueprint-keeper.md` | Strategic vision guardian (Layer 2 Hierarchy) | alignment, blueprint, cascade, constraints, hierarchy, strategic, vision | See file for details |
-| Request Router | `agent-request-router.md` | Blueprint-aware request gatekeeper (Layer 3 Hierarchy) | defer, gatekeeper, hierarchy, intake, reject, routing, triage, work-orders | See file for details |
-| GAS Manager | `agent-gas-manager.md` | Autonomous execution engine / PM (Layer 4 Hierarchy) | autonomous, execution, hierarchy, layer-4, orchestration, pm, wo-management | See file for details |
-| Chief Of Staff | `agent-chief-of-staff.md` | Strategic Planning Advisor with 15+ years spe... | communication, data, design, development, process, research | See file for details |
-| Chief Reality Officer | `agent-chief-reality-officer.md` | Strategic Risk Assessor with 15+ years valida... | communication, data, design, development, process, research | See file for details |
-| Communication Stakeholder | `agent-communication-stakeholder.md` | Senior Communication professional with | communication, data, design, development, documentation, process | See file for details |
-| Content Crafting Alignment | `agent-content-crafting-alignment.md` | expert writer and philosophical alignment | communication, data, documentation, process, research, strategic | See file for details |
-| Creative Writer Spiritual | `agent-creative-writer-spiritual.md` | creative writer and spiritual craftsperson with 20+ years | writing, creative, spiritual, artistic, prose, sentence, compassion | See file for details |
-| Data Analysis Visualization | `agent-data-analysis-visualization.md` | expert data scientist with 10+ years | communication, data, design, development, process, research | See file for details |
-| Dev General Contractor | `agent-dev-general-contractor.md` | Senior Software Engineer with 15+ years | communication, data, deployment, design, development, documentation | See file for details |
-| Dev Overseer | `agent-dev-overseer.md` | Senior Development Manager and QA Engineer wi... | communication, data, deployment, design, development, documentation | See file for details |
-| Dev Worker | `agent-dev-worker.md` | Senior Software Engineer with 10+ years of ex... | communication, data, debug, debugging, development, documentation | See file for details |
-| Document Analysis Audit | `agent-document-analysis-audit.md` | Quality Assurance Specialist with 12+ years o... | communication, data, development, documentation, process, research | See file for details |
-| Financial Analysis Planning | `agent-financial-analysis-planning.md` | Senior Financial Analyst with 15+ years | communication, data, deploy, deployment, design, development | See file for details |
-| Innovation Ideation | `agent-innovation-ideation.md` | Creative Innovation Specialist with 15+ years... | data, design, development, documentation, process, research | See file for details |
-| Learning Knowledge Management | `agent-learning-knowledge-management.md` | Learning & Knowledge Management specialist wi... | communication, data, design, development, documentation, process | See file for details |
-| Marketing Expert | `agent-marketing-expert.md` | Senior Marketing Strategist with 25+ years of... | communication, data, design, development, documentation, process | See file for details |
-| Network Diagnostics Specialist | `agent-network-diagnostics-specialist.md` | Network diagnostics | network, diagnostics, troubleshooting | See file for details |
-| Orchestrator | `agent-orchestrator.md` | Master Agent Coordinator with 15+ years of ex... | communication, data, design, development, documentation, orchestrate | See file for details |
-| Manager Orchestrator | `agent-manager-orchestrator.md` | Coordinates orchestrators at portfolio level | portfolio, hierarchy, multi-project, beacon, manager, coordination | See file for details |
-| Project Steward | `agent-project-steward.md` | Single-project advisor/operator for monologue capture, project-local wisdom, private steward context, top-level strategic briefs, dependency mapping, and work-order conversion | project-steward, project-advisor, project-supervisor, project-brief, steward-brief, monologue-capture, project-memory, work-orders, dependency-mapping | Use when a project needs durable stewardship inside one project root |
-| Process Analysis Retrospective Quick | `agent-process-analysis-retrospective-quick.md` | Senior Organizational Learning Architect | communication, data, design, development, documentation, process | See file for details |
-| Process Analysis Retrospective | `agent-process-analysis-retrospective.md` | Senior Systems Analyst with 15+ years | communication, data, design, development, documentation, process | See file for details |
-| Process Design Optimization | `agent-process-design-optimization.md` | Senior Process Engineer with 15+ years | communication, data, design, development, process, research | See file for details |
-| Project Coordinator | `agent-project-coordinator.md` | expert project manager with 15+ years coordin... | communication, data, design, development, documentation, process | See file for details |
-| Research Analysis | `agent-research-analysis.md` | expert researcher with 15+ years synthesizing | data, design, development, documentation, process, research | See file for details |
-| Research Gap Analysis | `agent-research-gap-analysis.md` | Research Completeness Specialist with 15+ yea... | communication, data, design, development, documentation, process | See file for details |
-| Security Compliance | `agent-security-compliance.md` | Senior Security Professional with 15+ years s... | communication, data, design, development, documentation, process | See file for details |
-| Software Product Builder | `agent-software-product-builder.md` | veteran product development specialist with 2... | communication, data, deploy, deploying, deployment, design | See file for details |
-| Strategic Intelligence | `agent-strategic-intelligence.md` | Strategic Intelligence agent with 15+ years o... | communication, data, design, development, documentation, process | See file for details |
-| Synthesis Integration | `agent-synthesis-integration.md` | information architect with 12+ years | data, design, development, documentation, process, research | See file for details |
-| Testing Validation | `agent-testing-validation.md` | Senior Quality Engineer with 15+ years specia... | communication, data, deployment, design, development, documentation | See file for details |
-| Tooling | `agent-tooling.md` | Senior Architect and Implementation Specialis... | communication, data, design, development, documentation, process | See file for details |
-| Ux Design | `agent-ux-design.md` | User Experience & Design Specialist with 12+ ... | communication, data, design, development, process, research | See file for details |
-| PA Maintenance | `agent-pa-maintenance.md` | Senior Infrastructure Engineer for PA system diagnosis and repair | credentials, daemon, health-check, infrastructure, launchd, maintenance, ops, pa, token-rotation | See file for details |
-| PA QA Tester | `agent-pa-qa-tester.md` | Adversarial QA tester for GAS Personal Assistant | adversarial, behavior, bug-finding, pa, qa, testing, tester | See file for details |
-| Paperclip Worker | `agent-paperclip-worker.md` | Paperclip-managed heartbeat worker | heartbeat, managed, paperclip, worker | See file for details |
-| Mac Performance Diagnostics Specialist | `agent-mac-performance-diagnostics-specialist.md` | macOS performance troubleshooting and optimization | cpu, diagnostics, disk, fan, gpu, macos, memory, performance, thermal | See file for details |
-| Blocker Supervisor | `agent-blocker-supervisor.md` | Cross-project blocker router, identifies intent and dispatches to catalog/resolution/registry/inspection (advisor by default) | blocker, dispatch, intent, portfolio, registry, router, supervisor | See file for details |
-| Blocker Cataloger | `agent-blocker-supervisor-cataloger.md` | Cross-project blocker scanner, generates per-project and master indexes (scanner only) | blocker, catalog, cataloger, cross-project, index, scan, scanner, stale | See file for details |
-| Blocker Unblocker | `agent-blocker-supervisor-unblocker.md` | Blocker resolution supervisor, claims idle blockers and attempts resolution (resolver only) | blocker, claim, engineer, idle, playbook, resolve, resolver, unblock | See file for details |
+| Agent Zero | `agent-zero/SKILL.md` | Agent Zero: owner's reasoning partner and meta-orchestrator (Layer 0) | agent-zero, agent0, a0, big-picture, board-director, cross-domain, fabric-awareness, hierarchy, layer-0, meta-orchestrator, owner, priority-arbitration | See file for details |
+| Assistant | `agent-assistant/SKILL.md` | Human's single point of contact (Layer 1 Hierarchy) | assistant, bandwidth, daemon, delegation, hierarchy, layer-1, status-synthesis, user-facing | See file for details |
+| Blueprint Keeper | `agent-blueprint-keeper/SKILL.md` | Strategic vision guardian (Layer 2 Hierarchy) | alignment, blueprint, cascade, constraints, hierarchy, strategic, vision | See file for details |
+| Request Router | `agent-request-router/SKILL.md` | Blueprint-aware request gatekeeper (Layer 3 Hierarchy) | defer, gatekeeper, hierarchy, intake, reject, routing, triage, work-orders | See file for details |
+| GAS Manager | `agent-gas-manager/SKILL.md` | Autonomous execution engine / PM (Layer 4 Hierarchy) | autonomous, execution, hierarchy, layer-4, orchestration, pm, wo-management | See file for details |
+| Chief Of Staff | `agent-chief-of-staff/SKILL.md` | Strategic Planning Advisor with 15+ years spe... | communication, data, design, development, process, research | See file for details |
+| Chief Reality Officer | `agent-chief-reality-officer/SKILL.md` | Strategic Risk Assessor with 15+ years valida... | communication, data, design, development, process, research | See file for details |
+| Communication Stakeholder | `agent-communication-stakeholder/SKILL.md` | Senior Communication professional with | communication, data, design, development, documentation, process | See file for details |
+| Content Crafting Alignment | `agent-content-crafting-alignment/SKILL.md` | expert writer and philosophical alignment | communication, data, documentation, process, research, strategic | See file for details |
+| Creative Writer Spiritual | `agent-creative-writer-spiritual/SKILL.md` | creative writer and spiritual craftsperson with 20+ years | writing, creative, spiritual, artistic, prose, sentence, compassion | See file for details |
+| Data Analysis Visualization | `agent-data-analysis-visualization/SKILL.md` | expert data scientist with 10+ years | communication, data, design, development, process, research | See file for details |
+| Dev General Contractor | `agent-dev-general-contractor/SKILL.md` | Senior Software Engineer with 15+ years | communication, data, deployment, design, development, documentation | See file for details |
+| Dev Overseer | `agent-dev-overseer/SKILL.md` | Senior Development Manager and QA Engineer wi... | communication, data, deployment, design, development, documentation | See file for details |
+| Dev Worker | `agent-dev-worker/SKILL.md` | Senior Software Engineer with 10+ years of ex... | communication, data, debug, debugging, development, documentation | See file for details |
+| Document Analysis Audit | `agent-document-analysis-audit/SKILL.md` | Quality Assurance Specialist with 12+ years o... | communication, data, development, documentation, process, research | See file for details |
+| Financial Analysis Planning | `agent-financial-analysis-planning/SKILL.md` | Senior Financial Analyst with 15+ years | communication, data, deploy, deployment, design, development | See file for details |
+| Innovation Ideation | `agent-innovation-ideation/SKILL.md` | Creative Innovation Specialist with 15+ years... | data, design, development, documentation, process, research | See file for details |
+| Learning Knowledge Management | `agent-learning-knowledge-management/SKILL.md` | Learning & Knowledge Management specialist wi... | communication, data, design, development, documentation, process | See file for details |
+| Marketing Expert | `agent-marketing-expert/SKILL.md` | Senior Marketing Strategist with 25+ years of... | communication, data, design, development, documentation, process | See file for details |
+| Network Diagnostics Specialist | `agent-network-diagnostics-specialist/SKILL.md` | Network diagnostics | network, diagnostics, troubleshooting | See file for details |
+| Orchestrator | `agent-orchestrator/SKILL.md` | Master Agent Coordinator with 15+ years of ex... | communication, data, design, development, documentation, orchestrate | See file for details |
+| Manager Orchestrator | `agent-manager-orchestrator/SKILL.md` | Coordinates orchestrators at portfolio level | portfolio, hierarchy, multi-project, beacon, manager, coordination | See file for details |
+| Project Steward | `agent-project-steward/SKILL.md` | Single-project advisor/operator for monologue capture, project-local wisdom, private steward context, top-level strategic briefs, dependency mapping, and work-order conversion | project-steward, project-advisor, project-supervisor, project-brief, steward-brief, monologue-capture, project-memory, work-orders, dependency-mapping | Use when a project needs durable stewardship inside one project root |
+| Process Analysis Retrospective Quick | `agent-process-analysis-retrospective-quick/SKILL.md` | Senior Organizational Learning Architect | communication, data, design, development, documentation, process | See file for details |
+| Process Analysis Retrospective | `agent-process-analysis-retrospective/SKILL.md` | Senior Systems Analyst with 15+ years | communication, data, design, development, documentation, process | See file for details |
+| Process Design Optimization | `agent-process-design-optimization/SKILL.md` | Senior Process Engineer with 15+ years | communication, data, design, development, process, research | See file for details |
+| Project Coordinator | `agent-project-coordinator/SKILL.md` | expert project manager with 15+ years coordin... | communication, data, design, development, documentation, process | See file for details |
+| Research Analysis | `agent-research-analysis/SKILL.md` | expert researcher with 15+ years synthesizing | data, design, development, documentation, process, research | See file for details |
+| Research Gap Analysis | `agent-research-gap-analysis/SKILL.md` | Research Completeness Specialist with 15+ yea... | communication, data, design, development, documentation, process | See file for details |
+| Security Compliance | `agent-security-compliance/SKILL.md` | Senior Security Professional with 15+ years s... | communication, data, design, development, documentation, process | See file for details |
+| Software Product Builder | `agent-software-product-builder/SKILL.md` | veteran product development specialist with 2... | communication, data, deploy, deploying, deployment, design | See file for details |
+| Strategic Intelligence | `agent-strategic-intelligence/SKILL.md` | Strategic Intelligence agent with 15+ years o... | communication, data, design, development, documentation, process | See file for details |
+| Synthesis Integration | `agent-synthesis-integration/SKILL.md` | information architect with 12+ years | data, design, development, documentation, process, research | See file for details |
+| Testing Validation | `agent-testing-validation/SKILL.md` | Senior Quality Engineer with 15+ years specia... | communication, data, deployment, design, development, documentation | See file for details |
+| Tooling | `agent-tooling/SKILL.md` | Senior Architect and Implementation Specialis... | communication, data, design, development, documentation, process | See file for details |
+| Ux Design | `agent-ux-design/SKILL.md` | User Experience & Design Specialist with 12+ ... | communication, data, design, development, process, research | See file for details |
+| PA Maintenance | `agent-pa-maintenance/SKILL.md` | Senior Infrastructure Engineer for PA system diagnosis and repair | credentials, daemon, health-check, infrastructure, launchd, maintenance, ops, pa, token-rotation | See file for details |
+| PA QA Tester | `agent-pa-qa-tester/SKILL.md` | Adversarial QA tester for GAS Personal Assistant | adversarial, behavior, bug-finding, pa, qa, testing, tester | See file for details |
+| Paperclip Worker | `agent-paperclip-worker/SKILL.md` | Paperclip-managed heartbeat worker | heartbeat, managed, paperclip, worker | See file for details |
+| Mac Performance Diagnostics Specialist | `agent-mac-performance-diagnostics-specialist/SKILL.md` | macOS performance troubleshooting and optimization | cpu, diagnostics, disk, fan, gpu, macos, memory, performance, thermal | See file for details |
+| Blocker Supervisor | `agent-blocker-supervisor/SKILL.md` | Cross-project blocker router, identifies intent and dispatches to catalog/resolution/registry/inspection (advisor by default) | blocker, dispatch, intent, portfolio, registry, router, supervisor | See file for details |
+| Blocker Cataloger | `agent-blocker-supervisor-cataloger/SKILL.md` | Cross-project blocker scanner, generates per-project and master indexes (scanner only) | blocker, catalog, cataloger, cross-project, index, scan, scanner, stale | See file for details |
+| Blocker Unblocker | `agent-blocker-supervisor-unblocker/SKILL.md` | Blocker resolution supervisor, claims idle blockers and attempts resolution (resolver only) | blocker, claim, engineer, idle, playbook, resolve, resolver, unblock | See file for details |
 
 ## Usage Examples
 
@@ -477,49 +477,49 @@ def get_agent_metadata(agent_name):
 ├── AGENT-INDEX.md                               # This file - searchable index
 ├── _agent-format-guide.md                       # Format specification
 │
-├── agent-zero.md                                  # Meta-Hierarchy (Layer 0) — Agent Zero
-├── agent-assistant.md                            # Hierarchy (Layer 1)
-├── agent-blueprint-keeper.md                    # Hierarchy (Layer 2)
-├── agent-request-router.md                     # Hierarchy (Layer 3)
-├── agent-gas-manager.md                         # Hierarchy (Layer 4)
-├── agent-orchestrator.md                        # Strategic
-├── agent-manager-orchestrator.md                # Hierarchy (manages orchestrators)
-├── agent-chief-of-staff.md
-├── agent-chief-reality-officer.md
-├── agent-strategic-intelligence.md
+├── agent-zero/SKILL.md                                  # Meta-Hierarchy (Layer 0) — Agent Zero
+├── agent-assistant/SKILL.md                            # Hierarchy (Layer 1)
+├── agent-blueprint-keeper/SKILL.md                    # Hierarchy (Layer 2)
+├── agent-request-router/SKILL.md                     # Hierarchy (Layer 3)
+├── agent-gas-manager/SKILL.md                         # Hierarchy (Layer 4)
+├── agent-orchestrator/SKILL.md                        # Strategic
+├── agent-manager-orchestrator/SKILL.md                # Hierarchy (manages orchestrators)
+├── agent-chief-of-staff/SKILL.md
+├── agent-chief-reality-officer/SKILL.md
+├── agent-strategic-intelligence/SKILL.md
 │
-├── agent-project-coordinator.md                 # Planning
-├── agent-process-design-optimization.md
-├── agent-process-analysis-retrospective.md
-├── agent-process-analysis-retrospective-quick.md
+├── agent-project-coordinator/SKILL.md                 # Planning
+├── agent-process-design-optimization/SKILL.md
+├── agent-process-analysis-retrospective/SKILL.md
+├── agent-process-analysis-retrospective-quick/SKILL.md
 │
-├── agent-research-analysis.md                   # Research
-├── agent-research-gap-analysis.md
+├── agent-research-analysis/SKILL.md                   # Research
+├── agent-research-gap-analysis/SKILL.md
 │
-├── agent-dev-worker.md                          # Development
-├── agent-dev-overseer.md
-├── agent-dev-general-contractor.md
-├── agent-software-product-builder.md
+├── agent-dev-worker/SKILL.md                          # Development
+├── agent-dev-overseer/SKILL.md
+├── agent-dev-general-contractor/SKILL.md
+├── agent-software-product-builder/SKILL.md
 │
-├── agent-testing-validation.md                  # Quality
-├── agent-security-compliance.md
-├── agent-tooling.md
+├── agent-testing-validation/SKILL.md                  # Quality
+├── agent-security-compliance/SKILL.md
+├── agent-tooling/SKILL.md
 │
-├── agent-content-crafting-alignment.md          # Content
-├── agent-communication-stakeholder.md
-├── agent-creative-writer-spiritual.md
-├── agent-marketing-expert.md
+├── agent-content-crafting-alignment/SKILL.md          # Content
+├── agent-communication-stakeholder/SKILL.md
+├── agent-creative-writer-spiritual/SKILL.md
+├── agent-marketing-expert/SKILL.md
 │
-├── agent-data-analysis-visualization.md         # Specialized
-├── agent-financial-analysis-planning.md
-├── agent-ux-design.md
-├── agent-document-analysis-audit.md
-├── agent-learning-knowledge-management.md
-├── agent-synthesis-integration.md
-├── agent-innovation-ideation.md
-├── agent-network-diagnostics-specialist.md
-├── agent-paperclip-worker.md                  # Paperclip-managed heartbeat worker
-└── agent-pa-maintenance.md                    # PA infrastructure maintenance
+├── agent-data-analysis-visualization/SKILL.md         # Specialized
+├── agent-financial-analysis-planning/SKILL.md
+├── agent-ux-design/SKILL.md
+├── agent-document-analysis-audit/SKILL.md
+├── agent-learning-knowledge-management/SKILL.md
+├── agent-synthesis-integration/SKILL.md
+├── agent-innovation-ideation/SKILL.md
+├── agent-network-diagnostics-specialist/SKILL.md
+├── agent-paperclip-worker/SKILL.md                  # Paperclip-managed heartbeat worker
+└── agent-pa-maintenance/SKILL.md                    # PA infrastructure maintenance
 ```
 
 ---

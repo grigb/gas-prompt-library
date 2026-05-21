@@ -12,16 +12,16 @@
 
 | Trigger Phrase | Target Prompt | Description |
 |----------------|---------------|-------------|
-| `agent zero` | `~/.agents/prompts/agents/agent-zero.md` | Agent Zero -- owner's reasoning partner and meta-orchestrator |
-| `agent0` | `~/.agents/prompts/agents/agent-zero.md` | Short form for Agent Zero |
-| `a0` | `~/.agents/prompts/agents/agent-zero.md` | Abbreviated form for Agent Zero |
-| `GAS A0` | `~/.agents/prompts/agents/agent-zero.md` | External reference form for Agent Zero |
-| `M` | `~/.agents/prompts/agents/agent-zero.md` | Single-letter shorthand for Agent Zero |
-| `owner's agent` | `~/.agents/prompts/agents/agent-zero.md` | Legacy trigger (still works) |
-| `board director` | `~/.agents/prompts/agents/agent-zero.md` | Board-level strategic view |
-| `meta-orchestrator` | `~/.agents/prompts/agents/agent-zero.md` | Cross-domain orchestration |
-| `big picture` | `~/.agents/prompts/agents/agent-zero.md` | Holistic world-state synthesis |
-| `where are we` | `~/.agents/prompts/agents/agent-zero.md` | Cross-domain status check |
+| `agent zero` | `~/.agents/prompts/agents/agent-zero/SKILL.md` | Agent Zero -- owner's reasoning partner and meta-orchestrator |
+| `agent0` | `~/.agents/prompts/agents/agent-zero/SKILL.md` | Short form for Agent Zero |
+| `a0` | `~/.agents/prompts/agents/agent-zero/SKILL.md` | Abbreviated form for Agent Zero |
+| `GAS A0` | `~/.agents/prompts/agents/agent-zero/SKILL.md` | External reference form for Agent Zero |
+| `M` | `~/.agents/prompts/agents/agent-zero/SKILL.md` | Single-letter shorthand for Agent Zero |
+| `owner's agent` | `~/.agents/prompts/agents/agent-zero/SKILL.md` | Legacy trigger (still works) |
+| `board director` | `~/.agents/prompts/agents/agent-zero/SKILL.md` | Board-level strategic view |
+| `meta-orchestrator` | `~/.agents/prompts/agents/agent-zero/SKILL.md` | Cross-domain orchestration |
+| `big picture` | `~/.agents/prompts/agents/agent-zero/SKILL.md` | Holistic world-state synthesis |
+| `where are we` | `~/.agents/prompts/agents/agent-zero/SKILL.md` | Cross-domain status check |
 
 **Core Principle:** Layer 0. Sits above all hierarchy, all companies, all projects. Reasons across the full fabric of the owner's world. Never implements -- thinks, connects, prioritizes, delegates.
 
@@ -33,12 +33,12 @@
 
 | Trigger Phrase | Target Prompt | Description |
 |----------------|---------------|-------------|
-| `dev` | `~/.agents/prompts/agents/agent-dev-worker.md` | Core implementation agent |
-| `dev tool` | `~/.agents/prompts/agents/agent-dev-worker.md` | Alias for dev agent |
-| `dev agent` | `~/.agents/prompts/agents/agent-dev-worker.md` | Explicit dev agent request |
-| `you are the dev agent` | `~/.agents/prompts/agents/agent-dev-worker.md` | Role assignment phrase |
-| `act as dev` | `~/.agents/prompts/agents/agent-dev-worker.md` | Role activation phrase |
-| `use the dev tool` | `~/.agents/prompts/agents/agent-dev-worker.md` | Tool invocation phrase |
+| `dev` | `~/.agents/prompts/agents/agent-dev-worker/SKILL.md` | Core implementation agent |
+| `dev tool` | `~/.agents/prompts/agents/agent-dev-worker/SKILL.md` | Alias for dev agent |
+| `dev agent` | `~/.agents/prompts/agents/agent-dev-worker/SKILL.md` | Explicit dev agent request |
+| `you are the dev agent` | `~/.agents/prompts/agents/agent-dev-worker/SKILL.md` | Role assignment phrase |
+| `act as dev` | `~/.agents/prompts/agents/agent-dev-worker/SKILL.md` | Role activation phrase |
+| `use the dev tool` | `~/.agents/prompts/agents/agent-dev-worker/SKILL.md` | Tool invocation phrase |
 
 **Activation Regex:** `(?i)\b(dev\s*(agent|tool)?|act\s+as\s+dev|you\s+are\s+(the\s+)?dev)\b`
 
@@ -48,12 +48,12 @@
 
 | Trigger Phrase | Target Prompt | Description |
 |----------------|---------------|-------------|
-| `triage` | `~/.agents/prompts/agents/agent-triage.md` | Work order capture agent |
-| `triage agent` | `~/.agents/prompts/agents/agent-triage.md` | Explicit triage request |
-| `you are the triage agent` | `~/.agents/prompts/agents/agent-triage.md` | Role assignment phrase |
-| `act as triage` | `~/.agents/prompts/agents/agent-triage.md` | Role activation phrase |
-| `capture this` | `~/.agents/prompts/agents/agent-triage.md` | Quick capture trigger |
-| `log this` | `~/.agents/prompts/agents/agent-triage.md` | Quick log trigger |
+| `triage` | `~/.agents/prompts/agents/agent-triage/SKILL.md` | Work order capture agent |
+| `triage agent` | `~/.agents/prompts/agents/agent-triage/SKILL.md` | Explicit triage request |
+| `you are the triage agent` | `~/.agents/prompts/agents/agent-triage/SKILL.md` | Role assignment phrase |
+| `act as triage` | `~/.agents/prompts/agents/agent-triage/SKILL.md` | Role activation phrase |
+| `capture this` | `~/.agents/prompts/agents/agent-triage/SKILL.md` | Quick capture trigger |
+| `log this` | `~/.agents/prompts/agents/agent-triage/SKILL.md` | Quick log trigger |
 
 **Activation Regex:** `(?i)\b(triage(\s+agent)?|act\s+as\s+triage|you\s+are\s+(the\s+)?triage|capture\s+this|log\s+this)\b`
 
@@ -63,12 +63,12 @@
 
 | Trigger Phrase | Target Prompt | Description |
 |----------------|---------------|-------------|
-| `qa` | `~/.agents/prompts/agents/agent-qa-full-review.md` | Quality assurance agent |
-| `qa agent` | `~/.agents/prompts/agents/agent-qa-full-review.md` | Explicit QA request |
-| `you are the qa agent` | `~/.agents/prompts/agents/agent-qa-full-review.md` | Role assignment phrase |
-| `act as qa` | `~/.agents/prompts/agents/agent-qa-full-review.md` | Role activation phrase |
-| `full review` | `~/.agents/prompts/agents/agent-qa-full-review.md` | Comprehensive QA trigger |
-| `quality review` | `~/.agents/prompts/agents/agent-qa-full-review.md` | Quality review trigger |
+| `qa` | `~/.agents/prompts/agents/agent-qa-full-review/SKILL.md` | Quality assurance agent |
+| `qa agent` | `~/.agents/prompts/agents/agent-qa-full-review/SKILL.md` | Explicit QA request |
+| `you are the qa agent` | `~/.agents/prompts/agents/agent-qa-full-review/SKILL.md` | Role assignment phrase |
+| `act as qa` | `~/.agents/prompts/agents/agent-qa-full-review/SKILL.md` | Role activation phrase |
+| `full review` | `~/.agents/prompts/agents/agent-qa-full-review/SKILL.md` | Comprehensive QA trigger |
+| `quality review` | `~/.agents/prompts/agents/agent-qa-full-review/SKILL.md` | Quality review trigger |
 
 **Activation Regex:** `(?i)\b(qa(\s+agent)?|act\s+as\s+qa|you\s+are\s+(the\s+)?qa|full\s+review|quality\s+review)\b`
 
@@ -78,13 +78,13 @@
 
 | Trigger Phrase | Target Prompt | Description |
 |----------------|---------------|-------------|
-| `orchestrator` | `~/.agents/prompts/agents/agent-orchestrator.md` | Multi-agent workflow orchestration |
-| `orchestrate` | `~/.agents/prompts/agents/agent-orchestrator.md` | Coordinate agent workflow |
-| `coordinate` | `~/.agents/prompts/agents/agent-orchestrator.md` | Project coordination |
-| `orchestration` | `~/.agents/prompts/agents/agent-orchestrator.md` | Alias for orchestrator |
-| `launch orchestrator` | `~/.agents/prompts/agents/agent-orchestrator.md` | Explicit orchestrator launch |
-| `you are the orchestrator` | `~/.agents/prompts/agents/agent-orchestrator.md` | Role assignment phrase |
-| `act as orchestrator` | `~/.agents/prompts/agents/agent-orchestrator.md` | Role activation phrase |
+| `orchestrator` | `~/.agents/prompts/agents/agent-orchestrator/SKILL.md` | Multi-agent workflow orchestration |
+| `orchestrate` | `~/.agents/prompts/agents/agent-orchestrator/SKILL.md` | Coordinate agent workflow |
+| `coordinate` | `~/.agents/prompts/agents/agent-orchestrator/SKILL.md` | Project coordination |
+| `orchestration` | `~/.agents/prompts/agents/agent-orchestrator/SKILL.md` | Alias for orchestrator |
+| `launch orchestrator` | `~/.agents/prompts/agents/agent-orchestrator/SKILL.md` | Explicit orchestrator launch |
+| `you are the orchestrator` | `~/.agents/prompts/agents/agent-orchestrator/SKILL.md` | Role assignment phrase |
+| `act as orchestrator` | `~/.agents/prompts/agents/agent-orchestrator/SKILL.md` | Role activation phrase |
 
 **Core Principle:** "Conductor, not musician." Delegates to workers, NEVER executes. One approval, then runs to completion.
 
@@ -96,11 +96,11 @@
 
 | Trigger Phrase | Target Prompt | Description |
 |----------------|---------------|-------------|
-| `manager orchestrator` | `~/.agents/prompts/agents/agent-manager-orchestrator.md` | Portfolio-level orchestration |
-| `coordinate projects` | `~/.agents/prompts/agents/agent-manager-orchestrator.md` | Multi-project coordination |
-| `portfolio` | `~/.agents/prompts/agents/agent-manager-orchestrator.md` | Portfolio management mode |
-| `portfolio orchestration` | `~/.agents/prompts/agents/agent-manager-orchestrator.md` | Portfolio orchestration |
-| `manage orchestrators` | `~/.agents/prompts/agents/agent-manager-orchestrator.md` | Manage child orchestrators |
+| `manager orchestrator` | `~/.agents/prompts/agents/agent-manager-orchestrator/SKILL.md` | Portfolio-level orchestration |
+| `coordinate projects` | `~/.agents/prompts/agents/agent-manager-orchestrator/SKILL.md` | Multi-project coordination |
+| `portfolio` | `~/.agents/prompts/agents/agent-manager-orchestrator/SKILL.md` | Portfolio management mode |
+| `portfolio orchestration` | `~/.agents/prompts/agents/agent-manager-orchestrator/SKILL.md` | Portfolio orchestration |
+| `manage orchestrators` | `~/.agents/prompts/agents/agent-manager-orchestrator/SKILL.md` | Manage child orchestrators |
 
 **Core Principle:** "VP, not engineer." Coordinates OTHER orchestrators, not workers. Multi-project scope.
 
@@ -112,19 +112,19 @@
 
 | Trigger Phrase | Target Prompt | Description |
 |----------------|---------------|-------------|
-| `project steward` | `~/.agents/prompts/agents/agent-project-steward.md` | Single-project advisor/operator for raw monologue capture, project-local wisdom, dependency mapping, and work-order conversion |
-| `you are the project steward` | `~/.agents/prompts/agents/agent-project-steward.md` | Explicit role assignment for Project Steward |
-| `act as project steward` | `~/.agents/prompts/agents/agent-project-steward.md` | Explicit role activation for Project Steward |
-| `project advisor` | `~/.agents/prompts/agents/agent-project-steward.md` | Project-level strategic advisor that also writes durable project artifacts |
-| `project supervisor` | `~/.agents/prompts/agents/agent-project-steward.md` | Single-project supervisor-style role, distinct from cross-project Blocker Supervisor |
-| `steward this project` | `~/.agents/prompts/agents/agent-project-steward.md` | Activate stewardship for the current project root |
-| `steward of this project` | `~/.agents/prompts/agents/agent-project-steward.md` | Activate stewardship for the current project root |
-| `steward of the project` | `~/.agents/prompts/agents/agent-project-steward.md` | Activate stewardship for the current project root |
-| `you are the steward of this project` | `~/.agents/prompts/agents/agent-project-steward.md` | Explicit role assignment using steward phrasing |
-| `project brief` | `~/.agents/prompts/agents/agent-project-steward.md` | Produce a top-level-down Project Steward brief for the current project |
-| `steward brief` | `~/.agents/prompts/agents/agent-project-steward.md` | Produce a top-level-down Project Steward brief for the current project |
-| `capture this monologue` | `~/.agents/prompts/agents/agent-project-steward.md` | Preserve raw monologue, then synthesize into project-local wisdom and follow-up |
-| `turn this into work orders` | `~/.agents/prompts/agents/agent-project-steward.md` | Convert durable project needs into scoped work orders |
+| `project steward` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Single-project advisor/operator for raw monologue capture, project-local wisdom, dependency mapping, and work-order conversion |
+| `you are the project steward` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Explicit role assignment for Project Steward |
+| `act as project steward` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Explicit role activation for Project Steward |
+| `project advisor` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Project-level strategic advisor that also writes durable project artifacts |
+| `project supervisor` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Single-project supervisor-style role, distinct from cross-project Blocker Supervisor |
+| `steward this project` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Activate stewardship for the current project root |
+| `steward of this project` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Activate stewardship for the current project root |
+| `steward of the project` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Activate stewardship for the current project root |
+| `you are the steward of this project` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Explicit role assignment using steward phrasing |
+| `project brief` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Produce a top-level-down Project Steward brief for the current project |
+| `steward brief` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Produce a top-level-down Project Steward brief for the current project |
+| `capture this monologue` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Preserve raw monologue, then synthesize into project-local wisdom and follow-up |
+| `turn this into work orders` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Convert durable project needs into scoped work orders |
 
 **Core Principle:** Single-project, not portfolio. Captures raw thinking before synthesis, keeps project-specific wisdom inside the project, separates universal GAS process from local project facts, and creates work orders only from durable actionable needs.
 
@@ -136,13 +136,13 @@
 
 | Trigger Phrase | Target Prompt | Description |
 |----------------|---------------|-------------|
-| `gas manager` | `~/.agents/prompts/agents/agent-gas-manager.md` | Layer 4 execution engine |
-| `gas team` | `~/.agents/prompts/agents/agent-gas-manager.md` | GAS Team launch/dispatch |
-| `gas teams` | `~/.agents/prompts/agents/agent-gas-manager.md` | GAS Teams launch/dispatch |
-| `launch gas team` | `~/.agents/prompts/agents/agent-gas-manager.md` | Explicit GAS Team launch |
-| `launch gas teams` | `~/.agents/prompts/agents/agent-gas-manager.md` | Explicit GAS Teams launch |
-| `execute work orders` | `~/.agents/prompts/agents/agent-gas-manager.md` | Execute next ready WO |
-| `run gas loop` | `~/.agents/prompts/agents/agent-gas-manager.md` | Start GAS manager loop behavior |
+| `gas manager` | `~/.agents/prompts/agents/agent-gas-manager/SKILL.md` | Layer 4 execution engine |
+| `gas team` | `~/.agents/prompts/agents/agent-gas-manager/SKILL.md` | GAS Team launch/dispatch |
+| `gas teams` | `~/.agents/prompts/agents/agent-gas-manager/SKILL.md` | GAS Teams launch/dispatch |
+| `launch gas team` | `~/.agents/prompts/agents/agent-gas-manager/SKILL.md` | Explicit GAS Team launch |
+| `launch gas teams` | `~/.agents/prompts/agents/agent-gas-manager/SKILL.md` | Explicit GAS Teams launch |
+| `execute work orders` | `~/.agents/prompts/agents/agent-gas-manager/SKILL.md` | Execute next ready WO |
+| `run gas loop` | `~/.agents/prompts/agents/agent-gas-manager/SKILL.md` | Start GAS manager loop behavior |
 
 **Core Principle:** L4 autonomous PM loop. Picks ready WOs, selects strategy, spawns workers, monitors completion, updates status.
 
@@ -171,10 +171,10 @@
 
 | Trigger Phrase | Target Prompt | Description |
 |----------------|---------------|-------------|
-| `blocker cataloger` | `~/.agents/prompts/agents/agent-blocker-supervisor-cataloger.md` | Cross-project blocker scanner |
-| `scan blockers` | `~/.agents/prompts/agents/agent-blocker-supervisor-cataloger.md` | Scan registered projects for blockers |
-| `catalog blockers` | `~/.agents/prompts/agents/agent-blocker-supervisor-cataloger.md` | Generate per-project + master blocker indexes |
-| `scan for blockers` | `~/.agents/prompts/agents/agent-blocker-supervisor-cataloger.md` | Cross-project blocker scan trigger |
+| `blocker cataloger` | `~/.agents/prompts/agents/agent-blocker-supervisor-cataloger/SKILL.md` | Cross-project blocker scanner |
+| `scan blockers` | `~/.agents/prompts/agents/agent-blocker-supervisor-cataloger/SKILL.md` | Scan registered projects for blockers |
+| `catalog blockers` | `~/.agents/prompts/agents/agent-blocker-supervisor-cataloger/SKILL.md` | Generate per-project + master blocker indexes |
+| `scan for blockers` | `~/.agents/prompts/agents/agent-blocker-supervisor-cataloger/SKILL.md` | Cross-project blocker scan trigger |
 
 **Core Principle:** Scanner ONLY. Reads the registered project list, generates per-project blocker catalog files, ages blockers to `stale`, releases expired claims, regenerates the GAS-internal master index. NEVER resolves blockers — resolution is the unblocker supervisor's job.
 
@@ -186,14 +186,14 @@
 
 | Trigger Phrase | Target Prompt | Description |
 |----------------|---------------|-------------|
-| `blocker engineer` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker.md` | Resolution supervisor for the Blocker Engineer subsystem |
-| `blocker unblocker` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker.md` | Picks idle blockers and attempts resolution |
-| `unblock me` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker.md` | Pick up one idle blocker, claim atomically, attempt resolution |
-| `unblock work` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker.md` | Resolve work blockers across the portfolio |
-| `work blockers` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker.md` | Surface and resolve outstanding work blockers |
-| `unblock workstream {ws}` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker.md` | Workstream-scoped resolution within the implicit current project |
-| `unblock workstream {ws} in {abs-path}` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker.md` | Workstream-scoped resolution against a specific project's absolute path |
-| `unblock me workstream {ws} [in {abs-path}]` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker.md` | Long-form variant of the workstream-scoped trigger; identical semantics |
+| `blocker engineer` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker/SKILL.md` | Resolution supervisor for the Blocker Engineer subsystem |
+| `blocker unblocker` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker/SKILL.md` | Picks idle blockers and attempts resolution |
+| `unblock me` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker/SKILL.md` | Pick up one idle blocker, claim atomically, attempt resolution |
+| `unblock work` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker/SKILL.md` | Resolve work blockers across the portfolio |
+| `work blockers` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker/SKILL.md` | Surface and resolve outstanding work blockers |
+| `unblock workstream {ws}` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker/SKILL.md` | Workstream-scoped resolution within the implicit current project |
+| `unblock workstream {ws} in {abs-path}` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker/SKILL.md` | Workstream-scoped resolution against a specific project's absolute path |
+| `unblock me workstream {ws} [in {abs-path}]` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker/SKILL.md` | Long-form variant of the workstream-scoped trigger; identical semantics |
 
 **Core Principle:** Resolver ONLY. One blocker per work cycle. Reads the master blocker index, claims an `idle` blocker atomically, attempts resolution via browser MCP tools, terminal commands, and on-disk playbooks. Surfaces unresolvable blockers to the user. NEVER scans, regenerates indexes, or deletes blocker files.
 
@@ -207,12 +207,12 @@
 
 | Trigger Phrase | Target Prompt | Description |
 |----------------|---------------|-------------|
-| `blocker supervisor` | `~/.agents/prompts/agents/agent-blocker-supervisor.md` | Cross-project blocker supervisor — router for catalog, unblock, registry management |
-| `you are the blocker supervisor` | `~/.agents/prompts/agents/agent-blocker-supervisor.md` | Role assignment phrase |
-| `act as blocker supervisor` | `~/.agents/prompts/agents/agent-blocker-supervisor.md` | Role activation phrase |
-| `you are the supervisor` | `~/.agents/prompts/agents/agent-blocker-supervisor.md` | Generic supervisor role assignment (defaults to blocker supervisor) |
-| `act as supervisor` | `~/.agents/prompts/agents/agent-blocker-supervisor.md` | Generic supervisor role activation |
-| `supervisor` | `~/.agents/prompts/agents/agent-blocker-supervisor.md` | Generic supervisor activation when context is clearly blockers / projects / catalog work |
+| `blocker supervisor` | `~/.agents/prompts/agents/agent-blocker-supervisor/SKILL.md` | Cross-project blocker supervisor — router for catalog, unblock, registry management |
+| `you are the blocker supervisor` | `~/.agents/prompts/agents/agent-blocker-supervisor/SKILL.md` | Role assignment phrase |
+| `act as blocker supervisor` | `~/.agents/prompts/agents/agent-blocker-supervisor/SKILL.md` | Role activation phrase |
+| `you are the supervisor` | `~/.agents/prompts/agents/agent-blocker-supervisor/SKILL.md` | Generic supervisor role assignment (defaults to blocker supervisor) |
+| `act as supervisor` | `~/.agents/prompts/agents/agent-blocker-supervisor/SKILL.md` | Generic supervisor role activation |
+| `supervisor` | `~/.agents/prompts/agents/agent-blocker-supervisor/SKILL.md` | Generic supervisor activation when context is clearly blockers / projects / catalog work |
 
 **Core Principle:** Router, not implementer. Identifies user intent and routes to the right capability — registry CLI for project add/remove/list, catalog scan (loads cataloger function prompt), resolution (loads unblocker function prompt), inspection of master / per-project index, manual lifecycle transitions, supervisor improvement-log appends. Operates at portfolio scope; never edits project source. Default mode is ADVISOR for any authority not explicitly enabled in `~/.agents/agents/blocker-engineer/SUPERVISOR-AUTHORITIES.md`.
 
@@ -224,9 +224,9 @@
 
 | Trigger Phrase | Target Prompt | Description |
 |----------------|---------------|-------------|
-| `paperclip worker` | `~/.agents/prompts/agents/agent-paperclip-worker.md` | Paperclip-managed heartbeat worker |
-| `paperclip agent` | `~/.agents/prompts/agents/agent-paperclip-worker.md` | Paperclip-managed heartbeat worker |
-| `you are a paperclip` | `~/.agents/prompts/agents/agent-paperclip-worker.md` | Paperclip bootstrap trigger |
+| `paperclip worker` | `~/.agents/prompts/agents/agent-paperclip-worker/SKILL.md` | Paperclip-managed heartbeat worker |
+| `paperclip agent` | `~/.agents/prompts/agents/agent-paperclip-worker/SKILL.md` | Paperclip-managed heartbeat worker |
+| `you are a paperclip` | `~/.agents/prompts/agents/agent-paperclip-worker/SKILL.md` | Paperclip bootstrap trigger |
 
 **Core Principle:** Lifecycle managed by Paperclip. Wakes on heartbeat, checks inbox, does work, exits. Does NOT act as standalone GAS agent.
 
@@ -320,15 +320,15 @@
 
 | Trigger Phrase | Target Prompt | Description |
 |----------------|---------------|-------------|
-| `mac agent` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist.md` | macOS performance diagnostics agent |
-| `mac help` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist.md` | Quick Mac help trigger |
-| `mac technician` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist.md` | Mac technician role |
-| `mac tech` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist.md` | Short form for Mac technician |
-| `mac diagnostics` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist.md` | Mac diagnostics trigger |
-| `mac performance` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist.md` | Mac performance analysis trigger |
-| `mac doctor` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist.md` | Mac doctor / health check trigger |
-| `you are the mac agent` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist.md` | Role assignment phrase |
-| `act as mac agent` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist.md` | Role activation phrase |
+| `mac agent` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist/SKILL.md` | macOS performance diagnostics agent |
+| `mac help` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist/SKILL.md` | Quick Mac help trigger |
+| `mac technician` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist/SKILL.md` | Mac technician role |
+| `mac tech` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist/SKILL.md` | Short form for Mac technician |
+| `mac diagnostics` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist/SKILL.md` | Mac diagnostics trigger |
+| `mac performance` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist/SKILL.md` | Mac performance analysis trigger |
+| `mac doctor` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist/SKILL.md` | Mac doctor / health check trigger |
+| `you are the mac agent` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist/SKILL.md` | Role assignment phrase |
+| `act as mac agent` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist/SKILL.md` | Role activation phrase |
 
 **Core Principle:** macOS performance specialist. Diagnoses CPU, GPU, memory, disk, thermal, and fan issues. Never modifies system files without explicit approval.
 
