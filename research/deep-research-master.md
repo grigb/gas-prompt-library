@@ -32,6 +32,12 @@
 **Logic Source**: `~/.agents/prompts/research/tri-agent-research-pipeline.md`
 **Use Case**: You need a polished, multi-faceted output (Strategy + Code + Brief).
 
+### MODE D: "Browser Deep Research" (Human-Signed-In Providers)
+**Best for**: Running deep research through logged-in browser UIs with human authentication checkpoints.
+**Workflow**: Human confirms topic, providers, sign-in, and prompt -> Agent runs ChatGPT/Gemini/Claude browser research -> Agent saves raw outputs and synthesis.
+**Logic Source**: `~/.agents/prompts/research/browser-deep-research-orchestrator.md`
+**Use Case**: You want to use browser-only provider research modes where the agent must wait for sign-in, submit the prompt, recognize completion, and save results.
+
 ---
 
 ## 🔵 ORCHESTRATION INSTRUCTIONS
@@ -50,6 +56,11 @@
 1.  Read `~/.agents/prompts/research/tri-agent-research-pipeline.md`.
 2.  Follow the **Sequential Execution** steps defined there.
 3.  Execute Stage 1 (Discovery) first.
+
+### IF USER SELECTS MODE D (Browser Deep Research):
+1.  Read `~/.agents/prompts/research/browser-deep-research-orchestrator.md`.
+2.  Confirm the topic, provider list, and output directory.
+3.  Open each requested provider in the browser, pause for user sign-in confirmation, run the approved prompt, wait for provider-specific completion signals, then save raw outputs and synthesis.
 
 ---
 

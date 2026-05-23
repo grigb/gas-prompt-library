@@ -54,13 +54,26 @@ single word after the supervisor writes a durable unblock artifact.
 
 ### Message Sources (priority order)
 
-1. **A2A notification from supervisor or steward** — If on startup or after
-   completing a batch the orchestrator finds pending A2A tasks (see Phase 1
-   A2A discovery), treat each as a relay trigger. The A2A message body contains
-   the unblock/WO file path — read that file instead of scanning. Message
-   patterns are defined in `~/.agents/docs/AGENT-TEAMS-INTEGRATION.md`.
+> **Architecture note:** Per the dual-track architecture in
+> `~/.agents/AGENTS.md` (memories `[[project_a2a_repositioned_not_retired]]`
+> and `[[project_document_only_teams_architecture]]`), file artifacts under
+> `.dev/ai/` are the canonical local channel. A2A is the cross-machine and
+> cross-vendor channel, retained on this orchestrator as a legacy fast
+> notification on top of those files.
+
+1. **File discovery (canonical local channel).** Scan `.dev/ai/unblocks/`,
+   `.dev/ai/workorders/`, `.dev/ai/subtask-comms/` for new artifacts left
+   by the supervisor, steward, or workers. This is the source of truth.
 2. **Owner keyword trigger** — the existing triggers listed below.
-3. **File discovery** (fallback) — scan `.dev/ai/unblocks/`, etc.
+3. **A2A notification (legacy local accelerator; canonical for cross-machine).**
+   If on startup or after completing a batch the orchestrator finds pending
+   A2A tasks (see Phase 1 A2A discovery), treat each as a relay trigger
+   pointing at a file artifact. The A2A message body contains the
+   unblock/WO file path — read that file (which is canonical). Same-machine
+   A2A delivery is acceleration; the file under `.dev/ai/` is the ground
+   truth. Cross-machine notifications (GPU server, remote collaborator) DO
+   require A2A. Message patterns are in
+   `~/.agents/docs/AGENT-TEAMS-INTEGRATION.md`.
 
 Treat these as supervisor-relay triggers:
 
@@ -479,6 +492,18 @@ Therefore, when a Steward home exists:
 - If the Steward has marked an ask, money path, person, or proof claim as draft/hypothesis, do not treat it as accepted truth.
 - If the user asks for strategic diagnosis, briefing, money-path choice, people activation, or proof interpretation, route that back to Steward mode or create a Steward handoff rather than acting as the strategic owner.
 
+### Field Protocol Lookup
+
+For people, organization, community, outreach, government, negotiation, or
+team-dynamics situations, read
+`/Users/grig/.agents/docs/field-protocols/INDEX.md` first. If a candidate
+protocol matches, read only that protocol, apply its diagnostic and anti-scope,
+then use it within the Orchestrator role boundary. If the situation is
+strategic diagnosis, briefing, money-path choice, people activation, or proof
+interpretation, create a Steward handoff instead of acting as the strategic
+owner. If no protocol fits, reason from first principles and optionally propose
+a new protocol/source case.
+
 ### Steward Handoff Output
 
 When Orchestrator completes a batch in a Steward-aware project, it should update
@@ -499,9 +524,12 @@ The handoff should state:
 Keep this handoff short. It exists so the Steward can review execution results
 without re-reading every worker report.
 
-After writing the handoff file, if A2A is available (detected during Phase 1),
-send a notification to the steward pointing to the handoff path with contextId
-and metadata:
+After writing the handoff file, the file at `orchestrator-handoff.md` is the
+canonical handoff — the steward discovers it on next scan. A2A fast
+notification is a legacy local accelerator (per dual-track architecture in
+`~/.agents/AGENTS.md`) and is required only for cross-machine targets. If
+A2A is available (detected during Phase 1), the orchestrator MAY also send
+a notification pointing at the handoff path with contextId and metadata:
 ```bash
 curl -s -X POST ${A2A_ENDPOINT:-http://localhost:8201}/a2a \
   -H "Content-Type: application/json" \
@@ -890,9 +918,12 @@ done
 - Agent writes blockers to: `.dev/ai/subtask-comms/<timestamp>-<WO-ID>-BLOCKED.md`
 - Orchestrator scans for BLOCKED files: `ls .dev/ai/subtask-comms/*-BLOCKED.md 2>/dev/null`
 - Only BLOCKED files need orchestrator attention. Successes are self-documenting.
-- Workers MAY send A2A notifications (`DONE:` or `BLOCKED:` with file path) if
-  the runtime is available. Treat these like finding the result file — read the
-  referenced path. This is push-based (worker sends on completion), not polling.
+- Workers MAY send A2A notifications (`DONE:` or `BLOCKED:` with file path)
+  as a legacy local fast-notification accelerator (canonical for cross-
+  machine workers — see dual-track architecture in `~/.agents/AGENTS.md`).
+  Treat any A2A receipt like finding the result file — read the referenced
+  path. The result/BLOCKED file under `.dev/ai/subtask-comms/` is the
+  source of truth; A2A is a push pointer.
 
 **WO self-execution requirements** (every WO must include):
 1. "Files to read first" section — explicit context the agent needs
@@ -1011,8 +1042,9 @@ This prevents the same correction from being needed across multiple sessions.
 
 ### Project Identity (mandatory)
 
-Determine which project you are orchestrating. This sets PROJECT_ID, used for
-all A2A communication and scoping throughout the session.
+Determine which project you are orchestrating. This sets PROJECT_ID, used
+for file-artifact naming, A2A contextId values (cross-machine routing), and
+scoping throughout the session.
 
 ```bash
 # Read PROJECT-ID.md in the current working directory.
@@ -1029,10 +1061,16 @@ except: print('')
 [ -z "$PROJECT_ID" ] && PROJECT_ID=$(basename "$(pwd)")
 ```
 
-Record PROJECT_ID for this session. All A2A messages, contextId values, and
-scoping decisions use this value.
+Record PROJECT_ID for this session. File artifact naming, A2A messages,
+contextId values, and scoping decisions all use this value.
 
-### A2A Discovery (after project identity)
+### A2A Discovery (cross-machine accelerator; local channel is files)
+
+> **Architecture note:** Per `~/.agents/AGENTS.md` dual-track architecture
+> and memory `[[project_a2a_repositioned_not_retired]]`, A2A is reserved
+> for cross-machine and cross-vendor coordination. The legacy A2A
+> discovery below remains wired as a fast local accelerator on top of file
+> artifacts; the canonical local discovery is the file scan that follows.
 
 Check once whether the A2A runtime is available:
 
@@ -1084,7 +1122,8 @@ Read in parallel, using whatever exists in the current project/system:
 1. Project instruction files: `AGENTS.md`, `CLAUDE.md`, `README.md`, local runbooks
 2. Project state file: `.dev/ai/STATE-OF-THE-PROJECT.md` or local equivalent
 3. **Blocker state (MANDATORY — read before planning any work):**
-   - `.dev/ai/PROJECT-STATUS.md` — line 1 is `status: blocked` or `status: working`; if blocked, the file lists the specific blockers in priority order. This is the fastest signal for whether the project can make progress.
+   - `.dev/ai/PROJECT-STATUS.md` — line 1 is `status: blocked`, `status: working`, or `status: parked`; if blocked, the file lists the specific blockers in priority order. This is the fastest signal for whether the project can make progress.
+   - **If `status: parked`:** The project queue is intentionally empty. Do NOT attempt to find work, create WOs, or launch agents. Report the parked state to the owner and end with `I am unblocked.` The orchestrator may transition out of parked only if: (a) the owner explicitly requests work in this session, or (b) a supervisor relay or unblock artifact arrives (file under `.dev/ai/unblocks/` is canonical; A2A is the cross-machine accelerator).
    - `.dev/ai/blockers/INDEX.md` — the full blocker catalog index with counts, categories, and per-blocker summaries. Read this to understand what is blocking work, who must act, and what becomes unblocked after each condition clears.
    - If the project is blocked, surface the blockers to the user BEFORE planning or dispatching any work. Blockers define the critical path ceiling — no amount of orchestration can bypass an owner-gated or external-dependency blocker.
    - The blocker catalog is not proof that no blocker exists. It is only proof
@@ -1115,12 +1154,13 @@ Read in parallel, using whatever exists in the current project/system:
      `~/.agents/scripts/blocker-views-refresh.py --project {project_path}`.
      If you complete work but don't close the related blocker, the supervisor
      will present already-done work to the owner as an active gate.
-4. Queue/index files: `.dev/ai/workorders/WO-INDEX.md`, `INDEX.yaml`, `tasks/`, backlog files, or local equivalent
+4. **Unblock artifacts:** `.dev/ai/unblocks/` — read the newest file (by filename timestamp) to understand what the supervisor changed since the last session. Unblock bundles contain resolved blockers, new WOs, and context the orchestrator needs before planning work. If the directory is empty or absent, skip silently.
+5. Queue/index files: `.dev/ai/workorders/WO-INDEX.md`, `INDEX.yaml`, `tasks/`, backlog files, or local equivalent
    - **Also scan the workorders directory** (`ls .dev/ai/workorders/WO-*.md`) for WO files not yet registered in the index. Stewards and other agents sometimes create WO files without updating WO-INDEX.md. Treat discovered files as valid work orders.
-5. Active outputs / partial results: `.dev/ai/subtask-comms/active/` or local equivalent
-6. Recent handoffs / orchestration logs
-7. Project identity / metadata files such as `PROJECT-ID.md` if they exist
-8. Learned-patterns files under `~/.agents/` only if they exist in the current environment
+6. Active outputs / partial results: `.dev/ai/subtask-comms/active/` or local equivalent
+7. Recent handoffs / orchestration logs
+8. Project identity / metadata files such as `PROJECT-ID.md` if they exist
+9. Learned-patterns files under `~/.agents/` only if they exist in the current environment
 
 If no durable queue exists, create a minimal local one before delegating significant work.
 
@@ -1360,9 +1400,10 @@ Agent(prompt="...", run_in_background=True, model="opus")
 
 ### Complexity Tier Enrichment (REQUIRED before dispatching any WO)
 
-Before dispatching a WO via A2A or any delegation method, classify the WO's
-complexity tier and include the result in the A2A task metadata (or in the
-worker prompt when using native background agents):
+Before dispatching a WO via any delegation method, classify the WO's
+complexity tier and include the result in the worker prompt (or in A2A
+task metadata when the worker is on another machine — per the dual-track
+architecture in `~/.agents/AGENTS.md`):
 
 ```bash
 # Classify the work order before dispatching
@@ -1371,7 +1412,8 @@ MODEL_HINT=$(~/.agents/tools/usage-management/scripts/select-model.sh "$TIER" 2>
 EFFORT_HINT=$(~/.agents/tools/usage-management/scripts/select-model.sh "$TIER" 2>/dev/null | awk '{print $2}' || echo "high")
 ```
 
-When dispatching via A2A (`tasks/send`), include in the task params:
+When dispatching via A2A (`tasks/send`) for cross-machine workers, include
+in the task params:
 
 ```json
 "metadata": {

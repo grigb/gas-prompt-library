@@ -422,6 +422,26 @@ Agent: "Dev Worker agent activated. Ready to investigate and fix the auth bug in
 | `markdown first` | `~/.agents/skills/copy-first-web/methodology.md` | Alternate trigger |
 | `write the website` | `~/.agents/skills/copy-first-web/methodology.md` | Natural-language trigger |
 | `content before code` | `~/.agents/skills/copy-first-web/methodology.md` | Principle trigger |
+| `success story` | `~/.agents/docs/field-protocols/INDEX.md` | Positive outcome to evaluate for reusable protocol evidence |
+| `failure story` | `~/.agents/docs/field-protocols/INDEX.md` | Negative outcome to evaluate for counter-case, anti-scope, or protocol gap evidence |
+| `learn from this` | `~/.agents/docs/field-protocols/INDEX.md` | Derive a portable lesson or protocol candidate from source material |
+| `store this in GAS` | `~/.agents/docs/field-protocols/INDEX.md` | Decide whether a story belongs as a protocol, source case, or rejected extraction |
+| `issue I need to solve` | `~/.agents/docs/field-protocols/INDEX.md` | Current situational problem; use protocols to advise now, capture outcome later |
+| `field protocol` | `~/.agents/docs/field-protocols/INDEX.md` | Situational protocol lookup or extraction; read index first |
+| `field experience` | `~/.agents/docs/field-protocols/INDEX.md` | Owner-provided raw experience to evaluate for protocol extraction |
+| `extract field protocol` | `~/.agents/docs/field-protocols/INDEX.md` | Extract a protocol candidate from a private source pointer |
+| `turn this into a field protocol` | `~/.agents/docs/field-protocols/INDEX.md` | Natural-language protocol extraction trigger |
+
+**Field Protocol Rule:** When the owner supplies a private markdown file or
+directory path, do not copy raw source into GAS docs. Read
+`~/.agents/docs/field-protocols/INDEX.md` first, then use
+`~/.agents/docs/field-protocols/BASELINE-EXTRACTION-HARNESS.md` for extraction.
+For a current unresolved issue, use matching protocols to help solve it now and
+record the outcome as pending; do not promote it as validation evidence until
+the outcome is known.
+If the submitted document does not clearly say whether it is a current issue,
+an outcome-pending interaction, a successful field experience, or a failing
+field experience, ask the owner to classify it before extracting or cataloging.
 
 ---
 

@@ -92,6 +92,12 @@ For conversational use, reference the specific agent by name and provide context
 - Analyzes market trends and opportunities
 - **Use for:** Strategic planning, competitive analysis, market research
 
+### `agent-external-research-prompt-engineer.md`
+**Adversarial prompt engineer for external frontier-LLM research prompts**
+- Reviews, critiques, redesigns, and authors prompts pasted into Claude.ai, Gemini Advanced, Perplexity Pro, ChatGPT, Grok, and Kimi
+- Scores prompts against a 12-primitive library for frame discipline, anti-validation, deliverable shape, source discipline, and reality hooks
+- **Use for:** Reviewing research prompts before external paste, hardening prompts against validation-bait, creating reusable deep-research prompt templates
+
 ## 💼 **Business & Operations Agents**
 
 ### `agent-chief-of-staff.md`

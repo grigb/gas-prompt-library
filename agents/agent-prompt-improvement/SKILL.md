@@ -36,6 +36,58 @@ Tracked agents and their files:
 | Agent Zero | `agent-zero-tuning-log.md` | `~/.agents-gas-prompt-library/agents/agent-zero.md` | — |
 | Project Steward | `steward-tuning-log.md` | `~/.agents-gas-prompt-library/agents/agent-project-steward.md` | — |
 
+## Model Selection and Tier Rubric
+
+Use the GAS usage-management tier rubric whenever you create WOs, dispatch
+workers, design test harnesses, or write model/effort guidance into prompts.
+Do not invent local model recommendations when the benchmark-governed selector
+applies.
+
+Authoritative references:
+
+- `/Users/grig/.agents/docs/MODEL-SELECTION-POLICY.md`
+- `/Users/grig/.agents/tools/usage-management/README.md`
+- `/Users/grig/.agents/tools/usage-management/benchmarks/trial-protocol.md`
+- `/Users/grig/.agents/tools/usage-management/benchmarks/spec/03-SCORING-RUBRIC.md`
+
+For WO-backed work, classify the tier first:
+
+```bash
+/Users/grig/.agents/tools/usage-management/benchmarks/scripts/classify-tier.sh <WO.md>
+```
+
+Then select model and effort:
+
+```bash
+/Users/grig/.agents/tools/usage-management/scripts/select-model.sh <tier>
+```
+
+Tier meanings:
+
+- Tier 1 / Simple: mechanical, narrow, low judgment risk.
+- Tier 2 / Standard: several files or moderate editorial/design judgment.
+- Tier 3 / Complex: open-ended synthesis, architecture, adversarial tests,
+  high-level prompt rewrites, or tasks where weak reasoning can create durable
+  system drift.
+
+When writing a harness or prompt that names a model, describe the selected
+model as the current output of `select-model.sh`, not as a permanent hardcode.
+Record the command output in the WO, harness report, or test report. Use the
+benchmark principle: choose the minimum viable effort for the complexity tier
+based on clean, instruction-following, scope-disciplined behavior. Do not use
+`max` effort for automated work. If the available effort cap is below the tier
+requirement, defer rather than downshifting into known-bad output.
+
+Treat the benchmark system as the best current evidence, not an unquestionable
+oracle. Its results may be partial, stale, incomplete, or inaccurate for a new
+task shape. Contest the rubric or selector when you have concrete evidence:
+missing benchmark coverage, a known live failure, a model-version change, a
+task-specific risk the rubric does not score, or an owner directive that
+conflicts with the selected route. When you contest it, document the evidence
+in the WO, harness report, or tuning log; state the temporary override; and
+prefer re-benchmarking or a narrower validation pass over silently hardcoding a
+new model preference.
+
 ## Workflow
 
 ### 1. Intake

@@ -84,8 +84,9 @@ going until the queue is empty or blocked.
 
 ## Complexity Tier Awareness
 
-When dispatched via A2A or as a background agent, your task or prompt may
-include complexity tier metadata set by the orchestrator:
+When dispatched as a background agent (or via A2A for cross-machine
+dispatch — see dual-track architecture in `~/.agents/AGENTS.md`), your
+task or prompt may include complexity tier metadata set by the orchestrator:
 
 - `metadata.tier`: 1 (Simple), 2 (Standard), or 3 (Complex)
 - `metadata.model_hint`: recommended model (e.g., `claude-opus-4-6`)
@@ -147,10 +148,14 @@ After all executable work is done:
    - `I am unblocked.` — more WOs exist and are dispatchable.
    - `I am blocked.` — remaining WOs are gated, state what the gate is.
 
-4. **A2A notification (when available).** After writing final output, check
-   whether the A2A runtime is reachable (see
-   `~/.agents/docs/AGENT-TEAMS-INTEGRATION.md`). If it is, send to supervisor
-   with contextId and metadata:
+4. **A2A notification (cross-machine; legacy local accelerator).** Per the
+   dual-track architecture in `~/.agents/AGENTS.md`, A2A is reserved for
+   cross-machine and cross-vendor coordination. The `PROJECT-STATUS.md`
+   and result files written above are the canonical local handoff. After
+   writing final output, optionally check whether the A2A runtime is
+   reachable (see `~/.agents/docs/AGENT-TEAMS-INTEGRATION.md`). If it is,
+   send a fast-notification pointer to the supervisor with contextId and
+   metadata (required only when the supervisor is on another machine):
    ```bash
    # STATUS = "parked", "unblocked", or "blocked"
    # GATE_DESC = one-sentence gate description (only when blocked)
@@ -177,9 +182,10 @@ After all executable work is done:
        }
      }'
    ```
-   These are outbound-only fire-and-forget messages. If A2A is unavailable,
-   skip silently — the file-based PROJECT-STATUS.md and result files are
-   canonical. Never wait for a response.
+   These are outbound-only fire-and-forget messages — a legacy fast-
+   notification accelerator over the canonical file artifacts. If A2A is
+   unavailable, skip silently — the file-based PROJECT-STATUS.md and
+   result files are canonical. Never wait for a response.
 
 ## What You Are Not
 

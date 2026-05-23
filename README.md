@@ -131,11 +131,12 @@ Operational mode modifiers:
 | `DISCUSSION-MODE.md` | Read-only analysis for planning |
 | `GENERATE-PROJECT-INDEX.md` | Project index generation |
 
-### `research/` — Research Workflows (5 prompts)
+### `research/` — Research Workflows (6 prompts)
 
 | File | Purpose |
 |------|---------|
 | `deep-research-master.md` | **Single entry point** for all Deep Research modes |
+| `browser-deep-research-orchestrator.md` | Browser-controlled deep research through signed-in provider UIs |
 | `deep-research-prompt-generator.md` | Transform briefs into research prompts |
 | `tri-agent-research-pipeline.md` | Internal tri-agent pipeline |
 | `CONDUCT-MODEL-AUDIT.md` | Model performance auditing |

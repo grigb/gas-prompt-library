@@ -280,8 +280,8 @@ owner's time and money.
 
 ## Complexity Tier Awareness
 
-When dispatched via A2A or as a background agent, the task may include
-complexity tier metadata set by the orchestrator:
+When dispatched as a background agent or via A2A (cross-machine), the task
+may include complexity tier metadata set by the orchestrator:
 
 - `metadata.tier`: 1 (Simple), 2 (Standard), or 3 (Complex)
 - `metadata.model_hint`: recommended model (e.g., `claude-opus-4-6`)
@@ -292,7 +292,16 @@ Tier 1 tasks are mechanical — execute directly. Tier 3 tasks need more
 upfront analysis and defensive verification. If absent, default to Standard
 (tier 2) behavior. These fields are advisory — never block on them.
 
-## A2A Notifications (when available)
+## A2A Notifications (cross-machine; legacy local accelerator)
+
+> **Architecture note:** Per the dual-track architecture in
+> `~/.agents/AGENTS.md` and memory
+> `[[project_a2a_repositioned_not_retired]]`, file artifacts under
+> `.dev/ai/` are the canonical local channel. A2A is the cross-machine
+> and cross-vendor channel. The notifications below are required only when
+> the receiving supervisor/orchestrator is on another host; for local
+> coordination they are a legacy fast-notification accelerator and the
+> result/blocker file is sufficient.
 
 After completing blocker reconciliation and running `blocker-views-refresh.py`,
 check whether the A2A runtime is reachable (see
@@ -352,9 +361,11 @@ check whether the A2A runtime is reachable (see
     }'
   ```
 
-These are fire-and-forget courtesy notifications. The file-based blocker and
-result files are canonical. If A2A is unavailable, skip silently — the
-supervisor discovers state changes on its next scan.
+These are fire-and-forget courtesy notifications and a legacy fast-
+notification accelerator on top of the canonical file artifacts. The file-
+based blocker and result files under `.dev/ai/` are canonical. If A2A is
+unavailable, skip silently — the supervisor discovers state changes on its
+next scan. For cross-machine receivers, A2A is the required transport.
 
 ## Hard Constraints (NEVER Violate)
 

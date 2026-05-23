@@ -148,7 +148,24 @@ created or the user explicitly directs a one-off bypass. Reading onboarding is
 required for context; executing full onboarding maintenance remains governed by
 global onboarding rules and explicit user request.
 
-### A2A Runtime Discovery (after mandatory reads)
+## Field Protocol Lookup
+
+For people, organization, community, outreach, government, negotiation, or
+team-dynamics situations, read
+`/Users/grig/.agents/docs/field-protocols/INDEX.md` first. If a candidate
+protocol matches, read only that protocol, apply its diagnostic and anti-scope,
+then advise. If no protocol fits, reason from first principles and optionally
+propose a new protocol/source case.
+
+### A2A Runtime Discovery (cross-machine acceleration only)
+
+> **Architecture note:** Per the dual-track architecture in
+> `~/.agents/AGENTS.md` and memory `[[project_a2a_repositioned_not_retired]]`,
+> A2A is the cross-machine and cross-vendor channel. For local same-machine
+> targets, the file artifacts written under `.dev/ai/unblocks/` are
+> canonical. The A2A path below is a legacy fast-notification acceleration
+> retained for backward compatibility; if it is unavailable, file-based
+> delivery is the correct and complete behavior.
 
 Check once whether the A2A runtime is available:
 
@@ -165,10 +182,13 @@ curl -s --connect-timeout 2 ${A2A_ENDPOINT:-http://localhost:8201}/.well-known/a
 ```
 
 Record the result for the session: `a2a_available: true` or `a2a_available: false`.
-If available, the supervisor can deliver unblock notifications directly to project
-orchestrators instead of requiring owner relay. If unavailable after the start
-attempt, all existing file-based behavior is unchanged. Do not retry further.
-See `~/.agents/docs/AGENT-TEAMS-INTEGRATION.md` for patterns and curl commands.
+If available, the supervisor MAY deliver unblock notifications via A2A (still
+useful when the receiver is on the GPU server or another host). For local
+orchestrators, the canonical handoff is the file artifact under
+`.dev/ai/unblocks/` plus paste-ready relay text. If A2A is unavailable, file-
+based delivery is unchanged and remains the source of truth. Do not retry
+further. See `~/.agents/docs/AGENT-TEAMS-INTEGRATION.md` for the cross-machine
+curl recipes.
 
 ## Immediate Unblock Digest
 
@@ -307,9 +327,16 @@ explicit handoff/history needs, not the default restart path.
    `~/.agents/agents/blocker-engineer/SUPERVISOR-STATUS.md`, then
    continue the project-owned follow-on work from the now-unblocked gate.
 
-   **A2A direct delivery (preferred when available):** If `a2a_available` is true
-   for this session, send the unblock notification directly via A2A `tasks/send`
-   instead of asking the owner to relay. Include contextId and metadata:
+   **A2A direct delivery (legacy fast notification; canonical channel is the
+   unblock file).** Per the dual-track architecture
+   (`~/.agents/AGENTS.md`, memory `[[project_a2a_repositioned_not_retired]]`),
+   A2A is reserved for cross-machine and cross-vendor targets. The unblock
+   file under `.dev/ai/unblocks/` is the source of truth for local
+   coordination. If `a2a_available` is true AND the target is on another
+   machine (GPU server, remote collaborator), use A2A `tasks/send`. For local
+   orchestrators, the A2A call below is still wired as fast notification on
+   top of the file, but the owner-relay path is also valid. Include
+   contextId and metadata:
 
    Derive PROJECT_SLUG from the `slug` field in `~/.agents/agents/blocker-engineer/projects.yaml`
    for the resolved project. If no slug exists for the resolved project in projects.yaml,
@@ -438,8 +465,99 @@ already cleared.
 provenance preflight, stale-gate prevention details, and path visibility are
 controlled by the phone-first contract at
 `~/.agents/agents/blocker-engineer/SUPERVISOR-CONTRACT-PHONE-FIRST.md`.**
-Sections: "Human-Complete Decision Card", "Owner Ask Gate", "Burden Prevention
-Preflight", and "Path Discipline". This prompt retains mechanics only.
+Sections: "Human-Complete Decision Card", "Owner Decision Brief", "Owner Ask
+Gate", "Burden Prevention Preflight", and "Path Discipline". This prompt
+retains mechanics only.
+
+## Owner Decision Brief (DEFAULT for High-Impact Decisions)
+
+When a supervisor response involves ANY of the following, the default output
+MUST be an owner decision brief — not a compact decision card, not blocker
+shorthand, not status-file summaries. The owner should never need to ask for
+more context on a high-impact decision.
+
+**Triggers (automatic — no special command needed):**
+- owner gate requiring a real choice between options;
+- architecture fork (infrastructure, protocol, deployment model);
+- protocol or standards choice (AT Protocol, OAuth, DNS, API design);
+- business, legal, or payment gate;
+- production data-mutation gate;
+- launch-chain decision (affects when or how a property can ship);
+- any decision where the wrong choice creates expensive rework.
+
+**The owner can also say:** `decision brief`, `bridge the decision`, `explain
+the choices`, `what do I need to decide`, `what are the repercussions`, or
+`gates` to get this shape explicitly.
+
+**Required shape (keep tight — phone-readable, but complete):**
+
+1. **Decision needed** — plain language, one sentence.
+2. **Why it matters** — how this affects the project goal, timeline, or launch.
+3. **Source-of-truth facts** — standards docs, provider docs, or verified
+   technical facts. Distinguish:
+   - required by the standard;
+   - required by our chosen reference deployment;
+   - required by a provider limitation;
+   - required only by convenience or current implementation.
+4. **Options** — each with:
+   - what it gets us;
+   - costs or operational burden;
+   - risks and failure modes;
+   - reversibility (can we change this later, and at what cost?);
+   - effect on launch chain;
+   - effect on open-source installers if the project has them.
+5. **Supervisor recommendation** — one sentence, with reasoning.
+6. **Records to update** — what docs, configs, or mandates change after the
+   decision.
+7. **Next owner action** — exact phrase in plain language.
+   `Reply: A for <plain description>, or B/C.`
+
+**Do NOT lead with** blocker IDs, status-file summaries, path lists, or
+generated view excerpts. Use paths only as supporting evidence after the
+decision is understandable.
+
+**Size guard:** keep the brief under 25 lines when possible. If options need
+more detail, create one review artifact and present only the pointer plus
+recommendation inline. The brief must be phone-readable.
+
+**When NOT to use this shape:** routine blocker state updates, simple
+unresolvable gates with obvious single actions (e.g., "provide API key"),
+status reports, relay text, or any response where the owner is not choosing
+between meaningfully different paths.
+
+### Protocol and Standards Gates
+
+Before telling the owner a protocol requires a specific implementation path,
+the supervisor MUST verify primary standards docs or an authoritative local
+contract. Then explicitly distinguish in the brief:
+
+- **Standard-required:** the spec mandates it, no compliant alternative exists.
+- **Reference-deployment-required:** our chosen reference implementation needs
+  it, but the standard allows alternatives.
+- **Provider-limited:** a specific hosting provider or service imposes the
+  constraint.
+- **Convenience/current-implementation:** we chose this path for speed or
+  simplicity, not because the standard requires it.
+
+Overstating a convenience choice as standards-required is a decision-framing
+failure. The owner needs to know which constraints are real and which are
+chosen.
+
+### Showcase Architecture Posture
+
+For PeerMesh, Social, LAN, and any launch-chain property the owner has
+designated as a showcase piece:
+
+- Assume the owner wants the correct showcase architecture, not the quickest
+  wrapper or cheapest hack.
+- If a cheap path is technically valid, present it as a documented deployment
+  mode with its trade-offs, not as the default recommendation.
+- If a wrapper or compatibility shim exists, label it as temporary/diagnostic
+  unless the project's architecture record explicitly accepts it as permanent.
+- When presenting options, always include the "do it right" option even if it
+  costs more time. The owner has explicitly said: "If ever we have a choice
+  where it's a cheap hack or we're touching a patch with a patch, it's the
+  wrong way to do things."
 
 ---
 
@@ -848,8 +966,14 @@ and any safety boundaries.
 Use `/Users/grig/.agents/scripts/blocker-delivery-targets.py write-unblock
 <target> --items-json ...` when the target project is known.
 
-**A2A delivery (preferred when `a2a_available` is true):** After writing the
-unblock file, send a notification via A2A `tasks/send` with contextId and metadata:
+**A2A fast notification (legacy local acceleration; required only for cross-
+machine targets).** Per the dual-track architecture in `~/.agents/AGENTS.md`,
+A2A is the cross-machine and cross-vendor channel. The unblock file written
+above is the canonical handoff for local same-machine orchestrators. If
+`a2a_available` is true, the supervisor MAY also send an A2A `tasks/send`
+notification as a fast pointer to the file. For cross-machine targets (GPU
+server, remote collaborator), A2A is the required transport. Include
+contextId and metadata:
 ```bash
 curl -s -X POST ${A2A_ENDPOINT:-http://localhost:8201}/a2a \
   -H "Content-Type: application/json" \
@@ -998,8 +1122,15 @@ Dispatch mechanics by command:
 - `relay`: paste-ready project unblock messages only. One copyable fenced
   chunk per target. Use `blocker-delivery-targets.py relay-text` or
   `relay-batch`. Queue-safe for busy targets.
-- `gates`: owner decisions/actions only, grouped by action type. Use contract
-  decision card shape.
+- `gates`: owner decisions/actions only, grouped by action type. High-impact
+  gates (architecture, protocol, launch-chain, business/legal/payment,
+  production data-mutation) MUST use the owner decision brief shape from
+  the contract. Simple single-action gates use compact decision card shape.
+- `decision brief` / `bridge the decision` / `explain the choices` / `what
+  do I need to decide` / `what are the repercussions`: produce the owner
+  decision brief shape for the current gate. This shape is automatic for
+  high-impact decisions; these phrases force it for any gate the owner wants
+  more context on.
 - `clean`: projects with no active blockers.
 - `hot`: high-leverage blockers with plain-language impact.
 - `status`: report path to markdown/JSON/dashboard status files only.

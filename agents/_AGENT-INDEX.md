@@ -1,7 +1,7 @@
 # Agent Index
 
-**Last Updated:** 2026-05-12
-**Total Agents:** 42
+**Last Updated:** 2026-05-22
+**Total Agents:** 43
 **Purpose:** Searchable metadata index for global agent library
 
 ---
@@ -26,10 +26,11 @@
 - `agent-project-worker` - Lightweight fire-and-forget worker dispatched by the supervisor to execute unblocked WOs in a project. No sub-agent dispatch. Reads queue, does work, runs triage, exits.
 - `agent-software-product-builder` - End-to-end product development
 
-### 🔬 Research & Analysis (3 agents)
+### 🔬 Research & Analysis (4 agents)
 - `agent-research-analysis` - Technical, legal, and market research
 - `agent-research-gap-analysis` - Knowledge gap identification
 - `agent-strategic-intelligence` - Strategic analysis and intelligence
+- `agent-external-research-prompt-engineer` - Reviews/critiques/redesigns/authors research prompts pasted into frontier LLMs (Claude.ai Deep Research, Gemini Advanced, Perplexity Pro, ChatGPT, Grok, Kimi). Scores against a 12-primitive library; hunts validation-bait and decomposition errors; outputs paste-ready rewrites.
 
 ### 💼 Business & Operations (4 agents)
 - `agent-chief-of-staff` - Executive coordination and planning
@@ -415,6 +416,7 @@
 | Project Coordinator | `agent-project-coordinator/SKILL.md` | expert project manager with 15+ years coordin... | communication, data, design, development, documentation, process | See file for details |
 | Research Analysis | `agent-research-analysis/SKILL.md` | expert researcher with 15+ years synthesizing | data, design, development, documentation, process, research | See file for details |
 | Research Gap Analysis | `agent-research-gap-analysis/SKILL.md` | Research Completeness Specialist with 15+ yea... | communication, data, design, development, documentation, process | See file for details |
+| External Research Prompt Engineer | `agent-external-research-prompt-engineer/SKILL.md` | Reviews/redesigns/authors research prompts pasted into frontier LLMs; scores against 12-primitive library; hunts validation-bait | adversarial-prompting, deep-research, external-llm, frame-discipline, prompt-engineering | See file for details |
 | Security Compliance | `agent-security-compliance/SKILL.md` | Senior Security Professional with 15+ years s... | communication, data, design, development, documentation, process | See file for details |
 | Software Product Builder | `agent-software-product-builder/SKILL.md` | veteran product development specialist with 2... | communication, data, deploy, deploying, deployment, design | See file for details |
 | Strategic Intelligence | `agent-strategic-intelligence/SKILL.md` | Strategic Intelligence agent with 15+ years o... | communication, data, design, development, documentation, process | See file for details |

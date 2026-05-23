@@ -23,6 +23,7 @@
 | ORGANIZE-DOCS+DIRS | `~/.agents/prompts/general/organize-docs+dirs.md` |
 | DEEP-RESEARCH-PROMPT-GENERATOR | `~/.agents/prompts/research/deep-research-prompt-generator.md` |
 | DEEP-RESEARCH-MASTER | `~/.agents/prompts/research/deep-research-master.md` |
+| BROWSER-DEEP-RESEARCH-ORCHESTRATOR | `~/.agents/prompts/research/browser-deep-research-orchestrator.md` |
 | INTERFACE-AUDIT-ORCHESTRATOR | `~/.agents/prompts/general/interface-audit-orchestrator.md` |
 | PARALLEL-REVIEW-ORCHESTRATOR | `~/.agents/prompts/general/parallel-review-orchestrator.md` |
 | REVIEW-LOOSE-ENDS | `~/.agents/prompts/general/review-loose-ends.md` |
@@ -35,6 +36,7 @@
 | PROJECT-TEAM-HANDOFF | `~/.agents/prompts/general/PROJECT-TEAM-HANDOFF.md` |
 | QA-UI-TESTING-METHODOLOGY | `~/.agents/prompts/general/qa-ui-testing-methodology.md` |
 | PROJECT-KNOWLEDGE-VAULT-DISCOVERY-PASS | `~/.agents/prompts/general/project-knowledge-vault-discovery-pass.md` |
+| EXTERNAL-RESEARCH-PROMPT-ENGINEER | `~/.agents/prompts/agents/agent-external-research-prompt-engineer.md` |
 | PROJECT-STEWARD | `~/.agents/prompts/agents/agent-project-steward.md` |
 | PROJECT-STEWARD-BOOTSTRAP | `~/.agents/docs/PROJECT-STEWARD-BOOTSTRAP-CHECKLIST.md` |
 | PROJECT-STEWARD-BRIEF-TEMPLATE | `~/.agents/templates/project-steward/PROJECT-STEWARD-BRIEF-TEMPLATE.md` |
@@ -73,6 +75,7 @@
 │   ├── agent-research-analysis.md
 │   ├── agent-research-gap-analysis.md
 │   ├── agent-strategic-intelligence.md
+│   ├── agent-external-research-prompt-engineer.md
 │   ├── agent-chief-of-staff.md
 │   ├── agent-chief-reality-officer.md
 │   ├── agent-financial-analysis-planning.md
@@ -116,6 +119,7 @@
 │   └── DISCUSSION-MODE.md             # Discussion mode protocol
 │
 └── research/                           # Research prompts
+    ├── browser-deep-research-orchestrator.md
     └── deep-research-prompt-generator.md
 ```
 
