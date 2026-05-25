@@ -34,7 +34,7 @@
 
 ### MODE D: "Browser Deep Research" (Human-Signed-In Providers)
 **Best for**: Running deep research through logged-in browser UIs with human authentication checkpoints.
-**Workflow**: Human confirms topic, providers, sign-in, and prompt -> Agent runs ChatGPT/Gemini/Claude browser research -> Agent saves raw outputs and synthesis.
+**Workflow**: Human confirms topic, providers, sign-in, and prompt -> Agent runs ChatGPT/OpenAI, Gemini, Claude, and/or Perplexity browser research -> Agent saves raw outputs and synthesis.
 **Logic Source**: `~/.agents/prompts/research/browser-deep-research-orchestrator.md`
 **Use Case**: You want to use browser-only provider research modes where the agent must wait for sign-in, submit the prompt, recognize completion, and save results.
 

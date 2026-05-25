@@ -2,7 +2,7 @@
 
 **Purpose**: Run deep research through logged-in browser UIs while keeping the human in control of authentication, provider selection, long-running waits, and final artifact storage.
 
-Use this when the user wants the agent to open browser-based deep research tools such as ChatGPT, Gemini, Claude, Grok, or Kimi, wait for the user to confirm sign-in, submit a research brief, wait for completion, capture each provider's output, and save both raw and synthesized results.
+Use this when the user wants the agent to open browser-based deep research tools such as ChatGPT/OpenAI, Gemini, Claude, Perplexity, Grok, or Kimi, wait for the user to confirm sign-in, submit a research brief, wait for completion, capture each provider's output, and save both raw and synthesized results.
 
 ---
 
@@ -17,7 +17,7 @@ When the user asks for browser-controlled deep research:
 4. Prefer a browser automation path that can use the user's real signed-in browser profile. Never ask for, store, paste, or infer credentials.
 5. Open each requested provider in a browser tab and pause for the user to verify sign-in before submitting any prompt.
 
-Do not run providers the user has not requested. Treat Grok and Kimi as later-stage providers unless the user explicitly asks to include them.
+Do not run providers the user has not requested. Treat Grok and Kimi as later-stage providers unless the user explicitly asks to include them. If the user asks for Codex/OpenAI browser deep research, use ChatGPT Deep Research at `https://chatgpt.com/` by default and record the requested alias in `browser-provider-status.md`; do not use Codex web/cloud as the default deep-research target unless the user explicitly asks for a Codex work-agent workflow.
 
 This prompt follows GAS Deep Research Mode's mandatory directory contract:
 
@@ -31,13 +31,15 @@ This prompt follows GAS Deep Research Mode's mandatory directory contract:
 |-- handoff.md
 `-- responses/
     |-- claude.md
+    |-- perplexity.md
     |-- chatgpt.md
     |-- gemini.md
     |-- grok.md
     |-- kimi.md
     |-- chatgpt-browser-cli.md
     |-- gemini-browser-cli.md
-    `-- claude-browser-cli.md
+    |-- claude-browser-cli.md
+    `-- perplexity-browser-cli.md
 ```
 
 Provider placeholder files such as `responses/chatgpt.md` are for human-supplied research. Agent-captured browser results must be saved to `responses/[provider]-browser-cli.md`.
@@ -48,9 +50,10 @@ Provider placeholder files such as `responses/chatgpt.md` are for human-supplied
 
 ### Active Providers
 
-- **ChatGPT**: `https://chatgpt.com/`
+- **ChatGPT/OpenAI**: `https://chatgpt.com/`
 - **Gemini**: `https://gemini.google.com/`
 - **Claude**: `https://claude.ai/`
+- **Perplexity**: `https://www.perplexity.ai/`
 
 ### Later Providers
 
@@ -120,33 +123,48 @@ Never enter private credentials. Never bypass access controls. Never attempt to 
 
 1. Navigate to `https://chatgpt.com/`.
 2. Confirm the user is signed in.
-3. If available, select **Deep research** from tools, modes, or composer options.
-4. Paste the approved research prompt.
-5. Submit once.
+3. Start a clean new chat.
+4. Select **Deep research** using the most stable available route:
+   - Preferred: slow-type `/Deepresearch` into the composer and select the command if it appears.
+   - Fallback: open the tools/composer menu such as **Add files and more** and choose **Deep research**.
+   - Fallback: use the sidebar **Deep research** entry when it opens the deep-research composer.
+5. Keep the first smoke run on public web only unless the user explicitly authorizes uploaded files, connected apps, or specific private sources.
+6. Paste the approved research prompt.
+7. Submit once.
+8. If ChatGPT shows a research plan, clarifying question, source-access prompt, or plan approval step, capture it in `browser-provider-status.md` and proceed only if it stays within the approved scope.
 
 Completion signals:
 
 - The message has stopped streaming.
 - Any "researching", "searching", "analyzing", or progress state is gone.
-- The composer is usable again.
-- Final answer, citations, sources, or explicit source limitations are visible.
+- The report is stable across two observations or a provider-visible completion state is present.
+- Final answer, citations, sources, activity history, table of contents, download/export controls, or explicit source limitations are visible.
+
+Preferred capture: official Markdown download. Fallback to provider copy/export, then scoped DOM/text extraction. Screenshots are supporting evidence only.
 
 Save as: `responses/chatgpt-browser-cli.md`
+
+Codex/OpenAI note: When the user says "Codex" in this browser deep-research context, treat it as the OpenAI/ChatGPT Deep Research surface unless the user explicitly requests Codex web/cloud. Save the run as `responses/chatgpt-browser-cli.md` and note `requested_alias: codex_openai` in status metadata.
 
 ### Gemini
 
 1. Navigate to `https://gemini.google.com/`.
 2. Confirm the user is signed in.
-3. If available, select **Deep Research**.
-4. Paste the approved research prompt.
-5. Submit once and allow any provider-generated research plan step to complete.
+3. Start a clean chat.
+4. Select **Deep Research** through the current Tools/Add files control.
+5. Confirm `Google Search` is enabled and private sources such as Gmail, Drive, Docs, Chat, NotebookLM, uploaded files, and other connected Google Workspace sources are disabled unless the user explicitly authorized them.
+6. Paste the approved research prompt.
+7. Submit once and wait for Gemini's research plan.
+8. Capture the plan in `browser-provider-status.md`; click **Start research** only if the plan is on-topic, allowed-source-only, and within the approved scope.
 
 Completion signals:
 
 - The UI is no longer showing planning, researching, searching, or writing progress.
-- The final report is visible.
+- The final report is visible, usually through an **Open** or **View report** action and then the Canvas/report surface.
 - The input area is usable again.
 - Copy, export, share, or source controls are available, or Gemini explicitly reports it cannot complete.
+
+Preferred capture: **Share and export** -> **Copy contents**, then preserve clipboard text/HTML when the browser adapter exposes both. Use **Export to Docs** only when the user explicitly authorizes creating a Drive artifact.
 
 Save as: `responses/gemini-browser-cli.md`
 
@@ -154,9 +172,11 @@ Save as: `responses/gemini-browser-cli.md`
 
 1. Navigate to `https://claude.ai/`.
 2. Confirm the user is signed in.
-3. If available, enable research, web search, extended thinking, or the user's preferred research mode.
-4. Paste the approved research prompt.
-5. Submit once.
+3. Start a clean chat.
+4. Ensure web search is available and enabled because Claude Research depends on it.
+5. Enable the **Research** button or the user's preferred research mode. If the control is color-only, verify with a screenshot plus any accessible pressed/selected state.
+6. Paste the approved research prompt. If Research is enabled but may not trigger, prepend a short instruction such as `Claude, please use the Research tool to...`.
+7. Submit once.
 
 Completion signals:
 
@@ -164,8 +184,37 @@ Completion signals:
 - Search/research activity indicators are gone.
 - The composer is usable again.
 - Final answer, citations, source references, or explicit research limitations are visible.
+- A final response action such as **Copy** is visible, or two consecutive observations show stable final text.
+
+Preferred capture: final assistant-message **Copy** action, then clipboard read. If links/citations are stripped, use scoped DOM extraction for the final assistant message and record the capture limitation.
 
 Save as: `responses/claude-browser-cli.md`
+
+### Perplexity
+
+1. Navigate to `https://www.perplexity.ai/`.
+2. Confirm the user is signed in.
+3. Start a clean thread unless the user explicitly asks to use a Space.
+4. Select Research mode through the current mode selector:
+   - Preferred: open the **Search** mode popover and choose **Deep research** or **Research**.
+   - Fallback: type `/` in an empty input and select **Deep research** or **Research** from the search-mode typeahead.
+   - Fallback: use keyboard navigation only after a fresh snapshot confirms menu order.
+5. Do not manually choose a model for Research mode unless a live authenticated retune proves Perplexity has changed that behavior.
+6. Paste the approved research prompt.
+7. Submit once.
+8. If Perplexity asks clarifying questions before research starts, stop for user input unless the run policy already authorizes the answer.
+
+Completion signals:
+
+- Research progress, key findings, report file/editor updates, or source-reading indicators are no longer active.
+- Final report text is visible in the thread or report file.
+- Export, Copy, Source, Share, or equivalent final-answer controls are visible.
+- Source links/citations or source metadata are visible or recoverable.
+- Mode proof is captured when possible, such as final-answer Source metadata showing Research or Deep research.
+
+Preferred capture: final report **Export** to Markdown. Fallback to DOCX converted locally to Markdown, PDF with citation-risk note, provider Copy, or scoped DOM extraction. Do not publish/share a private thread or create a public Perplexity Page unless the user explicitly authorizes sharing.
+
+Save as: `responses/perplexity-browser-cli.md`
 
 ### Grok Later
 
@@ -239,6 +288,7 @@ Create these files in the output directory:
 - `responses/chatgpt-browser-cli.md`: ChatGPT raw browser-captured output, if run.
 - `responses/gemini-browser-cli.md`: Gemini raw browser-captured output, if run.
 - `responses/claude-browser-cli.md`: Claude raw browser-captured output, if run.
+- `responses/perplexity-browser-cli.md`: Perplexity raw browser-captured output, if run.
 - `responses/grok-browser-cli.md`: Grok raw browser-captured output, if run.
 - `responses/kimi-browser-cli.md`: Kimi raw browser-captured output, if run.
 - `sources.md`: Consolidated source list, deduplicated when possible.

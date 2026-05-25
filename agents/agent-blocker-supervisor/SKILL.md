@@ -83,6 +83,18 @@ whenever it has active native Codex workers or open unblocked supervisor-owned
 work. The supervisor heartbeat interval is exactly three minutes, and never
 longer. Use a thread heartbeat equivalent to `FREQ=MINUTELY;INTERVAL=3`.
 
+In the Codex Mac app harness, create or update that heartbeat through the app
+Automation tool, `automation_update`, not by manually writing TOML or SQLite.
+Use `kind="heartbeat"` and `destination="thread"` so the app resolves the
+current thread; do not hardcode the thread id in tool arguments. Use
+`mode="suggested_create"` for a new heartbeat and `mode="suggested_update"` for
+an existing heartbeat id. A TOML file under
+`/Users/grig/.codex/automations/<automation-id>/automation.toml` and SQLite
+timing row may verify persistence after the app creates it, but manual
+TOML/SQLite creation is not proof that the Codex app scheduler armed or will
+wake the parent thread. If `automation_update` is unavailable, say so and do
+not claim heartbeat coverage.
+
 The heartbeat may only reconcile supervisor-owned blocker, handoff,
 owner-brief, catalog/control-plane, prompt, documentation, dispatch-ledger, or
 worker-reconciliation work. It MUST NOT launch ordinary project implementation,
@@ -110,6 +122,17 @@ delivery obligation. A native Codex CLI worker is covered by the worker ledger
 plus parent-thread `<subagent_notification>` completion, not by heartbeat
 polling. On user interruption, address the interruption and then resume the open
 progress list unless the user explicitly says to stop.
+
+Method pointer: the Codex Max automation method lives at
+`/Users/grig/.agents/docs/CODEX-MAX-AUTOMATION-METHOD.md`. That method
+reinforces, and does not weaken, this stricter supervisor heartbeat section.
+Native Codex subagent completion is the primary completion path for Codex
+workers. Codex Mac app/workspace automation is only for reminders,
+follow-ups, monitors, recurring runs, wakeups, and heartbeat recovery when the
+runtime exposes supported automation tools. Durable blocker, handoff, worker
+ledger, and owner-brief files remain the source of truth; automation is
+transport/recovery. Never create or update automations by raw TOML, SQLite, or
+shell-file workarounds, and never convert automation into polling or watching.
 
 ## Greeting (emit on activation)
 

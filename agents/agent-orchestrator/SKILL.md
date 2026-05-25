@@ -775,6 +775,18 @@ Therefore:
 
 ### Codex Lifecycle Band-Aid Automation (TEMPORARY, COST-CONTROLLED, CODEX ONLY)
 
+Method pointer: the Codex Max automation method lives at
+`/Users/grig/.agents/docs/CODEX-MAX-AUTOMATION-METHOD.md`. It reinforces, and
+does not weaken, this stricter orchestrator lifecycle section. Native Codex
+subagent completion is distinct from Codex Mac app/workspace wake automation:
+native completion is the primary worker-completion path; automation is for
+reminders, follow-ups, monitors, recurring runs, wakeups, and heartbeat
+recovery when supported by native Codex automation tools. Durable work-order,
+orchestration-log, Open Codex Agents ledger, and subtask result files remain
+the source of truth; automation is transport/recovery. Do not create or update
+automations through raw TOML, SQLite, shell scripts, or filesystem workarounds.
+Do not turn automation into polling or watching.
+
 **Claude Code exemption:** This entire section applies ONLY to Codex. Claude
 Code's Agent tool has built-in completion notifications — background agents
 automatically notify the parent when they finish. Claude Code orchestrators

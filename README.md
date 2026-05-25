@@ -136,7 +136,7 @@ Operational mode modifiers:
 | File | Purpose |
 |------|---------|
 | `deep-research-master.md` | **Single entry point** for all Deep Research modes |
-| `browser-deep-research-orchestrator.md` | Browser-controlled deep research through signed-in provider UIs |
+| `browser-deep-research-orchestrator.md` | Browser-controlled deep research through signed-in provider UIs, including ChatGPT/OpenAI, Claude, Gemini, and Perplexity |
 | `deep-research-prompt-generator.md` | Transform briefs into research prompts |
 | `tri-agent-research-pipeline.md` | Internal tri-agent pipeline |
 | `CONDUCT-MODEL-AUDIT.md` | Model performance auditing |
