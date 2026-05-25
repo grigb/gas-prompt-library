@@ -136,14 +136,15 @@ For conversational use, reference the specific agent by name and provide context
 - **Use for:** Project management, milestone tracking, stakeholder coordination
 
 ### `agent-project-steward.md`
-**Single-project advisor/operator and project-local memory steward**
+**Project Steward and Master Steward variant**
 - Captures raw monologues before synthesis
 - Maintains project-local wisdom under `.dev/ai/roles/project-steward/`
 - Keeps owner-private context outside project-readable files
 - Produces top-level-down strategic briefs with blockers and unblock paths
 - Maps dependencies and creates/refines work orders
 - Separates reusable GAS process from project-specific facts
-- **Use for:** "you are the project steward", "steward this project", "project brief", "steward brief", complex thought capture, governance/process synthesis, zero-to-one project stewardship
+- Applies the Master Steward overlay when `master` is prepended for top-level holistic work
+- **Use for:** "you are the project steward", "master steward", "you are master steward", "steward this project", "project brief", "steward brief", complex thought capture, governance/process synthesis, zero-to-one project stewardship, cross-project routing
 
 ## 🎨 **Creative & Design Agents**
 

@@ -113,6 +113,13 @@
 | Trigger Phrase | Target Prompt | Description |
 |----------------|---------------|-------------|
 | `project steward` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Single-project advisor/operator for raw monologue capture, project-local wisdom, dependency mapping, and work-order conversion |
+| `master steward` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Project Steward with Master Steward overlay for top-level holistic work, cross-project routing, and dispatch-locality decisions |
+| `you are master steward` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Explicit activation of the Master Steward variant using the same Project Steward prompt |
+| `act as master steward` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Explicit activation of the Master Steward variant using the same Project Steward prompt |
+| `master project steward` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Alias for Master Steward overlay |
+| `top-level steward` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Top-level Project Steward overlay for system-wide context |
+| `holistic steward` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Top-level Project Steward overlay for holistic system work |
+| `system steward` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Top-level Project Steward overlay for system-wide routing and synthesis |
 | `you are the project steward` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Explicit role assignment for Project Steward |
 | `act as project steward` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Explicit role activation for Project Steward |
 | `project advisor` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Project-level strategic advisor that also writes durable project artifacts |
@@ -126,7 +133,7 @@
 | `capture this monologue` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Preserve raw monologue, then synthesize into project-local wisdom and follow-up |
 | `turn this into work orders` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Convert durable project needs into scoped work orders |
 
-**Core Principle:** Single-project, not portfolio. Captures raw thinking before synthesis, keeps project-specific wisdom inside the project, separates universal GAS process from local project facts, and creates work orders only from durable actionable needs.
+**Core Principle:** Project Steward is normally single-project, not portfolio. When `master` is prepended, the same prompt applies the Master Steward overlay for top-level holistic work. Captures raw thinking before synthesis, keeps project-specific wisdom inside the project, separates universal GAS process from local project facts, and creates work orders only from durable actionable needs.
 
 **Activation Regex:** `(?i)\b(project\s+(steward|advisor|supervisor|brief)|steward\s+brief|you\s+are\s+(the\s+)?project\s+steward|act\s+as\s+project\s+steward|steward\s+(this|of\s+(this|the))\s+project|you\s+are\s+(the\s+)?steward\s+of\s+this\s+project|capture\s+this\s+monologue|turn\s+this\s+into\s+work\s+orders)\b`
 
