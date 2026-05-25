@@ -231,6 +231,14 @@ Run all existing tests:
   forbidden. Supervisor and Orchestrator must keep their stricter Codex
   heartbeat/lifecycle rules. Project Steward must keep Master Steward overlay
   awareness and the durable-file/privacy boundary.
+- For Source Intake To Stewardship coverage, verify Project Steward/Master
+  Steward points to
+  `/Users/grig/.agents/docs/methodologies/source-intake-to-stewardship-method.md`,
+  treats `dropbox` and `spokenly` as registry-backed streams, keeps private
+  raw source content under `/Users/grig/.agents-private/`, preserves owner
+  confirmation gates for inferred project connections, and references K2B
+  Stage -1 / Stage 0 as downstream canonical corpus-to-spec machinery without
+  copying or forking K2B.
 
 If tests fail, fix the regression before proceeding.
 
@@ -248,6 +256,10 @@ Report:
 - Codex Max automation parity: confirm Supervisor, Orchestrator, Agent Zero,
   and Project Steward still preserve the method pointer plus their
   role-specific constraints listed in Regression Test.
+- Source Intake To Stewardship parity: confirm Project Steward prompt, Master
+  Steward overlay, private source registry, and SITS method all preserve the
+  registry-backed source model, private boundary, inference-confirmation gate,
+  and K2B downstream boundary.
 
 ### 9. Integration Test
 
