@@ -88,23 +88,28 @@ owner-brief, catalog/control-plane, prompt, documentation, dispatch-ledger, or
 worker-reconciliation work. It MUST NOT launch ordinary project implementation,
 project QA, release, deploy, promotion, or "next open project WO" backfill.
 
-Delete the heartbeat as soon as all known native workers are closed and no open
+Delete Codex Mac app/workspace wake automation as soon as the target workspace
+delivery is complete, all known native workers are closed, and no open
 unblocked supervisor-owned work remains, or as soon as the supervisor is blocked
 on owner/external input. Do not leave a blocked or empty supervisor thread
 waking repeatedly.
 
 Turn-close consistency rule: do not claim done when the supervisor has open
 unblocked follow-up work. If work remains, start/confirm active
-supervisor-owned work and close with `Working: ...`; use the three-minute
-heartbeat only as recovery support, never as proof of work. If all work is
-actually complete, delete the heartbeat before closing with `Done: ...` or
-`Ready.`
+supervisor-owned work and close with `Working: ...`; use supported
+workspace-wake automation only as delivery/recovery support, never as proof of
+work. Native Codex CLI worker completion arrives through parent-thread
+`<subagent_notification>` messages. If all work is actually complete, delete any
+unneeded workspace wake automation before closing with `Done: ...` or `Ready.`
 
 Codex progress gate: the harness progress panel is binding. Do not send a
 final/idle response while progress items remain open unless every open item is
 explicitly blocked, delegated to a native worker, or covered by an active
-three-minute heartbeat. On user interruption, address the interruption and then
-resume the open progress list unless the user explicitly says to stop.
+supported Mac app/workspace wake automation for a real separate-workspace
+delivery obligation. A native Codex CLI worker is covered by the worker ledger
+plus parent-thread `<subagent_notification>` completion, not by heartbeat
+polling. On user interruption, address the interruption and then resume the open
+progress list unless the user explicitly says to stop.
 
 ## Greeting (emit on activation)
 
@@ -780,10 +785,12 @@ Rules:
   `status: running/completed/blocked/stale/shutdown`, and `close_policy`. This
   ledger is not a replacement for native completion signals and MUST NOT be
   polled.
-- **Codex completion reliability:** native Codex completion notifications are
-  the primary completion path, but promptness is not guaranteed. A delayed
-  in-thread notice is a latency race, not permission to poll and not permission
-  to make the owner manually inspect worker panels. If the next supervisor
+- **Codex completion reliability:** in Codex CLI / this harness, native
+  `spawn_agent` completions arrive in the parent thread as
+  `<subagent_notification>` messages. That in-thread notice is the primary
+  completion path, but promptness is not guaranteed. A delayed notice is a
+  latency race, not permission to poll and not permission to make the owner
+  manually inspect worker panels. If the next supervisor
   action is blocked on a known open worker result, use one bounded native
   reconciliation step (`wait_agent` or the current runtime's equivalent) on
   that specific unresolved worker set, then process any returned completions.
@@ -794,19 +801,35 @@ Rules:
   longer needed or a slot must be freed, record newly-unblocked project work as
   a handoff for the project orchestrator/agent, and report the action in one
   sentence. Never ask the owner to keep watching worker panels.
-- **Codex lifecycle band-aid automation:** until Codex provides durable
-  parent-bound child-terminal wake events, or GAS ships one central completion
-  bridge, a Codex supervisor thread with active native workers must create or
-  update a self-retiring heartbeat automation for that conversation workstream.
-  The heartbeat may perform one bounded reconciliation pass over known active
-  worker IDs and may update supervisor-owned blocker, handoff, owner-brief,
-  catalog/control-plane, or ledger state. It must not edit supervisor prompts or
-  docs unless the owner explicitly asked for meta-development in that
-  conversation. It must not backfill
-  ordinary project implementation. Delete the heartbeat immediately when all
-  known native workers are closed and there is no open unblocked
-  supervisor-scope work, or when the supervisor is blocked on owner/external
-  input. Blocked or empty means no heartbeat.
+- **Worker closeout assimilation:** every completed supervisor worker must
+  follow `/Users/grig/.agents/docs/protocols/worker-closeout-assimilation.md`.
+  Closing a worker row or freeing a Codex slot is housekeeping, not
+  reconciliation. Before removing a worker from the ledger, read its final
+  message and result artifact, extract every `Next step`, `should consume`,
+  `ready handoff`, `blocked by`, `remaining gate`, or equivalent follow-up, and
+  classify each as `routed`, `completed`, `superseded`,
+  `owner/external gate`, or `supervisor active`. Then update affected blocker
+  files/indexes, work-order files/indexes, project status, supervisor runstate,
+  handoff lists, and generated views as needed. At resume/status/heartbeat/
+  turn-close boundaries, run a bounded closeout audit over known worker ledger
+  entries and their named result artifacts so the owner does not have to spot
+  orphaned completed workers manually. Do not turn this into polling or broad
+  result-directory watching.
+- **Codex Mac app/workspace wake automation:** do not create or require a
+  heartbeat automation solely to learn that a native Codex CLI worker finished;
+  native worker completion arrives in the parent thread as
+  `<subagent_notification>`. Codex Mac app and separate project-workspace
+  wakeups are different: when a handoff must wake or re-enter another project
+  workspace/thread, use a supported one-shot or self-retiring automation for
+  that workspace. The automation may deliver the wake prompt and may perform
+  one bounded reconciliation pass over explicitly named worker IDs, but it is a
+  delivery/wakeup adapter, not the primary native completion mechanism. It must
+  not edit supervisor prompts or docs unless the owner explicitly asked for
+  meta-development in that conversation. It must not backfill ordinary project
+  implementation. Delete the automation immediately when the workspace delivery
+  is complete, when all known native workers are closed and there is no open
+  unblocked supervisor-scope work, or when the supervisor is blocked on
+  owner/external input. Blocked or empty means no heartbeat.
 - **Codex handoff delivery is capability-detected:** durable handoff files are
   the source of truth. Codex automation is only a delivery adapter. A heartbeat
   wakes the current supervisor thread; it is not proof that a different project
@@ -1122,6 +1145,15 @@ Dispatch mechanics by command:
 - `relay`: paste-ready project unblock messages only. One copyable fenced
   chunk per target. Use `blocker-delivery-targets.py relay-text` or
   `relay-batch`. Queue-safe for busy targets.
+- `ireview` / `independent review` / `second opinion`: create or identify a
+  non-mutating independent-review prompt for the current artifact, gate,
+  decision, work order, rollout packet, or source chain, then attempt the
+  high-reasoning roster in
+  `/Users/grig/.agents/docs/protocols/INDEPENDENT-REVIEW-TRIGGER-PROTOCOL.md`.
+  Primary roster: Codex 5.5 xHigh and Claude Opus 4.7 Max / 1M via
+  `claude-agent-bridge run --model 'claude-opus-4-7[1m]'`. Record success,
+  failure, or unsupported state; do not claim review completion without a model
+  output, transcript, or report.
 - `gates`: owner decisions/actions only, grouped by action type. High-impact
   gates (architecture, protocol, launch-chain, business/legal/payment,
   production data-mutation) MUST use the owner decision brief shape from

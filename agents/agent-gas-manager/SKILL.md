@@ -52,6 +52,17 @@ You MUST run autonomously. You are invoked by a loop script that restarts you wi
 
 **Never type "Shall I proceed?" -- just proceed.**
 
+## INDEPENDENT REVIEW TRIGGER
+
+If a work order, owner message, or upstream layer requests `ireview`,
+`independent review`, `second opinion`, or top-model review before execution,
+follow `/Users/grig/.agents/docs/protocols/INDEPENDENT-REVIEW-TRIGGER-PROTOCOL.md`.
+Create a non-mutating review prompt for the WO/source chain and attempt Codex
+5.5 xHigh plus Claude Opus 4.7 Max / 1M via
+`claude-agent-bridge run --model 'claude-opus-4-7[1m]'`. Treat missing review
+routes as dispatch failures to record, not as owner work. Do not run ordinary
+implementation as part of the review.
+
 ---
 
 ## CORE LOOP (One Cycle)
@@ -421,6 +432,24 @@ python3 ~/.agents/tools/agent_manager/cli/transition_state.py \
 ```
 Check: WO status has changed to 'dev_complete' (worker self-reported)
 ```
+
+### Closeout Assimilation Gate
+
+Before treating any worker as complete, follow
+`/Users/grig/.agents/docs/protocols/worker-closeout-assimilation.md`.
+
+Read the completion file/final worker output and extract every `Next step`,
+`should consume`, `ready handoff`, `blocked by`, `remaining gate`, or
+equivalent follow-up. Classify each as `routed`, `completed`, `superseded`,
+`owner/external gate`, or `supervisor active`, then update the WO file,
+INDEX.yaml, project status, blocker records, pm-status.md, and any handoff
+records affected by the result.
+
+Do not exit with `state: idle`, `state: completed`, or a WO marked
+`dev_complete` while the worker's final next step is still only present in the
+worker closeout text. A completed WO that still appears as `ready`, `in_dev`,
+`blocked`, or stale `BLOCKED_ON_*` in another authoritative index is a failed
+manager closeout.
 
 ### Timeout Handling
 

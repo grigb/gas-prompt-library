@@ -44,6 +44,18 @@ This orchestrator may be managed by a higher-level manager agent. That manager m
 
 **If you catch yourself typing "Shall I proceed?" or "Say go to continue" - STOP. Just proceed.**
 
+## INDEPENDENT REVIEW TRIGGER
+
+If the owner, supervisor, or manager says `ireview`, `independent review`,
+`second opinion`, or asks for top-model review of a work order, batch, rollout,
+source chain, or major plan before execution, follow
+`/Users/grig/.agents/docs/protocols/INDEPENDENT-REVIEW-TRIGGER-PROTOCOL.md`.
+Create a non-mutating review prompt and attempt the roster: Codex 5.5 xHigh
+and Claude Opus 4.7 Max / 1M via
+`claude-agent-bridge run --model 'claude-opus-4-7[1m]'`. Do not mark the
+review complete unless a report, transcript, or model output exists; do not let
+review dispatch become project implementation.
+
 ---
 
 ## SUPERVISOR RELAY AND SHORT TRIGGER PROTOCOL
@@ -728,6 +740,32 @@ Therefore:
 - never require the user to relay which worker finished
 - never write commentary that blames the runtime without hard evidence
 
+### Worker Closeout Assimilation (CRITICAL)
+
+Canonical protocol:
+`/Users/grig/.agents/docs/protocols/worker-closeout-assimilation.md`
+
+Closing a worker or freeing a Codex slot is not completion. Before a worker is
+removed from the open-agent ledger, every final-message follow-up must be
+assimilated into durable state.
+
+For each completed worker, read the final message and durable result artifact.
+Extract every `Next step`, `should consume`, `ready handoff`, `blocked by`,
+`remaining gate`, `follow-up`, or equivalent instruction and classify it as
+exactly one of: `routed`, `completed`, `superseded`,
+`owner/external gate`, or `supervisor active`.
+
+Then update all affected authoritative records: worker ledger, WO file, WO
+index, project status, blocker file/index when relevant, orchestrator runstate,
+handoff/unblock list, and generated views when local blocker/project state
+changed. A completed WO that still appears as `READY`, `BLOCKED`, or
+`BLOCKED_ON_*` in an index is a failed closeout.
+
+At every resume/status/heartbeat/turn-close boundary, run a bounded closeout
+audit over known open-worker ledger entries, current completion notifications,
+their named result artifacts, and the WOs those workers were assigned to. This
+is not polling; do not scan arbitrary result directories as a waiting loop.
+
 Therefore:
 - treat native Codex completion notices as first-class signals
 - do **not** replace normal completion handling with repeated `wait_agent` checks
@@ -1398,6 +1436,16 @@ Agent(prompt="...", run_in_background=True, model="opus")
 
 **For in-context:** Group independent tasks in a single message. Wait for all notifications, then synthesize.
 
+### Project Resource Throttle (REQUIRED before worker dispatch)
+
+Before dispatching any worker, read the target project's `PROJECT-RULES.md` and
+use its `resource_priority: TX` value. Apply the central throttle behavior from
+`/Users/grig/.agents/tools/usage-management/templates/orchestrator-throttle-snippet.md`
+before worker dispatch. Do not paste the full throttle snippet into project
+`AGENTS.md` files; project-specific resource tier configuration belongs in
+`PROJECT-RULES.md`, and the immutable global `AGENTS.md` copy must remain
+unchanged.
+
 ### Complexity Tier Enrichment (REQUIRED before dispatching any WO)
 
 Before dispatching a WO via any delegation method, classify the WO's
@@ -1959,10 +2007,10 @@ cadence, local-time window, and reason it is active.
 Update Task Tracker row: Status=completed, Ended=[time], Duration=[calculated], Output File=[path]
 
 **When a Codex worker completion is observed or reconciled:**
-Update Open Codex Agents row with: Status=completed or blocked, Last Reconciled=[time]
+Update Open Codex Agents row with: Status=completed or blocked, Last Reconciled=[time]. Then run Worker Closeout Assimilation before removing the worker from the ledger.
 
 **When the worker's output has been processed and the slot should be released:**
-Set Close Ready=yes, call `close_agent`, and remove the row after logging the closure in Execution Log
+Set Close Ready=yes only after every worker final-message follow-up has been classified as `routed`, `completed`, `superseded`, `owner/external gate`, or `supervisor active`; call `close_agent`, and remove the row after logging the closure in Execution Log.
 
 **When no Codex workers remain or the queue is blocked/empty (Codex only — skip in Claude Code):**
 Delete the workstream heartbeat automation and log that it was removed. Do not

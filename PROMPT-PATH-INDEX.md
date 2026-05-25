@@ -38,6 +38,7 @@
 | PROJECT-KNOWLEDGE-VAULT-DISCOVERY-PASS | `~/.agents/prompts/general/project-knowledge-vault-discovery-pass.md` |
 | EXTERNAL-RESEARCH-PROMPT-ENGINEER | `~/.agents/prompts/agents/agent-external-research-prompt-engineer.md` |
 | PROJECT-STEWARD | `~/.agents/prompts/agents/agent-project-steward.md` |
+| MASTER-STEWARD | `~/.agents/prompts/agents/agent-master-steward.md` |
 | PROJECT-STEWARD-BOOTSTRAP | `~/.agents/docs/PROJECT-STEWARD-BOOTSTRAP-CHECKLIST.md` |
 | PROJECT-STEWARD-BRIEF-TEMPLATE | `~/.agents/templates/project-steward/PROJECT-STEWARD-BRIEF-TEMPLATE.md` |
 | PROJECT-STEWARD-PRIVATE-CONTEXT-TEMPLATE | `~/.agents/templates/project-steward/PRIVATE-CONTEXT-TEMPLATE.md` |
@@ -82,6 +83,7 @@
 │   ├── agent-marketing-expert.md
 │   ├── agent-project-coordinator.md
 │   ├── agent-project-steward.md
+│   ├── agent-master-steward.md
 │   ├── agent-ux-design.md
 │   ├── agent-content-crafting-alignment.md
 │   ├── agent-innovation-ideation.md

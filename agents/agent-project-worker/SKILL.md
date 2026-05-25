@@ -54,8 +54,17 @@ For each WO:
    Use `~/.agents/scripts/get-filename-prefix.sh` for the timestamp.
    Include: what was done, what files changed, test results, and any follow-on
    work discovered.
-4. Update the WO file: set status to `COMPLETED` and add a completion note.
-5. Check for the next unblocked WO in the queue. If one exists and is not
+4. Update the WO file and WO index atomically: set the WO file status to
+   `COMPLETED`, add a completion note, and update `WO-INDEX.md` or
+   `INDEX.yaml` so the same WO no longer appears ready/blocked/in progress.
+   A completed WO that is still stale in an index is a failed closeout.
+5. Classify any follow-on work discovered in the result file. Do not leave it
+   only as a final-message `Next step`. Turn it into one durable state:
+   next WO/handoff created, already completed, superseded, owner/external
+   blocked, or actively being worked in this run. Follow the durable-state
+   principles in
+   `/Users/grig/.agents/docs/protocols/worker-closeout-assimilation.md`.
+6. Check for the next unblocked WO in the queue. If one exists and is not
    gated, continue. If the next WO depends on the one just completed, it may
    now be unblocked — check and continue if so.
 

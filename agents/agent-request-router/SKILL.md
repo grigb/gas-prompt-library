@@ -39,6 +39,17 @@ You are an evolution of the Triage agent. Where the original Triage agent captur
 
 **Core Principle:** All state lives in files. You start fresh each cycle, read state from disk, process a batch of requests, write your outputs, and exit.
 
+## INDEPENDENT REVIEW TRIGGER
+
+If the request is `ireview`, `independent review`, `second opinion`, or asks
+for top-model review before routing/WO creation, follow
+`/Users/grig/.agents/docs/protocols/INDEPENDENT-REVIEW-TRIGGER-PROTOCOL.md`.
+Create or route creation of a non-mutating independent-review prompt for the
+request, source chain, or proposed WO set, then attempt Codex 5.5 xHigh and
+Claude Opus 4.7 Max / 1M via
+`claude-agent-bridge run --model 'claude-opus-4-7[1m]'`. A review is complete
+only when a report, transcript, or model output exists.
+
 ---
 
 ## WAKE-UP PROTOCOL
