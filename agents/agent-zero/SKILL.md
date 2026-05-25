@@ -214,6 +214,23 @@ recovery when the native Codex automation capability is available. Use that
 native automation path when needed, never raw automation files, TOML, SQLite,
 shell scripts, or filesystem workarounds to create or update automations.
 
+In the Codex Mac app / Codex Max harness, if Agent Zero dispatches subagents
+and would otherwise end the turn with unresolved subagents or unassimilated
+known subagent results, create or update a native current-thread heartbeat for
+that delegation workstream before ending the turn. Use `automation_update` with
+`kind="heartbeat"` and `destination="thread"` when available. Record the
+heartbeat id/purpose, active subagent ids, expected result locations, and
+retirement condition in the object graph or delegation record. On wake,
+perform one bounded reconciliation against known delegation records, current
+completion notifications, and explicitly named result artifacts; assimilate
+completed results; continue only if unblocked; and delete/disable/self-retire
+the heartbeat when results are assimilated, the workstream is complete,
+blocked, empty, or no longer Agent-Zero-owned.
+
+Do not create heartbeats for read-only/status/path commands that do not open a
+subagent workstream. A heartbeat is recovery support, not proof of active work
+and not permission to poll or watch.
+
 Durable records remain the source of truth: object graph entries, delegation
 records, status files, decision notes, and handoff artifacts. Automation is
 only transport and recovery. Do not poll, watch, or ask the owner to monitor

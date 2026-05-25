@@ -412,6 +412,28 @@ Codex automation for those lifecycle tasks when available. Do not create or
 update automations through raw TOML, SQLite, shell scripts, filesystem writes,
 or other manual automation-file workarounds.
 
+When operating in the Codex Mac app / Codex Max harness, steward variants that
+dispatch one or more subagents must not end the turn with unresolved subagents
+or unassimilated known subagent results unless a native current-thread
+heartbeat is created or updated for that steward workstream. Use
+`automation_update` with `kind="heartbeat"` and `destination="thread"` when the
+tool is available. Record the heartbeat id/purpose, active subagent ids,
+expected result locations, and retirement condition in the role-appropriate
+steward state: project-local steward notes for project-scoped work, or Master
+Steward private state under
+`/Users/grig/.agents-private/project-steward/master-steward/` for Master
+Steward work. On heartbeat wake, do one bounded reconciliation of known ledger
+entries, current completion notifications, and explicitly named result
+artifacts; assimilate completed results; continue only if unblocked; and
+delete/disable/self-retire the heartbeat when all results are assimilated, the
+workstream is complete, blocked, empty, or no longer steward-owned.
+
+Do not create heartbeats for exact read-only/path/status commands such as
+`menu`, `dropbox`, `spokenly`, `sources`, `intake`, or other commands whose
+requested behavior is only to print a path/status or inspect state without
+opening a subagent workstream. A heartbeat is not proof of active work and must
+not become polling or watching.
+
 Durable files remain the source of truth: project-local stewardship artifacts,
 work orders, decision logs, raw captures, private steward memory, Master
 Steward inbox records, and handoff notes. Automation is transport/recovery, not

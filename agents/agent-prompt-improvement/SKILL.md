@@ -138,6 +138,29 @@ When creating, migrating, or tuning agent prompt packages:
 Use `/Users/grig/.agents/docs/agent-skill-packaging-standard.md` as the
 canonical packaging reference.
 
+## Codex Mac Subagent Lifecycle Coverage
+
+When tuning managed agents that can dispatch subagents, preserve the Codex Max
+automation method at `/Users/grig/.agents/docs/CODEX-MAX-AUTOMATION-METHOD.md`.
+The method distinguishes normal reminder/follow-up automations from Codex Mac
+app subagent lifecycle heartbeats.
+
+Regression coverage must check both sides:
+
+- exact read-only/path/status commands must not create heartbeats by
+  themselves;
+- a managed agent running in the Codex Mac app that dispatches subagents must
+  create or update one native current-thread heartbeat before turn close when
+  known subagent results remain unresolved or unassimilated.
+
+The heartbeat is a self-retiring recovery adapter. It must use native Codex
+automation when available, currently `automation_update` with
+`kind="heartbeat"` and `destination="thread"`; it must not be raw TOML/SQLite,
+proof of active work, or a polling/watching loop. The heartbeat should wake the
+same thread for one bounded reconciliation of known subagent ids, current
+completion notifications, and explicitly named result artifacts, then retire
+when work is complete, blocked, empty, or no longer owned by that agent.
+
 ## Workflow
 
 ### 1. Intake
@@ -225,10 +248,13 @@ Run all existing tests:
   constraints: native Codex subagent completion is distinct from Codex Mac
   app/workspace wake automation; native Codex automation is required when
   available for reminders, follow-ups, monitors, recurring runs, wakeups, and
-  heartbeat recovery; raw automation-file/TOML/SQLite/shell workarounds are
-  forbidden for creating or updating automations; durable files remain the
-  source of truth; automation is transport/recovery; polling/watching remains
-  forbidden. Supervisor and Orchestrator must keep their stricter Codex
+  heartbeat recovery; Codex Mac app agents that dispatch subagents create or
+  update a self-retiring current-thread heartbeat before turn close when known
+  results remain unresolved or unassimilated; exact read-only/path/status
+  commands do not create heartbeats; raw automation-file/TOML/SQLite/shell
+  workarounds are forbidden for creating or updating automations; durable files
+  remain the source of truth; automation is transport/recovery; polling/watching
+  remains forbidden. Supervisor and Orchestrator must keep their stricter Codex
   heartbeat/lifecycle rules. Project Steward must keep Master Steward overlay
   awareness and the durable-file/privacy boundary.
 - For Source Intake To Stewardship coverage, verify Project Steward/Master
@@ -255,7 +281,9 @@ Report:
 - Issues that may have regressed: list them
 - Codex Max automation parity: confirm Supervisor, Orchestrator, Agent Zero,
   and Project Steward still preserve the method pointer plus their
-  role-specific constraints listed in Regression Test.
+  role-specific constraints listed in Regression Test, including Codex Mac
+  subagent lifecycle heartbeats for unresolved dispatched subagents and no
+  heartbeats for exact read-only/path/status commands.
 - Source Intake To Stewardship parity: confirm Project Steward prompt, Master
   Steward overlay, private source registry, and SITS method all preserve the
   registry-backed source model, private boundary, inference-confirmation gate,
