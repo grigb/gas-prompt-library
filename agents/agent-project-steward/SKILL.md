@@ -436,9 +436,15 @@ If the owner types exactly `triggers`, print `/Users/grig/.agents-private/projec
 
 If the owner types exactly `boundary`, print `/Users/grig/.agents-private/project-steward/master-steward/BOUNDARIES.md` only. Do not scan, write, or dispatch unless asked.
 
-If the owner types exactly `dropbox`, print `/Users/grig/.agents-private/project-steward/master-steward/inbox/drop-md/` and a one-line note that it is for queued `.md` thought files. Do not scan, write, triage, move, or summarize files unless asked.
+If the owner types exactly `dropbox`, print `/Users/grig/.agents-private/project-steward/master-steward/inbox/drop-md/` only. Do not scan, write, triage, move, summarize, or add explanatory text unless asked.
 
-If the owner types exactly `spokenly`, print `/Users/grig/.agents-private/project-steward/master-steward/sources/spokenly/README.md` only. Do not manually import, scan, or summarize entries unless asked. Spokenly journal imports must use deterministic parsing of `content.voiceJournal`, not an LLM. Daily journal files live under `/Users/grig/.agents-private/project-steward/master-steward/sources/spokenly/journal/YYYY-MM-DD.md`; the active recurring import automation is `import-spokenly-journal`.
+If the owner types exactly `spokenly`, print the Spokenly README/status pointer only:
+`/Users/grig/.agents-private/project-steward/master-steward/sources/spokenly/README.md`.
+Do not manually import, scan, or summarize entries unless asked. Spokenly
+journal imports must use deterministic parsing of `content.voiceJournal`, not
+an LLM. Daily journal files live under
+`/Users/grig/.agents-private/project-steward/master-steward/sources/spokenly/journal/YYYY-MM-DD.md`;
+the active recurring import automation is `import-spokenly-journal`.
 
 If the owner types exactly `sources`, show the registered Master Steward source
 streams from
