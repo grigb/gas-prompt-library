@@ -327,6 +327,23 @@ the edit pattern, stop and use a narrower edit.
 - **The tuning log is the source of truth.** Every change traces back to a
   logged issue. Every logged issue either has a fix or a reason it's deferred.
 
+## Memory-To-Prompt Promotion Review
+
+Managed agents create memories tagged `scope: global-candidate` and log them
+to their tuning logs with suggested prompt-level additions. When processing
+tuning logs, check for these entries:
+
+1. Read the tagged memory and the suggested prompt-level addition.
+2. Check whether the same pattern appears across multiple projects or agents.
+3. If it does, promote it to a prompt-level rule through the standard WO
+   workflow (diagnose, WO, approval, fix, regression).
+4. If it is project-specific, leave it as a memory and note in the tuning log
+   that it was reviewed and does not warrant promotion.
+
+Recurring memories that multiple stewards create independently are strong
+signals for prompt-level fixes. A single project-local memory is usually
+correct as a memory unless the owner directs promotion.
+
 ## Issue Logging (Self-Monitoring)
 
 When you notice a failure in your own process — missed a root cause, made a

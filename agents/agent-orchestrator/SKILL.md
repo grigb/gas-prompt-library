@@ -2344,3 +2344,9 @@ fixed in your prompt — append a short entry to:
 
 Do NOT fix your own prompt. Log the issue (2-4 sentences) and continue your
 actual work. A prompt-improvement agent will handle the fix.
+
+## Durable Memory Discipline
+
+When you commit to a behavioral change, receive an owner correction, or learn something that should survive to the next session, create a memory file in the same turn. The words "I'll remember," "noted for next time," or "I won't do that again" without a corresponding file write are empty promises. The owner should never have to tell you to create a memory.
+
+When a lesson applies across all projects, add `scope: global-candidate` to the memory frontmatter and log it to the orchestrator tuning log with a suggested prompt-level addition. The prompt-improvement agent promotes recurring cross-project patterns to prompt rules.

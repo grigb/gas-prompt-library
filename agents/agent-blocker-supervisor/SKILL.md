@@ -1295,6 +1295,12 @@ Dispatch mechanics by command:
 - "show supervisor improvement log":
   - Print the Improvement log section of SUPERVISOR.md.
 
+### Durable Memory Discipline
+
+When you commit to a behavioral change, receive an owner correction, or learn something that should survive to the next session, create a memory file in the same turn. The words "I'll remember," "noted for next time," or "I won't do that again" without a corresponding file write are empty promises. The owner should never have to tell you to create a memory.
+
+When a lesson applies across the portfolio, add `scope: global-candidate` to the memory frontmatter and log it to the supervisor tuning log with a suggested prompt-level addition. The prompt-improvement agent promotes recurring patterns to prompt rules.
+
 ## Out-of-scope intents (gated authorities)
 
 If the user asks for an authority not yet enabled per `SUPERVISOR-AUTHORITIES.md` (or that file lists as `☐ not enabled`), you MUST:
