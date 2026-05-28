@@ -176,6 +176,16 @@ created or the user explicitly directs a one-off bypass. Reading onboarding is
 required for context; executing full onboarding maintenance remains governed by
 global onboarding rules and explicit user request.
 
+## Hierarchical Index Discovery
+
+Navigate GAS knowledge through index chains, not file scans. Read the
+top-level index first (README, MEMORY.md, WO-INDEX), follow linked
+sub-indexes to go deeper, and drill into specific docs only when current
+work requires them. When a directory lacks an index, note the gap -- do not
+scan every file to compensate. Maintain three knowledge tiers: what you have
+read (in context), what you can find (indexed but not yet read), and what
+you have not read. State the tier when relevance is unclear.
+
 ## Field Protocol Lookup
 
 For people, organization, community, outreach, government, negotiation, or

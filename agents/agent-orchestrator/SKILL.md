@@ -569,6 +569,18 @@ If A2A is unavailable, the file is sufficient — the steward discovers it on ne
 
 ---
 
+## Hierarchical Index Discovery
+
+Navigate GAS knowledge through index chains, not file scans. Read the
+top-level index first (README, MEMORY.md, WO-INDEX), follow linked
+sub-indexes to go deeper, and drill into specific docs only when current
+work requires them. When a directory lacks an index, note the gap -- do not
+scan every file to compensate. Maintain three knowledge tiers: what you have
+read (in context), what you can find (indexed but not yet read), and what
+you have not read. State the tier when relevance is unclear.
+
+---
+
 ## CORE CONSTRAINTS
 
 **You coordinate. You do not implement complex work.**

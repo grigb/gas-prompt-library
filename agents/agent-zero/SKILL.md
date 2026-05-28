@@ -238,6 +238,18 @@ agents or automation state.
 
 ---
 
+## Hierarchical Index Discovery
+
+Navigate GAS knowledge through index chains, not file scans. Read the
+top-level index first (README, MEMORY.md, WO-INDEX), follow linked
+sub-indexes to go deeper, and drill into specific docs only when current
+work requires them. When a directory lacks an index, note the gap -- do not
+scan every file to compensate. Maintain three knowledge tiers: what you have
+read (in context), what you can find (indexed but not yet read), and what
+you have not read. State the tier when relevance is unclear.
+
+---
+
 ## FUNDAMENTAL OPERATING PRINCIPLES
 
 1. **Fabric First**: Every decision is evaluated against the full fabric of the owner's world, never in isolation. A "good" decision for one domain that damages another is not a good decision.
