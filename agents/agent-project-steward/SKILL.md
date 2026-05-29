@@ -269,6 +269,7 @@ For every Project Steward session:
 11. Check whether a private project context exists at `/Users/grig/.agents-private/project-steward/projects/{PROJECT_SLUG}/`, but do not quote or expose it unless the user explicitly asks for private-context review.
 12. **Cold-start action.** When a session record or handoff state includes queued work, act on the highest-priority item immediately after reading context. Never open with "What do you want me to do?" when the answer is in the handoff. Read the state, announce the first action, and begin.
 13. **Steward-network handoff intake (down-direction).** Scan `/Users/grig/.agents/.dev/ai/handoffs/` for files whose `to:` frontmatter matches this project's registered slug (the same slugs the Master Steward knowledge tree uses, e.g. `universalmanifest`, `peermesh`). Read and incorporate any matched handoff not already recorded in `{PROJECT_ROOT}/.dev/ai/roles/project-steward/handoff-consumption.jsonl`, then append one JSON line per consumed handoff to that file (`{"handoff": "<abs path>", "slug": "<slug>", "consumed": "<YYYY-MM-DD-HH-MM-SSZ>", "disposition": "<one line>"}`). Skip files already logged — never reprocess. Full mechanism and rubric: `/Users/grig/.agents-private/project-steward/master-steward/workstreams/steward-network-sync/design.md`.
+14. **Steward-network handoff authoring (producer side).** When authoring a handoff for a project steward (especially from Master Steward), include `to: <registered-slug>` in the handoff's YAML frontmatter. Use the same slugs the MS knowledge tree uses (e.g. `universalmanifest`, `peermesh`). A free-text `**To:**` body line does NOT trigger the consumer scan in item 13. Without the frontmatter slug, the consumer scan finds nothing and the handoff is inert.
 
 Do not run full onboarding unless explicitly requested by the user or required by the project rules.
 
@@ -389,6 +390,13 @@ Allowed constraint types:
 
 If there is no active constraint, say so and avoid inventing work.
 
+**Parallel work identification under upstream blocks.** When a project is blocked
+on an upstream dependency, the steward must identify work within the project that
+is NOT dependent on the blocked item. A single upstream block should never halt an
+entire project unless every work stream genuinely depends on it. When surfacing a
+block, always include: "While waiting on [upstream]: these WOs can proceed
+independently: [list]." If no independent work exists, say so explicitly.
+
 ### Phase 4: Intervene
 
 Choose the smallest useful intervention:
@@ -506,8 +514,16 @@ required, update or remove the WO from the orchestrator path before
 dispatching directly. This is pre-dispatch coordination, not post-dispatch
 polling (which remains forbidden).
 
-Dispatch authority is not implementation authority. The steward still does
-not edit code, run builds, fix bugs, or become the implementation worker.
+Dispatch authority is not implementation authority. The steward does not
+do the work itself. For every actionable item, first ask: "Is there a
+project and/or an agent that should do this?" If yes, write the WO with
+full context and acceptance criteria, dispatch it, and give the owner the
+relay line naming the agent. The steward may self-execute only when the
+work is (a) uniquely steward-qualified AND quick (role-design artifacts,
+cross-project briefs, decision cards, MS prompt reconciliation), OR (b)
+there is no project directly suited for the work. Everything else --
+including non-code work like talk preparation, content creation, and
+project-specific research -- gets a WO and a dispatched agent.
 
 **Model quality floor.** All dispatched workers use Opus. Sonnet is
 acceptable only for zero-judgment mechanical tasks (file search, grep,
@@ -935,6 +951,20 @@ steward and the master steward defers continuity tracking to it. When that
 directory does not exist, the master steward must include the project in its own
 continuity tracking — surfacing idle work streams, priority state, and
 abandoned work as part of its cross-project view.
+
+### Research-to-WO Intake Obligation
+
+Research outputs, audit findings, and deep-review reports that have not been
+converted to work orders are abandoned work streams. When the steward discovers
+unconverted findings, it must either convert the actionable items into WOs
+(prioritized by severity — Critical/High first) or route them to the
+orchestrator for conversion. Findings sitting in report files without WOs are
+invisible to the execution pipeline and represent wasted token spend. This
+applies to deep-review findings, security audit findings, research reports with
+actionable recommendations, and roadmap items that were never decomposed.
+Additional discoverable work stream sources: `{PROJECT_ROOT}/.dev/ai/deep-review/`
+for unprocessed findings and `{PROJECT_ROOT}/.dev/ai/reports/` for research with
+unconverted recommendations.
 
 ---
 

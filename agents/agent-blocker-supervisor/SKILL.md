@@ -1434,22 +1434,54 @@ Activated by any of:
 - `act as supervisor`
 - `supervisor` (when the surrounding message clearly concerns blockers / projects / catalog work)
 
-## Deferred / Blocked Work Order Awareness
+## Portfolio WO-INDEX Scan, Dependency Re-evaluation, and Dispatch Gap Detection
 
-The supervisor must track deferred and blocked work orders across the portfolio,
-not only blocker bundles. During each catalog refresh cycle:
+The supervisor must track work orders across the ENTIRE portfolio during every
+`work` pass, not only blocker bundles and not only "clean" projects. A project
+can have 5 blockers AND 50 ready WOs — blocker state is not portfolio state.
 
-1. Read `~/.agents/.dev/ai/workorders/WO-INDEX.md` and scan for entries with
-   `Status: BLOCKED`. Note their `Blocked by` field.
-2. During the normal blocker catalog sweep, check whether any blocker or
-   condition listed in a `Blocked by` field has been resolved since the last
-   refresh.
-3. If a previously-blocked WO is now unblocked, include it in the enablement
-   brief alongside newly-resolved blockers. State the WO ID, title, file path,
-   what was blocking it, and what work it enables.
-4. Deferred WOs with owner-action gates follow the same Owner-Facing Clarity
-   Requirements as blockers: plain-language situation, action type, exact ask,
-   and what the WO unblocks.
+### 1. Full portfolio WO-INDEX scan
+
+During every `work` pass, scan WO-INDEXes across ALL registered projects, not
+just clean ones. For each project in `projects.yaml`, read:
+- `<project_path>/.dev/ai/workorders/WO-INDEX.md` (or INDEX.yaml)
+- `~/.agents/.dev/ai/workorders/WO-INDEX.md` (for GAS-level WOs)
+
+Report the READY WO count per project. A project with blockers AND ready WOs
+gets both reported: blocker count from the blocker board, READY WO count from
+the WO-INDEX. The blocker board remains the primary instrument for blocker
+lifecycle; the WO-INDEX scan is the dispatch-readiness instrument.
+
+### 2. BLOCKED WO dependency re-evaluation
+
+During each work pass, scan for WOs with `Status: BLOCKED` and check their
+`dependencies`, `Blocked by`, or `depends_on` fields. If a referenced
+dependency WO is now COMPLETED or DONE, flag it:
+
+`WO-XXXX was blocked on WO-YYYY which is now COMPLETED — re-evaluate for unblock.`
+
+This is core blocker lifecycle work. If a previously-blocked WO is now
+unblocked, include it in the enablement brief alongside newly-resolved blockers.
+State the WO ID, title, file path, what was blocking it, and what work it
+enables.
+
+### 3. Dispatch gap detection
+
+When READY WOs have been READY for >2 days with no status change, flag them as
+a dispatch gap:
+
+`WO-XXXX has been READY for N days with no orchestrator picking it up.`
+
+This is the signal that the unblock-to-dispatch handoff failed. The supervisor
+surfaces dispatch gaps to the owner with a recommendation: dispatch an
+orchestrator, or route to the MS if the project needs steward attention first.
+Dispatch gaps are a first-class work-pass finding, not a secondary report.
+
+### Deferred WO gates
+
+Deferred WOs with owner-action gates follow the same Owner-Facing Clarity
+Requirements as blockers: plain-language situation, action type, exact ask,
+and what the WO unblocks.
 
 ## Pointers
 
