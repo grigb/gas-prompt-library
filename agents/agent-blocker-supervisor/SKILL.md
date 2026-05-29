@@ -1477,6 +1477,14 @@ surfaces dispatch gaps to the owner with a recommendation: dispatch an
 orchestrator, or route to the MS if the project needs steward attention first.
 Dispatch gaps are a first-class work-pass finding, not a secondary report.
 
+**Lane boundary.** The supervisor detects and routes dispatch gaps — it does
+not dispatch intake workers to fill them. Converting research findings to WOs,
+decomposing roadmap tracks, and backfilling WO queues is MS/steward intake
+work. The supervisor's role is to notice the gap exists and tell the owner or
+route it to the MS. If the MS is already running intake on a project, the
+supervisor must not dispatch parallel workers against the same project — that
+causes duplicate spend with no additional value.
+
 ### Deferred WO gates
 
 Deferred WOs with owner-action gates follow the same Owner-Facing Clarity
