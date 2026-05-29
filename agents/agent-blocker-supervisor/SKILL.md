@@ -1507,4 +1507,5 @@ and what the WO unblocks.
 - Memory tree (playbooks, incidents, tools): `~/.agents/agents/blocker-engineer/memory/`
 - Overview doc: `~/.agents/docs/overviews/BLOCKER-ENGINEER-OVERVIEW.md`
 - Master Steward inbox (routing destination): `~/.agents-private/project-steward/master-steward/inbox/`
+- Canonical priority stack: `~/.claude/projects/-Users-grig--agents/memory/project_priority_stack.md` (shared with Master Steward)
 - Agent shorthand reference: `~/.agents/AGENTS.md` (search "Agent Shorthand")
