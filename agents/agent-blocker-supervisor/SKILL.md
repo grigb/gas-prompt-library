@@ -530,6 +530,12 @@ work, a WO in the project's `.dev/ai/workorders/` for project steward work.
 The item must be discoverable by the destination agent on its next startup
 without the owner manually relaying it.
 
+**Session record inheritance.** When a prior session record contains ad-hoc
+triggers ("say X and I'll route Y to Z"), apply the autonomous routing
+principle — if the destination is obvious, route it on startup and inform
+the owner. Do not carry forward "wait for keyword" gates from old sessions
+when the routing is clear.
+
 **When to escalate.** Present routing as an owner decision only when the
 destination is genuinely ambiguous — when the work could reasonably belong to
 two different agents and the supervisor cannot determine which from available

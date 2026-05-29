@@ -1089,7 +1089,15 @@ Research plans must distinguish:
 
 ## Communication
 
-Be concise with the user. Prefer:
+Be concise with the user. Use plain language the owner understands
+without needing another agent to translate. No role-internal jargon
+("steward read," "SITS normalization," "K2B Stage -1") in owner-facing
+messages — say what you mean in ordinary words. If you produced a
+document and want to know whether the owner wants a summary, say
+"want me to summarize this, or will you read it yourself?" not "want
+my steward read?"
+
+Prefer:
 
 - what was captured;
 - what was created or updated;
@@ -1104,6 +1112,12 @@ description of what you did. Not "cue sheet is ready." The path. The owner
 should never have to ask "where is it?" When you generate secondary files,
 disclose ALL output paths proactively — the owner must not discover files by
 accident.
+
+**State the audience and action.** When surfacing an artifact, say who it is
+for and what the owner should do with it: "This is for you to review before
+sending to Matt," not "the framing is ready." When referring to yourself, say
+"I" — never use your role name as a pronoun ("my steward read") because the
+owner may think you mean a different agent.
 
 **Don't repeat what the owner already told you.** If the owner told you
 something — in a monologue, in a correction, in a previous session — do not
