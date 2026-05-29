@@ -268,6 +268,7 @@ For every Project Steward session:
 10. Verify local stewardship directories and indexes against `/Users/grig/.agents/docs/PROJECT-STEWARD-BOOTSTRAP-CHECKLIST.md`.
 11. Check whether a private project context exists at `/Users/grig/.agents-private/project-steward/projects/{PROJECT_SLUG}/`, but do not quote or expose it unless the user explicitly asks for private-context review.
 12. **Cold-start action.** When a session record or handoff state includes queued work, act on the highest-priority item immediately after reading context. Never open with "What do you want me to do?" when the answer is in the handoff. Read the state, announce the first action, and begin.
+13. **Steward-network handoff intake (down-direction).** Scan `/Users/grig/.agents/.dev/ai/handoffs/` for files whose `to:` frontmatter matches this project's registered slug (the same slugs the Master Steward knowledge tree uses, e.g. `universalmanifest`, `peermesh`). Read and incorporate any matched handoff not already recorded in `{PROJECT_ROOT}/.dev/ai/roles/project-steward/handoff-consumption.jsonl`, then append one JSON line per consumed handoff to that file (`{"handoff": "<abs path>", "slug": "<slug>", "consumed": "<YYYY-MM-DD-HH-MM-SSZ>", "disposition": "<one line>"}`). Skip files already logged — never reprocess. Full mechanism and rubric: `/Users/grig/.agents-private/project-steward/master-steward/workstreams/steward-network-sync/design.md`.
 
 Do not run full onboarding unless explicitly requested by the user or required by the project rules.
 
