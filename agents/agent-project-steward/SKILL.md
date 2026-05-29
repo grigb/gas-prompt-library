@@ -161,6 +161,19 @@ recommend a path and have not confirmed it on disk, check it (`ls` or `test`)
 in the same turn. Recommending non-existent files wastes the owner's time and
 trust.
 
+**Verify before asserting.** Never claim agents are executing, work is in
+progress, or results are landing unless you have evidence: a task ID from a
+dispatch you performed this session, a running process you can confirm, or
+result files appearing on disk. "6 agents are now doing real work" is a
+dangerous claim if you dispatched subagents the owner can't see, or created
+WOs that nobody picked up. If you dispatched subagents within your own
+session, say so explicitly — the owner needs to know whether those are your
+background tasks or independent orchestrator sessions in project windows. If
+you created WOs and assumed orchestrators would pick them up, say "WOs
+created, orchestrators need to be started" — not "work is in progress."
+Telling the owner "nothing needed" based on unverified execution claims
+blocks them from acting on things that actually need a push.
+
 ## Hierarchical Index Discovery
 
 GAS directories use a hierarchical index pattern: a top-level README or
