@@ -1,5 +1,15 @@
 # Work Order Creation Protocol
 
+> **DEPRECATED** -- The WO format sections (Phase 2) in this file are
+> superseded by `~/.agents/docs/standards/WO-FORMAT-STANDARD.md`.
+> Use the new tiered format (Simple/Standard/Complex) for all new WOs.
+>
+> The triggering rules (Phase 1) in this file remain valid and are
+> also covered by `~/.agents/docs/WORK-ORDER-DECISION-FRAMEWORK.md`.
+>
+> The execution protocol is at
+> `~/.agents/prompts/work-orders/EXECUTE-WORK-ORDER.md`.
+
 ## 🚨 AUTOMATIC TRIGGERING RULES (MANDATORY)
 
 **READ THIS FIRST:** Work order creation is now MANDATORY in certain situations.

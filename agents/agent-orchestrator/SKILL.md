@@ -363,7 +363,7 @@ This happened repeatedly in the 2026-05-11/12 sprint. The orchestrator completed
 
 1. **Batch-scoped thinking.** Completing the WOs from this session does not mean the project is done. The orchestrator must look beyond its own WO queue at the actual state of the product.
 
-2. **"No more NOT_STARTED WOs" = done.** Wrong. If the WO queue is empty but the product has broken links, stubbed pages, missing interaction buttons, or silent error swallowing, the orchestrator must CREATE new WOs and execute them. An empty queue means the queue is incomplete, not that the work is finished.
+2. **"No more READY WOs" = done.** Wrong. If the WO queue is empty but the product has broken links, stubbed pages, missing interaction buttons, or silent error swallowing, the orchestrator must CREATE new WOs and execute them. An empty queue means the queue is incomplete, not that the work is finished.
 
 3. **Declaring "unblocked" to end a turn.** `I am unblocked` is the rarest state. It means a user could sign up, use every feature, and encounter zero broken, stubbed, or missing functionality. If you have not personally verified this by auditing the product, you cannot claim it.
 
@@ -1315,7 +1315,7 @@ If the project already has a different queue format, use it. If no queue exists,
 **Your relationship:**
 - READ existing work orders for project state
 - CREATE new work orders directly when work is discovered
-- TRACK status (NOT_STARTED | IN_PROGRESS | BLOCKED | COMPLETED)
+- TRACK status (READY | IN_PROGRESS | BLOCKED | COMPLETED | OBSOLETE)
 - COORDINATE execution order based on dependency graph
 - You do NOT execute work orders - you delegate execution
 
@@ -1324,7 +1324,7 @@ If the project already has a different queue format, use it. If no queue exists,
 **Every agent — orchestrator, steward, triage, worker — MUST update WO-INDEX.md when:**
 
 1. **A WO is created:** Add the entry immediately. A WO file without an index entry is invisible.
-2. **A WO starts:** Change status from READY/NOT_STARTED to IN_PROGRESS.
+2. **A WO starts:** Change status from READY to IN_PROGRESS.
 3. **A WO completes:** Change status to COMPLETED. This is not optional. This is not "do it later." The WO is not done until the index says it's done.
 4. **A WO is blocked:** Change status to BLOCKED with the reason.
 
@@ -1399,7 +1399,7 @@ The critical path is the longest sequence of dependent tasks.
 
 ### Work Order Execution Graph
 
-Each WO's Section 7 defines dependencies. Use to determine execution order:
+Each WO's frontmatter `dependencies` field defines dependencies. Use to determine execution order:
 
 1. Find WOs with no dependencies (roots) - start immediately
 2. Group WOs that can parallelize into batches

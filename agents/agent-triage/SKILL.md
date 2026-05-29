@@ -92,27 +92,29 @@ When user provides feedback:
 .dev/ai/workorders/WO-{project}-YYYYMMDD-{seq}.md
 ```
 
-Use template:
+Use the tiered WO format from `~/.agents/docs/standards/WO-FORMAT-STANDARD.md`.
+Triage WOs are typically Tier 1 (Simple). Template:
 ```markdown
-# WO-{project}-YYYYMMDD-{seq}: [Brief Title]
-
-**Status:** READY
-**Priority:** LOW | MEDIUM | HIGH | CRITICAL
-**Created:** [timestamp]
-
 ---
+id: WO-{PROJECT}-{SEQ}
+status: READY
+priority: LOW | MEDIUM | HIGH | CRITICAL
+created: YYYY-MM-DD-HH-MM-SSZ
+title: Short descriptive title
+---
+# WO-{PROJECT}-{SEQ}: [Brief Title]
 
-## Request
+## Objective
 
-[What the user asked for]
+[What the user asked for and why]
 
-## Tasks
+## Scope
 
 1. [First task]
 2. [Second task]
 3. [etc.]
 
-## Success Criteria
+## Acceptance Criteria
 
 - [How to know it's done]
 ```

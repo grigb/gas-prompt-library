@@ -25,10 +25,10 @@ You are executing a work order autonomously. NO USER INTERACTION AVAILABLE.
 **If validation passes:**
 
 1. **Load work order**: Read from `.dev/ai/workorders/[WO-ID].md`
-2. **Check progress**: Look at Execution Tracker section
-3. **Run verification commands**: Execute ALL commands from Section 6 "Verification Commands"
+2. **Read all context files**: Read every file listed in "Read First" (Complex/Standard tier) or referenced in Scope
+3. **Run verification commands**: Execute ALL commands from "Verification" section
 4. **If verifications fail**: STOP and mark as BLOCKED with details
-5. **Resume or start**: Find RESUME_AT location or begin T1
+5. **Resume or start**: Begin first task, or resume from last incomplete task
 6. **Update status**: Set STATUS to IN_PROGRESS, update AGENT and timestamp
 
 ### 📊 OPTIONAL: CREATE PM TRACKING TASK
@@ -61,37 +61,17 @@ echo "PM Task ID: $PM_TASK_ID" >> .dev/ai/workorders/[WO-ID].md
 
 ## During Execution - Critical Rules
 
-### After EVERY File Operation:
-```yaml
-# Add to files log immediately:
-files_modified:
-  - path: src/module.js
-    lines_changed: 45-67
-    timestamp: 2025-10-07-20-15
-    backup_location: .backups/module.js.bak
-```
-
 ### Progress Tracking:
-- Check off subtasks: `- [x]` as you complete them
-- Update task status: ⬜ → 🔄 → ✅ or ❌
-- Save work order every 5 minutes minimum
-- Update COMPLETE: X/Y tasks counter
-
-### Use These EXACT Markers:
-- `- ✅` Task complete
-- `- 🔄` Currently working on this
-- `- ⬜` Not started yet
-- `- ❌` Blocked/Failed (add reason)
+- Check off subtasks as completed
+- If blocked on a task, mark it and move to next independent task
+- Document any issues encountered for the Completion section
 
 ## Low Context Protocol
-```yaml
-# When context < 30%:
-1. Update: CONTEXT_REMAINING: low
-2. Save all work immediately
-3. Mark current task as 🔄 (in progress)
-4. Note exact stopping point in RESUME_AT
-5. Create handoff with just: "Continue WO at [path]"
-```
+
+When context window drops below 30%:
+1. Save all work immediately
+2. Note exact stopping point in the WO body
+3. Create handoff with WO path: "Continue WO at [path]"
 
 ## Completion Protocol
 
@@ -180,22 +160,24 @@ files_modified:
 2. **Start from RESUME_AT** location
 3. **Re-run tests** for completed tasks to verify
 
-## Update Format for Quick Edits
-Just update this block at the top of WO:
-```yaml
-# Quick Status (Update First)
-STATUS: IN_PROGRESS
-COMPLETE: 3/7 tasks
-BLOCKED: none
-RESUME_AT: T4 subtask 2
-LAST_UPDATE: 2025-10-07-20-30
-AGENT: claude-code
-CONTEXT_REMAINING: medium
-```
+## Autonomous Execution Rules
 
-## CRITICAL: You Are Autonomous
-- No user to ask questions
-- Work from work order only
-- If truly blocked, mark with ❌ and move to next task
-- Document everything in the work order
-- The work order IS your state - keep it current
+- No user to ask questions -- work from work order only
+- If truly blocked, set status to BLOCKED and append a `## Blocker`
+  section to the WO body with the blocker description
+- Write a BLOCKED file to `.dev/ai/subtask-comms/` per the
+  orchestrator's result protocol
+- Document everything needed for the Completion section
+
+## Recovery (If Resuming Incomplete Work)
+
+1. Read the WO completely
+2. Identify which tasks are already done (check outputs exist)
+3. Continue from the first incomplete task
+4. Re-validate previous work before building on it
+
+## WO Format Reference
+
+Work orders follow the tiered format defined in
+`~/.agents/docs/standards/WO-FORMAT-STANDARD.md`. This execution
+protocol applies to all tiers (Simple, Standard, Complex).

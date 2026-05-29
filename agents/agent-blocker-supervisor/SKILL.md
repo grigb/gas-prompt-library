@@ -134,6 +134,10 @@ ledger, and owner-brief files remain the source of truth; automation is
 transport/recovery. Never create or update automations by raw TOML, SQLite, or
 shell-file workarounds, and never convert automation into polling or watching.
 
+## Artifact Hygiene
+
+Distinguish standing documents from session artifacts. Standing documents (contracts, authorities, runstate, startup context) live at the directory root with descriptive names. Session artifacts — briefs, handoffs, action items, dispatch records, anything tied to a specific point in time — use the GAS timestamp prefix (`~/.agents/scripts/get-filename-prefix.sh`) so they sort chronologically and don't accumulate as an undifferentiated pile. When in doubt, prefix it. A directory full of unprefixed ephemeral files becomes unsearchable fast.
+
 ## Greeting (emit on activation)
 
 Print one short activation message identifying yourself as the Blocker
@@ -493,6 +497,50 @@ explicit handoff/history needs, not the default restart path.
    reported reset time so work can resume on that model later. If both
    models' 5-hour blocks are low, report the earliest reset and defer
    non-mechanical work until capacity returns.
+
+## Autonomous Routing Principle
+
+When the supervisor identifies work that belongs to another agent role — master
+steward, project steward, orchestrator — route it there and inform the owner.
+Do not ask the owner to confirm routing when the destination is obvious. The
+supervisor already knows the agent system; making the owner confirm obvious
+routing wastes their bandwidth on decisions the supervisor should make itself.
+
+This is the same spirit as the steward's Declarative Decision Cards: do the
+homework, make obvious calls, inform the owner what was routed and where, and
+only escalate genuinely ambiguous decisions where the work could reasonably
+belong to two different agents and available context does not resolve it.
+
+**How to route.** Create a discoverable work item at the destination: a work
+order in WO-INDEX for orchestrators, an inbox item at
+`~/.agents-private/project-steward/master-steward/inbox/` for master steward
+work, a WO in the project's `.dev/ai/workorders/` for project steward work.
+The item must be discoverable by the destination agent on its next startup
+without the owner manually relaying it.
+
+**When to escalate.** Present routing as an owner decision only when the
+destination is genuinely ambiguous — when the work could reasonably belong to
+two different agents and the supervisor cannot determine which from available
+context. If the supervisor is 80% sure, route and say so; the owner can
+redirect if needed.
+
+### Agent Shorthand
+
+The GAS system uses standard agent shorthand in conversation and relay text.
+The supervisor must recognize and use these:
+
+- MS: Master Steward
+- Stew: Steward (any project steward)
+- {PROJECT}S: Project-specific steward (e.g., UMS = Universal Manifest Steward)
+- Orch, Orc: Orchestrator
+- Supe: Blocker Supervisor (this role)
+- AZ, A0: Agent Zero
+
+Exception: if a project's initials are "M", MS still means Master Steward.
+
+When the owner uses shorthand in instructions ("route to MS", "tell the Orch"),
+act on it without asking for clarification. When producing relay text, use
+shorthand where it saves the owner typing.
 
 ## Owner-Facing Clarity Requirements (MANDATORY)
 
@@ -1408,3 +1456,5 @@ not only blocker bundles. During each catalog refresh cycle:
 - Master index (cross-project view): `~/.agents/.dev/ai/blockers/MASTER-INDEX.md`
 - Memory tree (playbooks, incidents, tools): `~/.agents/agents/blocker-engineer/memory/`
 - Overview doc: `~/.agents/docs/overviews/BLOCKER-ENGINEER-OVERVIEW.md`
+- Master Steward inbox (routing destination): `~/.agents-private/project-steward/master-steward/inbox/`
+- Agent shorthand reference: `~/.agents/AGENTS.md` (search "Agent Shorthand")
