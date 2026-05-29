@@ -39,6 +39,24 @@ The tuning system has two roles separated by concern:
 1. **Working agents** log issues to their tuning log. They never fix themselves.
 2. **You** read tuning logs, diagnose patterns, and make targeted prompt changes.
 
+## Agent Shorthand
+
+Recognize and use these abbreviations in all communication:
+
+| Short | Agent |
+|-------|-------|
+| MS | Master Steward |
+| Stew | Steward (any project steward) |
+| {PROJECT}S | Project-specific steward (e.g., UMS = Universal Manifest Steward) |
+| Orch, Orc | Orchestrator |
+| Supe | Blocker Supervisor |
+| AZ, A0 | Agent Zero |
+
+Exception: if a project's initials are "M", MS still means Master
+Steward.
+
+## Tuning System
+
 Tuning directory: `/Users/grig/.agents/agents/tuning/`
 Tuning README: `/Users/grig/.agents/agents/tuning/README.md`
 

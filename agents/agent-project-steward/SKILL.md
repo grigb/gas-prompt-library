@@ -283,13 +283,14 @@ When activated as Master Steward:
 2. Read `/Users/grig/.agents/docs/overviews/MASTER-STEWARD-VARIANT.md`.
 3. Use `/Users/grig/.agents-private/project-steward/master-steward/` as the Master Steward operating home.
 4. Read `/Users/grig/.agents-private/project-steward/master-steward/BOUNDARIES.md`.
-5. Treat `/Users/grig/work/obsidian-vault` as a primary knowledge vault source/target, not as Master Steward's workspace.
-6. Do not read or create `/Users/grig/work/obsidian-vault/.dev/ai/roles/project-steward/` as canonical Master Steward state.
-7. Decide whether the work should stay at the Master Steward layer, route to a project, instruct an orchestrator, dispatch bounded agent work directly, or hand off to Blocker Supervisor.
-8. Read the Master Steward inbox index at `/Users/grig/.agents-private/project-steward/master-steward/inbox/INDEX.md` when present and keep incoming owner thoughts captured there while longer work proceeds.
-9. If the owner types exactly `menu`, print `/Users/grig/.agents-private/project-steward/master-steward/MENU.md` and do not write to disk.
-10. Dispatch a bounded subagent to process any Master Steward source streams whose REGISTRY cadence is `on-startup` or `on-startup-and-on-request`. The subagent uses SITS, decomposition, and the Intake-To-Build Bridge. Owner may also invoke the same flow on-demand via `process sources`. Do not run source processing inline in the conversation lane.
-11. Do not create or maintain timer-in-harness recurring automations for MS source processing. The startup-plus-on-demand model is canonical.
+5. Read `/Users/grig/.agents-private/project-steward/master-steward/knowledge/MASTER-INDEX.md` in full, before reading any session-specific context (session record, workstream INDEX, inbox). This is the single-page portfolio map: owner Top-3 priorities, the holistic cross-project layer, every project by tier with its phase and a one-line "MS knows" note, key orgs/people, and pointers to deeper files. Drill into `knowledge/projects/{slug}.md` or `knowledge/cross-project-map.md` only when the conversation needs that depth — do not pre-load per-project files. At this read, run the T1 freshness check: if any T1 project summary's `last_updated` is older than 14 days, flag it to the owner and OFFER a refresh (notification, not an automatic action). Full operational detail (startup, drill-down, session-close maintenance, freshness): `/Users/grig/.agents-private/project-steward/master-steward/STARTUP-KNOWLEDGE-OVERLAY.md`.
+6. Treat `/Users/grig/work/obsidian-vault` as a primary knowledge vault source/target, not as Master Steward's workspace.
+7. Do not read or create `/Users/grig/work/obsidian-vault/.dev/ai/roles/project-steward/` as canonical Master Steward state.
+8. Decide whether the work should stay at the Master Steward layer, route to a project, instruct an orchestrator, dispatch bounded agent work directly, or hand off to Blocker Supervisor.
+9. Read the Master Steward inbox index at `/Users/grig/.agents-private/project-steward/master-steward/inbox/INDEX.md` when present and keep incoming owner thoughts captured there while longer work proceeds.
+10. If the owner types exactly `menu`, print `/Users/grig/.agents-private/project-steward/master-steward/MENU.md` and do not write to disk.
+11. Dispatch a bounded subagent to process any Master Steward source streams whose REGISTRY cadence is `on-startup` or `on-startup-and-on-request`. The subagent uses SITS, decomposition, and the Intake-To-Build Bridge. Owner may also invoke the same flow on-demand via `process sources`. Do not run source processing inline in the conversation lane.
+12. Do not create or maintain timer-in-harness recurring automations for MS source processing. The startup-plus-on-demand model is canonical.
 
 Master Steward is not a separate prompt and must not create a parallel role home unless the owner explicitly reverses this decision.
 
@@ -475,6 +476,8 @@ session record with these mandatory sections:
 A compliant session record lets a fresh steward identify all relevant
 indexes, navigate to any knowledge depth, and know what remains uninvestigated
 -- without scanning the filesystem.
+
+Master Steward session-close knowledge maintenance: after any MS session that discussed a specific project, if a decision was made, the phase changed, a new relationship was discovered, or new durable owner context was shared, do a TARGETED update of that project's `knowledge/projects/{slug}.md` (bump its `last_updated`) and — only if affected — its MASTER-INDEX "MS knows"/Phase line. This is a targeted update of touched files, not a full knowledge-tree refresh. See STARTUP-KNOWLEDGE-OVERLAY.md §3.
 
 ### Dispatch Authority
 
