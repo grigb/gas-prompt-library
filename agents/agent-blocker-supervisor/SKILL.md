@@ -365,6 +365,16 @@ explicit handoff/history needs, not the default restart path.
    `~/.agents/agents/blocker-engineer/SUPERVISOR-STATUS.md`, then
    continue the project-owned follow-on work from the now-unblocked gate.
 
+   Some projects have a Project Steward operating as the primary project-
+   directing agent, with an orchestrator as the execution layer beneath it. In
+   steward-aware projects (detectable by the presence of
+   `{PROJECT_ROOT}/.dev/ai/roles/project-steward/`), the supervisor's unblock
+   file and relay text should note that the orchestrator is the execution
+   target, not the steward. The relay text should say: "Say 'unblocked' to the
+   [project] orchestrator" — not "to the project steward" — because the
+   orchestrator owns execution dispatch. If the owner is in a steward session,
+   the steward will relay to the orchestrator per its Dispatch Authority rules.
+
    **A2A direct delivery (legacy fast notification; canonical channel is the
    unblock file).** Per the dual-track architecture
    (`~/.agents/AGENTS.md`, memory `[[project_a2a_repositioned_not_retired]]`),

@@ -87,20 +87,22 @@ single word after the supervisor writes a durable unblock artifact.
    require A2A. Message patterns are in
    `~/.agents/docs/AGENT-TEAMS-INTEGRATION.md`.
 
-Treat these as supervisor-relay triggers:
+Treat these as continuation triggers:
 
-- `unblocked`
-- `unblock`
-- `relay`
-- `supervisor`
-- `next`
-- `go`
+- `work` — scan WO-INDEX for READY items and dispatch them. This is the
+  orchestrator's default continuation contract, equivalent to the supervisor's
+  `work` command.
+- `go` — same as `work`
+- `next` — dispatch the single highest-priority READY item
+- `continue` — resume from the last orchestration log state
+- `unblocked` / `unblock` / `relay` / `supervisor` — supervisor-relay triggers;
+  read `.dev/ai/unblocks/` for the newest artifact before dispatching
 - any message containing `Supervisor unblocked`
 - any absolute path under this project or an upstream project matching
   `.dev/ai/unblocks/`, `.dev/ai/subtask-comms/`, `.dev/ai/blockers/`, or
   `.dev/ai/workorders/`
 
-When a relay trigger appears, do not ask the owner to explain the unblock again.
+For supervisor-relay triggers, do not ask the owner to explain the unblock again.
 Do this:
 
 1. Read the referenced path if one was provided.
@@ -1236,6 +1238,20 @@ Read in parallel, using whatever exists in the current project/system:
      `~/.agents/scripts/blocker-views-refresh.py --project {project_path}`.
      If you complete work but don't close the related blocker, the supervisor
      will present already-done work to the owner as an active gate.
+   - **Blocker creation:** When a worker reports a blocker that requires
+     external action (credential provisioning, service configuration, account
+     setup, deployment infrastructure), and the orchestrator cannot resolve it
+     within its scope, create a blocker file at
+     `{PROJECT_ROOT}/.dev/ai/blockers/<timestamp>-<slug>.md` using the schema
+     at `~/.agents/docs/specs/blocker-file-schema.md`. Update
+     `.dev/ai/blockers/INDEX.md`. Mark the affected WO as BLOCKED in WO-INDEX.
+     Include operational context (2-5 sentences: how the component runs, what
+     was tried, what the downstream agent will do once unblocked). The
+     supervisor discovers new blocker files during its catalog refresh cycle.
+     Do NOT present external-action blockers as manual task lists in the
+     owner's conversation thread. If the blocker is truly owner-gated (needs
+     a decision, not an action), surface it to the owner directly as a
+     decision card.
 4. **Unblock artifacts:** `.dev/ai/unblocks/` — read the newest file (by filename timestamp) to understand what the supervisor changed since the last session. Unblock bundles contain resolved blockers, new WOs, and context the orchestrator needs before planning work. If the directory is empty or absent, skip silently.
 5. Queue/index files: `.dev/ai/workorders/WO-INDEX.md`, `INDEX.yaml`, `tasks/`, backlog files, or local equivalent
    - **Also scan the workorders directory** (`ls .dev/ai/workorders/WO-*.md`) for WO files not yet registered in the index. Stewards and other agents sometimes create WO files without updating WO-INDEX.md. Treat discovered files as valid work orders.
@@ -2124,11 +2140,34 @@ User can override any decision in follow-up session.
 When activated:
 
 1. **Announce:** "Operating as Orchestrator - coordinating only, not executing"
-2. **Acquire context:** Read state files
-3. **Create orchestration log file** with situation report and plan
-4. **Present plan:** What happens next (also in log)
-5. **Get ONE approval:** User says "go" (or similar)
-6. **Run to completion:** Execute ALL batches without stopping for approval
+2. **Acquire context:** Read state files, WO-INDEX, unblocks/, blockers/
+
+### Autonomous Startup (bare activation or continuation trigger)
+
+If the orchestrator is activated with a bare trigger (`go`, `work`, `next`,
+`continue`, `unblocked`, the role activation phrase alone, or the steward
+dispatched the orchestrator with a WO list), AND the WO-INDEX has READY items
+or `.dev/ai/unblocks/` has new artifacts:
+
+3. **Skip plan presentation.** The WO-INDEX IS the plan.
+4. **Create orchestration log** with situation report listing discovered READY WOs.
+5. **Begin dispatching immediately.** Sequence READY WOs by dependency graph.
+   Report what was launched in one sentence per WO. Do not ask for approval.
+6. **Run to completion** per the Continuous Motion Principle.
+
+The bare trigger IS the approval. When the steward dispatches the orchestrator
+with "pick up WO-XXXX and any other READY items," that dispatch prompt is
+sufficient authorization.
+
+### Directed Startup (owner presents a plan or new scope)
+
+If the orchestrator is activated with specific new scope, a plan, or the owner
+describes new work:
+
+3. **Create orchestration log** with situation report and plan.
+4. **Present plan:** What happens next.
+5. **Get ONE approval:** User says "go" (or similar).
+6. **Run to completion:** Execute ALL batches without stopping for approval.
 
 **Once user approves the plan, that approval covers the ENTIRE orchestration.**
 
