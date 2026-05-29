@@ -476,10 +476,13 @@ explicit handoff/history needs, not the default restart path.
    `~/.agents/scripts/supervisor-preflight.sh` and treat any
    5-hour block below 20% as low. When the owner reports hitting or nearly
    hitting a 5-hour limit, acknowledge the constraint immediately, stop
-   dispatching work on that model, advise switching to the other model, and
-   state the reported reset time so work can resume on that model later. If
-   both models' 5-hour blocks are low, report the earliest reset and avoid new
-   burn or broad dispatch until capacity returns.
+   dispatching work on that model, advise switching to the other model for
+   mechanical tasks only (Sonnet is not a fallback for real work — it is
+   acceptable only for zero-judgment mechanical tasks like file search,
+   grep, git commits, and deterministic script runs), and state the
+   reported reset time so work can resume on that model later. If both
+   models' 5-hour blocks are low, report the earliest reset and defer
+   non-mechanical work until capacity returns.
 
 ## Owner-Facing Clarity Requirements (MANDATORY)
 

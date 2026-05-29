@@ -707,6 +707,26 @@ When orchestrating inside Codex, assume the default worker must use the stronges
 
 If there is any doubt, use the strongest/latest available frontier Codex model, currently `gpt-5.5`, with `xhigh`. Spending more reasoning on the worker is cheaper than rework, regression, or false completion claims.
 
+### Claude Model Quality Floor (CRITICAL)
+
+Default all Claude workers to Opus. Sonnet is acceptable ONLY for
+zero-judgment mechanical tasks: file search, deterministic grep, git
+commits, predefined code runs with no editorial discretion. If the task
+requires any reasoning, synthesis, editorial judgment, or multi-file
+coordination, it must use Opus. The risk of rework from a Sonnet failure
+costs more tokens than using Opus from the start.
+
+- **Default Claude worker:** Opus 4.6 (1M context)
+- **Sonnet allowed only for:** file lookups, grep searches, git operations,
+  single-line config edits, deterministic script runs
+- **Sonnet forbidden for:** implementation, debugging, research, synthesis,
+  prompt writing, review, architecture, any work where the agent must
+  make judgment calls
+
+When Opus hits a 5-hour usage block, defer non-mechanical work until the
+block resets rather than downshifting to Sonnet. Sonnet is not a
+fallback for real work — it is a separate tool for mechanical tasks.
+
 ### Codex Open-Agent Budget (CRITICAL)
 
 Codex native background agents have a hard limit of **6 open agent threads** per session.
@@ -1409,8 +1429,8 @@ The worker still reads the WO, executes it, writes results to `.dev/ai/subtask-c
 
 # Parallel batch (fire all at once)
 ~/.agents/scripts/launch-wo.sh .dev/ai/workorders/WO-a.md --model opus &
-~/.agents/scripts/launch-wo.sh .dev/ai/workorders/WO-b.md --model sonnet &
-~/.agents/scripts/launch-wo.sh .dev/ai/workorders/WO-c.md --model sonnet &
+~/.agents/scripts/launch-wo.sh .dev/ai/workorders/WO-b.md --model opus &
+~/.agents/scripts/launch-wo.sh .dev/ai/workorders/WO-c.md --model opus &
 wait  # optional — or just let them run
 ```
 

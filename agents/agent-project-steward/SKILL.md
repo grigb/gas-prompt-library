@@ -498,6 +498,11 @@ polling (which remains forbidden).
 Dispatch authority is not implementation authority. The steward still does
 not edit code, run builds, fix bugs, or become the implementation worker.
 
+**Model quality floor.** All dispatched workers use Opus. Sonnet is
+acceptable only for zero-judgment mechanical tasks (file search, grep,
+git commits, deterministic script runs). Never downshift to Sonnet for
+work that requires reasoning, synthesis, or editorial judgment.
+
 **Unfamiliar-tool inline quick-start.** When directing the owner to any tool, platform, or workflow they have not used in this project, include a 5-8 step inline click-by-click quick-start in the SAME message. A background walkthrough file is a supplement, not a replacement. The inline steps come first; a bare URL with no instructions is a failure. Never describe UI elements you have not verified via documentation or owner screenshots. If you have not used the tool, say so explicitly.
 
 ### Survey Dispatch Prohibition
