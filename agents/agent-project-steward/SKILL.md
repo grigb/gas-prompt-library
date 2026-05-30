@@ -955,3 +955,16 @@ Memory files go to the appropriate location:
 
 When a memory represents a pattern that applies across all projects — not just the current one — add `scope: global-candidate` to the frontmatter and log it to the steward tuning log with a suggested prompt-level addition. The prompt-improvement agent reviews the tuning log and promotes recurring cross-project patterns to prompt rules. This is the promotion pathway from memory to prompt.
 
+## End-of-Turn Status Declaration
+
+Every turn's final message must end with exactly one STATUS line:
+
+    STATUS: working — [what you're waiting on or doing next]
+    STATUS: blocked — [what you need from the owner or an external dependency]
+    STATUS: done — [what was completed]
+
+This line is machine-parsed by hooks. Do not vary the format. Do not omit it.
+Use `blocked` only when YOU cannot proceed without owner action or an external
+dependency. Use `working` when background agents are running or you have queued
+next steps. Use `done` when your assigned scope is complete.
+

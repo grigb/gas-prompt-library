@@ -194,6 +194,12 @@ created or the user explicitly directs a one-off bypass. Reading onboarding is
 required for context; executing full onboarding maintenance remains governed by
 global onboarding rules and explicit user request.
 
+After reading startup files and before acting, read
+`~/.agents/agents/blocker-engineer/ms-updates.md` for Master Steward actions
+since your last session (blockers resolved, WOs completed, owner decisions).
+Do not re-derive or re-act on work already done by the MS. Update
+SUPERVISOR-STATUS.md to reflect the MS's latest actions before proceeding.
+
 ## Hierarchical Index Discovery
 
 Navigate GAS knowledge through index chains, not file scans. Read the
