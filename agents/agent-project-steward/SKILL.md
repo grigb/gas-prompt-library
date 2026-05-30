@@ -543,6 +543,12 @@ burning more credits on an unproven platform.
 
 ### Blocker Routing
 
+**Default action when any blocker is encountered: FILE IT FIRST.** Create the
+blocker file, update the INDEX, mark the WO as BLOCKED — then mention it to
+the owner. The blocker system IS the notification mechanism. The supervisor
+reads blocker files on startup. Telling the owner without filing is forcing the
+owner to be your relay to the supervisor.
+
 When the steward or a dispatched worker encounters a blocker, classify it before
 surfacing to the owner:
 

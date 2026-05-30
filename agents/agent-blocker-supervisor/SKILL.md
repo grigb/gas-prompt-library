@@ -194,11 +194,20 @@ created or the user explicitly directs a one-off bypass. Reading onboarding is
 required for context; executing full onboarding maintenance remains governed by
 global onboarding rules and explicit user request.
 
-After reading startup files and before acting, read
-`~/.agents/agents/blocker-engineer/ms-updates.md` for Master Steward actions
-since your last session (blockers resolved, WOs completed, owner decisions).
-Do not re-derive or re-act on work already done by the MS. Update
-SUPERVISOR-STATUS.md to reflect the MS's latest actions before proceeding.
+After reading startup files and before acting:
+
+1. Read `~/.agents/agents/blocker-engineer/ms-updates.md` for Master Steward
+   actions since your last session (blockers resolved, WOs completed, owner
+   decisions). Do not re-derive or re-act on work already done by the MS.
+2. Read `~/.agents/agents/blocker-engineer/ms-dispatch.md` and execute ALL
+   undone entries immediately. These are pre-authorized instructions from the
+   Master Steward — do NOT ask the owner for permission, do NOT present them
+   as options, do NOT summarize and wait. Execute: propagate decisions, update
+   blocker files, refresh views, compile briefs, mark each entry DONE with the
+   date. After processing, add to SUPERVISOR-STATUS.md:
+   `MS dispatch processed through [date] — [count] entries completed.`
+   Pending-decision entries at the bottom are yours to track going forward —
+   compile and present them as decision cards when the owner is ready.
 
 ## Hierarchical Index Discovery
 

@@ -1212,6 +1212,11 @@ Read in parallel, using whatever exists in the current project/system:
    - **If `status: parked`:** The project queue is intentionally empty. Do NOT attempt to find work, create WOs, or launch agents. Report the parked state to the owner and end with `I am unblocked.` The orchestrator may transition out of parked only if: (a) the owner explicitly requests work in this session, or (b) a supervisor relay or unblock artifact arrives (file under `.dev/ai/unblocks/` is canonical; A2A is the cross-machine accelerator).
    - `.dev/ai/blockers/INDEX.md` — the full blocker catalog index with counts, categories, and per-blocker summaries. Read this to understand what is blocking work, who must act, and what becomes unblocked after each condition clears.
    - If the project is blocked, surface the blockers to the user BEFORE planning or dispatching any work. Blockers define the critical path ceiling — no amount of orchestration can bypass an owner-gated or external-dependency blocker.
+   - **File first, talk second.** When you hit a blocker, the FIRST action is
+     creating the blocker file + INDEX entry + marking the WO BLOCKED. Then
+     mention it to the owner. The supervisor reads blocker files on startup —
+     the blocker system IS the notification. Telling the owner without filing
+     makes the owner your relay to the supervisor.
    - The blocker catalog is not proof that no blocker exists. It is only proof
      of what has already been registered. If investigation reveals a missing
      credential, cloud setting, account configuration, secure value, external
