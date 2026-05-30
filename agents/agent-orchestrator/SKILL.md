@@ -812,6 +812,8 @@ Therefore:
 Method pointer: the Codex Max automation method lives at
 `/Users/grig/.agents/docs/CODEX-MAX-AUTOMATION-METHOD.md`. It reinforces, and
 does not weaken, this stricter orchestrator lifecycle section. Native Codex
+worker lifecycle contract:
+`/Users/grig/.agents/docs/protocols/codex-mac-native-worker-lifecycle.md`.
 subagent completion is distinct from Codex Mac app/workspace wake automation:
 native completion is the primary worker-completion path; automation is for
 reminders, follow-ups, monitors, recurring runs, wakeups, and heartbeat
@@ -1424,7 +1426,9 @@ Each WO's frontmatter `dependencies` field defines dependencies. Use to determin
 - Record native agent id, nickname, work order path, launched_at, expected output path, reasoning effort, `visible_to_owner: yes/no/unknown`, status, and close policy in the durable Open Codex Agents ledger
 - If the owner cannot see the worker in the IDE, record the visibility mismatch and keep an otherwise active/effective worker running unless there is an explicit owner request, duplicate/conflicting writes, wrong scope, harmful behavior, or confirmed stale/shutdown state
 - Reuse the same worker with `send_input` only when follow-up work belongs to that exact worker
-- Expect native completion to be surfaced programmatically through Codex itself
+- Treat native Codex completion notices as first-class when they arrive, but do
+  not claim Codex Mac idle-parent wake/assimilation is proven beyond
+  `/Users/grig/.agents/docs/protocols/codex-mac-native-worker-lifecycle.md`
 - While native workers run, keep orchestrating: gather missing context, map dependencies, plan or queue the next batch, and launch non-conflicting workers
 - Keep the user informed with short factual status updates; do **not** go silent, emit placeholder filler, or write long "thinking through options" preambles
 - Use `wait_agent` only when the next critical-path action is blocked on that worker's result, or as a single bounded synchronization step before handoff/session end

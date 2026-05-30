@@ -110,18 +110,20 @@ Turn-close consistency rule: do not claim done when the supervisor has open
 unblocked follow-up work. If work remains, start/confirm active
 supervisor-owned work and close with `Working: ...`; use supported
 workspace-wake automation only as delivery/recovery support, never as proof of
-work. Native Codex CLI worker completion arrives through parent-thread
-`<subagent_notification>` messages. If all work is actually complete, delete any
-unneeded workspace wake automation before closing with `Done: ...` or `Ready.`
+work. Native Codex completion notices are first-class when they arrive, but
+Codex Mac idle-parent wake/assimilation is governed by
+`/Users/grig/.agents/docs/protocols/codex-mac-native-worker-lifecycle.md`. If
+all work is actually complete, delete any unneeded workspace wake automation
+before closing with `Done: ...` or `Ready.`
 
 Codex progress gate: the harness progress panel is binding. Do not send a
 final/idle response while progress items remain open unless every open item is
 explicitly blocked, delegated to a native worker, or covered by an active
 supported Mac app/workspace wake automation for a real separate-workspace
 delivery obligation. A native Codex CLI worker is covered by the worker ledger
-plus parent-thread `<subagent_notification>` completion, not by heartbeat
-polling. On user interruption, address the interruption and then resume the open
-progress list unless the user explicitly says to stop.
+plus native completion notices when they arrive, not by heartbeat polling. On
+user interruption, address the interruption and then resume the open progress
+list unless the user explicitly says to stop.
 
 Method pointer: the Codex Max automation method lives at
 `/Users/grig/.agents/docs/CODEX-MAX-AUTOMATION-METHOD.md`. That method
@@ -898,10 +900,11 @@ Rules:
   ledger is not a replacement for native completion signals and MUST NOT be
   polled.
 - **Codex completion reliability:** in Codex CLI / this harness, native
-  `spawn_agent` completions arrive in the parent thread as
-  `<subagent_notification>` messages. That in-thread notice is the primary
-  completion path, but promptness is not guaranteed. A delayed notice is a
-  latency race, not permission to poll and not permission to make the owner
+  completion notices are first-class when they arrive. They are the primary
+  completion signal, but Codex Mac idle-parent wake/assimilation is not treated
+  as proven; follow
+  `/Users/grig/.agents/docs/protocols/codex-mac-native-worker-lifecycle.md`.
+  A delayed notice is a latency race, not permission to poll and not permission to make the owner
   manually inspect worker panels. If the next supervisor
   action is blocked on a known open worker result, use one bounded native
   reconciliation step (`wait_agent` or the current runtime's equivalent) on
@@ -929,8 +932,9 @@ Rules:
   result-directory watching.
 - **Codex Mac app/workspace wake automation:** do not create or require a
   heartbeat automation solely to learn that a native Codex CLI worker finished;
-  native worker completion arrives in the parent thread as
-  `<subagent_notification>`. Codex Mac app and separate project-workspace
+  native completion notices are first-class when they arrive, but heartbeat
+  recovery is governed by the Codex Mac native worker lifecycle protocol. Codex
+  Mac app and separate project-workspace
   wakeups are different: when a handoff must wake or re-enter another project
   workspace/thread, use a supported one-shot or self-retiring automation for
   that workspace. The automation may deliver the wake prompt and may perform
