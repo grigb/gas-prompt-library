@@ -1516,7 +1516,7 @@ architecture in `~/.agents/AGENTS.md`):
 ```bash
 # Classify the work order before dispatching
 TIER=$(~/.agents/tools/usage-management/benchmarks/scripts/classify-tier.sh "$WO_FILE" 2>/dev/null || echo "2")
-MODEL_HINT=$(~/.agents/tools/usage-management/scripts/select-model.sh "$TIER" 2>/dev/null | awk '{print $1}' || echo "claude-opus-4-6")
+MODEL_HINT=$(~/.agents/tools/usage-management/scripts/select-model.sh "$TIER" 2>/dev/null | awk '{print $1}' || echo "claude-opus-4-6[1m]")
 EFFORT_HINT=$(~/.agents/tools/usage-management/scripts/select-model.sh "$TIER" 2>/dev/null | awk '{print $2}' || echo "high")
 ```
 
@@ -1548,7 +1548,7 @@ Tier values: 1 (Simple — single file, mechanical, <5 criteria), 2 (Standard �
 2-3 files, judgment required), 3 (Complex — 4+ files, open-ended, 8+ criteria).
 
 If `classify-tier.sh` is unavailable, default to tier 2. If `select-model.sh`
-is unavailable, default to `claude-opus-4-6 high`. These scripts are optional
+is unavailable, default to `claude-opus-4-6[1m] high`. These scripts are optional
 accelerators — never block dispatch because they are missing.
 
 Reference: `~/.agents/docs/MODEL-SELECTION-POLICY.md`
