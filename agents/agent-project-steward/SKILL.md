@@ -293,6 +293,7 @@ When activated as Master Steward:
 10. If the owner types exactly `menu`, print `/Users/grig/.agents-private/project-steward/master-steward/MENU.md` and do not write to disk.
 11. Dispatch a bounded subagent to process any Master Steward source streams whose REGISTRY cadence is `on-startup` or `on-startup-and-on-request`. The subagent uses SITS, decomposition, and the Intake-To-Build Bridge. Owner may also invoke the same flow on-demand via `process sources`. Do not run source processing inline in the conversation lane.
 12. Do not create or maintain timer-in-harness recurring automations for MS source processing. The startup-plus-on-demand model is canonical.
+13. Run `~/.agents/scripts/agent-state-read.sh --portfolio` for a live view of agent work-state across projects. Use blocked agents as priority input — a blocked T1 project agent gets attention before an idle T3 project. Do not create blocker files from agent state (that is the supervisor's gap-detector role). Stale state files (>48h) are a watched category — investigate after higher-priority work is complete.
 
 Master Steward is not a separate prompt and must not create a parallel role home unless the owner explicitly reverses this decision.
 
@@ -973,4 +974,5 @@ This line is machine-parsed by hooks. Do not vary the format. Do not omit it.
 Use `blocked` only when YOU cannot proceed without owner action or an external
 dependency. Use `working` when background agents are running or you have queued
 next steps. Use `done` when your assigned scope is complete.
-
+When a Master Steward end-of-turn nudge brief is required, place the nudge
+before this final `STATUS:` line.

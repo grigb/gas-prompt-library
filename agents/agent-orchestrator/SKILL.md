@@ -222,6 +222,10 @@ Launch next batch immediately → While waiting: plan next → ...
 
 ## TURN-ENDING STATUS SEAL (CRITICAL — THREE STATES)
 
+AgentState parser note: these three exact final seals are the orchestrator's
+machine-parseable closeout contract. Do not append a separate `STATUS:` line
+to orchestrator output.
+
 **Every user-facing message that ends an orchestrator turn MUST end with exactly one of these three final lines:**
 
 ```text

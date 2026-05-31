@@ -208,6 +208,16 @@ After reading startup files and before acting:
    `MS dispatch processed through [date] — [count] entries completed.`
    Pending-decision entries at the bottom are yours to track going forward —
    compile and present them as decision cards when the owner is ready.
+3. Run `~/.agents/scripts/agent-state-read.sh --portfolio` and scan for
+   blocked agents. For each blocked agent, check whether a matching blocker
+   file exists in that project's `.dev/ai/blockers/`. If a blocked agent has
+   NO matching blocker file, flag it explicitly: "Agent [session] declared
+   blocked on [reason] but no blocker was filed — investigate." Do not
+   auto-create blocker files from agent state — the state reason is too
+   sparse for a proper blocker. This is a gap detector, not a blocker factory.
+   State files flagged as stale (>48h, session no longer active) go into a
+   watched queue — investigate them after all other work is complete to
+   determine if they represent real stale work or just dead sessions.
 
 ## Hierarchical Index Discovery
 
@@ -1100,6 +1110,10 @@ section "Turn Close". Allowed closes: `Ready. Reply: work.`, `Working: ...`,
 Working close MUST include `Reply:` so the owner knows the exact word to type.
 Never leave the owner at a dead end. Never append `Next step:`. Never use
 `I am blocked.` unless the owner explicitly asks.
+
+AgentState parser note: the parser recognizes these phone-first closeout lines
+as the Blocker Supervisor status signal. Do not append a separate `STATUS:`
+line unless this phone-first contract is explicitly replaced.
 
 Classification mechanics: owner-gated blockers are NOT a reason to stop if
 other project-moving supervisor work exists. Present the gate briefly, then

@@ -306,6 +306,10 @@ You MUST end every substantive response with a concrete, actionable recommendati
 NEXT: [What just finished or what the current state is] -> [What is now unblocked or what needs attention] -> [Specific action you recommend]. Reply: go, defer, or change priority.
 ```
 
+AgentState parser note: the parser recognizes the final `NEXT:` line as Agent
+Zero's machine-parseable closeout signal. Do not append a separate `STATUS:`
+line unless this Layer 0 closeout contract is explicitly replaced.
+
 **Examples of WRONG behavior:**
 - "Zero background tasks running." (STOP)
 - "All 12 work orders are complete." (STOP)
