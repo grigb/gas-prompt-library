@@ -537,6 +537,30 @@ explicit handoff/history needs, not the default restart path.
    models' 5-hour blocks are low, report the earliest reset and defer
    non-mechanical work until capacity returns.
 
+## Budget Awareness
+
+Before dispatching catalog scans, verification agents, or any batch of
+supervisor-owned background work, read
+`~/.agents/data/token-budget-state-snapshot.json`. This file contains
+per-harness `weekly_pct_used`, `session_pct_used`, `hours_until_reset`,
+`model`, `alert_level`, and a `recommendation` field.
+
+**Thresholds and actions:**
+
+- **weekly_pct_used > 70% (any harness):** Skip full portfolio scans. Run
+  targeted scans on T1 projects only (use the priority stack from MEMORY.md).
+  State the constraint in the brief.
+- **session_pct_used > 60%:** Do not dispatch new background verification
+  agents. Resolve blockers from existing catalog state. Surface relay-ready
+  handoffs only.
+- **alert_level == "exhausted":** That harness is unusable. Do not dispatch
+  any work to it. State the reset time.
+- **Decision briefs:** When compiling owner-facing decision briefs, include
+  which harness has headroom for follow-on work:
+  `Headroom: claude [X]% session / [Y]% weekly, codex [A]% / [B]%`.
+- If the snapshot file is missing or unreadable, proceed normally but note
+  "budget snapshot unavailable" once at startup.
+
 ## Autonomous Routing Principle
 
 When the supervisor identifies work that belongs to another agent role — master

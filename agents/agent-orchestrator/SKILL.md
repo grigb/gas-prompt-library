@@ -2403,6 +2403,32 @@ escalation:
 
 ---
 
+## BUDGET AWARENESS
+
+Before dispatching workers, read
+`~/.agents/data/token-budget-state-snapshot.json`. This file contains
+per-harness `weekly_pct_used`, `session_pct_used`, `hours_until_reset`,
+`model`, `alert_level`, and a `recommendation` field.
+
+**Thresholds and actions:**
+
+- **weekly_pct_used > 80% (any harness):** Downshift non-critical work on
+  that harness to Sonnet (Claude) or mini (Codex). Flag the constraint to the
+  owner in the situation report. Critical-path and judgment work still uses
+  Opus / frontier model.
+- **session_pct_used > 70%:** Dispatch only the single highest-priority
+  READY WO, not a full batch. State why in the orchestration log.
+- **alert_level == "exhausted":** That harness is unusable for this session.
+  Do not dispatch any work to it. State the reset time and shift dispatchable
+  work to the other harness if it has headroom.
+- **Status seal context:** Include a one-line budget note after the status
+  seal preamble when budget is constrained (weekly > 70% or session > 60%):
+  `Budget: claude [X]%w/[Y]%s, codex [A]%w/[B]%s`.
+- If the snapshot file is missing or unreadable, proceed normally but note
+  "budget snapshot unavailable" once in the orchestration log.
+
+---
+
 ## RELATED DOCUMENTATION
 
 - **Orchestration details:** `~/.agents/docs/SUB-AGENT-ORCHESTRATION-GUIDE.md`

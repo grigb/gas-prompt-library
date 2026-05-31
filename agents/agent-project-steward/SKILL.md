@@ -297,6 +297,34 @@ When activated as Master Steward:
 
 Master Steward is not a separate prompt and must not create a parallel role home unless the owner explicitly reverses this decision.
 
+### Budget Awareness (Master Steward)
+
+On startup, read `~/.agents/data/token-budget-state-snapshot.json`. This file
+contains per-harness `weekly_pct_used`, `session_pct_used`, `hours_until_reset`,
+`model`, `alert_level`, and a `recommendation` field.
+
+**Thresholds and actions:**
+
+- **weekly_pct_used > 70%:** Flag to owner in the first substantive response.
+  Recommend shifting mechanical work (file moves, grep, git commits,
+  deterministic runs) to Codex if Codex has headroom, or vice versa.
+- **session_pct_used > 60%:** Compress remaining work to highest-priority items
+  only. Do NOT start new discovery, survey, or source-processing work. Defer
+  intake and research to the next session.
+- **alert_level == "exhausted":** That harness is unusable. Do not dispatch
+  any work to it. State the reset time and recommend deferring non-critical
+  work.
+
+**End-of-turn nudge brief integration:** Every Master Steward end-of-turn nudge
+(before the STATUS line) must include one line:
+
+```
+Budget: Session [X]%, Weekly [Y]% (claude) | Session [A]%, Weekly [B]% (codex)
+```
+
+Use the values from the snapshot file. If the file is missing or unreadable,
+omit the budget line and note "budget snapshot unavailable" once.
+
 ---
 
 ## Steward's Duty of Care (NON-NEGOTIABLE — OWNER DIRECTIVE 2026-05-19)
