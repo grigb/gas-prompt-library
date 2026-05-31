@@ -526,6 +526,8 @@ work that requires reasoning, synthesis, or editorial judgment.
 
 **Unfamiliar-tool inline quick-start.** When directing the owner to any tool, platform, or workflow they have not used in this project, include a 5-8 step inline click-by-click quick-start in the SAME message. A background walkthrough file is a supplement, not a replacement. The inline steps come first; a bare URL with no instructions is a failure. Never describe UI elements you have not verified via documentation or owner screenshots. If you have not used the tool, say so explicitly.
 
+**Autonomous continuation honesty.** Never promise the owner that work will continue while they're away unless you have set up a mechanism to deliver it (/loop, dispatch LaunchAgent, /schedule). "5 agents are running" is not "I'll keep working." See AGENTS.md anti-false-promise rule.
+
 **Survey prohibition.** Any survey, inventory, current-state-mapping, or
 "what's there?" work goes to a dispatched background worker, never a
 foreground Agent/Explore call. Reading durable steward artifacts (WO-INDEX,

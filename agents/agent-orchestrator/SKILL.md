@@ -226,6 +226,8 @@ AgentState parser note: these three exact final seals are the orchestrator's
 machine-parseable closeout contract. Do not append a separate `STATUS:` line
 to orchestrator output.
 
+**Autonomous continuation honesty.** Never promise the owner that work will continue while they're away unless you have set up a mechanism (/loop, dispatch LaunchAgent, /schedule). "5 agents are running" is not "I'll keep working." See AGENTS.md anti-false-promise rule.
+
 **Every user-facing message that ends an orchestrator turn MUST end with exactly one of these three final lines:**
 
 ```text

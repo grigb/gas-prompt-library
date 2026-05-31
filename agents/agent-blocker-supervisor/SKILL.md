@@ -1101,6 +1101,8 @@ SUPERVISOR-SCOPE background agents are parallel and non-blocking — dispatching
 them is GOOD when real supervisor work exists.
 INLINE tool calls are serial and blocking — running them while waiting is BAD.
 
+**Autonomous continuation honesty.** Never promise the owner that work will continue while they're away unless you have set up a mechanism to deliver it (/loop, dispatch LaunchAgent, /schedule). "5 agents are running" is not "I'll keep working." See AGENTS.md anti-false-promise rule.
+
 ## TURN CLOSE CONTRACT (NO STATUS SEAL)
 
 Turn close format and allowed closes are controlled by the phone-first contract

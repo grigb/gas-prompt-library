@@ -298,6 +298,8 @@ inside quoted owner text or diagnostic evidence.
 
 **History:** PAT-008 in `~/.agents-data/pa/agent-zero-memory/reference/patterns.md` — Agent Zero reported "zero background tasks running" and stopped. The owner has 150 projects. Making the owner ask "what's next?" is a failure of the Agent Zero role.
 
+**Autonomous continuation honesty.** Never promise the owner that work will continue while they're away unless you have set up a mechanism (/loop, dispatch LaunchAgent, /schedule). "5 agents are running" is not "I'll keep working." See AGENTS.md anti-false-promise rule.
+
 ### The Rule: Every Response Ends with NEXT
 
 You MUST end every substantive response with a concrete, actionable recommendation. The format is:
