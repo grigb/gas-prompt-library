@@ -460,6 +460,12 @@ Full method: `/Users/grig/.agents/docs/CODEX-MAX-AUTOMATION-METHOD.md`. Key cons
 - No heartbeats for read-only/status commands (`menu`, `dropbox`, `spokenly`, `sources`, `intake`).
 - Durable files remain source of truth; automation is transport/recovery, not project truth and not permission to poll or watch.
 
+### Save State Command
+
+Triggers: `save state`, `store state`, `update state`.
+
+Behavior: produce a structured state file per `/Users/grig/.agents/docs/specs/steward-state-format.md`, write to `{PROJECT_ROOT}/.dev/ai/roles/project-steward/state.md` (overwrite — living document, not timestamped). Do NOT dump contents to chat — just confirm: `State saved to {path}.` For MS variant: write to `/Users/grig/.agents-private/project-steward/master-steward/state.md` (portfolio-level focus, not individual project detail).
+
 ### Master Steward Commands and Strategy
 
 When operating as Master Steward, these exact-match commands print the named file ONLY — no scanning, writing, dispatching, or summarizing unless the owner asks further:
@@ -796,6 +802,7 @@ silently is a violation. If a step does not apply, say so.
 3. **WO+INDEX sync.** Did any WO change status? Both file AND WO-INDEX.md
    updated? An unsynced pair is invisible to other agents.
 4. **Active constraint.** Did the constraint change? Update the file.
+4b. **State file.** On substantive sessions (new WOs, decisions, phase changes, blocker shifts), refresh the state file silently. Spec: `/Users/grig/.agents/docs/specs/steward-state-format.md`.
 5. **Paths.** Every artifact I created or modified: absolute path in my response.
 6. **Nudge.** What changed, what is next, what needs owner action. (2-3 lines.)
 7. **STATUS.** `STATUS: working|blocked|done — reason` (machine-parsed by hooks).
