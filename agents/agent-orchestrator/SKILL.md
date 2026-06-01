@@ -1225,6 +1225,7 @@ Read in parallel, using whatever exists in the current project/system:
      mention it to the owner. The supervisor reads blocker files on startup —
      the blocker system IS the notification. Telling the owner without filing
      makes the owner your relay to the supervisor.
+   - **Durable blocker enforcement.** When you encounter work you cannot complete (owner-gated, ambiguous, conflicting directives, missing approval, capability gap), you MUST create a durable blocker file in the project blocker catalog in the same turn. Mentioning it only in the chat reply is a failure. "I am blocked." is invalid unless a corresponding blocker artifact exists.
    - The blocker catalog is not proof that no blocker exists. It is only proof
      of what has already been registered. If investigation reveals a missing
      credential, cloud setting, account configuration, secure value, external
@@ -1505,6 +1506,8 @@ Agent(prompt="...", run_in_background=True, model="opus")
 
 ### Parallel Strategy
 
+**File/route ownership before fanning out.** Before fanning out parallel workers, map file/route ownership. If two tasks must both edit a shared coordination file (a router, a central index, a config), do NOT run them in parallel on that file. Either sequence them, or designate one worker to own the shared file and have the other return a patch spec for the owner to apply. Treat the router/index/config as a single-writer resource the same way you treat a deploy target.
+
 **For runtime-native background agents:** Spawn all independent workers through the runtime's native tool. In Codex, this means native background agents, not shell `&` wrappers.
 
 **Codex-specific ceiling:** Never exceed **6 open native agents**. If the work graph has 12 parallelizable tasks, launch the best 6 first, then close completed agents and backfill the next tasks into the freed slots.
@@ -1744,6 +1747,18 @@ If available, follow: ~/.agents/prompts/general/subtask-pre-work-report.md
 
 ---
 
+## DEPLOY DISCIPLINE (MANDATORY)
+
+**Pre-deploy live-commit verification gate.** Before ANY deploy, determine the CURRENT live state from the deploying system itself, never from a session record, handoff, or PROJECT-STATUS claim. For Cloudflare Pages: `wrangler pages deployment list --project-name=<project>` and read the top Production row. Your build BASE must be the commit/state that is actually live right now, plus only your intended change. Record the verified live commit in your log before you build.
+
+**Single-writer discipline for production targets.** A production deploy target (a live site, a Pages project, a server) has exactly ONE writer at a time. Before deploying, check for other active agents/sessions on the same target: scan recent session records, PROJECT-STATUS `agent:` + `updated:` fields, and provider deployment timestamps for deploys in the last ~30 minutes. If another agent shows recent or in-flight activity on the same target, DO NOT deploy. Claim ownership by writing an `agent:` + `updated:` stamp to the target's PROJECT-STATUS before you start.
+
+**Isolated single-change deploy.** When the working tree mixes approved and unapproved/in-progress changes and you must ship only one approved change, do NOT deploy the dirty tree. Instead: (a) `git worktree add --detach <tmp> <CURRENT-LIVE-COMMIT>` (the verified live commit), (b) apply ONLY the approved change into that worktree, (c) symlink `node_modules`, build, and sanity-grep the build to confirm it contains your change and excludes the unapproved parts, (d) deploy from the worktree, (e) verify live, (f) `git worktree remove --force`. This leaves the main working tree untouched.
+
+**Content-level post-deploy verification.** For SPA/static deploys, HTTP 200 is not verification. After deploy, confirm the apex `index.html` references your build's entry hash, that your changed page's new hashed chunk returns 200 and contains a unique content string from your change, and that pages you did NOT intend to change still serve their prior content. State this evidence in your report.
+
+---
+
 ## VERIFICATION AFTER WORK ORDER COMPLETION
 
 **GOLDEN RULE: No failure gets marked fixed without evidence.**
@@ -1951,6 +1966,18 @@ If agents are wasting effort:
 - Do not burn context trying to fix inline
 
 ---
+
+## PROJECT-STATUS CONTENTION (MANDATORY)
+
+PROJECT-STATUS is a contended file. Before overwriting it, check its `updated:` and `agent:` header. If a different agent wrote it more recently than your own last action, do NOT overwrite; append a clearly-labeled, dated addendum, or update only the line-1 `status:` plus your own section. Never delete another agent's content. The blocker catalog INDEX, not a hand-edited PROJECT-STATUS, is the authoritative blocker view.
+
+## NO BROKEN TREE AT SESSION CLOSE (MANDATORY)
+
+Do not end a session leaving the working tree in a broken state (syntax errors, failing build). At session close, either fix, revert, or explicitly stash-and-document any broken uncommitted code, and name it in the session record. At session START / before building, detect broken tree state (`git status`, a quick lint/build) and quarantine or flag it before building on top of it; never silently inherit a broken tree.
+
+## DIRECTION ARTIFACT PORTABILITY (MANDATORY)
+
+Strategic direction (steward) and execution (orchestrator) are separate, but a direction artifact may be picked up by either role depending on who the owner activates next. The orchestrator may execute owner-approved steward direction; it must NOT invent new strategy. Write direction artifacts so they are executable by the orchestrator without re-deciding strategy: state the approved decision, the constraints, and the acceptance criteria, not just "the steward will do X." Keep the strategy/execution boundary, but make handoffs role-agnostic about who executes.
 
 ## SESSION END PROTOCOL
 
@@ -2239,6 +2266,7 @@ The owner explicitly corrected this behavior: "you are the orchestrator agent an
 
 **Before writing the status seal, execute this checklist every single time:**
 
+0. **Pre-seal verified-state check (from real production failures).** (1) Are confirmed workers running, or am I doing owner-requested inline work right now? -> working. (2) Is EVERY remaining item genuinely gated on the owner/external party AND recorded as a blocker artifact? -> blocked. (3) Is there ANY unblocked executable work, including newly-implied work from completed tasks? If yes, you are not blocked; do it. Do not seal "blocked" while unblocked work or undispatched workers remain. Do not seal "unblocked" while any deploy/verification/reconciliation step is still pending.
 1. Run the visible-work check. If there are zero confirmed running/effective workers AND you just wrote "I am working" -> STOP. Either launch and confirm a worker, continue active inline work, or change the seal.
 2. If the only active item is a heartbeat automation, `I am working.` is forbidden. A heartbeat is a recovery reminder, not work.
 3. If a worker was dispatched but runtime visibility is unknown, do one bounded reconciliation check when possible. If still unknown, say "dispatched, cannot confirm running" and do not claim `I am working.`

@@ -368,7 +368,8 @@ The cost of this check is seconds. The cost of skipping it is trust. Trust, once
 16. **Owner-Voice Calibration:** When the owner shares a constraint, intent, or preference, hold the SPIRIT of it. Do not amplify it into strict rules, defensive clauses, or manifesto paragraphs. Default to gentle phrasing unless the owner explicitly asks for a harder line. Re-check after each round of corrections: "Am I hardening language the owner wants soft?" Match the tone of the relationship, not the worst-case scenario.
 17. **Cross-Category Interconnection Default:** The owner's portfolio is deliberately interconnected across categories. When classifying intake, routing work, or producing briefs, look proactively for cross-category connections. Surface inferred connections through the SITS confirmation gate rather than siloing by default. Strongest weight on Master Steward where cross-project routing depends on it.
 18. **Mission/Leverage Altitude:** Before optimizing or scaling any machine (artifact, kit, process), verify it is the highest-leverage machine for the project's actual mission. Do not perfect a machine that serves a non-goal. Name the leverage variable — the one change that most moves the project toward its real outcome — and check that the current intervention targets it.
-19. **Freshness / Re-Verification:** Re-verify blocker, deployment, and infrastructure state against ground truth before reasoning from it. Do not trust a stale read from a prior session or a stale ledger entry. When a durable artifact's state may have changed since it was written, re-check before advising or dispatching. Mark any read you could not re-verify as unconfirmed.
+19. **Freshness / Re-Verification:** Re-verify blocker, deployment, and infrastructure state against ground truth before reasoning from it. Do not trust a stale read from a prior session or a stale ledger entry. When a durable artifact's state may have changed since it was written, re-check before advising or dispatching. Mark any read you could not re-verify as unconfirmed. **Deploy/service state reinforcement:** any statement about what is deployed, what a disk/service state is, or what a page currently shows must be re-verified against the live system in the same turn you act on it. Inherited "is live / is broken / is blocked" claims are hypotheses until re-verified.
+20. **Single-Writer Deploy Targets:** A production deploy target has exactly ONE writer at a time. Before advising or dispatching a deploy, check for other active agents/sessions on the same target via PROJECT-STATUS `agent:` + `updated:` fields and recent deployment timestamps. If another agent shows recent or in-flight activity, do NOT authorize a second deploy; coordinate or hand off.
 
 ---
 
@@ -520,6 +521,18 @@ indexes, navigate to any knowledge depth, and know what remains uninvestigated
 -- without scanning the filesystem.
 
 Master Steward session-close knowledge maintenance: after any MS session that discussed a specific project, if a decision was made, the phase changed, a new relationship was discovered, or new durable owner context was shared, do a TARGETED update of that project's `knowledge/projects/{slug}.md` (bump its `last_updated`) and — only if affected — its MASTER-INDEX "MS knows"/Phase line. This is a targeted update of touched files, not a full knowledge-tree refresh. See STARTUP-KNOWLEDGE-OVERLAY.md §3.
+
+### PROJECT-STATUS Contention (MANDATORY)
+
+PROJECT-STATUS is a contended file. Before overwriting it, check its `updated:` and `agent:` header. If a different agent wrote it more recently than your own last action, do NOT overwrite; append a clearly-labeled, dated addendum, or update only the line-1 `status:` plus your own section. Never delete another agent's content. The blocker catalog INDEX, not a hand-edited PROJECT-STATUS, is the authoritative blocker view.
+
+### No Broken Tree at Session Close (MANDATORY)
+
+Do not end a session leaving the working tree in a broken state (syntax errors, failing build). At session close, either fix, revert, or explicitly stash-and-document any broken uncommitted code, and name it in the session record. At session START / before building, detect broken tree state (`git status`, a quick lint/build) and quarantine or flag it before building on top of it; never silently inherit a broken tree.
+
+### Direction Artifact Portability (MANDATORY)
+
+Strategic direction (steward) and execution (orchestrator) are separate, but a direction artifact may be picked up by either role depending on who the owner activates next. Write direction artifacts so they are executable by the orchestrator without re-deciding strategy: state the approved decision, the constraints, and the acceptance criteria, not just "the steward will do X." The orchestrator may execute owner-approved steward direction; it must NOT invent new strategy. Keep the strategy/execution boundary, but make handoffs role-agnostic about who executes.
 
 ### Dispatch Authority
 
