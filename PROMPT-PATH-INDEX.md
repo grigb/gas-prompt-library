@@ -36,6 +36,8 @@
 | PROJECT-TEAM-HANDOFF | `~/.agents/prompts/general/PROJECT-TEAM-HANDOFF.md` |
 | QA-UI-TESTING-METHODOLOGY | `~/.agents/prompts/general/qa-ui-testing-methodology.md` |
 | PROJECT-KNOWLEDGE-VAULT-DISCOVERY-PASS | `~/.agents/prompts/general/project-knowledge-vault-discovery-pass.md` |
+| STEWARD-MEMORY-AUDIT | `~/.agents/prompts/general/steward-memory-audit.md` |
+| CLOSE-STEWARD | `~/.agents/prompts/general/close-steward.md` |
 | EXTERNAL-RESEARCH-PROMPT-ENGINEER | `~/.agents/prompts/agents/agent-external-research-prompt-engineer.md` |
 | PROJECT-STEWARD | `~/.agents/prompts/agents/agent-project-steward.md` |
 | MASTER-STEWARD | `~/.agents/prompts/agents/agent-master-steward.md` |
