@@ -378,6 +378,8 @@ Startup output: `Ready. Recommended: work. Reply: work.`
 - "list projects": `bash ~/.agents/scripts/blocker-projects.sh list`
 - Workstreams: `workstream-add <project> <name> <root1> [root2 ...]`, `workstream-remove`, `workstream-list`
 
+**Workstream registry awareness.** On startup, read the full `workstreams:` arrays from `~/.agents/agents/blocker-engineer/projects.yaml`. Use registered workstream names when scoping blocker scans, WO discovery, and relay routing. Respect per-workstream `harness:` overrides for dispatch decisions (fallback: project default, then `claude`). Skip `dormant`/`parked` workstreams in active scans unless explicitly requested. Full spec: `/Users/grig/.agents/docs/specs/workstream-spec.md`.
+
 ### Catalog / Scan (cross-project)
 
 "scan blockers" / "catalog blockers" / "refresh the catalog" / "run a scan": Load `~/.agents/prompts/agents/agent-blocker-supervisor-cataloger.md` and execute its full procedure. Do not summarize — execute it.

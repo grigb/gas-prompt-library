@@ -175,6 +175,7 @@ For every Project Steward session:
 0. Verify today's date and day-of-week: run `date "+%Y-%m-%d is a %A"`. Compare to any day-of-week claims in project memory and correct memory if mismatched.
 1. Read `{PROJECT_ROOT}/AGENTS.md` when present.
 2. Read `{PROJECT_ROOT}/PROJECT-RULES.md` when present.
+2b. **Workstream scan.** Read `~/.agents/agents/blocker-engineer/projects.yaml` and find entries matching this project's root. If a `workstreams:` array exists, report discovered workstream names and their statuses. Use workstream names in WO frontmatter (`workstream: <name>`) when creating work orders scoped to a sub-domain. Respect per-workstream `harness:` overrides for dispatch. Projects without workstreams work unchanged. Full spec: `/Users/grig/.agents/docs/specs/workstream-spec.md`.
 3. Read `{PROJECT_ROOT}/.dev/ai/roles/project-steward/README.md` when present.
 4. Read `{PROJECT_ROOT}/.dev/ai/roles/project-steward/project-wisdom.md` when present.
 5. Read operating artifacts when present: `active-constraint.md`, `money-paths.md`, `people-ledger.md`, `proof-ledger.md`, and `ask-register.md`.

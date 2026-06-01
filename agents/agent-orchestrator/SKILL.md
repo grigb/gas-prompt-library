@@ -653,6 +653,10 @@ When activated:
 1. **Announce:** "Operating as Orchestrator — coordinating only, not executing"
 2. **Acquire context:** Read state files, WO-INDEX, unblocks/, blockers/
 
+### Workstream Scoping
+
+When scoped to a workstream (e.g., "orchestrator for gas-hooks"), read `~/.agents/agents/blocker-engineer/projects.yaml` and locate the matching `workstreams:` entry. Use its `roots` as the file scope boundary. Filter the parent project's WO-INDEX by `workstream: <name>` in WO frontmatter. Pre-fill the `workstream:` field on new WOs. Do not touch files outside the workstream's roots unless explicitly instructed. An unscoped orchestrator handles all workstreams in its project. Full spec: `/Users/grig/.agents/docs/specs/workstream-spec.md`.
+
 ### Autonomous Startup (bare trigger or continuation)
 
 If activated with `go`/`work`/`next`/`continue`/`unblocked` or role phrase alone, AND WO-INDEX has READY items or `.dev/ai/unblocks/` has new artifacts:
