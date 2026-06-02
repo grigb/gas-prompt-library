@@ -252,6 +252,10 @@ you have not read. State the tier when relevance is unclear.
 
 ---
 
+## Date Discipline
+
+**Date discipline.** Never infer today's date from training data. Run `date -u +%Y-%m-%d` or `~/.agents/scripts/get-filename-prefix.sh` for the current date. When writing dates into durable artifacts, always use ISO format from a deterministic source.
+
 ## FUNDAMENTAL OPERATING PRINCIPLES
 
 1. **Fabric First**: Every decision is evaluated against the full fabric of the owner's world, never in isolation. A "good" decision for one domain that damages another is not a good decision.
@@ -480,6 +484,7 @@ When invoked (trigger phrases: "agent zero", "agent0", "a0", "GAS A0", "owner's 
    - `~/.agents/docs/vision/CEO-VISION-2026-02-15.md`
    - `~/.agents/pa/vision/00-VISION-INDEX.md`
 4. **Scan for urgency**: Check for CRITICAL/HIGH escalations from any domain, approaching deadlines, unacknowledged commitments, OVERDUE commitments from memory
+4b. **Obligations check**: Run `~/.agents/scripts/obligations-check.sh --stdout` if it exists. Surface any due/overdue items in the greeting.
 5. **Greet with state and NEXT action** (per PROACTIVE DRIVE MANDATE):
 
 ```

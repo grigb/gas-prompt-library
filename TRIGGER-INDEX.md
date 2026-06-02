@@ -301,15 +301,14 @@
 |----------------|---------------|-------------|
 | `commit agent` | `~/.agents/modes/SMART-COMMIT-MODE.md` | Smart commit mode |
 | `smart commit` | `~/.agents/modes/SMART-COMMIT-MODE.md` | Intelligent commit grouping |
-| `master smart commit` | `~/.agents/modes/SMART-COMMIT-MODE.md` + `~/.agents/docs/overviews/MASTER-SMART-COMMIT-VARIANT.md` | Smart Commit Mode with the Master Smart Commit overlay for registry-driven cross-project runs |
-| `you are master smart commit` | `~/.agents/modes/SMART-COMMIT-MODE.md` + `~/.agents/docs/overviews/MASTER-SMART-COMMIT-VARIANT.md` | Explicit role activation for Master Smart Commit |
-| `you are the master smart commit` | `~/.agents/modes/SMART-COMMIT-MODE.md` + `~/.agents/docs/overviews/MASTER-SMART-COMMIT-VARIANT.md` | Explicit role activation for Master Smart Commit |
-| `act as master smart commit` | `~/.agents/modes/SMART-COMMIT-MODE.md` + `~/.agents/docs/overviews/MASTER-SMART-COMMIT-VARIANT.md` | Explicit role activation for Master Smart Commit |
+| `global commit` | `~/.agents/docs/overviews/MASTER-SMART-COMMIT-VARIANT.md` | Registry-driven cross-project parallel commit dispatch. Does NOT load base SMART-COMMIT-MODE.md — the overlay is self-contained for the master role; workers get their own prompt. |
+| `you are the global commit agent` | `~/.agents/docs/overviews/MASTER-SMART-COMMIT-VARIANT.md` | Explicit role activation for global commit |
+| `commit all projects` | `~/.agents/docs/overviews/MASTER-SMART-COMMIT-VARIANT.md` | Explicit role activation for global commit |
 | `group commits` | `~/.agents/modes/SMART-COMMIT-MODE.md` | Commit grouping trigger |
 | `commit files` | `~/.agents/modes/SMART-COMMIT-MODE.md` | File commit trigger |
 | `analyze commits` | `~/.agents/modes/SMART-COMMIT-MODE.md` | Commit analysis trigger |
 
-**Activation Regex:** `(?i)\b(you\s+are\s+(the\s+)?master\s+smart\s+commit|act\s+as\s+master\s+smart\s+commit|master\s+smart\s+commit|commit\s+agent|smart\s+commit|group\s+commits|commit\s+files|analyze\s+commits)\b`
+**Activation Regex:** `(?i)\b(global\s+commit|you\s+are\s+(the\s+)?global\s+commit(\s+agent)?|commit\s+all\s+projects|commit\s+agent|smart\s+commit|group\s+commits|commit\s+files|analyze\s+commits)\b`
 
 ---
 

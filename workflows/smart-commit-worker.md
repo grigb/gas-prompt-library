@@ -211,9 +211,19 @@ Rules:
 - If remote rejects (non-fast-forward), record the error and unpushed commit hashes in the result file. Do not retry.
 - If no upstream is configured, set it with `-u origin <branch>`.
 
-### Step 8: Write Result
+### Step 8: Write Result (two locations)
 
-Write a structured result file to RESULT_PATH:
+Write the result to BOTH locations:
+
+1. **Global coordination path:** Write to RESULT_PATH (for the master coordinator).
+2. **Project-local path:** Write the same report to `PROJECT_PATH/.dev/ai/reports/smart-commit-TIMESTAMP-report.md` (create `.dev/ai/reports/` if needed). Then commit it as the final commit:
+   ```bash
+   git add .dev/ai/reports/smart-commit-*-report.md
+   git commit -m "docs: add smart commit session report"
+   ```
+   This makes the commit history self-documenting. Other agents and developers can audit the run locally without needing harness-internal logs.
+
+Result format (same for both locations):
 
 ```markdown
 # Smart Commit Worker Result
@@ -260,3 +270,4 @@ Write a structured result file to RESULT_PATH:
 - Do NOT use `git add .` or `git add -A`
 - Do NOT read backlog, inbox, or task files
 - Do NOT look for future work
+- Do NOT present "action items" or "recommendations" to the owner — put repo observations (large files, missing remotes, stray files) in the Warnings section of the result, not as owner-directed tasks
