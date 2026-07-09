@@ -353,6 +353,31 @@ Use `/Users/grig/.agents/prompts/creation/CREATE-SESSION-RECORD.md` for session 
 
 PROJECT-STATUS is contended. Before writing it, check `updated:` and `agent:` and reread `/Users/grig/.agents/docs/protocols/woq-role-lifecycle.md` if resuming from older context. For `/Users/grig/.agents/.dev/ai/PROJECT-STATUS.md`, do not hand-edit; use `/Users/grig/.agents/.venv/bin/python3 -m tools.woq.cli shared-status write` with a current target hash and addendum mode when replacement would be stale. Preserve any WOQ managed block byte-for-byte from `<!-- WOQ:BEGIN managed-block id="project-status" ... -->` through `<!-- WOQ:END managed-block id="project-status" -->`.
 
+Project Steward concurrent closeout is current-lane retirement only. Closing a
+Project Steward session must record this lane's project root, role, mode,
+harness, thread/session id or handle when available, thread title/name when
+available, `agent_task_id` when available, and final session-record path; use
+`unknown-not-provided` for unavailable identity fields. The ordinary closeout
+claim is partial-lane wording such as `this Project Steward session lane is
+closed; other project lanes may remain active`. Do not claim `project
+complete`, `stewardship complete`, or `nothing else is active` unless fresh
+evidence proves no sibling Project Steward, Orchestrator, worker, or Supervisor
+lane remains active or the claim is explicitly scoped to this session.
+
+Project-local steward surfaces are shared state. `.dev/ai/sessions/` is
+one-record-per-session: write this session record once and never rewrite,
+delete, clear, or supersede sibling session records. Files under
+`{PROJECT_ROOT}/.dev/ai/roles/project-steward/` require one-file-per-memory or
+one-file-per-session notes, append-only addenda, an owned managed block, or a
+safe writer/lock/base-hash mechanism for replacement writes. Before replacing
+`{PROJECT_ROOT}/.dev/ai/PROJECT-STATUS.md`, reread active Project Steward,
+Orchestrator, worker, and Supervisor ledgers/status files relevant to the
+project and preserve unresolved sibling-lane state. If a sibling Steward or
+Orchestrator exists, report or relay this lane's closeout result without
+overwriting their queue, status, ledger, or ownership surfaces. A fresh
+successor Project Steward may read this session record as context but does not
+inherit execution, dispatch, or status-progression permission from it.
+
 Do not end a session with a broken execution handoff. If tree state affects build/deploy/handoff safety, document that concrete risk in the session record or relay without routine commit nagging. Direction artifacts must be executable by the orchestrator without re-deciding strategy: approved decision, constraints, and acceptance criteria.
 
 ### Phase 7: Review
@@ -743,6 +768,17 @@ When the owner asks you to "consume WhatsApp tail", "run WhatsApp intake", "catc
 Routine final closeout uses `/Users/grig/.agents/prompts/creation/CREATE-SESSION-RECORD.md` as the owner-facing entrypoint; do not tell the owner they must remember a separate steward closeout prompt. When a Project Steward or Master Steward session is closed, retired, handed off, or turned into a final session record, the unified flow runs `/Users/grig/.agents/prompts/general/close-steward.md` as automatic steward preflight. Complete that preflight before writing the final session record.
 
 The preflight preserves owner corrections, decisions, monologues, facts, project wisdom, WO/INDEX sync, active constraints, and tuning failures. For MS, it also preserves knowledge tree, supervisor sync, blocker dispatch surface, and inbox state. The end state is one final session record suitable for same-role takeover, embedding or referencing the steward preflight capture packet with absolute paths and provenance.
+
+For Project Steward closeout, the preflight must also preserve the
+current-lane/sibling-lane boundary for project-local surfaces: this Project
+Steward session can close only itself, `.dev/ai/sessions/` remains
+one-record-per-session, `.dev/ai/roles/project-steward/` shared files require
+append-only/one-file/managed-block/safe-writer behavior, and
+`PROJECT-STATUS.md` replacement requires fresh ledger rereads plus preservation
+of unresolved sibling Steward/Orchestrator/worker/Supervisor state. Closeout
+language should say `this Project Steward session lane is closed; other
+project lanes may remain active` unless current evidence proves broader
+project finality.
 
 During Steward/MS session closeout, apply the universal self-recipient filter
 before direct relay delivery or closeout relay manifest creation: the closing
