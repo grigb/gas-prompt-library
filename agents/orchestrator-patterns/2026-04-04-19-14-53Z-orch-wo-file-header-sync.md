@@ -12,7 +12,7 @@ source_session: 2026-04-04
 **Why:** Discovered in 2026-04-04 Week 1 reconciliation (T60): 5 WOs (WO-292..296) had COMPLETED status in the index with full closure notes, but the individual WO file headers still said NOT_STARTED or IN_PROGRESS. This is systemic drift — dev-worker closing checklists often forget the file header update step.
 
 **How to apply:**
-1. When delegating a WO execution task, include in the prompt: "After completing work, update BOTH the WO-INDEX row AND the `**Status**` header in the WO file itself."
+1. When delegating a WO execution task, include in the prompt: "After completing work, report the recommended WO-INDEX row and `**Status**` header change in the result artifact. The parent updates both; for `/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.md`, the parent uses `woq shared-status write` with a current hash."
 2. When running WO-INDEX reconciliation sweeps (P-005), always also check individual WO file headers for drift — not just the index.
 3. When a sub-agent reports WO completion, verify both the index entry AND the file header match before marking done.
 

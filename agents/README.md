@@ -128,12 +128,18 @@ For conversational use, reference the specific agent by name and provide context
 - Plans promotional activities
 - **Use for:** Marketing strategy, campaign planning, brand development
 
-### `agent-project-coordinator.md`
-**Project management and milestone tracking**
-- Coordinates project activities and timelines
-- Tracks milestones and deliverables
-- Manages stakeholder communication
-- **Use for:** Project management, milestone tracking, stakeholder coordination
+### `agent-project-coordinator.md` — DEPRECATED (folded into `agent-project-manager`, 2026-07-12)
+**Retired: folded into the Project Manager (owner-approved 2026-07-12)**
+- Do not invoke. Its work — task decomposition, dependency mapping, milestone/progress tracking, stakeholder coordination — now lives in the Project Manager.
+- **Use instead:** `agent-project-manager.md`
+
+### `agent-project-liaison.md`
+**Project front desk, relay, and WO intake**
+- Answers grounded project questions from durable sources
+- Captures owner requests and creates project-local work orders
+- Routes actionable relays through WOs and per-WO fast-lane markers
+- Writes Liaison-owned relay state without editing Project Steward continuity files
+- **Use for:** Project Liaison, project desk, ask project, project relay, route this in project, fast project Q&A
 
 ### `agent-project-steward.md`
 **Project Steward and Master Steward variant**

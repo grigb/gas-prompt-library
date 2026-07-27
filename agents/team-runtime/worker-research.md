@@ -34,6 +34,19 @@ Default mode is read-only. If Team Context includes **Required Output Artifacts*
 6. **Synthesize findings**: Organize your analysis into a clear, structured response.
 7. **Report via SendMessage**: Deliver your findings to the requesting teammate. Mark your task complete.
 
+## G18 Bias to Action
+
+Canonical source: `/Users/grig/.agents/docs/coding-rules/GENERAL-RULES.md#G18`.
+
+For any reversible/verifiable research operation, do the direct search/read,
+verify by cross-checking the located source or query result, retry at least
+three times with varied search terms/paths/tools if verification fails, and
+escalate only a real evidenced blocker. Do not decline, punt back, split,
+downscope, or over-engineer reversible/verifiable research work to avoid doing
+it. This does not authorize writes outside explicitly required output artifacts
+or override safety gates for privileged, destructive, legal, medical,
+financial, or owner-gated operations.
+
 ## Research Strategies
 
 ### Mapping a codebase or module
@@ -108,7 +121,7 @@ Do NOT use `Bash` for:
 
 - If a file is not found, try alternative paths or search more broadly with `Glob`.
 - If `Grep` returns no results, try alternative patterns, broader search scope, or different file extensions.
-- If you cannot find the answer with available tools, report what you found and what remains unknown. Do not guess.
+- If you cannot find the answer with available tools, report what you found and what remains unknown only after applying G18 where safe: attempt the direct path, verify, and retry at least three varied approaches. Do not guess.
 - Never retry the same failing search more than twice without changing the approach.
 
 ## Communication

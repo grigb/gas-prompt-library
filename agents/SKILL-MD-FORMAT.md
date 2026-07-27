@@ -13,10 +13,31 @@ and the full prompt in one portable unit.
   SKILL.md         # YAML frontmatter + full prompt body
 ```
 
-A backward-compat symlink keeps old paths working:
-```bash
-ln -sf agent-<name>/SKILL.md ~/.agents/prompts/agents/agent-<name>.md
+Flat `agent-<name>.md` compatibility files and symlinks are obsolete. The
+package directory is the sole live prompt entrypoint. Historical archives may
+retain old paths, but live indexes, generators, and validators must use
+`agent-<name>/SKILL.md`.
+
+## Generated Codex Plugin Projection
+
+Do not move the canonical package to satisfy Codex distribution. Mapped GAS
+skills are copied as complete trees into:
+
+```text
+/Users/grig/.agents/plugin-packages/<plugin>/
+  .codex-plugin/plugin.json
+  skills/<frontmatter-name>/SKILL.md
 ```
+
+`/Users/grig/.agents/config/plugin-bundles.json` maps canonical source,
+frontmatter identity, plugin target, policy, exclusions, and provenance. Run
+`/Users/grig/.agents/tools/gas-plugin-packager/generate.py` to update generated
+copies and `validate.py` to prove complete-file-list/SHA-256 parity. Never
+hand-edit generated descendants or installed caches.
+
+Codex uses the plugin namespace `<plugin>:<frontmatter-name>`. Claude and
+Gemini continue to use reviewed canonical adapters and must not be redirected
+through generated Codex roots.
 
 ## Frontmatter Schema
 
@@ -31,8 +52,9 @@ metadata:
   category: <string>            # e.g. core-development, research, qa
   scope: <string>               # single-project | portfolio | global
   tiers: [1, 2, 3]              # complexity tiers this agent handles (1-3)
-  model: opus                   # preferred model: opus | sonnet
-  effort: high                  # effort level: low | medium | high
+  # Do not hardcode model or effort execution hints here. Dispatchers select
+  # models using /Users/grig/.agents/docs/MODEL-SELECTION-POLICY.md and
+  # /Users/grig/.agents/tools/usage-management/scripts/select-model.sh.
   harnesses: [claude, codex]    # supported runtimes
   max_concurrent_tasks: 5       # optional; omit if not applicable
   tags: [tag1, tag2]            # searchable keywords
@@ -63,9 +85,10 @@ After creating a SKILL.md directory, update two files:
 1. `mkdir -p ~/.agents/prompts/agents/agent-<name>/`
 2. Write SKILL.md: new frontmatter + stripped body
 3. `mv agent-<name>.md agent-<name>.md.bak`
-4. `ln -sf agent-<name>/SKILL.md agent-<name>.md`
+4. Do not recreate the flat path or compatibility symlink
 5. Update TRIGGER-INDEX.md and _AGENT-INDEX.md rows
-6. Verify: `head -5 agent-<name>.md && wc -l agent-<name>/SKILL.md`
+6. Verify the canonical package and run the role metadata validator
+7. If mapped, regenerate and validate the Codex plugin projection
 
 ## Reference
 

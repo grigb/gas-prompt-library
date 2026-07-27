@@ -18,8 +18,7 @@ idle parent thread to notice background-worker completion. Launch evidence alone
 is not enough to end a Codex worker-dispatch turn; the heartbeat is the required
 temporary lifecycle bridge until a central event-driven completion bridge exists.
 
-**Examples:** After spawning `WO-PMSL-2026-05-09-549`, register a 3-minute
-heartbeat if local time is 06:30-21:59, or a 10-minute heartbeat if local time
-is 22:00-06:29. When a heartbeat tick crosses a time window boundary, update the
-existing automation in place. When all workers are closed, delete the heartbeat
+**Examples:** After spawning `WO-PMSL-2026-05-09-549`, register a seven-minute
+heartbeat with `automation_update` for the current thread. When all workers are
+closed and no known Codex-resolvable wait remains, delete the heartbeat
 immediately and log removal.
