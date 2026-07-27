@@ -1,1 +1,0 @@
-agent-content-crafting-alignment/SKILL.md

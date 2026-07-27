@@ -1,1 +1,0 @@
-agent-qa-full-review/SKILL.md

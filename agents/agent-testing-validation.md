@@ -1,1 +1,0 @@
-agent-testing-validation/SKILL.md

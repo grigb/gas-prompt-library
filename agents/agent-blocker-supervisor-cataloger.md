@@ -1,1 +1,0 @@
-agent-blocker-supervisor-cataloger/SKILL.md

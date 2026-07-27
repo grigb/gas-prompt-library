@@ -1,1 +1,0 @@
-agent-project-steward/SKILL.md

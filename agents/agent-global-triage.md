@@ -1,1 +1,0 @@
-agent-global-triage/SKILL.md

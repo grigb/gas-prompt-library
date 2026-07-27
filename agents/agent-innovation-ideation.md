@@ -1,1 +1,0 @@
-agent-innovation-ideation/SKILL.md

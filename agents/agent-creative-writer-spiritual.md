@@ -1,1 +1,0 @@
-agent-creative-writer-spiritual/SKILL.md

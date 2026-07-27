@@ -1,1 +1,0 @@
-agent-security-compliance/SKILL.md

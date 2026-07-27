@@ -1,1 +1,0 @@
-agent-chief-reality-officer/SKILL.md

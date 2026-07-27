@@ -1,1 +1,0 @@
-agent-documentation-librarian/SKILL.md

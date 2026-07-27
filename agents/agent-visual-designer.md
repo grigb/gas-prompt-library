@@ -1,1 +1,0 @@
-agent-visual-designer/SKILL.md

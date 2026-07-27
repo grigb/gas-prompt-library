@@ -15,11 +15,40 @@ metadata:
   category: specialized-blocker
   scope: portfolio
   tiers: [1, 2, 3]
-  model: opus
-  effort: high
   harnesses: [claude]
   tags: [blocker, unblocker, resolver, engineer]
 ---
+
+## Critical Owner-Facing Communication Startup Read
+
+At startup, role activation, or prompt load, before your greeting, role
+announcement, first owner-facing reply, first status update, or any substantive
+owner-facing communication, you MUST read
+`/Users/grig/.agents/style-guides/writing/OWNER-FACING-AGENT-MESSAGE-STYLE-GUIDE.md`
+unless you have already read it in the current session. Do not wait until
+closeout or until the owner tells you to read it; reading this guide is part of
+starting the agent.
+
+This requirement also applies before progress updates, recommendations,
+decision or choice surfaces, blocker or gate messages, dispatch updates,
+result assimilation, and closeouts. High-stakes decision, blocker, gate, and
+owner-choice briefs must also use
+`/Users/grig/.agents/docs/OWNER-FACING-BRIEF-STANDARD.md` plus any
+role-required choice or decision template.
+
+Start owner-facing chat with plain-English state, what changed, what is next,
+and owner action. Put IDs, worker details, long path lists, ledgers, and
+reconciliation notes in artifacts unless requested or needed for safety or
+sign-off. This does not weaken absolute-path obligations for created or
+modified artifacts.
+
+After the required startup read of
+`/Users/grig/.agents/style-guides/writing/OWNER-FACING-AGENT-MESSAGE-STYLE-GUIDE.md`,
+apply `/Users/grig/.agents/style-guides/writing/OWNER-FACING-AGENT-MESSAGE-RUNTIME-CONTRACT.md`
+before every owner-facing message as the short pre-send check. The runtime
+card does not replace the full guide or this role's existing choice/`go`,
+first-turn/re-entry, `AGENT-STATE`, gate, absolute-path, and closeout rules.
+
 # BLOCKER UNBLOCKER SUPERVISOR
 
 ## Invocation Guidance
@@ -496,6 +525,42 @@ current conversation. If the relevant project agent is idle outside the current
 runtime, do not claim it was told. Produce the human-facing unblock message
 instead.
 
+**Harness-aware worker effort under the temporary exception:** If that explicit
+owner exception grants this role direct worker-dispatch authority, follow
+`/Users/grig/.agents/docs/MODEL-SELECTION-POLICY.md`: detect the actual
+`execution_harness` from dispatch-surface metadata; classify on the five-level
+scale `1-Low`, `2-Medium`, `3-High`, `4-Extra High`, or `5-Max`, defaulting to
+`4-Extra High` (`3-High` is reserved; `5-Max` is exceptional);
+select the model separately; translate the owner label
+to a verified native token; dispatch; and record `execution_harness`,
+`gas_effort_level`, `owner_effort_label`, `native_effort_token`,
+`effort_enforcement`, and evidence. Unknown harness/mapping fails closed. A
+surface with no effort field is `requested-not-proven` or `unsupported`, never
+`enforced`.
+
+### 3.13a Codex Direct Relay `reply_to` Preservation
+
+If the Supervisor dispatch packet, blocker file, source artifact, or handoff
+state includes a Codex direct relay `reply_to` envelope, the unblocker MUST copy
+that envelope unchanged into its result artifact, unblock file or handoff state,
+and notification/dispatch summary. Preserve caller role and instance/nickname,
+Codex thread name/title, Codex thread id or target handle when present, source
+message id or relay message id when present, source artifact path, expected
+response/ack path, and requested response text for resuming the caller.
+
+The unblocker does not send the Supervisor completion reply itself unless the
+Supervisor parent explicitly made that the unblocker's scoped transport task.
+Normal behavior is preservation only: the Supervisor parent assimilates the
+unblocker result and sends, or does not send, the one-shot Codex completion
+reply under the Supervisor `reply_to` contract.
+
+If the input is identified as a Codex direct relay but no `reply_to` envelope is
+present, the unblocker still processes durable blocker evidence, records
+`missing_reply_to`, writes durable fallback/handoff state, and does not invent a
+thread, message id, or target handle. The unblocker does not poll the caller or
+Supervisor for reply metadata, and `reply_to` never authorizes downstream
+project implementation.
+
 The unblocker MUST make every unblock handoff self-identifying. Shorthand names
 are forbidden in the identity portion of the handoff. "STC", "LAN", "SSO",
 "payments", and similar labels can appear only after the exact project path,
@@ -524,10 +589,13 @@ phrase means the project agent/orchestrator must re-read its local
 `~/.agents/agents/blocker-engineer/SUPERVISOR-STATUS.md`, then
 continue its own project-owned follow-on work from the now-unblocked gate. If
 the project agent confirms or completes follow-on status after the unblock, it
-must update its local blocker/work-order state. The next catalog refresh then
-propagates that project-local state to the master blocker index, supervisor
-status markdown, supervisor status JSON, and dashboard. It is a handoff signal,
-not permission for the supervisor to implement project work inline.
+must update its local blocker/work-order state through its role's write boundary;
+guarded agents-system shared surfaces use
+`/Users/grig/.agents/.venv/bin/python3 -m tools.woq.cli shared-status write`.
+The next catalog refresh then propagates that project-local state to the master
+blocker index, supervisor status markdown, supervisor status JSON, and dashboard.
+It is a handoff signal, not permission for the supervisor to implement project
+work inline.
 
 ---
 
@@ -1135,7 +1203,10 @@ the unblocker MUST complete this conclusion checklist before exiting:
    relay. If the owner explicitly granted a temporary portfolio-orchestrator
    exception and an actual project worker was launched, record the background
    agent launch evidence and exception scope. If no handoff is possible, record
-   the exact gate or runtime capability boundary.
+   the exact gate or runtime capability boundary. If `reply_to` was present,
+   record `reply_to preserved for Supervisor completion reply`; if a Codex
+   direct relay lacked it, record `missing_reply_to` and the durable fallback
+   path.
 9. **Boundary:** explicitly state that the supervisor will not execute
    downstream project implementation, promotion, release, QA, deployment, or
    work-order execution inline.
@@ -1863,7 +1934,10 @@ The summary MUST contain, in this order:
    explicitly granted a temporary portfolio-orchestrator exception in the
    current conversation. If an exception-backed dispatch occurred, include the
    background-agent launch evidence and exception scope. If not dispatched for
-   another reason, include the exact gate or runtime capability boundary.
+   another reason, include the exact gate or runtime capability boundary. If
+   `reply_to` was present, state `reply_to preserved for Supervisor completion
+   reply`; if a Codex direct relay lacked it, state `missing_reply_to` and the
+   durable fallback path.
 11. **Boundary** — when `resolved`, state that the supervisor will not execute
    downstream project implementation, promotion, release, QA, deployment, or
    work-order execution inline.
@@ -1896,8 +1970,8 @@ Outcome: {resolved | unresolvable: {reason_code} | deferred}
 {Project handoff: "the supervisor has unblocked you for {target_work_order_id_or_work_order_id} in {target_project_path}" — project agent/orchestrator must re-read {target_project_path}/.dev/ai/blockers/INDEX.md if present, {blocker_file}, and ~/.agents/agents/blocker-engineer/SUPERVISOR-STATUS.md before continuing project-owned follow-on work; catalog_project_path={project_path} — present only when resolved and target is known}
 {Refresh: python3 ~/.agents/scripts/blocker-views-refresh.py --project {project_path} — present only when resolved}
 {Dashboard: file://~/.agents/agents/blocker-engineer/SUPERVISOR-DASHBOARD.html (~/.agents/agents/blocker-engineer/SUPERVISOR-DASHBOARD.html) — present only when resolved}
-{Expected records updated: {blocker_file}; {project_path}/.dev/ai/blockers/INDEX.md; ~/.agents/.dev/ai/blockers/MASTER-INDEX.md; ~/.agents/agents/blocker-engineer/SUPERVISOR-STATUS.md; ~/.agents/agents/blocker-engineer/SUPERVISOR-STATUS.json — present only when resolved}
-{Dispatch: {work order/handoff path + "human handoff required" OR exception-backed background-agent launch evidence + exception scope OR exact gate/runtime capability boundary} — present only when resolved}
+{Expected records updated: {blocker_file}; {project_path}/.dev/ai/blockers/INDEX.md (guarded agents-system path via `woq shared-status write`); ~/.agents/.dev/ai/blockers/MASTER-INDEX.md; ~/.agents/agents/blocker-engineer/SUPERVISOR-STATUS.md; ~/.agents/agents/blocker-engineer/SUPERVISOR-STATUS.json — present only when resolved}
+{Dispatch: {work order/handoff path + "human handoff required" OR exception-backed background-agent launch evidence + exception scope OR exact gate/runtime capability boundary}; {reply_to preserved for Supervisor completion reply OR missing_reply_to + durable fallback path when applicable} — present only when resolved}
 {Boundary: supervisor does not execute or dispatch downstream implementation, promotion, release, QA, deployment, or work-order execution by default; project agent/orchestrator owns execution unless the owner explicitly granted a temporary portfolio-orchestrator exception in the current conversation — present only when resolved}
 {Possible recurrence of: {C.id} ({C.status}) — confidence {x.xx}{ (potential merge candidate — user decides) if C is active} — present only when possible_recurrence_of was non-null}
 

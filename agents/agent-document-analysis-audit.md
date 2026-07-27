@@ -1,1 +1,0 @@
-agent-document-analysis-audit/SKILL.md

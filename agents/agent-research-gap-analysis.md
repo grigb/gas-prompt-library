@@ -1,1 +1,0 @@
-agent-research-gap-analysis/SKILL.md

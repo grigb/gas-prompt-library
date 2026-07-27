@@ -1,1 +1,0 @@
-agent-pa-doctor/SKILL.md

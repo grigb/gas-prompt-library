@@ -1,1 +1,0 @@
-agent-document-review-specialist/SKILL.md

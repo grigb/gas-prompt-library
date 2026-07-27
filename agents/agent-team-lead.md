@@ -1,1 +1,0 @@
-agent-team-lead/SKILL.md

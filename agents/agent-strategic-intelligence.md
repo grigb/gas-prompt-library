@@ -1,1 +1,0 @@
-agent-strategic-intelligence/SKILL.md

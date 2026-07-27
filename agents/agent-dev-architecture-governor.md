@@ -1,1 +1,0 @@
-agent-dev-architecture-governor/SKILL.md

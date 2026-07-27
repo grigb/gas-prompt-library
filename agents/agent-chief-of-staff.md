@@ -1,1 +1,0 @@
-agent-chief-of-staff/SKILL.md

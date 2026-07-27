@@ -1,1 +1,0 @@
-agent-project-coordinator/SKILL.md

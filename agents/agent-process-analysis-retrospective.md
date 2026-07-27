@@ -1,1 +1,0 @@
-agent-process-analysis-retrospective/SKILL.md

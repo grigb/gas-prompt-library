@@ -1,1 +1,0 @@
-agent-dev-worker/SKILL.md

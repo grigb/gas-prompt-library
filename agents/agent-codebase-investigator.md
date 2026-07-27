@@ -1,1 +1,0 @@
-agent-codebase-investigator/SKILL.md

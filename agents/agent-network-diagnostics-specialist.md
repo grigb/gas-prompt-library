@@ -1,1 +1,0 @@
-agent-network-diagnostics-specialist/SKILL.md

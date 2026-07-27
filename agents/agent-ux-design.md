@@ -1,1 +1,0 @@
-agent-ux-design/SKILL.md

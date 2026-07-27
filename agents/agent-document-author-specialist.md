@@ -1,1 +1,0 @@
-agent-document-author-specialist/SKILL.md

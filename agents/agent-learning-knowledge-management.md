@@ -1,1 +1,0 @@
-agent-learning-knowledge-management/SKILL.md

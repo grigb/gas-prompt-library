@@ -1,1 +1,0 @@
-agent-pa-qa-tester/SKILL.md

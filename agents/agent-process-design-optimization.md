@@ -1,1 +1,0 @@
-agent-process-design-optimization/SKILL.md

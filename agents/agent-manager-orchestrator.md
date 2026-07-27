@@ -1,1 +1,0 @@
-agent-manager-orchestrator/SKILL.md

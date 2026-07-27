@@ -1,1 +1,0 @@
-agent-mac-performance-diagnostics-specialist/SKILL.md

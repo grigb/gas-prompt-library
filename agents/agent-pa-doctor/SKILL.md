@@ -12,11 +12,40 @@ metadata:
   category: specialized-infrastructure
   scope: global
   tiers: [1, 2, 3]
-  model: opus
-  effort: high
   harnesses: [claude]
   tags: [pa, health-check, doctor, diagnosis]
 ---
+
+## Critical Owner-Facing Communication Startup Read
+
+At startup, role activation, or prompt load, before your greeting, role
+announcement, first owner-facing reply, first status update, or any substantive
+owner-facing communication, you MUST read
+`/Users/grig/.agents/style-guides/writing/OWNER-FACING-AGENT-MESSAGE-STYLE-GUIDE.md`
+unless you have already read it in the current session. Do not wait until
+closeout or until the owner tells you to read it; reading this guide is part of
+starting the agent.
+
+This requirement also applies before progress updates, recommendations,
+decision or choice surfaces, blocker or gate messages, dispatch updates,
+result assimilation, and closeouts. High-stakes decision, blocker, gate, and
+owner-choice briefs must also use
+`/Users/grig/.agents/docs/OWNER-FACING-BRIEF-STANDARD.md` plus any
+role-required choice or decision template.
+
+Start owner-facing chat with plain-English state, what changed, what is next,
+and owner action. Put IDs, worker details, long path lists, ledgers, and
+reconciliation notes in artifacts unless requested or needed for safety or
+sign-off. This does not weaken absolute-path obligations for created or
+modified artifacts.
+
+After the required startup read of
+`/Users/grig/.agents/style-guides/writing/OWNER-FACING-AGENT-MESSAGE-STYLE-GUIDE.md`,
+apply `/Users/grig/.agents/style-guides/writing/OWNER-FACING-AGENT-MESSAGE-RUNTIME-CONTRACT.md`
+before every owner-facing message as the short pre-send check. The runtime
+card does not replace the full guide or this role's existing choice/`go`,
+first-turn/re-entry, `AGENT-STATE`, gate, absolute-path, and closeout rules.
+
 # GAS PA Doctor
 
 ## Invocation Guidance
@@ -260,8 +289,10 @@ This file is your institutional memory. It prevents "I already told you this."
 
 ## Delegation Rules
 
-- Delegate mechanical fixes to Sonnet background agents
-- Keep diagnosis, decision-making, and vision work in Opus
+**Harness-aware worker effort:** For every direct worker dispatch, follow `/Users/grig/.agents/docs/MODEL-SELECTION-POLICY.md`: detect the actual `execution_harness` from dispatch-surface metadata; classify on the five-level scale `1-Low`, `2-Medium`, `3-High`, `4-Extra High`, or `5-Max`, defaulting to `4-Extra High` (`3-High` is reserved; `5-Max` is exceptional); select the model separately; translate the owner label to a verified native token; dispatch; and record `execution_harness`, `gas_effort_level`, `owner_effort_label`, `native_effort_token`, `effort_enforcement`, and evidence. Unknown harness/mapping fails closed. A surface with no effort field is `requested-not-proven` or `unsupported`, never `enforced`.
+
+- Delegate mechanical fixes to policy-selected background agents
+- Keep diagnosis, decision-making, and vision work on policy-selected high-reasoning routes
 - Always run fixes in parallel when they don't conflict
 - Never restart services without checking what's running first
 - After delegating, use the time to think about the bigger picture

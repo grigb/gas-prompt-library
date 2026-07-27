@@ -1,0 +1,110 @@
+# Project State-Sync (PSS) config TEMPLATE.
+# Method: /Users/grig/.agents/docs/methodologies/project-state-sync-method.md
+# Skill:  /Users/grig/.agents/prompts/agents/agent-project-state-sync/SKILL.md
+#
+# Copy this file into a project (recommended:
+#   {PROJECT_ROOT}/.dev/ai/roles/project-steward/state-sync/config.yaml)
+# and fill in the placeholders. Placeholders {PROJECT_ROOT} and {HOME} are
+# expanded by pss_ingest.py; never write a literal tilde inside a value.
+# Prefer absolute paths in a real project config.
+
+version: 1
+project_slug: "REPLACE-with-project-slug"
+project_root: "{PROJECT_ROOT}"                 # absolute path in a real config
+
+# House rules the translate/reconcile steps must respect (free-form flags).
+house_rules:
+  no_em_dashes_in_content: false               # set true for projects that forbid them
+  private_material_stays_private: true
+
+# ---------------------------------------------------------------------------
+# Deterministic run-state (the since-last-run mechanism). pss_ingest.py owns
+# these files. Seed watermarks.json as {} for the first run.
+# ---------------------------------------------------------------------------
+run_state:
+  watermarks_path: "{PROJECT_ROOT}/.dev/ai/roles/project-steward/state-sync/run-state/watermarks.json"
+  dedupe_index:    "{PROJECT_ROOT}/.dev/ai/roles/project-steward/state-sync/run-state/dedupe-index.jsonl"
+  runs_dir:        "{PROJECT_ROOT}/.dev/ai/roles/project-steward/state-sync/run-state/runs"
+
+# ---------------------------------------------------------------------------
+# INGEST connectors. See references/connectors.md for the contract and each
+# built-in kind. Disable what a project does not have; add streams as new
+# entries, not by editing the skill.
+# ---------------------------------------------------------------------------
+connectors:
+  - id: claude-conversations
+    kind: claude-conversations
+    enabled: true
+    # The project's Claude session JSONL store. NOTE: the `css` helper does not
+    # exist on disk; this reads the JSONL directly.
+    source_path: "{HOME}/.claude/projects/REPLACE-encoded-project-dir/"
+
+  - id: meeting-transcripts
+    kind: meeting-transcripts
+    enabled: true
+    source_globs:
+      - "{PROJECT_ROOT}/REPLACE/path/to/meetings/**/raw/*.vtt"
+      - "{PROJECT_ROOT}/REPLACE/path/to/meetings/**/*.transcript.vtt"
+    extensions: [".vtt", ".txt", ".md"]
+    retain_strategy: immutable-reference
+
+  - id: project-inbox
+    kind: project-inbox
+    enabled: true
+    source_dirs:
+      - "{PROJECT_ROOT}/REPLACE/path/to/inbox/"
+
+  # Extension point: real tooling exists but auto-run is deferred until wired
+  # and tested per project. Emits an informational item into the run report.
+  - id: whatsapp-threads
+    kind: whatsapp-threads
+    enabled: true
+    tool: "{PROJECT_ROOT}/REPLACE/path/to/consume-tool"
+    deferred_note: "wire the project consume tool to a durable chunk dir, then point an inbox/meeting connector at it"
+
+# ---------------------------------------------------------------------------
+# TRANSLATE targets: where structured outputs land. Reuse SITS intake surfaces.
+# ---------------------------------------------------------------------------
+translate:
+  extractor: "/Users/grig/.agents-gas-prompt-library/meaning-extraction/execution-decisions-work-order-extraction-prompt.md"
+  extractor_version: "1.0"
+  intake_records_dir: "{PROJECT_ROOT}/.dev/ai/roles/project-steward/intake/records"
+  translation_ledger: "{PROJECT_ROOT}/.dev/ai/roles/project-steward/state-sync/run-state/translation-ledger.jsonl"
+  wo_drafts_dir: "{PROJECT_ROOT}/.dev/ai/roles/project-steward/state-sync/wo-drafts"
+  conversation_capture_dir: "{PROJECT_ROOT}/.dev/ai/conversations"
+  inference_confirmation_queue: "{PROJECT_ROOT}/.dev/ai/roles/project-steward/intake/inference-confirmation-queue.md"
+
+# ---------------------------------------------------------------------------
+# RECONCILE surfaces: the state PSS keeps current, reusing close-steward.
+# Mark whether each is WOQ-managed (safe-writer) or narrative (append/prepend).
+# ---------------------------------------------------------------------------
+reconcile:
+  wo_index:            "{PROJECT_ROOT}/.dev/ai/workorders/WO-INDEX.md"
+  wo_index_writer:     narrative-append          # narrative-append | woq-safe-writer
+  wo_dir:              "{PROJECT_ROOT}/.dev/ai/workorders"
+  decision_log:        "{PROJECT_ROOT}/.dev/ai/roles/project-steward/decision-log.md"
+  active_constraint:   "{PROJECT_ROOT}/.dev/ai/roles/project-steward/active-constraint.md"
+  project_wisdom:      "{PROJECT_ROOT}/.dev/ai/roles/project-steward/project-wisdom.md"
+  steward_state:       "{PROJECT_ROOT}/.dev/ai/roles/project-steward/state.md"
+  project_status:      "{PROJECT_ROOT}/.dev/ai/PROJECT-STATUS.md"
+  project_status_writer: narrative-prepend        # narrative-prepend | woq-safe-writer
+  promotion_ledger:    "{PROJECT_ROOT}/.dev/ai/roles/project-steward/intake/state/promotion-ledger.jsonl"
+  memory_dir:          "{PROJECT_ROOT}/.dev/ai/roles/project-steward/memory"
+
+# ---------------------------------------------------------------------------
+# Promotion policy: how aggressively translated items become live state.
+# Start conservative; loosen only after supervised runs (owner-review gate).
+# ---------------------------------------------------------------------------
+promotion_policy:
+  wo_auto_promote: false        # false = emit WO drafts only; owner/steward promotes
+  min_confidence_for_autolog: high   # decisions/wisdom below this become owner asks
+  inferred_connections: owner-confirm  # never auto-promote inferred links
+
+# ---------------------------------------------------------------------------
+# Scheduling: DOCUMENTED, INACTIVE. Do not wire in v1. Owner chooses at
+# promotion time (see method doc "Schedule-readiness").
+# ---------------------------------------------------------------------------
+schedule:
+  active: false
+  mechanism: "undecided"        # vault-markdown-on-wake | launchd | gas-scheduler | cron
+  note: "supervised only until the owner reviews run reports and promotes"

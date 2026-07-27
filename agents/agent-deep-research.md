@@ -1,1 +1,0 @@
-agent-deep-research/SKILL.md

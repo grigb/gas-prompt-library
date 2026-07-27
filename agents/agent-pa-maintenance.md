@@ -1,1 +1,0 @@
-agent-pa-maintenance/SKILL.md

@@ -1,1 +1,0 @@
-agent-project-worker/SKILL.md

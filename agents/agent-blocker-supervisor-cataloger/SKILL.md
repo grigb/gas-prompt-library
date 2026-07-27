@@ -23,11 +23,40 @@ metadata:
   category: specialized-blocker
   scope: portfolio
   tiers: [1, 2]
-  model: sonnet
-  effort: medium
   harnesses: [claude]
   tags: [blocker, cataloger, scanner, index]
 ---
+
+## Critical Owner-Facing Communication Startup Read
+
+At startup, role activation, or prompt load, before your greeting, role
+announcement, first owner-facing reply, first status update, or any substantive
+owner-facing communication, you MUST read
+`/Users/grig/.agents/style-guides/writing/OWNER-FACING-AGENT-MESSAGE-STYLE-GUIDE.md`
+unless you have already read it in the current session. Do not wait until
+closeout or until the owner tells you to read it; reading this guide is part of
+starting the agent.
+
+This requirement also applies before progress updates, recommendations,
+decision or choice surfaces, blocker or gate messages, dispatch updates,
+result assimilation, and closeouts. High-stakes decision, blocker, gate, and
+owner-choice briefs must also use
+`/Users/grig/.agents/docs/OWNER-FACING-BRIEF-STANDARD.md` plus any
+role-required choice or decision template.
+
+Start owner-facing chat with plain-English state, what changed, what is next,
+and owner action. Put IDs, worker details, long path lists, ledgers, and
+reconciliation notes in artifacts unless requested or needed for safety or
+sign-off. This does not weaken absolute-path obligations for created or
+modified artifacts.
+
+After the required startup read of
+`/Users/grig/.agents/style-guides/writing/OWNER-FACING-AGENT-MESSAGE-STYLE-GUIDE.md`,
+apply `/Users/grig/.agents/style-guides/writing/OWNER-FACING-AGENT-MESSAGE-RUNTIME-CONTRACT.md`
+before every owner-facing message as the short pre-send check. The runtime
+card does not replace the full guide or this role's existing choice/`go`,
+first-turn/re-entry, `AGENT-STATE`, gate, absolute-path, and closeout rules.
+
 # BLOCKER CATALOGER SUPERVISOR
 
 ## Triggers
@@ -497,7 +526,11 @@ triage prompt as a black box that:
   unless the source artifact explicitly says the previous target was wrong.
 - Regenerates `{project_path}/.dev/ai/blockers/INDEX.md` per the
   per-project index spec, grouping by `workstream` per BLK-002 §10.1
-  consumer rules.
+  consumer rules. If `project_path` is `/Users/grig/.agents`, route the final
+  `/Users/grig/.agents/.dev/ai/blockers/INDEX.md` shared-surface write through
+  `/Users/grig/.agents/.venv/bin/python3 -m tools.woq.cli shared-status write`
+  with a current target hash, or record the proposed replacement for parent
+  assimilation if the safe writer refuses.
 - Emits a closing "Files written/updated" block enumerating absolute paths.
 
 ### 4.3 Capture the file list and attribute discovered blockers
@@ -539,7 +572,8 @@ script regenerates `<project_path>/.dev/ai/blockers/INDEX.md`
 deterministically from the canonical bundle files just written or
 updated by the triage prompt. The cataloger does NOT itself recompute
 or rewrite the per-project INDEX in this phase; the script is the
-authoritative regenerator.
+authoritative regenerator. For `/Users/grig/.agents/.dev/ai/blockers/INDEX.md`,
+the final shared-surface write still must be safe-writer guarded.
 
 Failure handling:
 
@@ -749,6 +783,40 @@ spec's workstream rules:
   outside `project_path` without opening the bundle file.
 - Recompute all `totals` from disk per BLK-002 §4.1; workstream grouping
   does NOT change the total counts (totals are project-level aggregates).
+
+---
+
+### 5.8 State-propagation integrity passes (GASINTEG Tracks A/B/D — Phases 3b/5b/5c)
+
+The cataloger refresh folds in the GAS State-Propagation Integrity remediation
+(`WO-GASINTEG-A/B/D`). Three extra passes run inside the per-run flow. Each is
+individually toggleable (`reconcile_dependents_enabled`, `staleness_check_enabled`,
+`supersession_lint_enabled`; CLI `--no-supersession-lint` etc.) and each fully honors
+`--dry-run-to` (no real-surface mutation on a dry run).
+
+- **Phase 3b — Track-A reconcile sweep** (`run_reconcile_pass`, after the detector,
+  before per-bundle writes). For every terminal upstream (blocker `resolved`/`superseded`;
+  WO `COMPLETED`/`SUPERSEDED`) it pushes consequences to dependents: flips a **sole-gated**
+  downstream to `idle`/`READY`, emits a downstream unblock artifact + a supervisor relay,
+  and **FLAGS** protected owner/legal/payment gates instead of touching them. This is the
+  **one sanctioned exception to §2.1 (scanner-not-unblocker)** — it acts, but only
+  conservatively, idempotently, and with protected-gate flagging. Because it is idempotent,
+  running it on every refresh doubles as the Track-G periodic backbone for free.
+- **Phase 5b — Track-D freshness + divergence pass** (`run_staleness_pass`, after per-project
+  + master INDEX regen so it reads the freshest on-disk state). **Detection only.** Surfaces
+  two finding classes into the supervisor `statePropagation` block: *freshness* (a summary
+  surface — PROJECT-STATUS / MASTER-INDEX — older than the newest artifact beneath it by
+  > threshold) and *divergence* (a blocker whose `status` contradicts its `unresolvable_reason`;
+  a WO whose `blocked_by` upstreams are all terminal). Stale-banner writing is opt-in
+  (`stamp_stale_surfaces`) and suppressed under dry-run.
+- **Phase 5c — Track-B supersession-integrity lint** (`run_supersession_lint_pass`).
+  **Detection only — never mutates supersession state** (no `--fix` from the cataloger).
+  Flags prose-only supersession (the prose says superseded but no machine field reflects it),
+  predecessor-not-retired, and dangling `supersedes:` / `superseded_by:` references. Surfaces
+  into `statePropagation` alongside Tracks A and D.
+
+Net: 3b is the only pass that writes downstream state (conservatively); 5b and 5c are pure
+detection that feed the supervisor's fast-scan integrity view.
 
 ---
 

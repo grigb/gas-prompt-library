@@ -1,1 +1,0 @@
-agent-zero/SKILL.md

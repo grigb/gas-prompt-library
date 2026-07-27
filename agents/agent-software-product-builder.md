@@ -1,1 +1,0 @@
-agent-software-product-builder/SKILL.md

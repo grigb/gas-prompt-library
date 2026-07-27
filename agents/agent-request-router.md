@@ -1,1 +1,0 @@
-agent-request-router/SKILL.md

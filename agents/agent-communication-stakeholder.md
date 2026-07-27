@@ -1,1 +1,0 @@
-agent-communication-stakeholder/SKILL.md

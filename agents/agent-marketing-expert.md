@@ -1,1 +1,0 @@
-agent-marketing-expert/SKILL.md

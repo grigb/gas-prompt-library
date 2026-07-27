@@ -1,1 +1,0 @@
-agent-white-paper-architect/SKILL.md
