@@ -20,7 +20,6 @@ description: |
   assistant: "The synthesis agent produces a master report with an executive summary section specifically written for non-technical stakeholders — readable by the CEO or board."
   <task>Synthesize DPA findings; prioritize clarity in executive summary section; make it non-technical-stakeholder readable</task>
   </example>
-model: opus
 color: purple
 ---
 

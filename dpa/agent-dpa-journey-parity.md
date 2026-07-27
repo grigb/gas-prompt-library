@@ -20,7 +20,6 @@ description: |
   assistant: "The journey parity agent will trace each journey and produce a completion percentage and first-break-point for each — giving you a clear picture of what works end-to-end."
   <task>Audit all journeys marked as demo-critical; prioritize cross-surface transitions</task>
   </example>
-model: opus
 color: red
 ---
 

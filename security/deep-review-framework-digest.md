@@ -45,7 +45,7 @@ If you are uncertain whether an action is allowed, the default is NO.
 Phase 1 — Read (no source yet):
 - This digest, end-to-end.
 - Full framework (`/Users/grig/.agents/prompts/security/deep-review-framework.md`).
-- Project priority list (`/Users/grig/.agents/agents/blocker-engineer/memory/project-priority-list.md`).
+- GAS Priority Board (`/Users/grig/.agents/data/priority-board/priorities.json`, or `/Users/grig/.agents/tools/priority-board/bin/gas-priorities --json`) — owner-write only; read it, never write to it.
 - Module's PROJECT-STATUS, README, AGENTS.md (module-specific sections only), PROJECT-RULES.
 - Module's architecture doc (especially `docs/architecture/ATPROTO-HANDLE-AND-DID-ARCHITECTURE.md` for social, entity-profile docs for payments).
 - Module's `git log --oneline -30` (read-only).

@@ -20,7 +20,6 @@ description: |
   assistant: "The vision parity agent will independently read vision docs first, then check specs — catching keyword matches that don't reflect actual intent."
   <task>Run vision parity audit; check for mechanical integration vs. substance engagement</task>
   </example>
-model: opus
 color: purple
 ---
 

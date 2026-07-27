@@ -44,6 +44,23 @@
 
 ---
 
+### Global Triage Agent (Portfolio Intake)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `global triage` | `~/.agents/prompts/agents/agent-global-triage/SKILL.md` | Portfolio-scope intake and routing agent |
+| `global triage agent` | `~/.agents/prompts/agents/agent-global-triage/SKILL.md` | Explicit Global Triage request |
+| `you are the global triage agent` | `~/.agents/prompts/agents/agent-global-triage/SKILL.md` | Role assignment phrase |
+| `act as global triage` | `~/.agents/prompts/agents/agent-global-triage/SKILL.md` | Role activation phrase |
+| `route this to the right project` | `~/.agents/prompts/agents/agent-global-triage/SKILL.md` | Cross-project routing request |
+| `capture this across projects` | `~/.agents/prompts/agents/agent-global-triage/SKILL.md` | Cross-project capture request |
+
+**Core Principle:** Portfolio intake, not implementation. Captures owner input, resolves the target registered/tracked GAS project, writes project-local WOs when routing is clear, stores ambiguous/private items in its own global state, and keeps per-project `triage` separate.
+
+**Activation Regex:** `(?i)\b(global\s+triage(\s+agent)?|you\s+are\s+(the\s+)?global\s+triage(\s+agent)?|act\s+as\s+global\s+triage|route\s+this\s+to\s+the\s+right\s+project|capture\s+this\s+across\s+projects)\b`
+
+---
+
 ### Triage Agent (Work Order Capture)
 
 | Trigger Phrase | Target Prompt | Description |
@@ -139,6 +156,107 @@
 
 ---
 
+### Project State-Sync (Always-Current Ingest + Reconcile Cycle)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `state sync` | `~/.agents/prompts/agents/agent-project-state-sync/SKILL.md` | Run the repeatable since-last-run ingest/retain/translate/reconcile/report cycle for the current project |
+| `run state sync` | `~/.agents/prompts/agents/agent-project-state-sync/SKILL.md` | Explicit invocation of the Project State-Sync cycle |
+| `sync project state` | `~/.agents/prompts/agents/agent-project-state-sync/SKILL.md` | Bring the project docs and state current with all sources |
+| `bring the project current` | `~/.agents/prompts/agents/agent-project-state-sync/SKILL.md` | Aggregate every loose end since the last run and reconcile state |
+| `catch the project up` | `~/.agents/prompts/agents/agent-project-state-sync/SKILL.md` | Aggregate and reconcile all raw signal since the last run |
+
+**Core Principle:** The always-current, schedule-ready evolution of `close-steward`. Conducts existing GAS machinery (SITS intake, the meaning-extraction extractor, close-steward reconcile, reconcile-dependents) into one since-last-run pass. Retains raw originals pristine, translates deterministically, reconciles the WO index and steward state, and reports loose ends closed plus owner asks. SUPERVISED and unscheduled until the owner reviews and promotes it.
+
+**Activation Regex:** `(?i)\b(state[\s-]sync|run\s+state\s+sync|sync\s+project\s+state|bring\s+the\s+project\s+(current|up\s+to\s+date)|catch\s+the\s+project\s+up)\b`
+
+---
+
+### Project Liaison Agent (Project Front Desk / Relay)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `project liaison` | `~/.agents/prompts/agents/agent-project-liaison/SKILL.md` | Project-local front desk for grounded Q&A, request capture, work-order-backed relay, and WO creation |
+| `liaison agent` | `~/.agents/prompts/agents/agent-project-liaison/SKILL.md` | Explicit Liaison request |
+| `you are the project liaison` | `~/.agents/prompts/agents/agent-project-liaison/SKILL.md` | Role assignment phrase |
+| `act as project liaison` | `~/.agents/prompts/agents/agent-project-liaison/SKILL.md` | Role activation phrase |
+| `project desk` | `~/.agents/prompts/agents/agent-project-liaison/SKILL.md` | Front-desk project question and routing lane |
+| `ask project` | `~/.agents/prompts/agents/agent-project-liaison/SKILL.md` | Ask a grounded project question from durable sources |
+| `route this in project` | `~/.agents/prompts/agents/agent-project-liaison/SKILL.md` | Route a request inside one project without taking over Steward state |
+| `project relay` | `~/.agents/prompts/agents/agent-project-liaison/SKILL.md` | Create or process a project-local work-order relay |
+
+**Core Principle:** Project Liaison is the project-local front desk, not a second Steward. It answers grounded questions, captures requests, creates or drafts WOs, and routes actionable relays through work orders plus per-WO fast-lane markers while leaving Steward-owned wisdom, decisions, and strategy files alone.
+
+**Activation Regex:** `(?i)\b(project\s+liaison|liaison\s+agent|you\s+are\s+(the\s+)?project\s+liaison|act\s+as\s+project\s+liaison|project\s+desk|ask\s+project|route\s+this\s+in\s+project|project\s+relay)\b`
+
+---
+
+### Project Manager Agent (Single-Project Planning Governance)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `project manager` | `~/.agents/prompts/agents/agent-project-manager/SKILL.md` | Single-project planning governance for plan-to-proposal-to-WO coverage, workstream health, cleanup, and execution-readiness handoff |
+| `project planning` | `~/.agents/prompts/agents/agent-project-manager/SKILL.md` | Planning-control lane for project plan, planning mode, and design-doc-suite completeness |
+| `plan completeness` | `~/.agents/prompts/agents/agent-project-manager/SKILL.md` | Planning-completeness assessment and planning-roadmap refresh |
+| `proposal coverage` | `~/.agents/prompts/agents/agent-project-manager/SKILL.md` | Reconcile proposal-ledger entries against work-order coverage |
+| `workstream review` | `~/.agents/prompts/agents/agent-project-manager/SKILL.md` | Workstream freshness classification and stale-stream cleanup routing |
+| `workstream governance` | `~/.agents/prompts/agents/agent-project-manager/SKILL.md` | Workstream-ledger governance and cleanup-draft routing |
+| `execution readiness` | `~/.agents/prompts/agents/agent-project-manager/SKILL.md` | Build or refresh the execution-readiness packet for Orchestrator/GAS Manager handoff |
+
+**Core Principle:** Planning governance, not execution and not strategy capture. The PM keeps the plan -> proposal -> WO -> result -> evidence chain traceable, mirrors a status summary to the supervisor status inbox at every check-in, and hands execution to Orchestrator or GAS Manager through an execution-readiness packet. Steward owns raw context capture and strategy; Blocker Supervisor owns external blockers; PM never dispatches, implements, or holds an execution lease. Absorbed `agent-project-coordinator` on 2026-07-12.
+
+**Activation Regex:** `(?i)\b(project\s+(manager|planning)|plan\s+completeness|proposal\s+coverage|workstream\s+(review|governance)|execution\s+readiness)\b`
+
+---
+
+### DC Relay Agent (WhatsApp-to-DC Steward Relay)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `DC Relay` | `~/.agents/prompts/agents/agent-dc-relay/SKILL.md` | Lightweight Codex relay for dc-vault WhatsApp queue batches into the current visible DC Steward |
+| `you are the DC Relay` | `~/.agents/prompts/agents/agent-dc-relay/SKILL.md` | Explicit role assignment for the DC Relay agent |
+| `start the DC relay` | `~/.agents/prompts/agents/agent-dc-relay/SKILL.md` | Start the relay role, create or confirm its one-minute Codex heartbeat, then run one normal queue batch |
+| `dc-vault relay` | `~/.agents/prompts/agents/agent-dc-relay/SKILL.md` | Alias for the DC Relay WhatsApp-to-steward bridge |
+
+**Core Principle:** DC Relay is not the DC Steward. It batches currently new
+WhatsApp relay items, finds the most recent visible DC Steward thread in the
+Codex harness, forwards one ordered batch for steward interpretation, and uses
+only the deterministic result-file/apply-script contract for queue closeout and
+WhatsApp outbound completion.
+
+**Activation Regex:** `(?i)\b(dc\s+relay|you\s+are\s+(the\s+)?dc\s+relay|start\s+the\s+dc\s+relay|dc-vault\s+relay)\b`
+
+---
+
+### Thread Communications & Sync Worker (Thread Comms & Sync Worker)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `thread comms` | `~/.agents/docs/standards/THREAD-COMMS-STANDARD.md` | Standard for file-backed thread communications (gas-file-comms/v1) |
+| `thread comms standard` | `~/.agents/docs/standards/THREAD-COMMS-STANDARD.md` | View the thread comms directory, schemas, and launchd configurations |
+| `sync worker` | `~/.agents/docs/standards/THREAD-COMMS-STANDARD.md` | Reference for the Steward-Liaison sync worker bridge |
+| `whatsapp sync worker` | `~/.agents/docs/standards/THREAD-COMMS-STANDARD.md` | Reference for the WhatsApp-Steward-Liaison sync worker bridge |
+
+**Activation Regex:** `(?i)\b(thread\s+comms(\s+standard)?|sync\s+worker|whatsapp\s+sync\s+worker)\b`
+
+---
+
+### Mac Specialist / Mac Doctor Agent (Resource Diagnostics & Health Hygiene)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `mac doctor` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist/SKILL.md` | Autonomous Mac Doctor system health & resource diagnostic audit |
+| `mac specialist` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist/SKILL.md` | Mac Specialist for macOS performance, CPU, RAM, & drive optimization |
+| `mac health doctor` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist/SKILL.md` | Mac Doctor system health audit and patch proposal generation |
+| `mac performance` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist/SKILL.md` | Mac performance diagnostics and resource hygiene |
+| `mac doctor run` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist/SKILL.md` | Instigate an on-demand Mac Doctor scan and report generation |
+
+**Core Principle:** Reviews Drive capacity, CPU hogs, RAM/Swap pressure, and phantom AI processes. Logs an Unchangeable System Ledger for OS constraints, formulates actionable Patch Proposals, requires explicit User Approval before executing any fixes, and archives reports using GAS ISO timestamp prefixes (`YYYY-MM-DDTHHMMSS_mac-doctor-report.md`).
+
+**Activation Regex:** `(?i)\b(mac\s+doctor(\s+run)?|mac\s+specialist|mac\s+health\s+doctor|mac\s+performance)\b`
+
+---
+
 ### GAS Manager Agent (L4 WO Execution)
 
 | Trigger Phrase | Target Prompt | Description |
@@ -161,12 +279,12 @@
 
 | Trigger Phrase | Target Prompt | Description |
 |----------------|---------------|-------------|
-| `pa maintenance` | `~/.agents-gas-prompt-library/agents/agent-pa-maintenance.md` | Full PA maintenance session |
-| `pa doctor` | `~/.agents-gas-prompt-library/agents/agent-pa-maintenance.md` | PA health diagnosis |
-| `pa mechanic` | `~/.agents-gas-prompt-library/agents/agent-pa-maintenance.md` | PA repair and fix |
-| `maintain pa` | `~/.agents-gas-prompt-library/agents/agent-pa-maintenance.md` | PA maintenance trigger |
-| `fix pa` | `~/.agents-gas-prompt-library/agents/agent-pa-maintenance.md` | PA fix trigger |
-| `pa health` | `~/.agents-gas-prompt-library/agents/agent-pa-maintenance.md` | PA health check trigger |
+| `pa maintenance` | `~/.agents-gas-prompt-library/agents/agent-pa-maintenance/SKILL.md` | Full PA maintenance session |
+| `pa doctor` | `~/.agents-gas-prompt-library/agents/agent-pa-maintenance/SKILL.md` | PA health diagnosis |
+| `pa mechanic` | `~/.agents-gas-prompt-library/agents/agent-pa-maintenance/SKILL.md` | PA repair and fix |
+| `maintain pa` | `~/.agents-gas-prompt-library/agents/agent-pa-maintenance/SKILL.md` | PA maintenance trigger |
+| `fix pa` | `~/.agents-gas-prompt-library/agents/agent-pa-maintenance/SKILL.md` | PA fix trigger |
+| `pa health` | `~/.agents-gas-prompt-library/agents/agent-pa-maintenance/SKILL.md` | PA health check trigger |
 
 **Core Principle:** Maintenance only. Diagnose, repair, and document. Never implement new features.
 
@@ -279,6 +397,71 @@
 
 ---
 
+### Agent Tool Exposure Guide (AAO / Tool Discoverability)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `expose tool` | `~/.agents/prompts/general/agent-tool-exposure-guide.md` | Route GAS tool exposure work through AAO methodology |
+| `make discoverable` | `~/.agents/prompts/general/agent-tool-exposure-guide.md` | Improve agent and developer discoverability |
+| `agent SEO` | `~/.agents/prompts/general/agent-tool-exposure-guide.md` | Agent Attention Optimization entry point |
+| `tool optimization` | `~/.agents/prompts/general/agent-tool-exposure-guide.md` | Optimize tool descriptions, contracts, and exposure lanes |
+| `publish MCP server` | `~/.agents/prompts/general/agent-tool-exposure-guide.md` | Prepare MCP server publication and launch checks |
+| `agent-facing tool` | `~/.agents/prompts/general/agent-tool-exposure-guide.md` | Package a capability for agent discovery and invocation |
+| `tool discovery` | `~/.agents/prompts/general/agent-tool-exposure-guide.md` | Diagnose and improve tool discovery paths |
+
+**Core Principle:** AAO applies to GAS capability exposure and discoverability. Start with description and contract quality before choosing MCP, A2A, OpenAPI, SKILL.md, registry, or community launch lanes. Do not route Universal Manifest work to the GAS steward by default; use UM scope only when explicitly routed by Master Steward or UM Steward.
+
+**Activation Regex:** `(?i)\b(expose\s+(a\s+)?tool|make\s+(this\s+)?discoverable|agent\s+seo|tool\s+optimization|publish\s+(an?\s+)?mcp\s+server|agent[-\s]facing\s+tool|tool\s+discovery)\b`
+
+---
+
+### Canonical Document Package (Google Drive)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `canonical document package` | `~/.agents/modes/CANONICAL-DOCUMENT-PACKAGE-MODE.md` | Publish canonical Markdown, PDF and native-Google-Doc derivatives, plus their manifest |
+| `create canonical document package` | `~/.agents/modes/CANONICAL-DOCUMENT-PACKAGE-MODE.md` | Explicit source-of-truth package request |
+| `publish document package` | `~/.agents/modes/CANONICAL-DOCUMENT-PACKAGE-MODE.md` | Compatibility phrase for the canonical package route |
+
+**Core Principle:** A canonical package preserves the original Markdown as its source
+of truth and explicitly declares the PDF and native Google Doc as derivatives. It is a
+package request, not an ambiguous request to convert a document.
+
+**Activation Regex:** `(?i)\b(canonical\s+document\s+package|create\s+(a\s+)?canonical\s+document\s+package|publish\s+(markdown\s+)?document\s+package)\b`
+
+---
+
+### Document Conversion (Google Drive)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `convert markdown to PDF` | `~/.agents/modes/DOCUMENT-CONVERSION-MODE.md` | Produce only a PDF from the selected Markdown source |
+| `convert markdown to Google Doc` | `~/.agents/modes/DOCUMENT-CONVERSION-MODE.md` | Produce only a native Google Doc from the selected Markdown source |
+| `convert markdown to Markdown` | `~/.agents/modes/DOCUMENT-CONVERSION-MODE.md` | Publish only the unchanged Markdown representation |
+| `convert document to a specific format` | `~/.agents/modes/DOCUMENT-CONVERSION-MODE.md` | Route an exact-format request to its named supported target |
+
+**Core Principle:** A conversion produces exactly one requested representation—PDF,
+native Google Doc, or Markdown—and does not create a package or companion artifacts.
+
+**Activation Regex:** `(?i)\b(convert\s+(a\s+)?markdown\s+(document\s+)?to\s+(pdf|google\s+doc|markdown)|convert\s+(a\s+)?document\s+to\s+(a\s+)?specific\s+format)\b`
+
+---
+
+### Codex Browser Control Routing
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `browser control` | `/Users/grig/.agents/docs/browser-control/codex-browser-tool-routing.md` | Route Codex browser-visible work to the correct Chrome Extension, Computer Use, in-app Browser, or fallback surface |
+| `codex browser routing` | `/Users/grig/.agents/docs/browser-control/codex-browser-tool-routing.md` | Codex browser-control route selection policy |
+| `chrome extension route` | `/Users/grig/.agents/docs/browser-control/codex-browser-tool-routing.md` | Use regular Google Chrome through the Codex Chrome Extension when appropriate |
+| `codex chrome extension` | `/Users/grig/.agents/docs/browser-control/codex-browser-tool-routing.md` | Chrome Extension preflight and fallback policy |
+
+**Core Principle:** In Codex, regular macOS Google Chrome through the Codex Chrome Extension is primary when real Chrome profile/authenticated state/existing tabs/efficient DOM-tab control matter. Computer Use is the bounded visible UI fallback; in-app Browser is for public/local/unauthenticated previews; Agent Browser, CDP, and Playwright-style tooling are explicit fallbacks, not defaults.
+
+**Activation Regex:** `(?i)\b(browser\s+control|codex\s+browser\s+routing|chrome\s+extension\s+route|codex\s+chrome\s+extension)\b`
+
+---
+
 ### Burn Mode (End-of-Cycle Token Optimization)
 
 | Trigger Phrase | Target Prompt | Description |
@@ -301,9 +484,9 @@
 |----------------|---------------|-------------|
 | `commit agent` | `~/.agents/modes/SMART-COMMIT-MODE.md` | Smart commit mode |
 | `smart commit` | `~/.agents/modes/SMART-COMMIT-MODE.md` | Intelligent commit grouping |
-| `global commit` | `~/.agents/docs/overviews/MASTER-SMART-COMMIT-VARIANT.md` | Registry-driven cross-project parallel commit dispatch. Does NOT load base SMART-COMMIT-MODE.md — the overlay is self-contained for the master role; workers get their own prompt. |
-| `you are the global commit agent` | `~/.agents/docs/overviews/MASTER-SMART-COMMIT-VARIANT.md` | Explicit role activation for global commit |
-| `commit all projects` | `~/.agents/docs/overviews/MASTER-SMART-COMMIT-VARIANT.md` | Explicit role activation for global commit |
+| `global commit` | `~/.agents/docs/overviews/GLOBAL-COMMIT-VARIANT.md` | Registry-driven cross-project parallel commit dispatch. Does NOT load base SMART-COMMIT-MODE.md — the overlay is self-contained for the master role; workers get their own prompt. |
+| `you are the global commit agent` | `~/.agents/docs/overviews/GLOBAL-COMMIT-VARIANT.md` | Explicit role activation for global commit |
+| `commit all projects` | `~/.agents/docs/overviews/GLOBAL-COMMIT-VARIANT.md` | Explicit role activation for global commit |
 | `group commits` | `~/.agents/modes/SMART-COMMIT-MODE.md` | Commit grouping trigger |
 | `commit files` | `~/.agents/modes/SMART-COMMIT-MODE.md` | File commit trigger |
 | `analyze commits` | `~/.agents/modes/SMART-COMMIT-MODE.md` | Commit analysis trigger |
@@ -321,8 +504,11 @@
 | `create session record` | `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md` | Explicit session-record request |
 | `wrap this session` | `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md` | Session wrap-up alias |
 | `save the session` | `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md` | Session preservation alias |
+| `retire this agent's context` | `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md` | Owner-preferred context-retirement phrase |
 
-**Activation Regex:** `(?i)(/close-session|\bclose\s+session\b|\bcreate\s+session\s+record\b|\bwrap\s+this\s+session\b|\bsave\s+the\s+session\b)`
+**Core Principle:** Routine closeout has one entrypoint: `CREATE-SESSION-RECORD`. Role-aware steward and supervisor closeout are handled internally by that prompt; do not route owner-facing closeout phrases to `close-steward` or `close-supervisor` directly.
+
+**Activation Regex:** `(?i)(/close-session|\bclose\s+session\b|\bcreate\s+session\s+record\b|\bwrap\s+this\s+session\b|\bsave\s+the\s+session\b|\bretire\s+this\s+agent'?s\s+context\b)`
 
 ---
 
@@ -343,6 +529,44 @@
 **Core Principle:** macOS performance specialist. Diagnoses CPU, GPU, memory, disk, thermal, and fan issues. Never modifies system files without explicit approval.
 
 **Activation Regex:** `(?i)\b(mac\s+(agent|help|technician|tech|diagnostics|performance|doctor)|you\s+are\s+(the\s+)?mac\s+agent|act\s+as\s+mac\s+agent)\b`
+
+---
+
+### Image Prompt Format Standard (AI Image Generator Prompts)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `image prompt` | `~/.agents/docs/standards/IMAGE-PROMPT-FORMAT.md` | Format standard for prompts pasted into an AI image generator |
+| `image prompts` | `~/.agents/docs/standards/IMAGE-PROMPT-FORMAT.md` | Plural form — same standard |
+| `image generation prompts` | `~/.agents/docs/standards/IMAGE-PROMPT-FORMAT.md` | Explicit image-generation phrasing |
+| `prompts for an AI generator` | `~/.agents/docs/standards/IMAGE-PROMPT-FORMAT.md` | Natural-language phrasing |
+| `midjourney prompt` | `~/.agents/docs/standards/IMAGE-PROMPT-FORMAT.md` | Midjourney-specific request |
+| `dall-e prompt` | `~/.agents/docs/standards/IMAGE-PROMPT-FORMAT.md` | DALL-E-specific request |
+| `flux prompt` | `~/.agents/docs/standards/IMAGE-PROMPT-FORMAT.md` | Flux-specific request |
+| `nano banana prompt` | `~/.agents/docs/standards/IMAGE-PROMPT-FORMAT.md` | Gemini / Nano Banana-specific request |
+| `stable diffusion prompt` | `~/.agents/docs/standards/IMAGE-PROMPT-FORMAT.md` | Stable Diffusion-specific request |
+
+**Core Principle:** Not a role — a mandatory output format. Any agent producing prompts for an image generator MUST follow the four rules (filename slug, `REQUIRES ATTACHMENT:` flag, text-suppression clause, logo reproduction) and run the standard's pre-delivery checklist before delivery. Single source of truth; the Claude-skill path and this trigger both point to the same standard.
+
+**Activation Regex:** `(?i)\b(image\s+(generation\s+)?prompts?|prompts?\s+for\s+an?\s+ai\s+(image\s+)?generator|(midjourney|dall[\s-]?e|flux|nano\s+banana|stable\s+diffusion)\s+prompt)\b`
+
+---
+
+### Project Scoring And Autonomy Intake Mode (Initiative Value Rubric)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `rubric intake` | `~/.agents/modes/PROJECT-SCORING-AUTONOMY-INTAKE-MODE.md` | Run the Initiative Value Rubric + Autonomy-Readiness test, place a lane, route GREEN work to autonomous execution |
+| `score project` | `~/.agents/modes/PROJECT-SCORING-AUTONOMY-INTAKE-MODE.md` | Score a candidate project with the Initiative Value Rubric |
+| `score this project` | `~/.agents/modes/PROJECT-SCORING-AUTONOMY-INTAKE-MODE.md` | Score the current project |
+| `run intake` | `~/.agents/modes/PROJECT-SCORING-AUTONOMY-INTAKE-MODE.md` | Run the repeatable project-intake flow |
+| `run project intake` | `~/.agents/modes/PROJECT-SCORING-AUTONOMY-INTAKE-MODE.md` | Explicit project-intake run |
+| `project scoring` | `~/.agents/modes/PROJECT-SCORING-AUTONOMY-INTAKE-MODE.md` | Project-scoring mode trigger |
+| `autonomy intake` | `~/.agents/modes/PROJECT-SCORING-AUTONOMY-INTAKE-MODE.md` | Autonomy-readiness + lane-placement intake |
+
+**Core Principle:** Score → autonomy-test → lane → autonomous-build handoff as one repeatable flow. Links to the canonical instruments (rubric, autonomy framework, playbook); never copies their text. State / resume surface for the whole initiative: `~/.agents/docs/RUBRIC-INTAKE-INITIATIVE.md`.
+
+**Activation Regex:** `(?i)\b(rubric\s+intake|score\s+(this\s+)?project|run\s+(project\s+)?intake|project\s+scoring|autonomy\s+intake)\b`
 
 ---
 
@@ -416,7 +640,7 @@ When trigger is ambiguous:
 
 ```
 User: "dev - fix the auth bug in login.js"
-Agent: [Reads agent-dev-worker.md]
+Agent: [Reads agent-dev-worker/SKILL.md]
 Agent: "Dev Worker agent activated. Ready to investigate and fix the auth bug in login.js."
 [Proceeds with dev-only actions: analyze, plan, execute, verify]
 ```

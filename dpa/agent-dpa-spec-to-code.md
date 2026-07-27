@@ -20,7 +20,6 @@ description: |
   assistant: "The spec-to-code agent includes a design token adoption check — it will scan the surface's code for hardcoded values vs. CSS custom properties."
   <task>Run spec-to-code audit for {SURFACE_ID}; focus on token adoption and report token_adoption score</task>
   </example>
-model: sonnet
 color: orange
 ---
 

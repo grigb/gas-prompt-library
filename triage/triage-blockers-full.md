@@ -727,6 +727,16 @@ Every triage run MUST update the project's status file at
 `{project_path}/.dev/ai/PROJECT-STATUS.md`. This file gives the supervisor a
 single-line answer to "is this project blocked?" without parsing blocker indexes.
 
+**WOQ managed-block preservation:** Triage-owned `PROJECT-STATUS.md` start,
+end, overwrite, rewrite, and addendum paths must preserve the existing WOQ
+managed block byte-for-byte:
+`<!-- WOQ:BEGIN managed-block id="project-status" ... -->` through
+`<!-- WOQ:END managed-block id="project-status" -->`. Blocker triage may update
+only the legacy blocker/narrative/header status outside that block. Replace the
+managed block only through the approved WOQ renderer path; if exact
+preservation is not possible, do not write `PROJECT-STATUS.md` and emit a
+blocked/write-gate artifact with proposed status text.
+
 ### At triage START, write:
 
 ```
@@ -798,15 +808,20 @@ The `parked` status tells the supervisor: do NOT recommend waking this agent.
 There is nothing for it to do. The supervisor must not waste the owner's time
 sending relay text to a parked project.
 
-Write atomically: write to a temp file in the same directory, then `mv` to the
-final path. Never delete this file — only overwrite with new state. Line 1 is
-always `status: working` or `status: blocked` so `head -1` gives the answer.
+Write guarded shared surfaces through the WOQ safe writer when the target is
+`/Users/grig/.agents/.dev/ai/PROJECT-STATUS.md`. Reread
+`/Users/grig/.agents/docs/protocols/woq-role-lifecycle.md`, capture the current
+target hash, and call
+`/Users/grig/.agents/.venv/bin/python3 -m tools.woq.cli shared-status write`.
+Never delete this file. Line 1 is always `status: working` or `status: blocked`
+so `head -1` gives the answer. If the safe writer refuses, record the proposed
+replacement/addendum for parent assimilation.
 
 ## End-of-Run Protocol
 
 After all blocker discovery, emission, and view refresh steps are complete, perform these closing steps in order:
 
-1. **Update blocker INDEX files.** Ensure `{project_path}/.dev/ai/blockers/INDEX.md` reflects the current scan (already handled by catalog emission rules above).
+1. **Update blocker INDEX files.** Ensure `{project_path}/.dev/ai/blockers/INDEX.md` reflects the current scan (already handled by catalog emission rules above). For `/Users/grig/.agents/.dev/ai/blockers/INDEX.md`, use the WOQ safe writer with a current hash.
 2. **Write unblock files.** For any blockers resolved during this run, emit unblock files per the "Unblock file emission" section above.
 3. **Surface newly-unblocked WOs.** Per the "Deferred WO Awareness" section above, report any BLOCKED/DEFERRED WOs whose conditions are now met.
 4. **Emit the status seal.** End your final output with the status seal per the section below.

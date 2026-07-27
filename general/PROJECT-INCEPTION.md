@@ -24,6 +24,31 @@ asking questions. **Inputs:** `{concept}` (the idea) and `{conversation-context}
 decisions, constraints). **Output:** `.dev/ai/initiatives/{project-slug}/`
 (use `~/.agents/scripts/get-filename-prefix.sh` for timestamp prefixes).
 
+Project Inception is a secondary planning/bootstrap path. It does not replace the
+normal owner-requested project-birth workflow: create the project root/repo first, then
+run `/Users/grig/.agents/scripts/register-project.sh`. If the owner names an
+absolute project path, that exact path is the canonical GAS root unless the
+owner explicitly chooses a nested root. Do not register `repo/`, `control/`,
+`sources/`, or another staging directory as the project root by inference; keep
+reference/upstream repos under ignored subdirectories instead. If this inception
+run creates or names an actual project root/repo, it MUST run:
+
+```bash
+/Users/grig/.agents/scripts/register-project.sh "<project-root>" --name "<display name>"
+```
+
+Add `--alias <alias>` when a short code is known. Add `--steward` only when the owner
+selected a project steward. Do not pass `--no-commit` unless the owner opts out of
+global commit. Leave tier/ring unset unless MS or the owner has placed the project.
+If no root/repo exists yet, the final package MUST include an explicit registration
+gate before any agent declares the project born.
+
+Before declaring a project born, verify the canonical root has root-level
+`AGENTS.md`, `PROJECT-RULES.md`, `PROJECT-ID.md`, `CLAUDE.md`,
+`.cursor/rules/default-rules.mdc`, `.dev/ai/`, `docs/README.md`, passing
+`/Users/grig/.agents/scripts/check-agents-freshness.sh "<project-root>"`, and
+`/Users/grig/.agents/scripts/project-registry-query.sh show "<slug-or-alias>"`.
+
 ## Deliverables (6 Documents)
 
 1. **Research Brief** -- `RESEARCH-BRIEF.md`
@@ -192,6 +217,7 @@ Initiative incepted: {concept name}
   Blueprint: {one-line summary of what done looks like}
   Work orders: {count} WOs, {count} phases, est. {time}
   Team: {roster summary}
+  Registration: {registered with /Users/grig/.agents/scripts/register-project.sh OR gated until project root exists}
   Board direction: {absolute path}
   Next action: {one sentence}
 ```

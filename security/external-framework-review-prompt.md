@@ -20,7 +20,7 @@ The framework is the seed of a multi-module security + code/design review progra
 - A Docker Compose "core" template (Traefik, Authelia, Postgres / MySQL / MongoDB, Redis, MinIO, automated backups).
 - An event-bus module (currently only one consumer; second consumer deferred).
 - A docs-only "system" umbrella module (no runtime code).
-- Reviews will be executed by Opus 4.7 max agents, **one module at a time, sequentially**, each on a fresh context window.
+- Reviews will be executed by policy-selected Claude Tier 3 agents, **one module at a time, sequentially**, each on a fresh context window.
 - Each module agent writes two artifacts (a context packet + a review) to **two locations** (canonical inside the project, mirror inside a global supervisor tree) and appends to a central findings ledger.
 
 ## Your task

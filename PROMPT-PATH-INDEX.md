@@ -20,9 +20,14 @@
 | HANDOFF-MINIMAL | `~/.agents/prompts/handoffs/HANDOFF-MINIMAL.md` |
 | CONVERT-HANDOFF-TO-WORKORDER | `~/.agents/prompts/handoffs/CONVERT-HANDOFF-TO-WORKORDER.md` |
 | BURN-MODE | `~/.agents/modes/BURN-MODE.md` |
+| MARKDOWN-DOCUMENT-PACKAGE | `~/.agents/modes/MARKDOWN-DOCUMENT-PACKAGE-MODE.md` |
 | DISCUSSION-MODE | `~/.agents/prompts/modes/DISCUSSION-MODE.md` |
 | ORGANIZE-DOCS+DIRS | `~/.agents/prompts/general/organize-docs+dirs.md` |
 | AGENT-NOTIFICATION-CONTRACT | `~/.agents/prompts/general/AGENT-NOTIFICATION-CONTRACT.md` |
+| CODEX-MISSED-SUBAGENT-COMPLETION-RECOVERY | `~/.agents/prompts/general/CODEX-MISSED-SUBAGENT-COMPLETION-RECOVERY.md` |
+| RESEARCH-TOOL-ROUTING-METHOD | `~/.agents/docs/methodologies/research-tool-routing-method.md` |
+| FIND-SKILLS | `~/.agents/skills/find-skills/SKILL.md` |
+| LAST-30-DAYS | `~/.agents/skills/last30days/SKILL.md` |
 | DEEP-RESEARCH-PROMPT-GENERATOR | `~/.agents/prompts/research/deep-research-prompt-generator.md` |
 | DEEP-RESEARCH-MASTER | `~/.agents/prompts/research/deep-research-master.md` |
 | BROWSER-DEEP-RESEARCH-ORCHESTRATOR | `~/.agents/prompts/research/browser-deep-research-orchestrator.md` |
@@ -56,6 +61,7 @@
 | EXTERNAL-RESEARCH-PROMPT-ENGINEER | `~/.agents/prompts/agents/agent-external-research-prompt-engineer/SKILL.md` |
 | PROJECT-STEWARD | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` |
 | MASTER-STEWARD | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` plus `~/.agents/docs/overviews/MASTER-STEWARD-VARIANT.md` |
+| PROJECT-STATE-SYNC | `~/.agents/prompts/agents/agent-project-state-sync/SKILL.md` (method: `~/.agents/docs/methodologies/project-state-sync-method.md`) |
 | AGENT-PROJECT-MANAGER | `~/.agents/prompts/agents/agent-project-manager/SKILL.md` |
 | PROJECT-MANAGER-BOOTSTRAP | `~/.agents/docs/PROJECT-MANAGER-BOOTSTRAP-CHECKLIST.md` |
 | PROJECT-LIAISON | `~/.agents/prompts/agents/agent-project-liaison/SKILL.md` |
@@ -84,6 +90,7 @@ Routine owner-facing and agent-facing session closeout uses `CREATE-SESSION-RECO
 ├── PROMPT-PATH-INDEX.md               # THIS FILE - fast lookup
 ├── general/                           # General purpose prompts
 │   ├── autonomous-mode-now.md
+│   ├── CODEX-MISSED-SUBAGENT-COMPLETION-RECOVERY.md # One-shot exact-child lifecycle reconciliation
 │   ├── do-you-know-what-to-do-next.md
 │   ├── interface-audit-orchestrator.md
 │   ├── organize-docs+dirs.md          # Documentation organization guide
@@ -117,10 +124,11 @@ Routine owner-facing and agent-facing session closeout uses `CREATE-SESSION-RECO
 │   ├── agent-chief-reality-officer/SKILL.md
 │   ├── agent-financial-analysis-planning/SKILL.md
 │   ├── agent-marketing-expert/SKILL.md
-│   ├── agent-project-coordinator/SKILL.md
+│   ├── agent-project-coordinator/SKILL.md  # DEPRECATED 2026-07-12: folded into agent-project-manager
 │   ├── agent-project-manager/SKILL.md
 │   ├── agent-project-liaison/SKILL.md
 │   ├── agent-project-steward/SKILL.md + MASTER-STEWARD-VARIANT.md
+│   ├── agent-project-state-sync/SKILL.md  # always-current ingest/reconcile cycle (extends close-steward)
 │   ├── agent-dc-relay/SKILL.md
 │   ├── agent-ux-design/SKILL.md
 │   ├── agent-content-crafting-alignment/SKILL.md
@@ -174,6 +182,9 @@ Routine owner-facing and agent-facing session closeout uses `CREATE-SESSION-RECO
 │
 ├── modes/                              # Special operation modes
 │   └── DISCUSSION-MODE.md             # Discussion mode protocol
+│   ├── CANONICAL-DOCUMENT-PACKAGE-MODE.md # Source-of-truth Markdown package with declared derivatives
+│   ├── DOCUMENT-CONVERSION-MODE.md # Exact Markdown-to-PDF, Markdown, or native-Google-Doc conversion
+│   └── MARKDOWN-DOCUMENT-PACKAGE-MODE.md # Legacy pointer to the two current routes
 │
 └── research/                           # Research prompts
     ├── browser-deep-research-orchestrator.md
@@ -199,9 +210,11 @@ If the file isn't in this index, THEN use search tools.
 - **Work orders**: Check `work-orders/` directory
 - **Handoffs**: Check `handoffs/` directory
 - **Agent status relay**: Use `triage/agent-status-update-for-routing.md`
+- **Research route selection**: Read `~/.agents/docs/methodologies/research-tool-routing-method.md`; consider Find Skills and Last 30 Days before defaulting to Deep Research
 - **Specialized agents**: Check `agents/` directory
 - **Modes**: Check `modes/` directory
 - **General prompts**: Check `general/` directory
+- **Missed Codex child completion**: Use `general/CODEX-MISSED-SUBAGENT-COMPLETION-RECOVERY.md` in the exact parent task
 - **Project-specific K2B directives**: Check `handoffs/k2b-project-directives/` (never `general/`)
 
 ## Path Resolution
@@ -214,5 +227,5 @@ Example resolution:
 
 ---
 
-**Last Updated**: 2026-07-02
+**Last Updated**: 2026-07-21
 **Maintained by**: Automated sync from directory structure

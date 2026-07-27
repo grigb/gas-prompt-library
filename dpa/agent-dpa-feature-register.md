@@ -20,7 +20,6 @@ description: |
   assistant: "I'll use the feature register agent to identify rogue implementations — code that exists without a corresponding spec or register entry."
   <task>Identify all rogue implementations; produce list of code without feature register backing</task>
   </example>
-model: sonnet
 color: yellow
 ---
 

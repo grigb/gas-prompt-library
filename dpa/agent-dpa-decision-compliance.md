@@ -20,7 +20,6 @@ description: |
   assistant: "I'll use the decision compliance agent to produce a full compliance inventory — COMPLIANT, PARTIALLY-COMPLIANT, and NON-COMPLIANT — for every recorded decision."
   <task>Full decision compliance audit across all decision types; produce compliance inventory with propagation gap analysis</task>
   </example>
-model: opus
 color: red
 ---
 

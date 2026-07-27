@@ -20,7 +20,6 @@ description: |
   assistant: "I'll use the persona coverage agent to systematically check every JTBD and P0 feature for the audience persona and surface any blind spots."
   <task>Focus persona coverage audit on audience persona blind spots; cross-reference with journey coverage</task>
   </example>
-model: opus
 color: green
 ---
 

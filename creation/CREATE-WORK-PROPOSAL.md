@@ -1,5 +1,22 @@
 # Work Proposal Creation Protocol
 
+## Development-Mode Anti-Degradation (MANDATORY)
+
+Read and apply
+`/Users/grig/.agents/docs/standards/DEVELOPMENT-MODE-ANTI-DEGRADATION.md`.
+Proposal authors must separate product scope from readiness status:
+
+- `pre-release`, `MVP`, `placeholder`, `demo data`, `not production ready`,
+  and `do not claim this is live` do not independently authorize scope
+  reduction, deferral, disabling, hedging, or `Coming soon`;
+- describe unfinished scope as `BACKLOG — TO BUILD`, `NEXT TO BUILD`, or
+  executable proposal tasks;
+- lead build-facing proposals with build mode; fence any title/opening
+  readiness caveat in the same breath as external-claims-only;
+- preserve explicit owner scope, truthful outward claims, explicit owner
+  requests for reduced scope or `Coming soon`, and real legal, security,
+  privacy, credential, payment, financial, destructive, or production gates.
+
 ## 🚨 AUTOMATIC TRIGGERING RULES (MANDATORY)
 
 **READ THIS FIRST:** Proposal creation is now MANDATORY for large/complex work.
@@ -156,6 +173,9 @@ Generate a structured proposal containing:
 - **Problem statement:** One sentence describing the core issue
 - **Proposed solution:** One sentence describing your approach
 - **Expected outcome:** Measurable result after implementation
+- **Build status:** Separate `IMPLEMENTED`, `IN PROGRESS`, and
+  `BACKLOG — TO BUILD`; do not use readiness language to silently shrink the
+  proposed product
 
 ### 2. Rationale
 - **Why this approach:** Technical justification for chosen solution

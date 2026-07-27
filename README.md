@@ -22,56 +22,59 @@ See the [LICENSE](LICENSE) file for the full disclaimer.
 
 ## Directory Structure
 
-### `agents/` — 40 Specialized Agents
+### `agents/` — Specialized Agents
 Agent role definitions organized by expertise area:
 
 **Development & Engineering**
-- `agent-dev-worker.md` — Implementation and coding tasks
-- `agent-dev-overseer.md` — Code review and verification
-- `agent-dev-general-contractor.md` — Project coordination
-- `agent-qa-full-review.md` — Quality assurance
-- `agent-testing-validation.md` — Testing strategies
-- `agent-codebase-investigator.md` — Code exploration
-- `agent-orchestrator.md` — Multi-agent coordination
-- `agent-manager-orchestrator.md` — Portfolio-level orchestration
-- `agent-tooling.md` — Tool development
+- `agent-dev-worker/SKILL.md` — Implementation and coding tasks
+- `agent-dev-overseer/SKILL.md` — Code review and verification
+- `agent-dev-general-contractor/SKILL.md` — Project coordination
+- `agent-qa-full-review/SKILL.md` — Quality assurance
+- `agent-testing-validation/SKILL.md` — Testing strategies
+- `agent-codebase-investigator/SKILL.md` — Code exploration
+- `agent-orchestrator/SKILL.md` — Multi-agent coordination
+- `agent-manager-orchestrator/SKILL.md` — Portfolio-level orchestration
+- `agent-tooling/SKILL.md` — Tool development
 
 **Research & Analysis**
-- `agent-deep-research.md` — Comprehensive research
-- `agent-research-analysis.md` — Research synthesis
-- `agent-research-gap-analysis.md` — Gap identification
-- `agent-data-analysis-visualization.md` — Data insights
-- `agent-strategic-intelligence.md` — Strategic analysis
-- `agent-document-analysis-audit.md` — Document auditing
+- `agent-deep-research/SKILL.md` — Comprehensive research
+- `agent-browser-deep-research/SKILL.md` — Browser-provider deep research through signed-in provider UIs
+- `agent-research-analysis/SKILL.md` — Research synthesis
+- `agent-research-gap-analysis/SKILL.md` — Gap identification
+- `agent-data-analysis-visualization/SKILL.md` — Data insights
+- `agent-strategic-intelligence/SKILL.md` — Strategic analysis
+- `agent-document-analysis-audit/SKILL.md` — Document auditing
 
 **Business & Operations**
-- `agent-chief-of-staff.md` — Executive coordination
-- `agent-chief-reality-officer.md` — Fact checking
-- `agent-project-coordinator.md` — Project management
-- `agent-financial-analysis-planning.md` — Financial planning
-- `agent-marketing-expert.md` — Marketing strategy
-- `agent-communication-stakeholder.md` — Stakeholder management
+- `agent-chief-of-staff/SKILL.md` — Executive coordination
+- `agent-chief-reality-officer/SKILL.md` — Fact checking
+- `agent-project-coordinator/SKILL.md` — DEPRECATED 2026-07-12: folded into `agent-project-manager` (Project Manager, owner-approved). Do not invoke; use the Project Manager.
+- `agent-project-liaison/SKILL.md` — Project front desk and WO-backed relay
+- `agent-financial-analysis-planning/SKILL.md` — Financial planning
+- `agent-marketing-expert/SKILL.md` — Marketing strategy
+- `agent-communication-stakeholder/SKILL.md` — Stakeholder management
 
 **Creative & Design**
-- `agent-ux-design.md` — UX design
-- `agent-visual-designer.md` — Visual design
-- `agent-creative-writer-spiritual.md` — Creative writing
-- `agent-content-crafting-alignment.md` — Content strategy
-- `agent-innovation-ideation.md` — Innovation
+- `agent-ux-design/SKILL.md` — UX design
+- `agent-visual-designer/SKILL.md` — Visual design
+- `agent-creative-writer-spiritual/SKILL.md` — Creative writing
+- `agent-content-crafting-alignment/SKILL.md` — Content strategy
+- `agent-innovation-ideation/SKILL.md` — Innovation
 
 **Infrastructure & Support**
-- `agent-triage.md` — Work order capture
-- `agent-documentation-librarian.md` — Documentation
-- `agent-document-author-specialist.md` — Technical writing
-- `agent-document-review-specialist.md` — Doc review
-- `agent-security-compliance.md` — Security audit
-- `agent-process-analysis-retrospective.md` — Process improvement
-- `agent-process-design-optimization.md` — Process design
-- `agent-mac-performance-diagnostics-specialist.md` — Mac diagnostics
-- `agent-network-diagnostics-specialist.md` — Network diagnostics
-- `agent-learning-knowledge-management.md` — Knowledge management
-- `agent-white-paper-architect.md` — White papers
-- `agent-software-product-builder.md` — Product development
+- `agent-global-triage/SKILL.md` — Portfolio intake routing
+- `agent-triage/SKILL.md` — Work order capture
+- `agent-documentation-librarian/SKILL.md` — Documentation
+- `agent-document-author-specialist/SKILL.md` — Technical writing
+- `agent-document-review-specialist/SKILL.md` — Doc review
+- `agent-security-compliance/SKILL.md` — Security audit
+- `agent-process-analysis-retrospective/SKILL.md` — Process improvement
+- `agent-process-design-optimization/SKILL.md` — Process design
+- `agent-mac-performance-diagnostics-specialist/SKILL.md` — Mac diagnostics
+- `agent-network-diagnostics-specialist/SKILL.md` — Network diagnostics
+- `agent-learning-knowledge-management/SKILL.md` — Knowledge management
+- `agent-white-paper-architect/SKILL.md` — White papers
+- `agent-software-product-builder/SKILL.md` — Product development
 
 See [`agents/_AGENT-INDEX.md`](agents/_AGENT-INDEX.md) for complete list.
 
@@ -136,7 +139,7 @@ Operational mode modifiers:
 | File | Purpose |
 |------|---------|
 | `deep-research-master.md` | **Single entry point** for all Deep Research modes |
-| `browser-deep-research-orchestrator.md` | Browser-controlled deep research through signed-in provider UIs, including ChatGPT/OpenAI, Claude, Gemini, and Perplexity |
+| `browser-deep-research-orchestrator.md` | Browser-controlled deep research through signed-in provider UIs, including ChatGPT/OpenAI, Claude, Gemini, Perplexity, Grok, and Kimi |
 | `deep-research-prompt-generator.md` | Transform briefs into research prompts |
 | `tri-agent-research-pipeline.md` | Internal tri-agent pipeline |
 | `CONDUCT-MODEL-AUDIT.md` | Model performance auditing |
