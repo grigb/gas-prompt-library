@@ -34,7 +34,6 @@ Invoke this template when you encounter:
 
 **Non-negotiable.** Every manager handoff prompt MUST start with:
 ```
-Read AGENTS.md for context.
 Then read PROJECT-RULES.md for onboarding.
 ```
 
@@ -46,13 +45,13 @@ Every manager handoff MUST include these paths:
 
 | Path | Purpose |
 |------|---------|
-| `~/.agents/prompts/agents/agent-manager-orchestrator.md` | Manager behavioral instructions |
+| `~/.agents/prompts/agents/agent-manager-orchestrator/SKILL.md` | Manager behavioral instructions |
 | Manager log path | Portfolio state, decisions made, child orchestrations |
 | Manager beacon path (if exists) | Aggregated status for hierarchy |
 
 ### 3. DO NOT Duplicate Manager Rules
 
-Pass the PATH to `agent-manager-orchestrator.md`, not its contents. This allows:
+Pass the PATH to `agent-manager-orchestrator/SKILL.md`, not its contents. This allows:
 - Rules to be updated between handoffs
 - Smaller prompt size
 - Single source of truth
@@ -187,7 +186,7 @@ manager_id: [mgr-YYYY-MM-DD-HH-MM-SS-scope]
 ## MANAGER STATE FILES
 
 ### Required Reading (In Order)
-1. **Manager Instructions:** `~/.agents/prompts/agents/agent-manager-orchestrator.md`
+1. **Manager Instructions:** `~/.agents/prompts/agents/agent-manager-orchestrator/SKILL.md`
 2. **Manager Log:** `[FULL PATH to .dev/ai/orchestration/{manager-id}-manager-log.md]`
 3. **Project Rules:** `AGENTS.md` (if not already read)
 
@@ -223,7 +222,7 @@ Task(
 
     READ THESE FILES IN ORDER:
     1. AGENTS.md (project rules)
-    2. Manager instructions: ~/.agents/prompts/agents/agent-manager-orchestrator.md
+    2. Manager instructions: ~/.agents/prompts/agents/agent-manager-orchestrator/SKILL.md
     3. Manager log (YOUR CONTEXT): [FULL PATH TO MANAGER LOG FILE]
 
     MANAGER BEACON (if exists): [FULL PATH TO MANAGER BEACON FILE]
@@ -257,14 +256,11 @@ Task(
 ## NEXT-SESSION PROMPT (Copy-Paste Ready)
 
 ```markdown
-Read AGENTS.md for context.
-Then read PROJECT-RULES.md for onboarding.
-
 I'm continuing manager orchestration on [portfolio/scope].
 Agent Task ID: [AGENT_TASK_ID] (preserve this ID in any handoffs you create)
 
 READ IN ORDER:
-1. Manager instructions: ~/.agents/prompts/agents/agent-manager-orchestrator.md
+1. Manager instructions: ~/.agents/prompts/agents/agent-manager-orchestrator/SKILL.md
 2. Manager log: [FULL ABSOLUTE PATH to manager log]
 
 PORTFOLIO STATE:
@@ -312,7 +308,7 @@ type: manager-handoff-emergency
 [List all active child beacon paths]
 
 ---
-Read: ~/.agents/prompts/agents/agent-manager-orchestrator.md
+Read: ~/.agents/prompts/agents/agent-manager-orchestrator/SKILL.md
 Read: [manager log path]
 Continue from where stopped. Handle interventions first.
 ```

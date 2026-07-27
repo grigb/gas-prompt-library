@@ -26,7 +26,6 @@ Invoke this template when you encounter:
 
 **Non-negotiable.** Every orchestration handoff prompt MUST start with:
 ```
-Read AGENTS.md for context.
 Then read PROJECT-RULES.md for onboarding.
 ```
 
@@ -38,13 +37,13 @@ Every orchestration handoff MUST include these paths:
 
 | Path | Purpose |
 |------|---------|
-| `~/.agents/prompts/agents/agent-orchestrator.md` | Orchestrator behavioral instructions |
+| `~/.agents/prompts/agents/agent-orchestrator/SKILL.md` | Orchestrator behavioral instructions |
 | Orchestration log path | Current state, task tracker, deferred decisions |
 | Status beacon path (if exists) | Machine-parseable status for hierarchy |
 
 ### 3. DO NOT Duplicate Orchestrator Rules
 
-Pass the PATH to `agent-orchestrator.md`, not its contents. This allows:
+Pass the PATH to `agent-orchestrator/SKILL.md`, not its contents. This allows:
 - Rules to be updated between handoffs
 - Smaller prompt size
 - Single source of truth
@@ -100,7 +99,7 @@ orchestration_id: [orch-YYYY-MM-DD-HH-MM-SS-objective]
 ## ORCHESTRATION STATE FILES
 
 ### Required Reading (In Order)
-1. **Orchestrator Instructions:** `~/.agents/prompts/agents/agent-orchestrator.md`
+1. **Orchestrator Instructions:** `~/.agents/prompts/agents/agent-orchestrator/SKILL.md`
 2. **Orchestration Log:** `[FULL PATH to .dev/ai/orchestration/{timestamp}-orchestration-log.md]`
 3. **Project Rules:** `AGENTS.md` (if not already read)
 
@@ -164,7 +163,7 @@ Task(
 
     READ THESE FILES IN ORDER:
     1. AGENTS.md (project rules)
-    2. Orchestrator instructions: ~/.agents/prompts/agents/agent-orchestrator.md
+    2. Orchestrator instructions: ~/.agents/prompts/agents/agent-orchestrator/SKILL.md
     3. Orchestration log (YOUR CONTEXT): [FULL PATH TO LOG FILE]
 
     STATUS BEACON (if exists): [FULL PATH TO BEACON FILE]
@@ -190,14 +189,11 @@ Task(
 ## NEXT-SESSION PROMPT (Copy-Paste Ready)
 
 ```markdown
-Read AGENTS.md for context.
-Then read PROJECT-RULES.md for onboarding.
-
 I'm continuing orchestration on [project-name].
 Agent Task ID: [AGENT_TASK_ID] (preserve this ID in any handoffs you create)
 
 READ IN ORDER:
-1. Orchestrator instructions: ~/.agents/prompts/agents/agent-orchestrator.md
+1. Orchestrator instructions: ~/.agents/prompts/agents/agent-orchestrator/SKILL.md
 2. Orchestration log: [FULL ABSOLUTE PATH to orchestration log]
 
 THE BIGGER PICTURE:
@@ -250,7 +246,7 @@ type: orchestration-handoff-emergency
 - Blocked: [count with reasons]
 
 ---
-Read: ~/.agents/prompts/agents/agent-orchestrator.md
+Read: ~/.agents/prompts/agents/agent-orchestrator/SKILL.md
 Read: [log path]
 Continue from where stopped.
 ```

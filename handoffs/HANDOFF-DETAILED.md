@@ -6,6 +6,7 @@
 This legacy standard handoff prompt remains supported only for backward compatibility and explicit handoff requests.
 
 Routine end-of-session closeout, including unfinished routine continuation between sessions, uses `/close-session` with `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md`.
+It also handles role-aware steward closeout routing automatically; do not route routine session retirement through `close-steward` or this legacy handoff prompt directly.
 This file is **not** the default session-close choice.
 Use this prompt only when the user explicitly wants a standard handoff or when a compatibility workflow requires `.dev/ai/handoffs/` output.
 
@@ -55,7 +56,7 @@ complexity: complex
 
 **Critical Rule:** Always respect explicit user requests for standard handoffs. If no explicit legacy-handoff request or compatibility requirement exists, use `/close-session` and create a session record instead.
 
-**If the user's goal is routine session close:** Use `/close-session` with `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md` regardless of whether work is complete or unfinished.
+**If the user's goal is routine session close:** Use `/close-session` with `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md` regardless of whether work is complete or unfinished; steward-specific closeout is an internal subroutine of that unified flow.
 
 ## CORE PRINCIPLE: CONTEXT SERVES ACTION
 All context sections must answer: "What does the next agent need to know to take the next actions?"
@@ -389,16 +390,10 @@ If all questions = "yes" → stop adding.
 
 After creating detailed handoff, generate copy-paste prompt.
 
-**AGENTS.md First Rule:** If the project has an AGENTS.md file (check: does it exist?), the prompt MUST start with "Read AGENTS.md for context. Then read PROJECT-RULES.md for onboarding." Only skip this if:
-- You're in a browser context without file access
-- The project doesn't have an AGENTS.md file
-- You cannot confirm the file exists
+**Context availability note:** Modern GAS harnesses inject AGENTS.md context automatically. Do not require copy-paste prompts to start by reading AGENTS.md unless the target harness is known not to inject it. If project-specific onboarding is needed, point to PROJECT-RULES.md or the handoff references directly.
 
-**With AGENTS.md (default for most projects):**
+**Default prompt:**
 ```markdown
-Read AGENTS.md for context.
-Then read PROJECT-RULES.md for onboarding.
-
 I'm picking up work on [project-name] - complex integration/synthesis task.
 Agent Task ID: [AGENT_TASK_ID] (preserve this ID in any handoffs you create)
 

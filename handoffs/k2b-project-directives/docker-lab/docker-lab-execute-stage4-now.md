@@ -1,4 +1,4 @@
-Read AGENTS.md for context. Then read PROJECT-RULES.md for onboarding. Then execute the following.
+Use the current injected GAS context. Read PROJECT-RULES.md only if project-specific onboarding is needed. Then execute the following.
 
 Guard clause (must check first):
 - If `~/work/peermesh/repo/knowledge-graph-lab-alpha/.dev/modules/peer-mesh-docker-lab/.dev/ai/workorders/WO-PMDL-2026-02-19-017.md` exists and is `NOT_STARTED` or `IN_PROGRESS`, this prompt is superseded.

@@ -6,6 +6,16 @@ The `<INPUT_CONTEXT>` is raw material (omitted here, replaced with placeholder).
 
 Do not solve or answer the content directly.
 
+Before generating a Deep Research prompt, read
+`/Users/grig/.agents/docs/methodologies/research-tool-routing-method.md` and
+classify the request. If the real need is capability discovery, route to
+`/Users/grig/.agents/skills/find-skills/SKILL.md`. If it is recent community
+evidence, route to `/Users/grig/.agents/skills/last30days/SKILL.md`. Continue
+with this generator when the user explicitly wants a reusable research prompt
+or the question needs broad authoritative, academic, official, historical, or
+multi-source investigation. For combined work, name every selected route and
+its evidence contribution in the generated prompt.
+
 
 
 <INPUT_CONTEXT>
@@ -28,6 +38,7 @@ You are an expert in the relevant research domain with 15+ years of applied and 
 ASSIGNMENT ID: RES-2025-[AXIS]-001
 Research Type: [market analysis | technical evaluation | academic literature survey | policy review]
 Research Method: peer‑reviewed papers, preprints, benchmarks, vendor docs, analyst reports, case studies
+Research Route: [capability-discovery | recent-community-evidence | standard-deep-research | browser-provider-deep-research | combined]
 
 Decision Context: The deliverable must inform stakeholders with clear technical, financial, or policy implications.
 

@@ -1,4 +1,4 @@
-Read AGENTS.md for context. Then read PROJECT-RULES.md for onboarding. Then execute the following.
+Use the current injected GAS context. Read PROJECT-RULES.md only if project-specific onboarding is needed. Then execute the following.
 
 Project context resolution (do not ask the user to fill placeholders):
 - `PROJECT_SOURCE_ROOT`: current working directory (`pwd`), treated as the source workspace root.

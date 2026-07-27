@@ -9,10 +9,45 @@
 >
 > The execution protocol is at
 > `~/.agents/prompts/work-orders/EXECUTE-WORK-ORDER.md`.
+>
+> **WO-authoring gate policy:** New WOs are executable by default. Follow
+> `~/.agents/docs/standards/WO-FORMAT-STANDARD.md#wo-authoring-gate-policy`.
+> Do not add owner-permission gates, approval checkpoints, "ask before
+> proceeding" tasks, or review requirements unless the owner explicitly asked
+> for them or the canonical policy identifies a real missing-info/access,
+> destructive, production-data-loss, legal/financial/business-authority,
+> scope-expansion, or unrecommendable product/strategy ambiguity gate.
+>
+> **Gate-proliferation prohibition:** creating a WO is not permission to make
+> the owner approve routine work. Before writing any `reply go`,
+> `waiting-for-permission`, `waiting-for-owner`, approval checkpoint, or owner
+> gate, name the canonical gate category and current evidence from the policy.
+> If you cannot name both, the gate is invalid. Convert it into executable
+> tasks, acceptance criteria, verification, source/document collection, routing,
+> dispatch, or result-artifact requirements.
+>
+> **Reference-artifact policy:** When the owner supplies an upload,
+> attachment, or exact local file specifically as WO input, evidence, or
+> context, apply
+> `~/.agents/docs/standards/WO-FORMAT-STANDARD.md#work-order-reference-artifacts`.
+> Preserve the exact eligible file durably and include the standard's
+> `Reference Artifacts` section; do not substitute a generic artifact folder or
+> copy the full policy into this deprecated prompt.
+>
+> **Development-mode anti-degradation:** Apply
+> `/Users/grig/.agents/docs/standards/DEVELOPMENT-MODE-ANTI-DEGRADATION.md`.
+> Readiness language is status, not authority to remove, defer, hedge, disable,
+> or reduce owner-requested work. Write unfinished scope as
+> `BACKLOG — TO BUILD`, `NEXT TO BUILD`, or explicit executable tasks. If an
+> outward-readiness caveat appears in a title or opening, fence it in the same
+> breath as external-claims-only. Preserve explicit owner scope and real
+> safety/credential/payment/financial/destructive/production gates.
 
 ## 🚨 AUTOMATIC TRIGGERING RULES (MANDATORY)
 
 **READ THIS FIRST:** Work order creation is now MANDATORY in certain situations.
+It is a tracking/handoff mechanism, not an approval stop. If the owner asked
+you to work, create the WO and continue unless a valid owner-only gate exists.
 
 ### When Work Orders Are REQUIRED (Agent MUST create)
 
@@ -69,7 +104,10 @@ When agent automatically creates work order (thresholds 1-3), agent MUST:
 1. Create work order with full context
 2. Save to disk and track
 3. **Immediately begin executing the work order** (only if active role/mode permits implementation)
-4. Update status to IN_PROGRESS
+4. Synchronize status to IN_PROGRESS through the allowed role boundary: update
+   the WO file only if the active role has live-write authority, and synchronize
+   `WO-INDEX.md` through the safe writer, project-local lock, or
+   result-artifact fallback.
 5. Continue working until complete
 
 **Exception:** If user says "stop", "wait", or "don't start yet" → Agent creates WO but pauses
@@ -131,6 +169,56 @@ Using TodoWrite for task tracking instead.
 ## Standard Work Order Generation
 
 Generate a comprehensive work order from the conversation context. Execute all steps sequentially without pausing for review. **ALWAYS save the work order to disk and track it in the project tracking system.**
+
+Default to an executable WO. If the work is clear, scoped, reversible or
+verifiable, and inside the executing lane's authority, do not add an owner
+approval/review gate. If you believe discretionary checkpoints are needed, ask
+the owner where gates belong before creating the WO instead of silently
+over-gating it. Recommendations, acceptance criteria, QA, verification, and
+result artifacts are not permission gates.
+
+Do not convert `pre-release`, `MVP`, `placeholder`, `demo data`, `not
+production ready`, or `do not claim this is live` into reduced WO scope. Record
+the truthful status separately from the executable build scope. Ambient
+readiness text cannot move requested work to out of scope, on hold, or a later
+phase. Only explicit owner direction, ratified scope, genuine obsolescence, or
+a named legitimate gate can do that.
+
+Do not write "reply go collect docs", "reply go gather sources", "reply go to
+route this WO", or similar permission waits for routine preparatory work.
+Documentation/source collection, project-doc reads, source mapping, WO routing,
+dispatch, QA, verification, and evidence collection are executable WO tasks
+unless the canonical policy's gate validity test proves a real owner-only gate.
+
+If the owner or WO scope says the work is private/non-public, testnet-only, no
+commits, no mainnet movement, no public launch, no ChiaLisp/contract edits, or
+similar, preserve those as constraints and make the remaining cleanup
+executable. Do not ask permission to run a WO because of a risk that the WO
+already excludes.
+
+## WO File and Index Sync Boundary
+
+Creating or completing a WO requires two distinct status surfaces to stay in
+sync: the WO file itself and `.dev/ai/workorders/WO-INDEX.md`.
+
+- Intake roles that are authorized to create WOs may write the new WO file.
+- `WO-INDEX.md` writes must go through the current safe path: GAS root indexes
+  use the WOQ shared-status safe writer with the current full target hash;
+  project-local indexes use `.WO-INDEX.lock/`, reread-after-lock, scoped update
+  only, and an `index-pending` fallback on lock contention.
+- Dispatched workers, QA, and read-only agents default to result-artifact-only
+  shared-status authority. They must record both the proposed WO file status
+  change and the required `WO-INDEX.md` synchronization in their exact result
+  artifact for the authorized parent/session owner to assimilate.
+
+Exception: WOs in an exact owner-approved generated boundary listed in
+`/Users/grig/.agents/docs/protocols/woq-role-lifecycle.md` (currently
+`woq-live-status`, or `WO-GASECAP-20260714-001` through `006` in
+`gas-external-capability-integration`) enter the provenance-marked generated
+section through WOQ observation and the existing `woq_shadow_sync` scheduler
+job. Create or update the WO file, but do not hand-edit, queue `index-pending`,
+or create an `*-index-proposed.md` artifact for that exact section. All
+unflipped boundaries retain the rules above.
 
 # Control Triggers
 - **Standard work order:** Default behavior - generate full work order with all sections, save, and track
@@ -391,7 +479,8 @@ prerequisites:
 ### 9. Acceptance Criteria
 - **Definition of done:** Specific, measurable completion criteria
 - **Testing requirements:** What tests must pass
-- **Review requirements:** Who needs to review/approve
+- **Gate requirements:** Include only owner-requested or canonical real gates;
+  otherwise write "None -- executable under acceptance criteria"
 - **Documentation complete:** What docs must exist
 - **Accomplishment tracking:** Automatic accomplishment entry created in `.dev/ai/accomplishments/` when WO status = COMPLETED
 
@@ -482,7 +571,9 @@ expected_output: "0 (no TODOs remaining)"
 1. **On Start:**
    - **VERIFY CODEBASE STATE FIRST** - Run all verification commands from section 6
    - If verification fails, STOP and mark as BLOCKED with details
-   - Update STATUS to IN_PROGRESS
+   - Synchronize STATUS to IN_PROGRESS through the allowed role boundary: WO
+     file update if authorized, plus `WO-INDEX.md` synchronization through the
+     safe writer/project-local lock lane or result artifact
    - Set AGENT and timestamp
    - Read all files listed in "Execution Context" section
 
@@ -500,7 +591,9 @@ expected_output: "0 (no TODOs remaining)"
 
 4. **On Completion:**
    - Run ALL test commands
-   - Update STATUS to COMPLETED
+   - Synchronize STATUS to COMPLETED through the allowed role boundary: WO file
+     update if authorized, plus `WO-INDEX.md` synchronization through the safe
+     writer/project-local lock lane or result artifact
    - Add review notes if needed
 
 ### 16. Recovery Instructions
@@ -562,6 +655,12 @@ expected_output: "0 (no TODOs remaining)"
 7. **Write file:** Save complete work order to disk
 
 8. **Confirm save:** Explicitly verify file was written successfully
+
+9. **Synchronize WO file and index:** If your role owns intake/index writes,
+   add or update the `WO-INDEX.md` entry through the safe writer or
+   project-local lock protocol. If you are a worker or lack index authority,
+   write the required WO file status and index synchronization details to the
+   result artifact for the authorized parent/session owner.
 
 ### Tracking Integration
 After saving, execute tracking command:
@@ -633,7 +732,9 @@ All necessary context from the conversation has been captured above.
 
 After creating the accomplishment:
 1. Update the accomplishment file with actual details (summary, work completed, technical details, impact)
-2. Update work order STATUS to COMPLETED
+2. Synchronize work order STATUS to COMPLETED in the WO file and
+   `WO-INDEX.md` through the safe writer, project-local lock, or result
+   artifact route allowed for the current role
 3. Update accomplishments index (done automatically by script)
 
 ** WORK ORDER END **
@@ -645,6 +746,8 @@ After creating the accomplishment:
 - Make tasks independently executable
 - Include verification methods for each task
 - Preserve important decisions and rationale from discussion
+- Do not turn recommendations, acceptance criteria, QA, verification commands,
+  result artifacts, or routine review language into owner-permission gates
 - **ALWAYS confirm file was written and tracked successfully**
 - Include file path and tracking confirmation in output
 
@@ -680,7 +783,7 @@ After presenting the work order, confirm:
 
 Options:
 
-- 'approve' to mark ready for execution
+- 'execute' to begin now if the active role permits execution
 - 'split' to create multiple work orders
 - 'revise [section]' to modify specific parts
 - 'expand [task]' for more detail on a task"

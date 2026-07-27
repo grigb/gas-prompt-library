@@ -5,6 +5,34 @@ Generate and maintain a work order index for tracking all work orders in a proje
 ## File Location
 Save to: `.dev/ai/workorders/WO-INDEX.md`
 
+## Shared Status Write Boundary
+
+`WO-INDEX.md` is a shared status surface, not a normal hand-edited scratch
+file. Read-only inspection is allowed. Any write or status synchronization must
+use one of these safe paths:
+
+- **GAS root index:** use the WOQ shared-status safe writer with the current
+  full target hash. If the safe writer refuses the update, write the proposed
+  index text and the exact refusal to the worker result artifact for
+  parent/session-owned assimilation.
+- **Project-local index:** acquire the project-local `.WO-INDEX.lock/`, reread
+  the index after acquiring the lock, write only the scoped entry/status change,
+  and release only your own lock. On lock contention, write the proposed update
+  to `index-pending/<role>/` or the exact result artifact instead of waiting or
+  overwriting.
+- **Workers, QA, and read-only agents:** default to result-artifact-only
+  shared-status authority. Their status updates must name both the WO file
+  change needed and the `WO-INDEX.md` synchronization needed through the
+  authorized parent, steward, liaison, triage, or maintenance writer lane.
+
+Generated-boundary exception: the exact owner-approved sections listed in
+`/Users/grig/.agents/docs/protocols/woq-role-lifecycle.md` (currently
+`woq-live-status`, and exactly `WO-GASECAP-20260714-001` through `006` in
+`gas-external-capability-integration`) are scheduler-generated from trusted WOQ
+lifecycle state plus WO files. Do not hand-edit them or create
+`index-pending`/`*-index-proposed.md` work for them. Update the WO file only.
+Every unflipped section continues to use the safe paths above.
+
 ## Update Triggers
 - When creating new work orders
 - When completing work orders
@@ -85,7 +113,10 @@ Support these queries:
 ## Maintenance Rules
 
 1. **Never delete entries** - Move completed to archive
-2. **Update status immediately** when work order changes
+2. **Synchronize status through the safe boundary** when work order status
+   changes: update the WO file only if your role has live-write authority, and
+   synchronize `WO-INDEX.md` through the safe writer, project-local lock, or
+   result-artifact fallback.
 3. **Track all WOs** - Including those from previous sessions
 4. **Age calculation** - Days since creation
 5. **Relationship tracking** - Update blocks/blocked-by
@@ -109,8 +140,10 @@ Completed work orders older than 7 days move to:
 ```bash
 # After any WO status change
 echo "Updated WO-xxx status to COMPLETED" >> .dev/ai/workorders/WO-CHANGELOG.md
-# Update index
-[Update the WO-INDEX.md file]
+# Synchronize WO file status and WO-INDEX.md through the allowed role boundary:
+# - GAS root: WOQ shared-status safe writer with current full target hash
+# - project-local: .WO-INDEX.lock/ + reread-after-lock + scoped update
+# - worker/QA fallback: proposed WO file status and index sync in result artifact
 # Track change
 ~/.agents/scripts/track-project.sh "[project]" "WO Index updated" \
   "[change summary]" "[agent]"

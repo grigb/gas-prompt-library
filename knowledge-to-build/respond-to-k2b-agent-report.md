@@ -1,4 +1,4 @@
-Read AGENTS.md for context. Then read PROJECT-RULES.md for onboarding. Then execute the following.
+Use the current injected GAS context. Read PROJECT-RULES.md only if project-specific onboarding is needed. Then execute the following.
 
 Goal:
 Given the latest K2B status report from this project agent, decide whether to:

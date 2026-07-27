@@ -17,6 +17,7 @@ This legacy standard handoff flow remains supported only for backward compatibil
 
 Routine end-of-session closeout, including unfinished routine continuation between sessions, now uses `/close-session` with `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md`.
 That unified flow replaces the old "audit + standard handoff" pairing with one session-close record in `.dev/ai/sessions/`.
+It also handles role-aware steward closeout routing automatically; do not route routine session retirement through `close-steward` or this legacy handoff prompt directly.
 This file is **not** the normal session-close path.
 
 Use this legacy standard handoff flow when:
@@ -63,7 +64,7 @@ Include in: Frontmatter, footer, and next-session prompt.
 
 **Critical Rule:** Always respect explicit user requests for standard handoffs. If no explicit legacy-handoff request or compatibility requirement exists, use `/close-session` and create a session record instead.
 
-**If the user's goal is routine session close:** Use `/close-session` with `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md` regardless of whether work is complete or unfinished.
+**If the user's goal is routine session close:** Use `/close-session` with `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md` regardless of whether work is complete or unfinished; steward-specific closeout is an internal subroutine of that unified flow.
 
 ---
 
@@ -250,15 +251,10 @@ source ~/.agents/scripts/common.sh
 
 Create copy-paste prompt for next agent.
 
-**AGENTS.md First Rule:** If the project has an AGENTS.md file (check: does it exist?), the prompt MUST start with "Read AGENTS.md". Only skip this if:
-- You're in a browser context without file access
-- The project doesn't have an AGENTS.md file
-- You cannot confirm the file exists
+**Context availability note:** Modern GAS harnesses inject AGENTS.md context automatically. Do not require copy-paste prompts to start by reading AGENTS.md unless the target harness is known not to inject it.
 
-**With AGENTS.md (default for most projects):**
+**Default prompt:**
 ```markdown
-Read AGENTS.md
-
 I'm picking up work on [project-name].
 Agent Task ID: [AGENT_TASK_ID] (preserve this ID in any handoffs you create)
 
