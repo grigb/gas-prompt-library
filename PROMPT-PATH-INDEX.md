@@ -27,6 +27,7 @@
 | CODEX-MISSED-SUBAGENT-COMPLETION-RECOVERY | `~/.agents/prompts/general/CODEX-MISSED-SUBAGENT-COMPLETION-RECOVERY.md` |
 | RESEARCH-TOOL-ROUTING-METHOD | `~/.agents/docs/methodologies/research-tool-routing-method.md` |
 | FIND-SKILLS | `~/.agents/skills/find-skills/SKILL.md` |
+| FIND-UNKNOWNS | `~/.agents/skills/find-unknowns/SKILL.md` |
 | LAST-30-DAYS | `~/.agents/skills/last30days/SKILL.md` |
 | DEEP-RESEARCH-PROMPT-GENERATOR | `~/.agents/prompts/research/deep-research-prompt-generator.md` |
 | DEEP-RESEARCH-MASTER | `~/.agents/prompts/research/deep-research-master.md` |

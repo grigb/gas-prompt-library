@@ -651,6 +651,11 @@ Agent: "Dev Worker agent activated. Ready to investigate and fix the auth bug in
 
 | Trigger Phrase | Target Prompt | Description |
 |----------------|---------------|-------------|
+| `find unknowns` | `~/.agents/skills/find-unknowns/SKILL.md` | Identify decision-changing unknowns and the cheapest useful next learning action |
+| `blind spot pass` | `~/.agents/skills/find-unknowns/SKILL.md` | Inspect the current framing for consequential omissions |
+| `unknown unknowns` | `~/.agents/skills/find-unknowns/SKILL.md` | Surface plausible blind spots without manufacturing exhaustive lists |
+| `what am I missing?` | `~/.agents/skills/find-unknowns/SKILL.md` | Separate evidence-backed gaps from assumptions and owner-only answers |
+| `what is not done yet?` | `~/.agents/skills/find-unknowns/SKILL.md` | Verify authoritative local state, separate unfinished work, then inspect uncertainty |
 | `copy first` | `~/.agents/skills/copy-first-web/methodology.md` | Copy-first web development: perfect copy in markdown before building pages |
 | `copy-first web` | `~/.agents/skills/copy-first-web/methodology.md` | Full name trigger |
 | `markdown first` | `~/.agents/skills/copy-first-web/methodology.md` | Alternate trigger |
