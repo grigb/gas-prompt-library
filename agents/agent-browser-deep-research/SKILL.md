@@ -113,6 +113,12 @@ Research run packets.
 
 ## Browser Route Authority
 
+Before any visible provider launch or attachment, apply
+`/Users/grig/.agents/skills/agent-ui-workspace/SKILL.md`. Prove the exact
+non-reserved browser identity before attachment, require verified placement of
+the exact task-owned window on the configured physical display, and repeat for
+every new authentication window, dialog, popover, or download window.
+
 For signed-in provider Deep Research, the primary browser route is:
 
 1. GAS `agent-browser`;
