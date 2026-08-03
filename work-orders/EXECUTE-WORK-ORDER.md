@@ -28,7 +28,14 @@ If you do have explicit live-write authority, use the current safe boundary:
 individual Markdown WO file status/body/note writes go through
 `/Users/grig/.agents/.venv/bin/python3 -m tools.woq.cli work-order write` with
 the exact WO path, current full-file `--base-sha256`, exact
-`--result-artifact`, per-WO lock metadata, reread-after-lock, and atomic write.
+`--result-artifact`, persistent per-WO anchor flock, reread under that flock,
+full-file CAS, and atomic write; the ready v1 `.<target filename>.lock/lock.json`
+anchor remains in place. `lock_released: true` reports successful audits,
+kernel unlock, and descriptor closes, not path deletion. This advisory guarantee
+covers registered cooperating writers only. Unsupported hosts/filesystems,
+mixed-version or invalid anchor state, and capability uncertainty fail closed;
+cutover requires quiescence, and recovery or migration requires a separately
+signed exact-path maintenance lease rather than automatic repair or deletion.
 GAS root `WO-INDEX.md` writes go through the WOQ shared-status safe writer with
 the current full target hash; project-local `WO-INDEX.md` writes require
 `.WO-INDEX.lock/`, reread-after-lock, scoped update only, and an
