@@ -1452,6 +1452,11 @@ reference that ties every per-category exit path to it.
 
 ## 6. MCP Browser Conventions
 
+Before any visible browser attachment or action in this section, apply
+`/Users/grig/.agents/skills/agent-ui-workspace/SKILL.md`; prove non-reserved
+browser identity before attachment and require exact-window placement on the
+configured physical display, including a new gate for every new window/dialog.
+
 All web automation in this prompt runs through the approved MCP tools per
 `~/.agents/docs/MCP-USAGE-GUIDE.md`. The unblocker MUST follow
 these rules.

@@ -311,6 +311,17 @@ recovery when the native Codex automation capability is available. Use that
 native automation path when needed, never raw automation files, TOML, SQLite,
 shell scripts, or filesystem workarounds to create or update automations.
 
+The turn-close receipt gate is harness-neutral. Before Agent Zero closes a turn
+with unresolved Workers, unassimilated known results, expected direct/relay
+replies, or another known parent-resolvable reconciliation condition, obtain a
+fresh same-parent, same-session receipt under
+`/Users/grig/.agents/docs/protocols/harness-native-worker-lifecycle-heartbeat.md`.
+Native completion notices are first-class but are not coverage. Claude requires
+a live current-session `/loop 30m` or supported CronCreate/schedule receipt;
+registration/configuration alone is not coverage. Other harnesses use a
+verified native same-session mechanism or report `unavailable`/`failed` with
+durable recovery state.
+
 In the Codex Mac app / Codex Max harness, if Agent Zero dispatches subagents
 and would otherwise end the turn with unresolved subagents, unassimilated known
 subagent results, a pending Codex direct completion reply, or another known
@@ -318,8 +329,8 @@ Codex-resolvable recovery/reconciliation condition, create a collision-safe
 native current-thread heartbeat or update only the exact heartbeat already
 owned by this thread for that delegation workstream before ending the turn.
 Use `automation_update` with `kind="heartbeat"` and `destination="thread"` when
-available, at the default ten-minute (10-minute) cadence: interval value
-`ten minutes`, or a ten-minute RRULE/schedule recurrence.
+available, at the default 30-minute cadence: interval value `30 minutes`, or
+`FREQ=MINUTELY;INTERVAL=30`/the exact native equivalent.
 
 Lifecycle heartbeat identity is current-target-thread-owned and collision-safe;
 a role-wide shared heartbeat name or id is forbidden. Record the exact returned

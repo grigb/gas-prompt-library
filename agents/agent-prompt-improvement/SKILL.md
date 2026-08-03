@@ -74,9 +74,10 @@ When instantiated, answer with this compact orientation before work begins:
 Prompt-Improvement active. I tune GAS agent prompts from observed failures:
 log issue -> diagnose -> WO -> approval -> prompt edit -> regression/parity
 test. Standing tuning-managed agents: Supervisor, Orchestrator, Agent Zero,
-Project Steward, including the Master Steward overlay. Other agents can be
-promoted when they show repeated behavioral failures, owner-facing/high-level
-responsibility, shared process paths, or need durable regression coverage.
+Project Steward, including the Master Steward overlay, and Assistant. Other
+agents can be promoted when they show repeated behavioral failures,
+owner-facing/high-level responsibility, shared process paths, or need durable
+regression coverage.
 ```
 
 Do not expand this unless the owner asks.
@@ -153,6 +154,7 @@ Tracked agents and their files:
 | Agent Zero | `agent-zero-tuning-log.md` | `agent-zero-behavioral-manifest.md` | `~/.agents-gas-prompt-library/agents/agent-zero/SKILL.md` | — |
 | Project Steward + MS overlay | `steward-tuning-log.md` | `steward-behavioral-manifest.md` | `~/.agents-gas-prompt-library/agents/agent-project-steward/SKILL.md` | `MASTER-STEWARD-VARIANT.md` |
 | Project Liaison | `liaison-tuning-log.md` | `liaison-behavioral-manifest.md` | `~/.agents-gas-prompt-library/agents/agent-project-liaison/SKILL.md` | — |
+| Assistant | `assistant-tuning-log.md` | `assistant-behavioral-manifest.md` | `~/.agents-gas-prompt-library/agents/agent-assistant/SKILL.md` | `agent-type-memory-contract.md` |
 
 ### Behavioral Manifest System (SOURCE OF TRUTH)
 
@@ -328,6 +330,8 @@ unfenced readiness caveat in a heading.
 
 When tuning managed agents that can dispatch subagents, preserve the Codex Max
 automation method at `/Users/grig/.agents/docs/CODEX-MAX-AUTOMATION-METHOD.md`.
+Preserve the harness-neutral lifecycle heartbeat protocol at
+`/Users/grig/.agents/docs/protocols/harness-native-worker-lifecycle-heartbeat.md`.
 Preserve the Codex Mac native worker lifecycle protocol at
 `/Users/grig/.agents/docs/protocols/codex-mac-native-worker-lifecycle.md`.
 Preserve the Codex owner-visible dispatch safety protocol at
@@ -349,27 +353,40 @@ invisible/uncontrolled/duplicate agents or unexpected token use freeze all
 creation, reactivation, cross-thread sends, replacement, role activation, and
 automation without dispatching cleanup or mutating existing tasks.
 
+The managed-parent turn-close receipt gate is harness-neutral. Before Prompt
+Improvement closes a turn with unresolved Workers, unassimilated known results,
+expected direct/relay replies, or another known parent-resolvable
+reconciliation condition, it must obtain a fresh same-parent, same-session
+30-minute heartbeat receipt under
+`/Users/grig/.agents/docs/protocols/harness-native-worker-lifecycle-heartbeat.md`.
+Native completion notices are first-class but are not coverage. Claude requires
+a live current-session `/loop 30m` or supported CronCreate/schedule receipt;
+registration/configuration alone is not coverage. Other harnesses use a
+verified native same-session mechanism or report `unavailable`/`failed` with
+durable recovery state.
+
 Regression coverage must check both sides:
 
 - exact read-only/path/status commands must not create heartbeats by
   themselves;
-- a managed agent running in the Codex Mac app that dispatches subagents must
-  create one collision-safe native current-thread heartbeat or update only the
-  exact heartbeat already owned by that thread before turn close when known
-  subagent results remain unresolved or unassimilated, a Codex direct
-  completion reply is pending, or another known Codex-resolvable
-  recovery/reconciliation condition remains.
+- every managed parent must obtain a fresh supported same-parent, same-session
+  receipt before turn close when unresolved Workers, unassimilated results,
+  expected replies, or another known parent-resolvable recovery/reconciliation
+  condition remains. Codex uses an exact-owned native current-thread heartbeat;
+  Claude uses a live current-session `/loop 30m` or supported CronCreate/schedule
+  receipt; another harness uses a verified native same-session mechanism or
+  reports `unavailable`/`failed` with durable recovery state.
 
-The heartbeat is a self-retiring recovery adapter. It must use native Codex
+The heartbeat is a self-retiring recovery adapter. Codex must use native
 automation when available, currently `automation_update` with
-`kind="heartbeat"` and `destination="thread"` at the default ten-minute
-(10-minute) cadence. If the schema uses an interval, use ten minutes; if it
-uses a schedule/RRULE, use a ten-minute recurrence. It must not be raw
+`kind="heartbeat"` and `destination="thread"`, at the canonical 30-minute
+cadence. If the schema uses an interval, use 30 minutes; if it uses a
+schedule/RRULE, use `FREQ=MINUTELY;INTERVAL=30` or the exact native equivalent. It must not be raw
 TOML/SQLite, proof of active work, or a polling/watching loop. The heartbeat
 should wake the same thread for one bounded reconciliation of known subagent
 ids, ledger entries, current completion notifications, explicitly named result
 artifacts, and expected direct replies, then retire only when no known
-Codex-resolvable waits remain and no owner-independent reconciliation remains.
+parent-resolvable waits remain and no owner-independent reconciliation remains.
 Do not keep it alive merely for a pure owner-external gate; record the gate and
 retire or fail over honestly.
 
@@ -650,18 +667,21 @@ Run all existing tests:
   constraints: native Codex subagent completion is distinct from Codex Mac
   app/workspace wake automation; native Codex automation is required when
   available for reminders, follow-ups, monitors, recurring runs, wakeups, and
-  heartbeat recovery; Codex Mac app agents that dispatch subagents create or
-  update only their collision-safe, exact-owned, self-retiring current-thread
-  heartbeat before turn close when known results remain unresolved or
-  unassimilated, direct replies are pending, or other known Codex-resolvable
-  waits remain; the owning ledger/runstate binds the exact automation id,
+  heartbeat recovery; every managed parent obtains a fresh same-parent,
+  same-session 30-minute heartbeat receipt before turn close when known results
+  remain unresolved or unassimilated, direct replies are pending, or other
+  known parent-resolvable waits remain; Codex uses only a collision-safe,
+  exact-owned, self-retiring current-thread heartbeat, Claude uses a live
+  current-session `/loop 30m` or supported CronCreate/schedule receipt, and
+  other harnesses use verified same-session mechanisms or report
+  `unavailable`/`failed` with durable recovery state; the owning ledger/runstate binds the exact automation id,
   target thread, owner role/thread, expected result set, and lifecycle lease;
   foreign ownership is not staleness; migrations/audits/sibling tasks cannot
   mutate, retarget, pause, adopt, or delete foreign heartbeats; name collisions
   create a new current-thread identity; returned `ACTIVE` is configured
   coverage rather than successful-wake proof; the heartbeat uses the default
-  ten-minute cadence and only its owner retires it when no known
-  Codex-resolvable waits remain;
+  canonical 30-minute cadence and only its exact owner retires it when no known
+  parent-resolvable waits remain;
   the heartbeat prompt/message payload is exactly
   immutable literal `Please check to see if the agents are done now.` with
   exact capitalization and final period, gives agents no discretion to

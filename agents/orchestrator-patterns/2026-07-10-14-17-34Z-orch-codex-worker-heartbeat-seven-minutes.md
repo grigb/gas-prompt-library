@@ -1,29 +1,14 @@
-# Orchestrator Pattern: Codex Worker Heartbeat Is Ten Minutes
+# Orchestrator Pattern: Historical Codex Heartbeat Cadence (Superseded)
 
-When dispatching or waiting on unresolved native Codex workers, create or
-update a current-thread heartbeat immediately with `automation_update`,
-`kind="heartbeat"`, `destination="thread"`, and a ten-minute cadence.
+Status: historical and superseded.
 
-Set its prompt/message payload exactly to
-`Please check to see if the agents are done now.` The prompt must contain
-nothing else. This is an immutable transport literal with no agent discretion:
-match its exact capitalization and final period; never paraphrase, expand,
-specialize, prefix, suffix, or substitute it. Compare the returned automation
-snapshot prompt to this payload; immediately correct the same heartbeat or
-delete it and report failed coverage if it differs. On wake, load the standing
-lifecycle contract and perform its notice-independent evidence order for only
-known workers: exact result first, any already-present notice without requiring
-one, native inventory once, an exact directly mapped child lifecycle/session
-record, then ledger and concrete named progress. No notice means unknown, never
-still-running. The wake grants no new scope; resume only Orchestrator work
-already authorized by the owner, role, and current runstate. Unchanged
-nonterminal state uses the harness quiet heartbeat response.
+This pattern no longer defines live behavior. The live harness-neutral
+30-minute lifecycle-heartbeat pattern is:
 
-Use an RRULE equivalent to:
+`/Users/grig/.agents-gas-prompt-library/agents/orchestrator-patterns/2026-08-03-02-29-20Z-orch-harness-neutral-worker-heartbeat-thirty-minutes.md`
 
-`FREQ=MINUTELY;INTERVAL=10`
+Canonical policy:
+`/Users/grig/.agents/docs/protocols/harness-native-worker-lifecycle-heartbeat.md`
 
-Do not use a different cadence unless the owner explicitly asks for one.
-
-When the worker is assimilated and no Codex-resolvable wait remains, delete the
-heartbeat in the same closeout pass.
+Do not recover a cadence, payload, or harness exemption from this historical
+record.

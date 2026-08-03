@@ -43,6 +43,31 @@ GAS sender app, and the sender app posts the notification and handles the click.
 > - Add `--persistent` **only** when you have stopped at a human-in-the-loop gate and cannot
 >   continue correctly without owner input (approval, blocking ambiguity, credential/payment/
 >   security confirmation, or a destructive-action decision).
+> - One narrow setup gate also qualifies: a required owner-approved Codex peer-role task is
+>   absent **after** you wrote the durable owner-setup handoff. Only the owner can create that
+>   role task. This is owner setup action, not generic waiting on a Worker, subagent, role, or
+>   project. Use message `Codex task needed: create the approved <role> task for
+>   <project/workstream>`, route the click to the source Codex thread when known, and include
+>   the durable handoff path. Do not create/resume/reactivate/replace/commandeer the task or
+>   tell a peer task to spawn.
+>
+>   Canonical missing-role notification pattern (run only after the handoff exists; omit
+>   `--target-harness codex --thread-id ...` when the source Codex thread id is unknown):
+>
+>   ```bash
+>   /Users/grig/.agents/tools/agent-notify/bin/gas-notify \
+>     --title "<Project name>" \
+>     --subtitle "<source-role> -> <target-role> | Workstream: <workstream> | <source-thread-or-WO>" \
+>     --message "Codex task needed: create the approved <target-role> task for <project>/<workstream>. Read the owner-setup handoff." \
+>     --persistent \
+>     --target-harness codex \
+>     --thread-id "<source-codex-thread-id>" \
+>     --artifact-path "<absolute-owner-setup-handoff-path>" \
+>     --project "<project>" \
+>     --cwd "<absolute-project-root>" \
+>     --workstream "<workstream>" \
+>     --notification-id "codex-task-needed-<source-thread-id>-<target-role>-<unique-id>"
+>   ```
 >
 > **Click routing:**
 > - **Codex agents:** `--target-harness codex --thread-id <conversation-id>` makes the click
@@ -102,8 +127,12 @@ Send one temporary and one persistent test so both sender apps register, then in
 ### Do / Don't
 - DO lead `--title` with the project; carry identity in `--subtitle`.
 - DO reserve `--persistent` for true HITL gates.
+- DO treat a missing required owner-approved Codex peer-role task as a true HITL setup gate
+  only after the durable owner-setup handoff exists; the owner creates the task.
 - DO give Claude clicks a safe durable destination with `--open-url`, or with
   `--artifact-path` when not using `--target-harness claude`.
 - DO use `--target-harness claude` only when focusing Claude Desktop is the desired click action.
 - DON'T use this for routine success/progress — write a durable artifact instead.
+- DON'T use the missing-peer exception for generic waiting on Workers, subagents, roles, or
+  projects, and don't use it to create, resume, reactivate, replace, or commandeer peer tasks.
 - DON'T treat it as a network relay; it is local same-machine only.
