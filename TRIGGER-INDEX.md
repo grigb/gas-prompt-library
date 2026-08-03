@@ -670,6 +670,21 @@ Agent: "Dev Worker agent activated. Ready to investigate and fix the auth bug in
 | `field experience` | `~/.agents/docs/field-protocols/INDEX.md` | Owner-provided raw experience to evaluate for protocol extraction |
 | `extract field protocol` | `~/.agents/docs/field-protocols/INDEX.md` | Extract a protocol candidate from a private source pointer |
 | `turn this into a field protocol` | `~/.agents/docs/field-protocols/INDEX.md` | Natural-language protocol extraction trigger |
+| `session recovery` | `~/.agents/docs/SESSION-RECOVERY-GUIDE.md` | Pick up work started in another harness; read the current snapshot before rescanning |
+| `session scan` | `~/.agents/docs/SESSION-RECOVERY-GUIDE.md` | Enumerate open threads across harnesses via `gas-method threads.tree` |
+| `harness sessions` | `~/.agents/docs/SESSION-RECOVERY-GUIDE.md` | Cross-harness thread inventory: top-level threads with subagent history attached |
+
+**Activation Regex:** `(?i)\b(session\s+recovery|session\s+scan|harness\s+sessions)\b`
+
+**Session Recovery Rule:** Recovered summaries are an outside reading of harness
+transcripts, not a session's own retirement return. Every completion claim in
+them is unverified — re-verify before building on it. Never infer a role from a
+thread title; assert `You are the <ROLE>.` only when the owner assigns it or the
+recovered material shows the session actually held it. Structurally top-level is
+not the same as human-started; use the `initiator` field, not tree position.
+Prefer the existing snapshot over rescanning. The intended path is the retirement
+lifecycle at `~/.agents/tools/codex-swarm-supervisor/retirement/README.md`; this
+trigger is the fallback for when that did not run.
 
 **Field Protocol Rule:** When the owner supplies a private markdown file or
 directory path, do not copy raw source into GAS docs. Read
