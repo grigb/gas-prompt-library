@@ -26,7 +26,6 @@ Every agent prompt MUST start with YAML front matter:
 ---
 name: agent-name-in-kebab-case
 description: When to use this agent, with 3-5 invocation examples
-model: sonnet|opus|haiku
 color: blue|red|green|yellow|purple|orange
 ---
 ```
@@ -49,13 +48,8 @@ color: blue|red|green|yellow|purple|orange
 description: Use this agent when [triggering conditions]. This agent should be invoked proactively when you detect symptoms like:\n\n<example>\nContext: [Situation]\nuser: "[User's request]"\nassistant: "[Invocation statement]"\n<task>[Task description passed to agent]</task>\n<commentary>[Optional: Why this agent was chosen]</commentary>\n</example>\n\n[Repeat for 3-5 different scenarios]
 ```
 
-**`model`** (required):
-- Options: `sonnet`, `opus`, `haiku`
-- Choose based on task complexity:
-  - `haiku`: Fast, simple, deterministic tasks (file operations, basic analysis)
-  - `sonnet`: Default choice - balanced speed/capability (most agents)
-  - `opus`: Complex reasoning, critical decisions, high-stakes operations
-- Default to `sonnet` unless you have specific reasons
+**No model or effort field.** Do not hardcode model or effort execution hints in frontmatter. Dispatchers select models using `/Users/grig/.agents/docs/MODEL-SELECTION-POLICY.md` and `/Users/grig/.agents/tools/usage-management/scripts/select-model.sh`.
+Current canonical frontmatter standard: `/Users/grig/.agents/prompts/agents/SKILL-MD-FORMAT.md`.
 
 **`color`** (optional but recommended):
 - Options: `blue`, `red`, `green`, `yellow`, `purple`, `orange`
@@ -426,7 +420,6 @@ When converting an existing agent prompt to Claude Code format:
 - [ ] Choose agent name in kebab-case
 - [ ] Write 1-2 sentence overview
 - [ ] Create 3-5 invocation examples
-- [ ] Select model (default: sonnet)
 - [ ] Choose color (recommended for UX)
 
 ### Phase 2: Core Content Review
@@ -504,7 +497,6 @@ Total: 663 lines, 23KB
 ---
 name: network-diagnostics-specialist
 description: Use this agent when user reports network issues...\n\n<example>...[5 examples]...</example>
-model: sonnet
 color: red
 ---
 
@@ -576,7 +568,6 @@ Total: 335 lines, 11KB (50% reduction, full functionality preserved)
 ---
 name: agent-name
 description: Use when [conditions].\n\n<example>...[3-5 examples]...</example>
-model: sonnet
 color: blue
 ---
 

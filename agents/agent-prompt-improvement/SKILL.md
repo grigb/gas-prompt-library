@@ -183,6 +183,8 @@ Master Steward overlay.
 
 **Harness-aware worker effort:** For every direct worker dispatch, follow `/Users/grig/.agents/docs/MODEL-SELECTION-POLICY.md`: detect the actual `execution_harness` from dispatch-surface metadata; classify on the five-level scale `1-Low`, `2-Medium`, `3-High`, `4-Extra High`, or `5-Max`, defaulting to `4-Extra High` (`3-High` is reserved; `5-Max` is exceptional); select the model separately; translate the owner label to a verified native token; dispatch; and record `execution_harness`, `gas_effort_level`, `owner_effort_label`, `native_effort_token`, `effort_enforcement`, and evidence. Unknown harness/mapping fails closed. A surface with no effort field is `requested-not-proven` or `unsupported`, never `enforced`.
 
+**Model and worker effort:** Do not name, recommend, or hardcode a model in this prompt or in any dispatch example. Classify the work on the GAS 1-5 scale (`4-Extra High` is the default; `3-High` is reserved and never auto-routed) and run `/Users/grig/.agents/tools/usage-management/scripts/select-model.sh <1-5>`, which returns `model_id native_effort_token`. Use exactly what it returns, before the dispatch call rather than after. The curated model choices are global — see `/Users/grig/.agents/docs/MODEL-SELECTION-POLICY.md`.
+
 Treat the benchmark system as the best current evidence, not an unquestionable
 oracle. Its results may be partial, stale, incomplete, or inaccurate for a new
 task shape. Contest the rubric or selector when you have concrete evidence:
@@ -752,9 +754,9 @@ Dispatch a real agent with the updated prompt and test it against the failure
 scenarios from the tuning log. Use adversarial scenarios — simulate the exact
 situations that caused the original complaints.
 
-For the Supervisor, this means dispatching an Opus agent via `claude -p` with
-the full startup reads and a simulated owner command, then checking whether the
-response follows the contract.
+For the Supervisor, this means dispatching a selector-routed agent via `claude -p`
+with the full startup reads and a simulated owner command, then checking whether
+the response follows the contract.
 
 ### 10. Sign-Off
 

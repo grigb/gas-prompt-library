@@ -538,6 +538,8 @@ to a verified native token; dispatch; and record `execution_harness`,
 surface with no effort field is `requested-not-proven` or `unsupported`, never
 `enforced`.
 
+**Model and worker effort:** Do not name, recommend, or hardcode a model in this prompt or in any dispatch example. Classify the work on the GAS 1-5 scale (`4-Extra High` is the default; `3-High` is reserved and never auto-routed) and run `/Users/grig/.agents/tools/usage-management/scripts/select-model.sh <1-5>`, which returns `model_id native_effort_token`. Use exactly what it returns, before the dispatch call rather than after. The curated model choices are global — see `/Users/grig/.agents/docs/MODEL-SELECTION-POLICY.md`.
+
 ### 3.13a Codex Direct Relay `reply_to` Preservation
 
 If the Supervisor dispatch packet, blocker file, source artifact, or handoff

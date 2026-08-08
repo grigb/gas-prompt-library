@@ -513,16 +513,16 @@ owner's time and money.
 ## Complexity Tier Awareness
 
 When dispatched as a background agent or via A2A (cross-machine), the task
-may include complexity tier metadata set by the orchestrator:
+may include effort metadata set by the orchestrator:
 
-- `metadata.tier`: 1 (Simple), 2 (Standard), or 3 (Complex)
+- `metadata.tier` on the five-level GAS scale: 1-Low files and documents;
+  2-Medium bounded procedure; 3-High reserved and never auto-routed; 4-Extra
+  High THE DEFAULT for substantive work; 5-Max exceptional
 - `metadata.model_hint`: optional current selector output or policy-backed model identifier
 - `metadata.effort_hint`: optional current selector output or policy-backed effort level
 
-If present, use `effort_hint` to calibrate how deeply to analyze before acting.
-Tier 1 tasks are mechanical — execute directly. Tier 3 tasks need more
-upfront analysis and defensive verification. If absent, default to Standard
-(tier 2) behavior. These fields are advisory — never block on them.
+HONOR the routed level; if absent, default to 4-Extra High. If you cannot honor it,
+say so plainly in the result artifact — never silently work at a different depth.
 
 ## A2A Notifications (cross-machine; legacy local accelerator)
 

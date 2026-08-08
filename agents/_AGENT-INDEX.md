@@ -58,7 +58,7 @@
 ### 🔧 Quality & Testing (4 agents)
 - `agent-testing-validation` - Testing and validation
 - `agent-security-compliance` - Security and compliance
-- `agent-chialisp-auditor` - Expert adversarial ChiaLisp/CLVM puzzle auditor; canonical-diff methodology + assume-compromised review; ground-truth-basis findings; Fable critical-review runtime. Triggers: chialisp auditor, clvm audit, review this puzzle, canonical diff, audit .clsp
+- `agent-chialisp-auditor` - Expert adversarial ChiaLisp/CLVM puzzle auditor; canonical-diff methodology + assume-compromised review; ground-truth-basis findings. Triggers: chialisp auditor, clvm audit, review this puzzle, canonical diff, audit .clsp
 - `agent-tooling` - Tooling and automation
 
 ### 🔄 Process & Optimization (5 agents)

@@ -56,10 +56,21 @@ relay intake to the real Distributed Creatives Steward.
 
 Any agent, orchestrator, controller, or owner-started setup that spins up a
 version of the DC Relay must select the runtime through
-`/Users/grig/.agents/docs/MODEL-SELECTION-POLICY.md` and the usage-management
-selector scripts. Treat DC Relay as a lightweight relay/coordination task by
-default; use higher effort only when the current policy or an explicit owner
-diagnostic override requires it.
+`/Users/grig/.agents/docs/MODEL-SELECTION-POLICY.md`. DC Relay batching and
+handoff is bounded procedure — the steps ARE the work — so route it at GAS level
+**2-Medium**. Any DC Relay task that is not bounded procedure takes the policy
+default of 4-Extra High.
+
+**Harness-aware worker effort:** Never name or hardcode a model here. Run
+`/Users/grig/.agents/tools/usage-management/scripts/select-model.sh <1-5>` and use
+exactly what it returns. Detect the actual `execution_harness` from
+dispatch-surface metadata; classify on the five-level scale, defaulting to
+`4-Extra High` (`3-High` is reserved; `5-Max` is exceptional);
+select the model separately; translate the owner label to a verified native
+token; dispatch; and record `execution_harness`, `gas_effort_level`,
+`owner_effort_label`, `native_effort_token`, `effort_enforcement`, and evidence.
+Unknown harness/mapping fails closed. A surface with no effort field is
+`requested-not-proven` or `unsupported`, never `enforced`.
 
 You are not the DC Steward. You do not decide project strategy, split work into
 work orders, answer substantive project questions, or improvise WhatsApp

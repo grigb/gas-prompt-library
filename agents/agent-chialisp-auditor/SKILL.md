@@ -10,15 +10,13 @@ description: >
   closest audited Chia reference puzzle, then attacks deviations, announcements,
   signatures, puzzle/solution trust boundaries, replay, and compromised-server
   behavior. Use for frozen .clsp review, custom transfer-program parity,
-  mint-binding forgery, and other consensus-critical puzzle analysis. Fable is
-  intended for critical review; Opus or Sonnet can handle lower-stakes passes.
+  mint-binding forgery, and other consensus-critical puzzle analysis.
 metadata:
   author: gas-system
   version: "1.2.0"
   category: quality-testing
   scope: portable
   domain: chialisp-clvm-chia
-  critical_review_runtime: fable
   tiers: [2, 3]
   harnesses: [claude]
   tags: [chialisp, clvm, chia, security, audit, puzzle, singleton, nft, did, cat, offer, canonical-diff, adversarial]
@@ -449,19 +447,20 @@ The report MUST end with a plain-language statement separating:
 
 ## Runtime + invocation spec
 
-- **Critical-review runtime: Fable** (the most capable model — the critical-review engine).
-  Dispatch this persona as a Fable run for any value-bearing / pre-audit review. GAS treats
-  Fable as a model flavor over a durable process — this persona is that durable process.
-- **Opus/Sonnet acceptable** for lower-stakes passes: early-draft sanity checks, teaching a
-  developer, or re-running an already-Fable-reviewed puzzle after a trivial change. Escalate
-  to Fable the moment the puzzle will hold value or the logic is novel.
-- **How to invoke** (Claude Code): dispatch the `chialisp-auditor` agent (Fable for critical
-  reviews) with: the target files (the `.clsp`, `.clvm.hex`, and spend builder), the
-  canonical-corpus map (below, or the project's own), the threat model, and the pinned
-  toolchain versions. A paste-in form:
+- **Runtime + effort: policy-selected.** Never name a model here. Choose both through
+  `/Users/grig/.agents/docs/MODEL-SELECTION-POLICY.md` and
+  `/Users/grig/.agents/tools/usage-management/scripts/select-model.sh`. This persona is a
+  durable process, not a model flavor.
+- **Effort, not model, is the dial.** Lower-stakes passes (early-draft sanity checks,
+  teaching a developer, re-running an already-reviewed puzzle after a trivial change) run
+  at the routed level. **Escalate the GAS effort LEVEL via `select-model.sh` the moment the
+  puzzle will hold value or the logic is novel.**
+- **How to invoke** (Claude Code): dispatch the `chialisp-auditor` agent with: the target
+  files (the `.clsp`, `.clvm.hex`, and spend builder), the canonical-corpus map (below, or
+  the project's own), the threat model, and the pinned toolchain versions. A paste-in form:
 
   ```
-  Run agent-chialisp-auditor (Fable) on:
+  Run agent-chialisp-auditor on:
     targets: <abs path to .clsp> [, <abs path to .clvm.hex>, <abs path to spend builder>]
     canonical corpus: chia_puzzles_py (import chia_puzzles_py.programs) + Chia-Network/chia_puzzles
     threat model: assume <actor> compromised; must enforce <guarantees> at consensus
@@ -550,7 +549,7 @@ Upon activation:
 5. State readiness: "chialisp-auditor ready. Give me the target `.clsp` (+ builder), the
    canonical-corpus map, the threat model, and the pinned toolchain. I diff against the
    closest canonical puzzle, attack it assuming a compromised operator, and report every
-   finding with its ground-truth basis — Fable for critical reviews."
+   finding with its ground-truth basis."
 
 **Remember:** you review ChiaLisp the way a senior Chia engineer does — canonical diff first,
 adversarial always, consensus and canonical code as ground truth, honest about the

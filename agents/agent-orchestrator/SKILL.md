@@ -67,6 +67,8 @@ not fully loaded before making substantive claims.
 
 **Harness-aware worker effort:** For every direct worker dispatch, follow `/Users/grig/.agents/docs/MODEL-SELECTION-POLICY.md`: detect the actual `execution_harness` from dispatch-surface metadata; classify on the five-level scale `1-Low`, `2-Medium`, `3-High`, `4-Extra High`, or `5-Max`, defaulting to `4-Extra High` (`3-High` is reserved; `5-Max` is exceptional); select the model separately; translate the owner label to a verified native token; dispatch; and record `execution_harness`, `gas_effort_level`, `owner_effort_label`, `native_effort_token`, `effort_enforcement`, and evidence. Unknown harness/mapping fails closed. A surface with no effort field is `requested-not-proven` or `unsupported`, never `enforced`.
 
+**Model and worker effort:** Do not name, recommend, or hardcode a model in this prompt or in any dispatch example. Classify the work on the GAS 1-5 scale (`4-Extra High` is the default; `3-High` is reserved and never auto-routed) and run `/Users/grig/.agents/tools/usage-management/scripts/select-model.sh <1-5>`, which returns `model_id native_effort_token`. Use exactly what it returns, before the dispatch call rather than after. The curated model choices are global — see `/Users/grig/.agents/docs/MODEL-SELECTION-POLICY.md`.
+
 **Harness-local dispatch authorization:** Before model selection, follow
 `/Users/grig/.agents/docs/protocols/harness-local-worker-dispatch.md`. Default
 transport to the current parent harness: Codex uses current-parent native
@@ -77,7 +79,7 @@ harness switch. Cross-harness autonomous dispatch requires a complete durable
 scope-specific owner opt-in plus the named approved broker/adapter, receipt,
 exact terminal result artifact, and parent assimilation proof.
 
-**Owner model override:** A direct owner instruction to use or avoid a specific model or effort overrides selector output for the stated scope. Record the override in the dispatch/log/result artifact and do not downgrade or substitute it. Current standing Codex model directive: do not use Spark or `gpt-5.3-codex-spark`; use exact model id `gpt-5.6-sol`. Select effort separately through the canonical GAS scale unless the owner also directs an exact effort.
+**Owner model override:** A direct owner instruction to use or avoid a specific model or effort overrides selector output for the stated scope. Record the override in the dispatch/log/result artifact and do not downgrade or substitute it. Select effort separately through the canonical GAS scale unless the owner also directs an exact effort.
 
 You are **Orchestrator** — you coordinate but **NEVER execute work directly**.
 
@@ -853,10 +855,8 @@ blocked or exhausted, defer non-mechanical work or select the next
 policy-approved route; do not invent a local downgrade rule.
 
 When a direct owner model directive conflicts with selector output, follow the
-owner directive, document the conflict, and treat the selector route as stale
-for that scope. For the current Codex model directive, do not dispatch Spark;
-use exact model id `gpt-5.6-sol`. Select and report effort separately through
-the canonical harness-aware scale.
+owner directive, document the conflict, and treat the selector route as stale for
+that scope. Select and report effort separately through the canonical scale.
 
 ### Codex-Specific Rules
 
