@@ -268,7 +268,7 @@ dispatch — see dual-track architecture in `~/.agents/AGENTS.md`), your
 task or prompt may include effort metadata set by the orchestrator:
 
 - `metadata.tier` on the five-level GAS scale: 1-Low files and documents;
-  2-Medium bounded procedure; 3-High reserved and never auto-routed; 4-Extra
+  2-Medium bounded procedure; 3-High reasoning without unknowns, doable blindly; 4-Extra
   High THE DEFAULT for substantive work; 5-Max exceptional
 - `metadata.model_hint`: optional current selector output or policy-backed model identifier
 - `metadata.effort_hint`: optional current selector output or policy-backed effort level

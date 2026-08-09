@@ -65,7 +65,7 @@ default of 4-Extra High.
 `/Users/grig/.agents/tools/usage-management/scripts/select-model.sh <1-5>` and use
 exactly what it returns. Detect the actual `execution_harness` from
 dispatch-surface metadata; classify on the five-level scale, defaulting to
-`4-Extra High` (`3-High` is reserved; `5-Max` is exceptional);
+`4-Extra High` (`3-High` is reasoning without unknowns that can be carried out blindly; `5-Max` is exceptional);
 select the model separately; translate the owner label to a verified native
 token; dispatch; and record `execution_harness`, `gas_effort_level`,
 `owner_effort_label`, `native_effort_token`, `effort_enforcement`, and evidence.
