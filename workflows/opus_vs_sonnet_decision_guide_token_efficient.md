@@ -86,14 +86,14 @@ it is substantive.
   interpretive QA, refactors, test writing, research and synthesis, writing work
   orders and proposals, and design inside an established pattern. 54.2k tokens
   and 72 steps. **Do not justify level 4 — justify anything else.**
-- **3-High → Opus 5 `high` (66.7%). Reserved.** 27.9k tokens and 48 steps:
-  **less than half the burn of `max` for -3.3pp**, the best quota-efficiency
-  point on the curve. The level's definition is not settled, so nothing
-  auto-routes here and the classifier never emits it — use it only when the
-  owner names it.
+- **3-High → Opus 5 `high` (66.7%). Reasoning without unknowns.** 27.9k tokens
+  and 48 steps: **less than half the burn of `max` for -3.3pp**, the best
+  quota-efficiency point on the curve. A settled work order carried out:
+  nothing left to decide AND doable straight through. If it needs discovery, a
+  testing loop, or a check of what it affected, it is level 4.
 - **2-Medium → Opus 5 `medium` (64.3%).** Bounded procedure with clear scope and
   low ambiguity: commits and commit messages, report and changelog generation,
-  applying a fully specified work order, running an established checklist end to
+  applying an exact specified diff, running an established checklist end to
   end. 23.6k tokens and 44 steps.
 - **1-Low → Opus 5 `low` (62.8%).** Files and documents: finding files, checking
   documentation, moves, renames, formatting, mechanical edits, index and README
