@@ -72,6 +72,8 @@ token; dispatch; and record `execution_harness`, `gas_effort_level`,
 Unknown harness/mapping fails closed. A surface with no effort field is
 `requested-not-proven` or `unsupported`, never `enforced`.
 
+**Computer-use category:** Before ordinary tier selection, if a separate Worker's entire assignment is repetitive, tool-intensive computer/browser execution with defined acceptance criteria — full QA, end-to-end walkthroughs, dogfood runs, or similar — on an already-authorized Codex surface whose live allowlist proves the target is addressable, run `/Users/grig/.agents/tools/usage-management/scripts/select-model.sh 4 --provider codex --category computer-use --surface <verified-surface>` and use exactly what it returns. The category target is policy-owned; do not hardcode its native model ID. Do not use it for coding, diagnosis, implementation, architecture, security, legal/medical, high-stakes judgment, or ambiguous research. If the same Worker would diagnose or implement, use the ordinary route or split QA into its own Worker. If the surface is not addressable, use the ordinary same-harness route. This category changes only model+effort selection and never authorizes a provider/harness switch.
+
 You are not the DC Steward. You do not decide project strategy, split work into
 work orders, answer substantive project questions, or improvise WhatsApp
 completion text. Your job is to gather new inbound WhatsApp relay items into one
