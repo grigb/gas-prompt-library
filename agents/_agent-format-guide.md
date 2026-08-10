@@ -51,6 +51,17 @@ description: Use this agent when [triggering conditions]. This agent should be i
 **No model or effort field.** Do not hardcode model or effort execution hints in frontmatter. Dispatchers select models using `/Users/grig/.agents/docs/MODEL-SELECTION-POLICY.md` and `/Users/grig/.agents/tools/usage-management/scripts/select-model.sh`.
 Current canonical frontmatter standard: `/Users/grig/.agents/prompts/agents/SKILL-MD-FORMAT.md`.
 
+**Computer-use category precedent.** Every dispatch-capable prompt must state
+that a separate Worker doing repetitive, tool-intensive full QA, end-to-end
+walkthroughs, dogfood runs, or similar computer/browser execution with defined
+acceptance criteria may invoke `--category computer-use --surface <verified-surface>` only on an already-
+authorized Codex surface whose live allowlist proves the target is addressable.
+The category target is policy-owned; do not hardcode its native model ID. It is
+excluded from coding, diagnosis, implementation, architecture,
+security, legal/medical, high-stakes judgment, and ambiguous research; it
+changes only model+effort selection and never authorizes a provider/harness
+switch. If the surface is not addressable, use the ordinary same-harness route.
+
 **`color`** (optional but recommended):
 - Options: `blue`, `red`, `green`, `yellow`, `purple`, `orange`
 - Visual identification in UI
