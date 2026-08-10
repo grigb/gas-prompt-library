@@ -261,6 +261,28 @@ If any line disagrees with what you intended to assert, the **scan wins** — re
 
 Put the stamp in the session-record frontmatter (`ground_truth_rescanned_at:`) AND in the BACKWARD provenance log. No "blocked" or "done" assertion in this record is valid without a `ground_truth_rescanned_at:` stamp newer than the work it describes. If you genuinely could not run the scan (no shell, not a git repo), write `ground_truth_rescanned_at: UNABLE — <reason>` and record under `STATE -> Open Questions and Risks` that all blocked/done claims are inherited-unverified.
 
+### Step 4 — Tag every claim you did not verify
+
+The re-scan above covers what you *can* check from this working directory. Most of what a session record carries cannot be re-scanned: conclusions you drew, and things another session told you. Those two look identical to a fact once written down, and session records get read and copied by agents who were not here.
+
+**Rule (P6 — no untagged soft claim):** any claim in this record that a future reader might act on carries its basis inline:
+
+- `[verified: <what you checked>]` — you checked the source of truth yourself, this session, and can name the check.
+- `[inferred]` — you concluded it from evidence. Nobody confirmed it.
+- `[relayed: <who or what, when>]` — another session, agent, message, or document told you.
+
+**Untagged means verified, or trivially checkable by the reader.** So the only rule to remember is: *if you cannot honestly leave it untagged, tag it.*
+
+Both soft tags may carry a reason — `[inferred: no record found either way]` — and the bare form is fine.
+
+**A claim never improves by being copied.** Carrying a claim forward from a prior session record, handoff, or message carries its tag with it. A claim that reached you untagged from another session IS `[relayed:]` — you did not verify it and its author's basis is unknown to you. You may upgrade a tag only by naming a check you ran, never by restating the claim in your own words or in a cleaner document.
+
+**Repetition is not corroboration.** Several files agreeing is usually one claim copied several times. Agreement between copies is not evidence and never upgrades a tag. Before repeating a claim you did not personally verify, trace it to its origin; if the origin is another document rather than a check somebody ran, it stays tagged however many files carry it. This includes your own earlier writing this session: a conclusion you drew and then restated elsewhere is still an inference, not a finding you can cite.
+
+This matters most in `FORWARD` (a next step built on an `[inferred]` premise is a guess handed to the next agent as an instruction) and in `STATE -> Key Decisions and Rationale` (a `[relayed:]` decision is a decision someone told you about, not one you can prove was made). Under `/Users/grig/.agents/docs/protocols/universal-harness-relay-protocol.md` `## Receiver Trust Boundary`, a `[relayed:]` claim can never serve as authority for an irreversible action or as proof that a gate cleared.
+
+Audit your own record before saving: `grep -niE '\[(inferred|relayed)[]:]' <record path>`. This finds claims you *did* tag; it cannot find one you forgot, which is why the Provenance Log states the unverified count explicitly even when that count is zero. A silent record proves nothing; a record that says `None` has made a falsifiable statement.
+
 This gate is a hard precondition for the **PROJECT-STATUS.md Update** and **Final Check Before Saving** sections below.
 
 ## Routing Rule
@@ -607,6 +629,8 @@ Do not present a menu of options. The Priority Next Steps are your instructions.
 - Routing status prompt: `/Users/grig/.agents/prompts/triage/agent-status-update-for-routing.md`
 - Relay protocol: `/Users/grig/.agents/docs/protocols/universal-harness-relay-protocol.md`
 - Session relay status: `[delivered|partially-delivered|not-delivered|not-applicable|unknown]`
+- Unverified claims in this record: `[count of provenance-tagged claims, or None — state it even when zero]`
+- Claims inherited from other sessions and NOT re-verified here: `[list, or None]`
 
 ---
 **Agent Task ID:** [AGENT_TASK_ID]
@@ -650,6 +674,7 @@ Do not present a menu of options. The Priority Next Steps are your instructions.
 - record commands, scripts, parameter values, or verification steps that materially affected the outcome
 - do not restate every trivial action
 - for emergency mode, compress this to startup inputs, last meaningful action, and key evidence
+- **every claim you did not verify this session carries `[inferred]` or `[relayed: <who, when>]` per the Ground-Truth Re-Scan Gate Step 4** — including claims you inherited from a prior record, handoff, or message; a claim never improves by being copied
 
 ## Emergency / Low-Context Variant
 
@@ -719,6 +744,8 @@ closeout_archive_status: [not-eligible|eligible-archived|fallback-not-archived|n
 - Routing status prompt: `/Users/grig/.agents/prompts/triage/agent-status-update-for-routing.md`
 - Relay protocol: `/Users/grig/.agents/docs/protocols/universal-harness-relay-protocol.md`
 - Session relay status: `[delivered|partially-delivered|not-delivered|not-applicable|unknown]`
+- Unverified claims in this record: `[count of provenance-tagged claims, or None — state it even when zero]`
+- Claims inherited from other sessions and NOT re-verified here: `[list, or None]`
 
 ---
 **Agent Task ID:** [AGENT_TASK_ID]
