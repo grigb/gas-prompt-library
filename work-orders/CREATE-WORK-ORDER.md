@@ -106,8 +106,9 @@ When agent automatically creates work order (thresholds 1-3), agent MUST:
 3. **Immediately begin executing the work order** (only if active role/mode permits implementation)
 4. Synchronize status to IN_PROGRESS through the allowed role boundary: update
    the WO file only if the active role has live-write authority, and synchronize
-   `WO-INDEX.md` through the safe writer, project-local lock, or
-   result-artifact fallback.
+   a project-local `WO-INDEX.md` through the project-local lock or
+   result-artifact fallback. For the GAS root there is no index step — the WO
+   file write is the only write and the generated index is rebuilt from it.
 5. Continue working until complete
 
 **Exception:** If user says "stop", "wait", or "don't start yet" → Agent creates WO but pauses
@@ -198,27 +199,31 @@ already excludes.
 
 ## WO File and Index Sync Boundary
 
-Creating or completing a WO requires two distinct status surfaces to stay in
-sync: the WO file itself and `.dev/ai/workorders/WO-INDEX.md`.
+In the GAS root the WO file is the only status surface an agent writes. The GAS
+root work-order index is generated from WOQ and is **not** hand-maintained:
+`/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.md` is retired and the index is
+`/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.woq-generated-view.md`.
+Hand-writes to it are refused by both `woq shared-status write` and `woq
+project-index write`. Do not update the index and do not queue an
+`index-pending` or `*-index-proposed.md` change for it. Update the Work Order
+file only (`woq work-order write`); index synchronization is automatic via
+regeneration. Owner-approved cutover 2026-08-12, WO-GAS-WOQLIVE-014. This
+supersedes the narrow generated-section boundaries that once applied inside that
+index (`woq-live-status`, `gas-external-capability-integration`,
+`global-work-order-q-system`).
+
+In every other Project, creating or completing a WO still requires two distinct
+status surfaces to stay in sync: the WO file itself and
+`{PROJECT_ROOT}/.dev/ai/workorders/WO-INDEX.md`.
 
 - Intake roles that are authorized to create WOs may write the new WO file.
-- `WO-INDEX.md` writes must go through the current safe path: GAS root indexes
-  use the WOQ shared-status safe writer with the current full target hash;
-  project-local indexes use `.WO-INDEX.lock/`, reread-after-lock, scoped update
-  only, and an `index-pending` fallback on lock contention.
+- Project-local `WO-INDEX.md` writes must go through the current safe path:
+  `.WO-INDEX.lock/`, reread-after-lock, scoped update only, and an
+  `index-pending` fallback on lock contention.
 - Dispatched workers, QA, and read-only agents default to result-artifact-only
-  shared-status authority. They must record both the proposed WO file status
-  change and the required `WO-INDEX.md` synchronization in their exact result
-  artifact for the authorized parent/session owner to assimilate.
-
-Exception: WOs in an exact owner-approved generated boundary listed in
-`/Users/grig/.agents/docs/protocols/woq-role-lifecycle.md` (currently
-`woq-live-status`, or `WO-GASECAP-20260714-001` through `006` in
-`gas-external-capability-integration`) enter the provenance-marked generated
-section through WOQ observation and the existing `woq_shadow_sync` scheduler
-job. Create or update the WO file, but do not hand-edit, queue `index-pending`,
-or create an `*-index-proposed.md` artifact for that exact section. All
-unflipped boundaries retain the rules above.
+  shared-status authority. They must record the proposed WO file status change
+  and the required project-local `WO-INDEX.md` synchronization in their exact
+  result artifact for the authorized parent/session owner to assimilate.
 
 # Control Triggers
 - **Standard work order:** Default behavior - generate full work order with all sections, save, and track
@@ -572,8 +577,9 @@ expected_output: "0 (no TODOs remaining)"
    - **VERIFY CODEBASE STATE FIRST** - Run all verification commands from section 6
    - If verification fails, STOP and mark as BLOCKED with details
    - Synchronize STATUS to IN_PROGRESS through the allowed role boundary: WO
-     file update if authorized, plus `WO-INDEX.md` synchronization through the
-     safe writer/project-local lock lane or result artifact
+     file update if authorized, plus — for a project-local index only —
+     `WO-INDEX.md` synchronization through the project-local lock lane or
+     result artifact. The GAS root index is generated; no index step there
    - Set AGENT and timestamp
    - Read all files listed in "Execution Context" section
 
@@ -592,8 +598,9 @@ expected_output: "0 (no TODOs remaining)"
 4. **On Completion:**
    - Run ALL test commands
    - Synchronize STATUS to COMPLETED through the allowed role boundary: WO file
-     update if authorized, plus `WO-INDEX.md` synchronization through the safe
-     writer/project-local lock lane or result artifact
+     update if authorized, plus — for a project-local index only —
+     `WO-INDEX.md` synchronization through the project-local lock lane or
+     result artifact. The GAS root index is generated; no index step there
    - Add review notes if needed
 
 ### 16. Recovery Instructions
@@ -656,11 +663,12 @@ expected_output: "0 (no TODOs remaining)"
 
 8. **Confirm save:** Explicitly verify file was written successfully
 
-9. **Synchronize WO file and index:** If your role owns intake/index writes,
-   add or update the `WO-INDEX.md` entry through the safe writer or
-   project-local lock protocol. If you are a worker or lack index authority,
-   write the required WO file status and index synchronization details to the
-   result artifact for the authorized parent/session owner.
+9. **Synchronize WO file and index:** In the GAS root nothing further is needed
+   — the index is generated from the WO file. For a project-local index: if
+   your role owns intake/index writes, add or update the `WO-INDEX.md` entry
+   through the project-local lock protocol; if you are a worker or lack index
+   authority, write the required WO file status and index synchronization
+   details to the result artifact for the authorized parent/session owner.
 
 ### Tracking Integration
 After saving, execute tracking command:
@@ -732,9 +740,10 @@ All necessary context from the conversation has been captured above.
 
 After creating the accomplishment:
 1. Update the accomplishment file with actual details (summary, work completed, technical details, impact)
-2. Synchronize work order STATUS to COMPLETED in the WO file and
-   `WO-INDEX.md` through the safe writer, project-local lock, or result
-   artifact route allowed for the current role
+2. Synchronize work order STATUS to COMPLETED in the WO file through the write
+   route allowed for the current role; for a project-local index, also
+   synchronize `WO-INDEX.md` through the project-local lock or result artifact.
+   In the GAS root the WO file write is the only write — its index is generated
 3. Update accomplishments index (done automatically by script)
 
 ** WORK ORDER END **

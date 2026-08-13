@@ -185,11 +185,19 @@ If no update is needed: `N/A - no project wisdom update.`
 ### 6. WO + INDEX Sync
 
 Check every WO you touched this session. Is the WO file status consistent with
-`WO-INDEX.md`? Fix any mismatches now and list the absolute paths updated. For
-`/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.md`, reread
-`/Users/grig/.agents/docs/protocols/woq-role-lifecycle.md` and use
-`/Users/grig/.agents/.venv/bin/python3 -m tools.woq.cli shared-status write`
-with a current target hash instead of direct replacement.
+the project-local `WO-INDEX.md`? Fix any mismatches now and list the absolute
+paths updated.
+
+The GAS root is different: its work-order index is generated from WOQ and is
+**not** hand-maintained. `/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.md` is
+retired; the index is
+`/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.woq-generated-view.md`.
+Hand-writes to it are refused. Do not update the index and do not queue an index
+change for it — fix the Work Order file only, with
+`/Users/grig/.agents/.venv/bin/python3 -m tools.woq.cli work-order write`, and
+the index is rebuilt from it. Owner-approved cutover 2026-08-12,
+WO-GAS-WOQLIVE-014; details in
+`/Users/grig/.agents/docs/protocols/woq-role-lifecycle.md`.
 
 **Last step — cascade terminal completions (GASINTEG-A).** For every WO or blocker
 you moved to a terminal state this session (WO `COMPLETED`/`SUPERSEDED`; blocker

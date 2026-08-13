@@ -34,7 +34,7 @@
 
 ### CLEANUP
 - **P-004:** Sweep for Untracked Work -- Scan for loose ends after every 3+ WO batch
-- **P-005:** WO-INDEX Reconciliation -- Fix stale index entries after status changes
+- **P-005:** WO-INDEX Reconciliation -- Fix stale index entries after status changes (project-local only; superseded for the GAS root, whose index is generated from WOQ)
 - **P-006:** Auto-Update STATE-OF-THE-PROJECT -- Update project state after 5+ WOs complete
 
 ### VERIFICATION

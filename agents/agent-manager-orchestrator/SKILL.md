@@ -320,11 +320,13 @@ root `WO-INDEX.md`, or both:
 
 - `INDEX.yaml` writes are only for projects still using the legacy/hierarchy
   queue registry.
-- GAS root `/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.md` writes must use
-  the WOQ shared-status safe writer
-  `/Users/grig/.agents/.venv/bin/python3 -m tools.woq.cli shared-status write`
-  with a freshly read full current `--base-sha256`; header-hash-only is not
-  sufficient for whole-file replacement.
+- The GAS root work-order index is generated from WOQ and is not
+  hand-maintained. `/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.md` is
+  retired; the index is
+  `/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.woq-generated-view.md`, and
+  hand-writes to it are refused. There is no GAS root index write to own — the
+  Work Order file (`woq work-order write`) is the only write, and the index is
+  rebuilt from it. Owner-approved cutover 2026-08-12, WO-GAS-WOQLIVE-014.
 - Project-local `{PROJECT_ROOT}/.dev/ai/workorders/WO-INDEX.md` writes must use
   `/Users/grig/.agents/.venv/bin/python3 -m tools.woq.cli project-index write`
   with `--project-root`, `--work-order-id`, `--role manager-orchestrator`, and

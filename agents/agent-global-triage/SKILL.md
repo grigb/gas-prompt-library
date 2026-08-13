@@ -299,10 +299,15 @@ when that path is safe for the receiving agent to know exists.
 
 Prefer the target project's existing queue convention:
 
-- If the project has a hand-maintained `WO-INDEX.md`, add a concise entry. For
-  `/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.md`, use the WOQ
-  shared-status safe writer with a current hash instead of an unguarded hand
-  edit. For project-local `<project-root>/.dev/ai/workorders/WO-INDEX.md`, use
+- The GAS root work-order index is generated from WOQ and is not
+  hand-maintained. `/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.md` is
+  retired; the index is
+  `/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.woq-generated-view.md`, and
+  hand-writes to it are refused. Do not add an index entry there — write the
+  Work Order file only (`woq work-order write`) and the index is rebuilt from
+  it. Owner-approved cutover 2026-08-12, WO-GAS-WOQLIVE-014.
+- If the project has a hand-maintained `WO-INDEX.md`, add a concise entry.
+  For project-local `<project-root>/.dev/ai/workorders/WO-INDEX.md`, use
   `/Users/grig/.agents/.venv/bin/python3 -m tools.woq.cli project-index write --project-root <project-root> --work-order-id <WO-ID> --role global-triage --entry-file <entry-fragment.md>`.
   If it reports `status: index-pending`, cite the pending artifact and do not
   remove `.WO-INDEX.lock/` outside an explicit stale-lock recovery procedure.

@@ -80,7 +80,10 @@ translate:
 # ---------------------------------------------------------------------------
 reconcile:
   wo_index:            "{PROJECT_ROOT}/.dev/ai/workorders/WO-INDEX.md"
-  wo_index_writer:     narrative-append          # narrative-append | woq-safe-writer
+  # generated = index is rebuilt from the WO files; PSS never writes it.
+  # Required for PROJECT_ROOT=/Users/grig/.agents (GAS root index generated from
+  # WOQ, cutover 2026-08-12, WO-GAS-WOQLIVE-014).
+  wo_index_writer:     narrative-append          # narrative-append | woq-safe-writer | generated
   wo_dir:              "{PROJECT_ROOT}/.dev/ai/workorders"
   decision_log:        "{PROJECT_ROOT}/.dev/ai/roles/project-steward/decision-log.md"
   active_constraint:   "{PROJECT_ROOT}/.dev/ai/roles/project-steward/active-constraint.md"

@@ -128,13 +128,13 @@ index file, use this initial content:
 |----|-------|-----------|
 ```
 
-If this project root is `/Users/grig/.agents` and the target is
-`/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.md`, do not create or replace
-the index with shell redirection. Prepare the proposed content above and write it with
-`/Users/grig/.agents/.venv/bin/python3 -m tools.woq.cli shared-status write`
-using a current hash when the file exists; if the safe writer refuses or the
-role is worker-scoped, put the proposed index text in the exact result artifact
-for parent assimilation.
+None of this applies when the project root is `/Users/grig/.agents`. The GAS
+root work-order index is generated from WOQ and is not hand-maintained.
+`/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.md` is retired; the index is
+`/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.woq-generated-view.md`. Never
+create, replace, or scaffold it — hand-writes are refused. Write the Work Order
+file only (`woq work-order write`) and the index is rebuilt from it.
+Owner-approved cutover 2026-08-12, WO-GAS-WOQLIVE-014.
 
 **Tell the user:**
 > "🔔 I'm the Triage Agent. I'll capture all your feedback as work orders. Just tell me what you notice - bugs, suggestions, ideas - and I'll log them without interrupting your dev workflow."
@@ -227,9 +227,17 @@ title: Short descriptive title
 - [How to know it's done]
 ```
 
-### Step 2: Update WO-INDEX.md
+### Step 2: Update the Project-Local WO-INDEX.md
 
-Exception: when the new or updated WO belongs to an exact owner-approved
+Skip this step entirely for the GAS root. The GAS root work-order index is
+generated from WOQ and is not hand-maintained:
+`/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.md` is retired, the index is
+`/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.woq-generated-view.md`, and
+hand-writes to it are refused. Do not update the index and do not propose an
+index entry for it — the Work Order file is the only write, and the index is
+rebuilt from it. Owner-approved cutover 2026-08-12, WO-GAS-WOQLIVE-014.
+
+Additional generated-boundary exception: when the new or updated WO belongs to an exact owner-approved
 generated boundary listed in
 `/Users/grig/.agents/docs/protocols/woq-role-lifecycle.md` (currently
 `woq-live-status`, or `WO-GASECAP-20260714-001` through `006` in
@@ -244,9 +252,7 @@ Add the new work order to the "Ready for Implementation" table:
 | WO-{project}-YYYYMMDD-{seq} | [Title] | [Priority] |
 ```
 
-For `/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.md`, this update must go
-through `woq shared-status write` with a current target hash instead of an
-unguarded hand edit. If resuming from older context, reread
+If resuming from older context, reread
 `/Users/grig/.agents/docs/protocols/woq-role-lifecycle.md` before writing.
 For project-local `.dev/ai/workorders/WO-INDEX.md`, use:
 
@@ -291,11 +297,11 @@ Work orders stay in `workorders/` with status READY until dev agent picks them u
 
 1. Check `WO-INDEX.md` for READY items
 2. Pick highest priority
-3. Update status to IN_PROGRESS in both the work order file and WO-INDEX.md;
-   use the WOQ shared-status safe writer for the guarded agents-system
-   WO-INDEX path, or `woq project-index write --project-root <project-root>
-   --work-order-id <WO-ID> --role triage --status IN_PROGRESS` for
-   project-local `WO-INDEX.md`.
+3. Update status to IN_PROGRESS in the work order file; for project-local
+   `WO-INDEX.md`, update the index in the same pass with
+   `woq project-index write --project-root <project-root>
+   --work-order-id <WO-ID> --role triage --status IN_PROGRESS`. For the GAS
+   root there is no index step — that index is generated from the WO files.
 4. Implement the changes
 5. Update status to COMPLETED when done
 

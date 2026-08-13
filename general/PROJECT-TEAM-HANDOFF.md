@@ -42,7 +42,7 @@ Collect the following in parallel before writing a single line of the document. 
 1. Read all vision and roadmap files in the project directory.
 2. Read Owner's Agent memory at `~/.agents/pa/owners-agent-memory/` (standing orders, owner preferences).
 3. Read the project's doctor or specialist knowledge base if one exists (e.g., `{project}/doctor/`).
-4. Check `~/.agents/.dev/ai/workorders/WO-INDEX.md` for open or recent WOs on this project.
+4. Check `~/.agents/.dev/ai/workorders/WO-INDEX.woq-generated-view.md` (the generated index; `WO-INDEX.md` is retired) for open or recent WOs on this project.
 5. Check `~/.agents/.dev/ai/proposals/` for accepted proposals affecting this project.
 
 **Live verification (CRITICAL -- do not trust prior documents alone):**

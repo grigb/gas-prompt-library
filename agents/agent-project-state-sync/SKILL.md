@@ -151,8 +151,13 @@ Run the applicable close-steward Project Steward checklist steps against the
 WINDOW, writing to the reconcile surfaces named in the config:
 
 - WO + INDEX sync: create/update WO drafts to WOs per policy and keep WO files
-  consistent with the WO index. Append to an unmanaged index; for a guarded GAS
-  path use the WOQ shared-status safe writer per close-steward step 6.
+  consistent with the WO index. Append to an unmanaged index. When the project
+  root is `/Users/grig/.agents`, do not touch the index at all: the GAS root
+  work-order index is generated from WOQ
+  (`/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.woq-generated-view.md`;
+  `WO-INDEX.md` is retired) and hand-writes are refused. Write the Work Order
+  file only and the index is rebuilt from it. Owner-approved cutover
+  2026-08-12, WO-GAS-WOQLIVE-014.
 - Decisions to the decision log; corrections to memory; operating rules /
   project wisdom to the wisdom file; active-constraint re-evaluated and updated
   if changed; new facts to the right memory layer.

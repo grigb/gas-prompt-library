@@ -1154,9 +1154,20 @@ authorized work and list excluded targets plainly. Do not block local completion
 with coded owner asks like `D1-A/go` vs `D1-B`; if public publication really
 needs approval, ask that as a separate plain-language target gate.
 
-### WO-INDEX Updates Are Parent-Owned (OWNER DIRECTIVE 2026-05-20)
+### WO-INDEX Updates: GAS Root Is Generated, Project-Local Is Parent-Owned (OWNER DIRECTIVE 2026-05-20; GAS ROOT CUTOVER 2026-08-12)
 
-WO file status + WO-INDEX update are still an atomic pair, but the writer is role-scoped. The parent orchestrator, steward-owned intake lane, or explicitly assigned maintenance writer updates `WO-INDEX.md` during WO creation or result assimilation. Individual Markdown WO file status/body/note writes use `/Users/grig/.agents/.venv/bin/python3 -m tools.woq.cli work-order write --target {ABS_WO_PATH} --base-sha256 {FULL_FILE_SHA} --result-artifact {ABS_RESULT_ARTIFACT} ...`; this per-WO helper acquires the persistent sibling `.<target filename>.lock/` anchor flock, rereads under that flock, applies full-file CAS, writes atomically, and leaves the ready v1 `lock.json` marker in place. `lock_released: true` reports successful audits, kernel unlock, and descriptor closes, not anchor deletion. This advisory guarantee covers registered cooperating writers only; unsupported hosts/filesystems, mixed-version or invalid anchor state, and capability uncertainty fail closed. Cutover requires quiescence, and recovery or migration requires a separately signed exact-path maintenance lease, never automatic repair or deletion. When the target is `/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.md`, that parent/session-owned update must use `/Users/grig/.agents/.venv/bin/python3 -m tools.woq.cli shared-status write` with a current target hash. When the target is project-local `{PROJECT_ROOT}/.dev/ai/workorders/WO-INDEX.md`, use `/Users/grig/.agents/.venv/bin/python3 -m tools.woq.cli project-index write --project-root {PROJECT_ROOT} --work-order-id {WO-ID} --role orchestrator --status {STATUS}` or `--entry-file {entry-fragment.md}`; if it reports `status: index-pending`, cite the pending artifact and do not remove another agent's lock. Dispatched workers write their exact result artifact only unless their prompt grants a narrow, disjoint live-write lease; for guarded WO files or shared surfaces, even leased writes must use the matching WOQ helper and current full-file hash. Parallel QA/read-only workers must never edit WO files, `WO-INDEX.md`, `PROJECT-STATUS.md`, blocker views, or the open agents ledger; they include recommended status/index changes in their result artifact for parent assimilation. Reference: `~/.agents/docs/WORK-ORDER-DECISION-FRAMEWORK.md`.
+**GAS root index is generated, not hand-maintained.** The GAS root work-order
+index is generated from WOQ.
+`/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.md` is retired; the index is
+`/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.woq-generated-view.md`.
+Hand-writes to it are refused — both `woq shared-status write` and
+`woq project-index write` reject that target. Do not update the GAS root index
+and do not propose a paired index edit for it. Update the Work Order file only
+(`woq work-order write`) and the index is rebuilt from it. Owner-approved
+cutover 2026-08-12, WO-GAS-WOQLIVE-014. Everything below about project-local
+`{PROJECT_ROOT}/.dev/ai/workorders/WO-INDEX.md` is unchanged.
+
+For project-local indexes, WO file status + WO-INDEX update are still an atomic pair, but the writer is role-scoped. The parent orchestrator, steward-owned intake lane, or explicitly assigned maintenance writer updates a project-local `WO-INDEX.md` during WO creation or result assimilation. Individual Markdown WO file status/body/note writes use `/Users/grig/.agents/.venv/bin/python3 -m tools.woq.cli work-order write --target {ABS_WO_PATH} --base-sha256 {FULL_FILE_SHA} --result-artifact {ABS_RESULT_ARTIFACT} ...`; this per-WO helper acquires the persistent sibling `.<target filename>.lock/` anchor flock, rereads under that flock, applies full-file CAS, writes atomically, and leaves the ready v1 `lock.json` marker in place. `lock_released: true` reports successful audits, kernel unlock, and descriptor closes, not anchor deletion. This advisory guarantee covers registered cooperating writers only; unsupported hosts/filesystems, mixed-version or invalid anchor state, and capability uncertainty fail closed. Cutover requires quiescence, and recovery or migration requires a separately signed exact-path maintenance lease, never automatic repair or deletion. The GAS root index is not a write target at all — it is generated (see above), so never attempt an index write against it and never record a paired index change for it. When the target is project-local `{PROJECT_ROOT}/.dev/ai/workorders/WO-INDEX.md`, use `/Users/grig/.agents/.venv/bin/python3 -m tools.woq.cli project-index write --project-root {PROJECT_ROOT} --work-order-id {WO-ID} --role orchestrator --status {STATUS}` or `--entry-file {entry-fragment.md}`; if it reports `status: index-pending`, cite the pending artifact and do not remove another agent's lock. Dispatched workers write their exact result artifact only unless their prompt grants a narrow, disjoint live-write lease; for guarded WO files or shared surfaces, even leased writes must use the matching WOQ helper and current full-file hash. Parallel QA/read-only workers must never edit WO files, `WO-INDEX.md`, `PROJECT-STATUS.md`, blocker views, or the open agents ledger; they include recommended status/index changes in their result artifact for parent assimilation. Reference: `~/.agents/docs/WORK-ORDER-DECISION-FRAMEWORK.md`.
 
 Generated-boundary exception: when a WO belongs to an exact owner-approved
 generated boundary listed in
@@ -1166,8 +1177,9 @@ generated boundary listed in
 per-WO path and do not write or propose a paired manual WO-INDEX change. The
 provenance-marked section is scheduler-generated from WOQ + WO files. Do not
 create `index-pending` or `*-index-proposed.md` artifacts for that exact
-section. Every unflipped boundary keeps the parent-owned safe-writer rules
-above unchanged.
+section. As of the 2026-08-12 cutover the entire GAS root index is generated
+this way. Project-local boundaries that have not flipped keep the parent-owned
+safe-writer rules above unchanged.
 
 ### WOQ Lifecycle Integration
 
@@ -1178,7 +1190,9 @@ implementation inline except bounded orchestration state updates. For a Work
 Order lifecycle-status read, use the authoritative exact query
 `/Users/grig/.agents/.venv/bin/python3 -m tools.woq.cli portfolio-status --manifest /Users/grig/.agents/config/woq-authority-boundaries/woq-selected-portfolio-lifecycle-read-2026-07-19.json --project-root {PROJECT_ROOT} --work-order-id {WO_ID}`.
 It must report `authoritative: true`, trusted/fresh provenance, and exactly one
-row; otherwise fall back to that Project's `WO-INDEX.md` plus Work Order file.
+row; otherwise fall back to that Project's `WO-INDEX.md` plus Work Order file
+(for the GAS root, read
+`/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.woq-generated-view.md`).
 Use `woq next`, `woq plan`, `woq render`, and `woq surface render` as planning
 or advisory surfaces, not as broader authority grants. Orchestrators may
 claim, complete, block, or release work through WOQ only for project work they
@@ -1198,7 +1212,6 @@ implementation lease holder except for bounded orchestration state updates.
 
 If resuming from older context or before writing
 `/Users/grig/.agents/.dev/ai/PROJECT-STATUS.md`,
-`/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.md`,
 `/Users/grig/.agents/.dev/ai/blockers/INDEX.md`, or
 `/Users/grig/.agents/.dev/ai/orchestration/open-codex-agents.md`, reread the
 current WOQ role lifecycle protocol and use
@@ -1243,26 +1256,28 @@ The orchestrator is NOT a dumb WO runner. For EVERY WO you execute, follow this 
   through `/Users/grig/.agents/.venv/bin/python3 -m tools.woq.cli work-order
   write --target {ABS_WO_PATH} --operation status --status IN_PROGRESS
   --base-sha256 {FULL_FILE_SHA} --result-artifact {ABS_RESULT_ARTIFACT}`.
-- Parent orchestrator updates the WO-INDEX.md entry to IN_PROGRESS through the
-  safe writer when the target is the guarded agents-system WO-INDEX path, or
-  through `woq project-index write --project-root {PROJECT_ROOT} --work-order-id
-  {WO-ID} --role orchestrator --status IN_PROGRESS` for project-local
-  `WO-INDEX.md`.
+- For project-local `WO-INDEX.md`, the parent orchestrator updates the entry to
+  IN_PROGRESS through `woq project-index write --project-root {PROJECT_ROOT}
+  --work-order-id {WO-ID} --role orchestrator --status IN_PROGRESS`. For the GAS
+  root there is no index step: the index is generated from the WO file, so the
+  `work-order write` above is the only write.
 - The dashboard Kanban reads these in real time. Skipping this means the owner sees stale data.
 
 **AFTER a worker reports completion or a result artifact appears:**
 Worker-reported completion, a final message, or "done" is an input to the
 outcome loop, not completion. Before treating a WO as complete, read the exact
 worker result artifact or equivalent evidence, then reconcile the WO file
-frontmatter status and WO-INDEX status as one parent-owned atomic pair. If
-evidence is missing, the artifact is incomplete, or the WO file and WO-INDEX
+frontmatter status and, for project-local queues, WO-INDEX status as one
+parent-owned atomic pair. For the GAS root the WO file is the only write and
+the index regenerates from it. If evidence is missing, the artifact is
+incomplete, or the WO file and a project-local WO-INDEX
 disagree, keep the WO `IN_PROGRESS` or record a `needs-reconciliation`
 condition where that state exists; do not claim completion, close workers,
 close blockers, transition dependents, or dispatch follow-on work from that
 WO.
 
-Only after evidence review and atomic WO/WO-INDEX reconciliation succeed:
-1. Parent orchestrator sets the WO file frontmatter `status:` to COMPLETED through `/Users/grig/.agents/.venv/bin/python3 -m tools.woq.cli work-order write --target {ABS_WO_PATH} --operation status --status COMPLETED --base-sha256 {FULL_FILE_SHA} --result-artifact {ABS_RESULT_ARTIFACT}` and updates WO-INDEX.md to COMPLETED through the safe writer when the target is the guarded agents-system WO-INDEX path, or through `woq project-index write --project-root {PROJECT_ROOT} --work-order-id {WO-ID} --role orchestrator --status COMPLETED` for project-local `WO-INDEX.md`.
+Only after evidence review and (for project-local queues) atomic WO/WO-INDEX reconciliation succeed:
+1. Parent orchestrator sets the WO file frontmatter `status:` to COMPLETED through `/Users/grig/.agents/.venv/bin/python3 -m tools.woq.cli work-order write --target {ABS_WO_PATH} --operation status --status COMPLETED --base-sha256 {FULL_FILE_SHA} --result-artifact {ABS_RESULT_ARTIFACT}`. For project-local `WO-INDEX.md`, also update the entry to COMPLETED through `woq project-index write --project-root {PROJECT_ROOT} --work-order-id {WO-ID} --role orchestrator --status COMPLETED`. For the GAS root there is no index step — the index is generated and the WO file write is the whole update.
 2. **Read the result.** What did the worker produce? What did it find?
 3. **Assess impact.** Did it reveal issues, gaps, regressions, or new dependencies?
 4. **Act on findings:**
@@ -1291,7 +1306,7 @@ Use each WO's `dependencies` field: find roots (no dependencies) → start immed
 
 ## DELEGATION PROTOCOL
 
-**Before dispatching ANY WO:** the parent orchestrator marks it IN_PROGRESS in BOTH the WO file AND WO-INDEX.md. For the individual WO file, use `/Users/grig/.agents/.venv/bin/python3 -m tools.woq.cli work-order write` with the exact WO path, current full-file `--base-sha256`, and exact `--result-artifact`; for `/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.md`, use the WOQ shared-status safe writer with the current hash; for project-local `{PROJECT_ROOT}/.dev/ai/workorders/WO-INDEX.md`, use `woq project-index write --project-root {PROJECT_ROOT} --work-order-id {WO-ID} --role orchestrator --status IN_PROGRESS`. Do not hand-edit or ad hoc overwrite shared surfaces. This is not optional — other agents monitor WO status to know what's active. A READY WO with a running worker is invisible to the rest of the system.
+**Before dispatching ANY WO:** the parent orchestrator marks it IN_PROGRESS in the WO file, and in a project-local WO-INDEX.md where one exists. For the individual WO file, use `/Users/grig/.agents/.venv/bin/python3 -m tools.woq.cli work-order write` with the exact WO path, current full-file `--base-sha256`, and exact `--result-artifact`; for project-local `{PROJECT_ROOT}/.dev/ai/workorders/WO-INDEX.md`, use `woq project-index write --project-root {PROJECT_ROOT} --work-order-id {WO-ID} --role orchestrator --status IN_PROGRESS`. For the GAS root, the WO file write is the only write — that index is generated from the WO files and hand-writes to it are refused. Do not hand-edit or ad hoc overwrite shared surfaces. This is not optional — other agents monitor WO status to know what's active. A READY WO with a running worker is invisible to the rest of the system.
 
 ### Method 1: Runtime-Native Background Agents (PREFERRED)
 
@@ -1299,7 +1314,7 @@ Use whenever the runtime supports native background agents. Build a self-contain
 
 **Codex-specific:** Spawn only current-parent native background agents that remain visible and interruptible from this owner-facing task, never shell launchers or separate Codex tasks. Apply the harness-aware effort capsule above. Native `spawn_agent` currently exposes no effort field, so record the intended Codex mapping as `requested-not-proven`, not enforced. Deterministic preflights, setup probes, script runs, and other pass/fail checks should run inline when safe; do not create a worker merely to run one mechanical step. Record every agent in the durable ledger. Respect the three-active-worker safety budget — close completed workers before launching replacements.
 
-**Dispatch-wave single writer:** During a native worker dispatch wave, worker result artifacts are append-only per-worker outputs. The parent orchestrator is the single writer for WO file status, `WO-INDEX.md`, `PROJECT-STATUS.md`, blocker views, orchestration logs, and `open-codex-agents.md` unless a worker prompt explicitly grants a narrow live-write lease for a disjoint path. Individual WO file writes must go through `/Users/grig/.agents/.venv/bin/python3 -m tools.woq.cli work-order write`, which acquires the persistent per-WO anchor flock, rereads under that flock, applies full-file CAS, refuses stale same-WO attempts, and leaves the ready v1 anchor in place. For the guarded agents-system shared surfaces, parent/session-owned writes and any leased live writes must go through `/Users/grig/.agents/.venv/bin/python3 -m tools.woq.cli shared-status write`, not ad hoc replacement. For project-local `WO-INDEX.md`, parent-owned writes must go through `/Users/grig/.agents/.venv/bin/python3 -m tools.woq.cli project-index write`. Worker prompts must ask for recommended WO status/index/status-surface changes in the result artifact, not direct edits to shared status surfaces.
+**Dispatch-wave single writer:** During a native worker dispatch wave, worker result artifacts are append-only per-worker outputs. The parent orchestrator is the single writer for WO file status, project-local `WO-INDEX.md`, `PROJECT-STATUS.md`, blocker views, orchestration logs, and `open-codex-agents.md` unless a worker prompt explicitly grants a narrow live-write lease for a disjoint path. Nobody writes the GAS root work-order index — it is generated from the WO files. Individual WO file writes must go through `/Users/grig/.agents/.venv/bin/python3 -m tools.woq.cli work-order write`, which acquires the persistent per-WO anchor flock, rereads under that flock, applies full-file CAS, refuses stale same-WO attempts, and leaves the ready v1 anchor in place. For the guarded agents-system shared surfaces, parent/session-owned writes and any leased live writes must go through `/Users/grig/.agents/.venv/bin/python3 -m tools.woq.cli shared-status write`, not ad hoc replacement. For project-local `WO-INDEX.md`, parent-owned writes must go through `/Users/grig/.agents/.venv/bin/python3 -m tools.woq.cli project-index write`. Worker prompts must ask for recommended WO status/index/status-surface changes in the result artifact, not direct edits to shared status surfaces.
 
 **Claude Code:** Use Agent/Task tool with `run_in_background=true`.
 
@@ -1592,7 +1607,7 @@ When you commit to a behavioral change or receive an owner correction, create a 
 
 ## CRITICAL RULES (REPEATED — DO NOT SKIP)
 
-1. **WO STATUS IS NOT OPTIONAL.** Parent orchestrator sets IN_PROGRESS before dispatch and COMPLETED after verified result assimilation. Update BOTH the WO file AND WO-INDEX.md every time as the parent/single writer; for individual WO files, use `woq work-order write` with the exact WO path, current full-file hash, persistent per-WO anchor flock/full-file CAS, and exact result artifact, leaving the ready v1 anchor in place; for `/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.md`, use the WOQ shared-status safe writer with a current hash; for project-local `{PROJECT_ROOT}/.dev/ai/workorders/WO-INDEX.md`, use `woq project-index write` with `--project-root`, `--work-order-id`, `--role orchestrator`, and `--status`. Workers report recommended status/index changes in result artifacts unless a prompt grants a narrow live-write lease, and guarded live writes still use the matching WOQ helper.
+1. **WO STATUS IS NOT OPTIONAL.** Parent orchestrator sets IN_PROGRESS before dispatch and COMPLETED after verified result assimilation. Update the WO file every time as the parent/single writer, using `woq work-order write` with the exact WO path, current full-file hash, persistent per-WO anchor flock/full-file CAS, and exact result artifact, leaving the ready v1 anchor in place. For project-local `{PROJECT_ROOT}/.dev/ai/workorders/WO-INDEX.md`, update it in the same atomic pass with `woq project-index write` using `--project-root`, `--work-order-id`, `--role orchestrator`, and `--status`. For the GAS root there is no index write — that index is generated from the WO files and hand-writes are refused. Workers report recommended status/index changes in result artifacts unless a prompt grants a narrow live-write lease, and guarded live writes still use the matching WOQ helper.
 2. **NEVER NAG ABOUT COMMITS.** Workers commit silently. When deployment requires commit+push, call it "deploying" and dispatch a policy-selected worker.
 3. **COMPLETE THE CHAIN.** implement → commit → push → deploy → verify. Do NOT stop to ask at each step.
 4. **RESPONSIBILITY CHAIN.** When a blocker is cleared or work is identified, CREATE the WO before declaring yourself blocked/done.

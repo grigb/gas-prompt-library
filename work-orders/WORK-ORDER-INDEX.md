@@ -2,8 +2,19 @@
 
 Generate and maintain a work order index for tracking all work orders in a project.
 
+> **The GAS root index is generated — this template does not apply to it.** The
+> GAS root work-order index is generated from WOQ and is **not** hand-maintained.
+> `/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.md` is retired; the index is
+> `/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.woq-generated-view.md`.
+> Hand-writes to it are refused. Do not update the index and do not queue an
+> index change for it. Update the Work Order file only — `woq work-order write`
+> — and the index is rebuilt from it. Owner-approved cutover 2026-08-12,
+> WO-GAS-WOQLIVE-014. Everything below is the template for **project-local**
+> indexes in other Projects, which are unchanged.
+
 ## File Location
-Save to: `.dev/ai/workorders/WO-INDEX.md`
+Save to: `{PROJECT_ROOT}/.dev/ai/workorders/WO-INDEX.md` (project-local indexes
+only — see the note above for the GAS root).
 
 ## Shared Status Write Boundary
 
@@ -11,27 +22,35 @@ Save to: `.dev/ai/workorders/WO-INDEX.md`
 file. Read-only inspection is allowed. Any write or status synchronization must
 use one of these safe paths:
 
-- **GAS root index:** use the WOQ shared-status safe writer with the current
-  full target hash. If the safe writer refuses the update, write the proposed
-  index text and the exact refusal to the worker result artifact for
-  parent/session-owned assimilation.
+- **GAS root index:** generated from WOQ, not hand-maintained — there is
+  nothing to write. `/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.md` is
+  retired and the index is
+  `/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.woq-generated-view.md`.
+  Hand-writes are refused by both `woq shared-status write` and `woq
+  project-index write`. Do not update the index, do not queue an
+  `index-pending` or `*-index-proposed.md` change for it, and do not name an
+  index synchronization for it in a result artifact. Update the Work Order file
+  only (`woq work-order write`); the index is rebuilt from it. Owner-approved
+  cutover 2026-08-12, WO-GAS-WOQLIVE-014.
 - **Project-local index:** acquire the project-local `.WO-INDEX.lock/`, reread
   the index after acquiring the lock, write only the scoped entry/status change,
   and release only your own lock. On lock contention, write the proposed update
   to `index-pending/<role>/` or the exact result artifact instead of waiting or
   overwriting.
 - **Workers, QA, and read-only agents:** default to result-artifact-only
-  shared-status authority. Their status updates must name both the WO file
-  change needed and the `WO-INDEX.md` synchronization needed through the
-  authorized parent, steward, liaison, triage, or maintenance writer lane.
+  shared-status authority. Their status updates must name the WO file change
+  needed, plus — for a project-local index only — the `WO-INDEX.md`
+  synchronization needed through the authorized parent, steward, liaison,
+  triage, or maintenance writer lane. Name no index synchronization for the GAS
+  root; the WO file change is the whole ask there.
 
-Generated-boundary exception: the exact owner-approved sections listed in
-`/Users/grig/.agents/docs/protocols/woq-role-lifecycle.md` (currently
-`woq-live-status`, and exactly `WO-GASECAP-20260714-001` through `006` in
-`gas-external-capability-integration`) are scheduler-generated from trusted WOQ
-lifecycle state plus WO files. Do not hand-edit them or create
-`index-pending`/`*-index-proposed.md` work for them. Update the WO file only.
-Every unflipped section continues to use the safe paths above.
+Generated-boundary note: the narrow generated-section boundaries that once
+applied inside the GAS root index (`woq-live-status`,
+`gas-external-capability-integration`, `global-work-order-q-system`) are
+superseded — the entire GAS root index is generated now, so no hand-maintained
+section survives to except. See
+`/Users/grig/.agents/docs/protocols/woq-role-lifecycle.md`. Project-local
+indexes continue to use the safe paths above.
 
 ## Update Triggers
 - When creating new work orders
@@ -115,8 +134,9 @@ Support these queries:
 1. **Never delete entries** - Move completed to archive
 2. **Synchronize status through the safe boundary** when work order status
    changes: update the WO file only if your role has live-write authority, and
-   synchronize `WO-INDEX.md` through the safe writer, project-local lock, or
-   result-artifact fallback.
+   synchronize a project-local `WO-INDEX.md` through the project-local lock or
+   result-artifact fallback. For the GAS root there is no index step — the WO
+   file write is the only write, and the generated index picks it up.
 3. **Track all WOs** - Including those from previous sessions
 4. **Age calculation** - Days since creation
 5. **Relationship tracking** - Update blocks/blocked-by
@@ -140,10 +160,12 @@ Completed work orders older than 7 days move to:
 ```bash
 # After any WO status change
 echo "Updated WO-xxx status to COMPLETED" >> .dev/ai/workorders/WO-CHANGELOG.md
-# Synchronize WO file status and WO-INDEX.md through the allowed role boundary:
-# - GAS root: WOQ shared-status safe writer with current full target hash
+# Synchronize WO file status through the allowed role boundary:
+# - GAS root: WO file write only (woq work-order write). The index is generated
+#   from WOQ and hand-writes to it are refused - there is no index step.
 # - project-local: .WO-INDEX.lock/ + reread-after-lock + scoped update
-# - worker/QA fallback: proposed WO file status and index sync in result artifact
+# - worker/QA fallback: proposed WO file status (plus project-local index sync)
+#   in result artifact
 # Track change
 ~/.agents/scripts/track-project.sh "[project]" "WO Index updated" \
   "[change summary]" "[agent]"

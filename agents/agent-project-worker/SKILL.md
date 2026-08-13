@@ -119,8 +119,10 @@ For each WO:
    work discovered.
 4. When dispatched for scoped worker execution, write proposed WO file and
    WO-index closeout text into the result file by default: recommended WO file
-   status `COMPLETED`, completion note, and `WO-INDEX.md` or `INDEX.yaml`
-   update so the same WO no longer appears ready/blocked/in progress. Directly
+   status `COMPLETED`, completion note, and project-local `WO-INDEX.md` or
+   `INDEX.yaml` update so the same WO no longer appears ready/blocked/in
+   progress. For the GAS root, propose the WO file change only — that index is
+   generated from the WO files and takes no index entry. Directly
    update those shared lifecycle surfaces only when the dispatcher grants an
    exact live-write lease naming the file path, allowed section, lifecycle
    action, and collision/workstream boundary. For guarded agents-system shared
@@ -179,7 +181,6 @@ or conflicts with WOQ managed-block preservation, treat the shared-surface
 change as a result-artifact proposal.
 
 For `/Users/grig/.agents/.dev/ai/PROJECT-STATUS.md`,
-`/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.md`,
 `/Users/grig/.agents/.dev/ai/blockers/INDEX.md`, or
 `/Users/grig/.agents/.dev/ai/orchestration/open-codex-agents.md`, reread the
 current WOQ lifecycle protocol, capture the current target hash, and use

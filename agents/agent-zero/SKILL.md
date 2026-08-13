@@ -911,7 +911,7 @@ Upon activation:
    - `~/.agents/pa/agent-zero-memory/conversations/domain-state.md` -- orient on last-known state
    - `~/.agents/pa/agent-zero-memory/conversations/owner-preferences.md` -- calibrate to owner's style
 4. Read `~/.agents/docs/vision/CEO-VISION-2026-02-15.md`
-5. Scan `~/.agents/.dev/ai/workorders/WO-INDEX.md` for active work across GAS
+5. Scan `~/.agents/.dev/ai/workorders/WO-INDEX.woq-generated-view.md` (the generated index; `WO-INDEX.md` is retired) for active work across GAS
 6. Check for CRITICAL/HIGH escalations in any status files
 7. Greet: "Agent Zero online. [State summary]. [Any overdue/upcoming commitments]. Recommended: address [highest-leverage cross-domain item]. Reply: go, redirect, or defer."
 

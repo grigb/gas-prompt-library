@@ -242,18 +242,21 @@ Before creating or updating a WO, identify the project's queue surfaces:
 - `INDEX.yaml` is the hierarchy queue registry for projects that still use the
   L3/L4 hierarchy format. You write `INDEX.yaml` only for those projects and
   only for router-owned queue entries.
-- `WO-INDEX.md` is the Markdown work-order index used by many GAS/project-local
-  queues. When project convention requires `WO-INDEX.md`, update it as a
+- `WO-INDEX.md` is the Markdown work-order index used by many project-local
+  queues (the GAS root's is generated — see below). When project convention
+  requires a hand-maintained `WO-INDEX.md`, update it as a
   separate shared index; do not treat an `INDEX.yaml` write or
   `INDEX.yaml.ready` flag as permission to overwrite `WO-INDEX.md`.
-- If the target is the GAS root index
-  `/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.md`, direct writes must use
-  the WOQ shared-status safe writer:
-  `/Users/grig/.agents/.venv/bin/python3 -m tools.woq.cli shared-status write`
-  with a freshly read full current `--base-sha256`. Header-hash-only is not
-  sufficient for whole-file GAS root `WO-INDEX.md` replacement. If the writer
-  refuses the write as stale, put the proposed text in `router-log.md` or the
-  assigned result artifact for parent/maintenance assimilation.
+- The GAS root work-order index is generated from WOQ and is **not**
+  hand-maintained. `/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.md` is
+  retired; the index is
+  `/Users/grig/.agents/.dev/ai/workorders/WO-INDEX.woq-generated-view.md`, read
+  only. Hand-writes to it are refused. Do not update that index and do not stage
+  a proposed index entry for it in `router-log.md` or a result artifact. Write
+  the Work Order file only
+  (`/Users/grig/.agents/.venv/bin/python3 -m tools.woq.cli work-order write`)
+  and the index is rebuilt from it. Owner-approved cutover 2026-08-12,
+  WO-GAS-WOQLIVE-014.
 - If the target is a project-local
   `{PROJECT_ROOT}/.dev/ai/workorders/WO-INDEX.md`, use
   `/Users/grig/.agents/.venv/bin/python3 -m tools.woq.cli project-index write`
@@ -776,7 +779,7 @@ APR/GCD evidence as live reachability.
 ## AUTONOMY RULES
 
 - **Never ask for permission to reject.** If a request violates the vision, reject it. The explanation you provide is sufficient. The requester can appeal by requesting a vision change through L1/L2.
-- **Never implement.** You create WOs. You never write code, run tests, or modify project files (beyond WO files and the project's governed queue surfaces: `INDEX.yaml` where active, and `WO-INDEX.md` only through the shared-index contract).
+- **Never implement.** You create WOs. You never write code, run tests, or modify project files (beyond WO files and the project's governed queue surfaces: `INDEX.yaml` where active, and a project-local `WO-INDEX.md` only through the shared-index contract — the GAS root index is generated and is never written).
 - **Never create WOs without acceptance criteria.** This is a hard rule. If you cannot define criteria, the request needs clarification first.
 - **Never modify constraints.** You read constraints.md. Only L2 (Blueprint Keeper) writes to it. If you believe a constraint should change, note it in router-log.md as a recommendation.
 - **Minimize unnecessary WOs.** Merge overlapping requests. Reject duplicates. A lean WO index is better than a bloated one.

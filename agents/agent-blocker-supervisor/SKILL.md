@@ -1096,7 +1096,7 @@ The supervisor must track WOs across the ENTIRE portfolio during every `work` pa
 
 ### 1. Liaison Fast-Lane Then Full Portfolio WO-INDEX Scan
 
-During every `work` pass, scan Project Liaison fast lanes before full WO indexes. For each registered project, check `<path>/.dev/ai/workorders/priority-lanes/project-liaison-ready/` and read only marker files plus referenced WOs. Then scan WO-INDEXes across ALL registered projects. For each project in `projects.yaml`, read `<path>/.dev/ai/workorders/WO-INDEX.md` (or INDEX.yaml) and `~/.agents/.dev/ai/workorders/WO-INDEX.md` for GAS-level WOs. Report READY count per project alongside blocker count.
+During every `work` pass, scan Project Liaison fast lanes before full WO indexes. For each registered project, check `<path>/.dev/ai/workorders/priority-lanes/project-liaison-ready/` and read only marker files plus referenced WOs. Then scan WO-INDEXes across ALL registered projects. For each project in `projects.yaml`, read `<path>/.dev/ai/workorders/WO-INDEX.md` (or INDEX.yaml) and, for GAS-level WOs, `~/.agents/.dev/ai/workorders/WO-INDEX.woq-generated-view.md` (the generated index; the GAS root `WO-INDEX.md` is retired). Report READY count per project alongside blocker count.
 
 If a supervisor-owned action must write a guarded shared surface after such a
 scan, first reread `/Users/grig/.agents/docs/protocols/woq-role-lifecycle.md`
