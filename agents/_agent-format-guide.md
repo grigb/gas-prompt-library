@@ -51,6 +51,15 @@ description: Use this agent when [triggering conditions]. This agent should be i
 **No model or effort field.** Do not hardcode model or effort execution hints in frontmatter. Dispatchers select models using `/Users/grig/.agents/docs/MODEL-SELECTION-POLICY.md` and `/Users/grig/.agents/tools/usage-management/scripts/select-model.sh`.
 Current canonical frontmatter standard: `/Users/grig/.agents/prompts/agents/SKILL-MD-FORMAT.md`.
 
+**Routing-chain precedent.** Any prompt that owns an autonomous launch
+primitive, orchestration role, or its own exposed routing rung must require a
+fresh exact-task classification (exact WO or immutable hashed non-WO packet),
+post-classification direct-owner override, fresh current-harness selector call,
+independent binding of both returned tokens through the live surface registry,
+and returned child-effective proof for each axis. Launch arguments alone are
+not proof; enforcement is only `enforced`, `requested-not-proven`, or
+`unsupported`. Do not impose launch-only requirements on non-dispatch prompts.
+
 **Computer-use category precedent.** Every dispatch-capable prompt must state
 that a separate Worker doing repetitive, tool-intensive full QA, end-to-end
 walkthroughs, dogfood runs, or similar computer/browser execution with defined

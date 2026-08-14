@@ -64,6 +64,16 @@ metadata:
 
 ## Computer-Use Category Precedent
 
+Every prompt that owns an autonomous launch primitive, an orchestration role,
+or its own exposed routing rung must carry complete consequence-first
+`classify => select => bind => prove` guidance. Classification runs freshly on
+the exact child WO or immutable hashed non-WO packet; a direct owner override is
+post-classification; selection runs freshly for the current harness; its two
+tokens bind independently to the live registry's child model and effort
+controls; and returned child-effective evidence, not launch arguments alone,
+supports per-axis `enforced`, `requested-not-proven`, or `unsupported`. Prompts
+without those responsibilities must not be given launch-only requirements.
+
 Every dispatch-capable prompt must carry the canonical `computer-use` task-
 shape instruction: a separate Worker doing repetitive, tool-intensive full QA,
 end-to-end walkthroughs, dogfood runs, or similar computer/browser execution
