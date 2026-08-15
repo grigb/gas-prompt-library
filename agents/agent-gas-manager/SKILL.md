@@ -598,7 +598,45 @@ WORKER CONTEXT CHECKLIST
 6. agents.db registration -- register worker in agents.db via CLI:
    python3 ~/.agents/tools/agent_manager/cli/transition_state.py \
      --create-agent --name "worker-{wo_id}" --state active
+7. Runtime call budget    -- known only with a finite ceiling/remaining count;
+                             otherwise explicitly unknown
+8. Cleanup reserve        -- max(10, ceil(0.20 * known envelope)), or unknown
+9. Packet sizing          -- independent-criterion count, phase kinds, exact
+                             ceiling-history source, split/keep decision/order
 ```
+
+Every direct Worker prompt carries the exact four-field envelope from
+`/Users/grig/.agents/docs/SUB-AGENT-ORCHESTRATION-GUIDE.md#runtime-call-budget-envelope-and-cleanup-reserve`:
+`runtime_call_budget: known|unknown`, `call_ceiling`,
+`calls_remaining_at_dispatch`, and `reserve_calls`. Use the finite ceiling as
+the envelope when present, otherwise a finite remaining-at-dispatch count;
+compute the reserve as `max(10, ceil(0.20 * envelope))`. If neither finite value
+is exposed, label every value `unknown`; never infer a number from a
+model/provider/harness/default, and never make unknown budget stop executable
+work immediately.
+
+The prompt requires create-first living-result updates and a reserve check
+before each new phase. Below a known reserve, the Worker starts no new phase:
+it persists earned evidence and the next unfinished step, stops and verifies
+only resource identities it started and recorded, then finalizes or leaves an
+honest resumable nonterminal artifact. Explicitly forbid `pkill`, `killall`,
+process-name kills, machine-wide port sweeps, and cleanup of unowned resources.
+Preserve no-poll, one-control-surface, exact-owned shutdown, role, model-routing,
+WOQ, owner-gate, no-repeat-until-clean, parent-assimilation, and exact-output-path
+boundaries.
+
+Before spawning, apply
+`/Users/grig/.agents/docs/SUB-AGENT-ORCHESTRATION-GUIDE.md#pre-dispatch-worker-packet-sizing`.
+Count deduplicated independent acceptance criteria and inventory phase kinds.
+Split into dependency-ordered WOs before dispatch if there are more than five
+independent criteria, if one packet combines implementation plus live
+integration plus lifecycle cleanup plus final documentation, or if a named
+durable artifact proves runtime-ceiling exhaustion for this exact WO/prior
+attempt or a materially matching packet shape. Record the count, phase kinds,
+history source, split/keep decision, and order. Multiple steps/files/tool calls,
+ordinary implementation plus tests, or at most five independent criteria alone
+do not force splitting. A split bounds serializable WOs; it does not require
+fan-out, a new role, or one Worker per step.
 
 **Status transition before spawn:** Update the WO in the project's active
 queue from `ready` to `in_dev` BEFORE launching the worker. For
@@ -648,6 +686,27 @@ Check: WO status has changed to 'dev_complete' (worker self-reported)
 
 Before treating any worker as complete, follow
 `/Users/grig/.agents/docs/protocols/worker-closeout-assimilation.md`.
+
+After known process exit, classify the exact assigned result into exactly one
+state: `candidate-completion-pending-parent-assimilation` only when terminal
+final bytes pass the parent's post-Worker hash/strict-validation/hash check;
+`interrupted-resumable` for a strict-valid nonterminal artifact with a complete
+zero-context successor packet (including a terminal-looking artifact invalidated
+by a later write); or `failed-no-durable-handoff` when the exact result is absent,
+unreadable, malformed, or not executable. Final prose, completion files,
+agents.db state, runtime notices, or WO/index status never upgrade the class.
+Any late note, timestamp, metadata, status, or other edit invalidates prior
+validation until the exact current bytes are fully revalidated.
+
+The interrupted successor packet must contain completed checkpoints/evidence,
+ordered remaining tasks, changed files, running resources and ownership, cleanup
+state, rollback, exact verification commands, and known defects/limitations.
+Resume without transcript/chat reconstruction. Do not repeat or replace until
+classification is recorded, exact-owned cleanup/ownership is resolved, and the
+prior lease/slot is released. Candidate status still requires parent
+assimilation and authoritative WO/WOQ/status updates. Preserve no-poll,
+one-control-surface, no-repeat-until-clean, role, owner-gate, model-routing, and
+exact-result-path/exact-output-path rules.
 
 Read the completion file/final worker output and extract every `Next step`,
 `should consume`, `ready handoff`, `blocked by`, `remaining gate`, or

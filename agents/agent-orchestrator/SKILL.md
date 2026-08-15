@@ -756,6 +756,63 @@ internal development and unrelated work.
 
 Every worker prompt must include: WO path, output path (`subtask-comms/{timestamp}-{task-id}.md`), and reference to `~/.agents/prompts/general/subtask-pre-work-report.md` if it exists. Always `run_in_background=true`.
 
+Before every direct Worker dispatch, apply the canonical pre-dispatch sizing gate
+in `/Users/grig/.agents/docs/SUB-AGENT-ORCHESTRATION-GUIDE.md#pre-dispatch-worker-packet-sizing`.
+Count deduplicated independent acceptance criteria and inventory phase kinds.
+Split into dependency-ordered WOs before dispatch when any trigger holds: more
+than five independent criteria; one packet contains implementation plus live
+integration plus lifecycle cleanup plus final documentation; or a named durable
+artifact proves runtime-ceiling exhaustion for this exact WO/prior attempt or a
+materially matching packet shape. Record count, phase kinds, exact history
+source, decision, and dependency order. Multi-step/multi-file work, ordinary
+implementation plus tests, multiple tool calls, or at most five independent
+criteria alone do not force a split. Splitting bounds packets; it does not force
+parallel fan-out, a new role, or one Worker per step.
+
+Every direct Worker packet must also carry the canonical runtime call-budget
+envelope from
+`/Users/grig/.agents/docs/SUB-AGENT-ORCHESTRATION-GUIDE.md#runtime-call-budget-envelope-and-cleanup-reserve`:
+`runtime_call_budget: known|unknown`, finite-or-`unknown` `call_ceiling`,
+finite-or-`unknown` `calls_remaining_at_dispatch`, and computed-or-`unknown`
+`reserve_calls`. Label it known only when the runtime exposes a finite ceiling
+or remaining count; use the ceiling as the envelope when present, otherwise the
+remaining count, and compute `max(10, ceil(0.20 * envelope))`. Never infer a
+number from model/provider/harness identity, defaults, or another Worker.
+
+The packet must require the Worker to create its exact living result first and
+update it after material checkpoints. Before each new phase, a Worker with a
+known envelope checks tracked remaining calls; below the reserve it starts no
+new phase, persists evidence and the next unfinished step, stops and verifies
+only exact-owned recorded resources, then finalizes or leaves a resumable
+nonterminal artifact. For an unknown envelope, the Worker records `unknown` and
+continues executable work rather than inventing a number or stopping
+immediately. Forbid `pkill`, `killall`, process-name kills, machine-wide port
+sweeps, and any cleanup not bound to a resource identity recorded when started.
+This does not weaken no-poll, one-control-surface, foreground, role, WOQ,
+owner-gate, model-routing, no-repeat-until-clean, parent-assimilation, or
+exact-result-path rules.
+
+After a known Worker process exit, apply the guide's closed terminal-result
+classification to the exact assigned result path: only a terminal exact result
+whose final post-Worker bytes pass parent hash/strict-validation/hash checking is
+`candidate-completion-pending-parent-assimilation`; a strict-valid nonterminal
+result with the complete zero-context successor packet is
+`interrupted-resumable`; an absent, unreadable, malformed, or non-executable
+result is `failed-no-durable-handoff`. Final prose, native completion notice, or
+runtime/database state never upgrades a class. Any late note, timestamp,
+metadata, status, or other edit invalidates prior validation and requires the
+entire exact-byte check again.
+
+Interrupted Worker packets must directly name completed checkpoints/evidence,
+ordered remaining tasks, changed files, exact running resources and ownership,
+cleanup state, rollback, exact verification commands, and known defects or
+limitations. Resume or replace from that artifact without transcript/chat
+reconstruction. Do not repeat/replace until the class is recorded, exact-owned
+cleanup is resolved, and the prior lease/slot is released. Candidate status
+still requires parent assimilation of evidence and authoritative WO/WOQ/state
+updates; preserve no-poll, one-control-surface, no-repeat-until-clean, role,
+owner-gate, model-routing, and exact-result-path boundaries.
+
 ### Coding Skill Adoption Contract
 
 For every WO or owner request, classify whether the work is code

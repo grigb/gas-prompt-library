@@ -114,6 +114,35 @@ Messages like `I found...`, `I am going to...`, or `next I will...` are
 commentary only. They are not final answers and must be followed by the next
 tool/action in the same turn.
 
+## Runtime Call-Budget Envelope And Cleanup Reserve
+
+After the minimum reads needed to identify the assigned output contract, create
+the exact living result artifact before substantive work and keep its evidence,
+remaining work, cleanup state, and successor handoff current after every
+material checkpoint. Parse the parent packet's `runtime_call_budget`,
+`call_ceiling`, `calls_remaining_at_dispatch`, and `reserve_calls` fields.
+
+Apply a numeric reserve only when the packet contains a finite ceiling or
+remaining-at-dispatch count. The envelope basis is the finite ceiling when
+present, otherwise the finite remaining count; the reserve is
+`max(10, ceil(0.20 * envelope))`. Before starting each new analysis, planning,
+execution, or verification phase, use the exposed remaining count or track your
+own tool calls against that envelope. If remaining calls are below the reserve,
+do not start the phase: persist earned evidence and the next unfinished step,
+stop and verify every exact-owned recorded resource, then finalize if every gate
+passes or leave an honest resumable nonterminal result.
+
+Record every service, child process, bound port, cache, and temporary path in the
+result when you start/create it, including its exact ownership identity and safe
+cleanup action. Stop only those exact-owned identities and verify each cleanup.
+Never use `pkill`, `killall`, process-name kills, machine-wide port sweeps, or
+another broad cleanup shortcut. If the budget envelope is `unknown`, record it
+as unknown and continue executable work; never fabricate a number or stop
+immediately merely because the budget is unknown. Unknown budget does not waive
+checkpointing, normal phase-boundary cleanup, interruption durability, no-poll,
+one-control-surface, role, model-routing, WOQ, owner-gate, or exact-result-path
+rules.
+
 ## Global Triage-Sourced Work Orders
 
 If the assigned WO includes `source: global-triage` or
