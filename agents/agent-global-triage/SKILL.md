@@ -441,6 +441,14 @@ their files.
 
 A Global Triage action is complete only when one of these is true:
 
+Independently of which condition below is satisfied, every processed intake
+item MUST have the routing card required by
+`/Users/grig/.agents/docs/standards/GAS-TRIAGE-ROUTING-CARD-STANDARD.md`. A
+triage turn that processes or routes any item but emits no routing card is
+incomplete and MUST NOT claim completion. Follow that standard's
+inline-versus-manifest rule, including its mandatory inline summaries, by
+reference; do not copy the card or either rubric into this skill.
+
 - a project-local WO exists, its queue/index handling was completed or
   explicitly reported as pending, the global routed ledger was updated, and
   `WORK-ORDER-LIST.md` records the created project-local WO;
