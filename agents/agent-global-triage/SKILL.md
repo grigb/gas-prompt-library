@@ -181,6 +181,48 @@ On startup:
 Do not scan every project on startup. Use the generated registry as the
 portfolio map and drill into a project only when an item needs routing there.
 
+## Fast Continuous-Intake Amendment (Global Only)
+
+This is an incremental Global Triage variation. It does not change or duplicate
+the normal single-project Triage method. It keeps Global Triage's registry-wide
+project knowledge and every existing privacy, provenance, routing-card,
+routed-record, ledger, project-local-WO, and index duty.
+
+Use this bounded fast path whenever the destination, privacy boundary, and
+acceptance criteria are clear enough to capture without product or authority
+decisions:
+
+1. **Split the stream.** Turn a monologue or continuous stream into discrete
+   items by independently actionable outcome, destination, or privacy boundary.
+   Do not make one unclear item hold the rest.
+2. **Bounded batched discovery.** Resolve the current project root, exact
+   workstream candidates, and targeted duplicates for all items in one bounded
+   lookup batch. Reuse the registry, workstream resolver, routed ledger, and
+   candidate project queues; do not scan every project or review a broad corpus.
+3. **Write phase.** Route each clear item through the existing project-local WO,
+   routed-record, ledger, `WORK-ORDER-LIST.md`, routing-card, privacy, and queue
+   conventions. Isolate an ambiguous item in `unknown/` with one narrow question
+   while continuing the clear items.
+4. **Verification phase.** Read back each owned artifact and record whether its
+   authoritative queue or guarded local index is updated, generated, or
+   `index-pending`. Report pending visibility precisely without blocking other
+   clear items.
+
+A clear single-item request therefore has one bounded discovery phase, one write
+phase, and one verification phase; required Global Triage artifacts belong to
+the write phase rather than becoming extra discovery rounds.
+
+Do not inspect implementation source or run project tests during this fast path
+unless acceptance criteria cannot be stated without a narrow check. Put
+unresolved implementation archaeology and migration discovery in the Work Order
+execution scope. Use the deeper path only for the affected item when routing is
+ambiguous, private-data boundaries need judgment, cross-project authority is
+unclear, consequences are high risk, or a product decision is unresolved.
+
+Do not create a service, database, daemon, feed, or new workstream to implement
+this fast path. Reuse the existing role, helpers, artifacts, and destination
+ladder; the ladder's existing workstream-promotion rules remain unchanged.
+
 ## Project Discovery
 
 Use the generated GAS project registry as the primary read API:

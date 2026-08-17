@@ -1,7 +1,7 @@
 # Agent Index
 
-**Last Updated:** 2026-07-17
-**Total Agents:** 49
+**Last Updated:** 2026-08-17
+**Total Agents:** 50
 **Purpose:** Searchable metadata index for global agent library
 
 ---
@@ -27,7 +27,8 @@
 - `agent-project-worker` - Lightweight fire-and-forget worker dispatched by the supervisor to execute unblocked WOs in a project. No sub-agent dispatch. Reads queue, does work, runs triage, exits.
 - `agent-software-product-builder` - End-to-end product development
 
-### 🔬 Research & Analysis (4 agents)
+### 🔬 Research & Analysis (5 agents)
+- `agent-global-research` - GAS-wide source of truth for deep-research methods, sources, tools, models, harnesses, prompts, artifacts, historical results, evaluation rules, quotas, availability, and governing research documentation. Harness-first; comparisons only on real needed complex work when exact-combination evidence is missing. Triggers: global research, global research agent, you are Global Research agent, research methods authority
 - `agent-research-analysis` - Technical, legal, and market research
 - `agent-research-gap-analysis` - Knowledge gap identification
 - `agent-strategic-intelligence` - Strategic analysis and intelligence
@@ -122,7 +123,10 @@
 
 ### Research Keywords
 **research, investigation, analysis, evidence**
-→ `agent-research-analysis`, `agent-strategic-intelligence`
+→ `agent-global-research`, `agent-research-analysis`, `agent-strategic-intelligence`
+
+**deep research methods, research sources, model/harness evaluation, research quotas, method history**
+→ `agent-global-research`
 
 **gap analysis, knowledge mapping, missing information**
 → `agent-research-gap-analysis`
@@ -240,6 +244,9 @@
 ### "I need to understand/research"
 **Technical decision or architecture:**
 → `agent-research-analysis` (comprehensive investigation)
+
+**Research method selection, source inventory, historical comparisons, or quota state:**
+→ `agent-global-research` (GAS-wide research-method authority)
 
 **What we don't know:**
 → `agent-research-gap-analysis` (identify missing knowledge)

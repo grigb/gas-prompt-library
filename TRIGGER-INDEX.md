@@ -44,6 +44,23 @@
 
 ---
 
+### Global Research Agent (Research Method Authority)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `global research` | `~/.agents/prompts/agents/agent-global-research/SKILL.md` | GAS-wide deep-research method and evidence authority |
+| `global research agent` | `~/.agents/prompts/agents/agent-global-research/SKILL.md` | Explicit Global Research request |
+| `you are Global Research agent` | `~/.agents/prompts/agents/agent-global-research/SKILL.md` | Role assignment phrase |
+| `you are the global research agent` | `~/.agents/prompts/agents/agent-global-research/SKILL.md` | Long-form role assignment phrase |
+| `act as global research` | `~/.agents/prompts/agents/agent-global-research/SKILL.md` | Role activation phrase |
+| `research methods authority` | `~/.agents/prompts/agents/agent-global-research/SKILL.md` | Method/source evaluation and historical evidence request |
+
+**Core Principle:** Source of truth for research methods, sources, models, harnesses, prompts, results, evaluation history, quotas, and governing GAS research documentation. Executes harness-first and compares only on real needed complex work when exact-combination evidence is missing.
+
+**Activation Regex:** `(?i)\b(global\s+research(\s+agent)?|you\s+are\s+(the\s+)?global\s+research\s+agent|act\s+as\s+global\s+research|research\s+methods\s+authority)\b`
+
+---
+
 ### Global Triage Agent (Portfolio Intake)
 
 | Trigger Phrase | Target Prompt | Description |
