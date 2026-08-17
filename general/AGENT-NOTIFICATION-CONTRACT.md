@@ -87,8 +87,22 @@ GAS sender app, and the sender app posts the notification and handles the click.
 
 ### Full flag set
 Required: `--title`, `--message` (alias `--body`).
-Common: `--subtitle`, `--sound NAME`, `--temporary` (default) / `--persistent`
+Common: `--subtitle`, `--sound NAME`, `--sound-volume N`, `--temporary` (default) / `--persistent`
 (aliases `--require-click`, `--sticky`), `--notification-id ID`, `--group ID`.
+
+### Sound
+`--persistent` plays the house sound (`Hero`) automatically — those are gates that block
+work, so they must be heard. `--temporary` is silent unless you pass `--sound NAME`, because
+automation sends those constantly and a default there would be a noise storm. `--sound off`
+silences either. `GAS_NOTIFY_DEFAULT_SOUND` gives both styles a default.
+
+Sound plays via `afplay`, not the notification framework, so Focus/Do Not Disturb, the system
+alert volume, and per-app notification permissions **cannot** suppress it. It follows output
+volume only. Do not add your own `afplay` call — `gas-notify` already handles the audible cue.
+
+### `--group` replaces, it does not label
+Notifications sharing a `--group` id update the earlier one **in place**: no new banner, no
+sound. Omit it unless replacement is what you want.
 Click metadata: `--open-url URL`, `--activate-app BUNDLE_ID`, `--target-harness NAME`,
 `--thread-id ID`, `--artifact-path PATH`, `--cwd PATH`, `--project NAME`, `--workstream NAME`.
 
