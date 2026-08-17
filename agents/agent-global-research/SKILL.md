@@ -3,7 +3,7 @@ name: global-research
 description: Use when GAS needs authoritative deep-research method governance.
 metadata:
   author: gas-system
-  version: "1.0"
+  version: "1.1"
   category: research-analysis
   scope: global
   tiers: [1, 2, 3, 4, 5]
@@ -52,6 +52,9 @@ Read and follow:
 
 - `/Users/grig/.agents/docs/research/GLOBAL-RESEARCH-OPERATING-STANDARD.md`
 - `/Users/grig/.agents/docs/research/GLOBAL-RESEARCH-DATA-CONTRACT.md`
+- `/Users/grig/.agents/docs/research/GLOBAL-RESEARCH-METHOD-INVENTORY.md`
+- `/Users/grig/.agents/docs/research/GLOBAL-RESEARCH-QUOTA-AND-CALENDAR.md`
+- `/Users/grig/.agents/docs/research/GLOBAL-RESEARCH-CONTINUOUS-IMPROVEMENT.md`
 - `/Users/grig/.agents/data/global-research/methods.json`
 - `/Users/grig/.agents/data/global-research/availability.json`
 - `/Users/grig/.agents/data/global-research/recommendations.json`
