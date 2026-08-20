@@ -139,8 +139,9 @@ NEVER commit files matching these patterns:
 **Credentials and secrets:**
 - `.gitignore.*` (never stage or commit)
 - project root `.gitignore` outside the ignore-maintenance exception below
-- `*.env`, `*.env.*`, `.env`
+- `*.env`, `*.env.*`, `.env` (EXCEPTION: `.env.example` templates without secrets are safe to track and commit)
 - `*.key`, `*.pem`, `*.p12`, `*.pfx`
+
 - `credentials.*`, `secrets.*`, `secret.*`
 - `**/secrets/`
 - `*.keystore`, `*.jks`
