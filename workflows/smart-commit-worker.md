@@ -185,6 +185,27 @@ Scan `git diff` and `git diff --cached` output for these regex patterns. If ANY 
 - Variables named `api_key`, `apiKey`, `API_KEY`, `access_key`, or `client_secret` with assigned literal values
 - Variables named `password`, `secret`, `token` with assigned literal values
 
+**False-positive guard.** Block a file ONLY when a pattern above produces an
+actual match against a literal credential-looking value in the diff text. Do
+NOT block files because their name, surrounding code, or subject matter
+involves authentication infrastructure (OAuth flows, session management,
+token counting, API client wrappers). The last two bullet points (variable
+names like `api_key`, `password`, `secret`, `token`) trigger ONLY when the
+assigned value is a literal credential string (a long alphanumeric/base64 key,
+a bearer token, a connection URI with embedded password). A programmatic
+expression (`profile.provider`, `None`, `os.environ.get(...)`, a function
+call, a type hint) is NOT a literal credential value. `package-lock.json`
+and lockfiles never contain credentials and must not be blocked by this scan.
+
+#### Content Secret Safe Paths
+
+Before blocking a file for content secret detection, check whether the project
+root contains `.dev/ai/smart-commit-safe-paths.txt`. If the changed file's
+repository-relative path appears in that file (one path per line, blank lines
+and `#` comment lines ignored), skip content secret scanning for that file.
+These paths have been reviewed by the project owner and confirmed as false
+positives.
+
 If secrets are detected: block the file, log it, continue with safe files.
 
 ### Step 2.5: Global Commit Worker-Only Ignore Maintenance
