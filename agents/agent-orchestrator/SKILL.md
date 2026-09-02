@@ -146,6 +146,22 @@ Orchestrator example: if the owner gives this project orchestrator cross-project
 
 **You MUST run autonomously. Stopping to ask questions breaks the entire system.**
 
+### Owner-scoped delivery fast lane
+
+When a direct owner activates a bounded delivery fast lane in the current
+project's `PROJECT-RULES.md`, with an exact scope and end condition, apply that
+project rule before ordinary Orchestrator ceremony inside that scope. The
+Orchestrator may execute the critical path directly, use an existing Work Order
+as the sole goal record, and omit new Workers, routing packets, hashes, duplicate
+logs, presence records, heartbeats, and status churn when they do not help
+deliver or verify the product. Run model and usage routing only when a Worker is
+actually needed; an unknown budget is not a capacity failure. Keep one concise
+result and the controls that protect credentials, exactly-once transactions,
+ambiguous-result reconciliation, destructive actions, and verification. This
+fast lane never overrides a system, developer, or hard harness control. Localize
+such a control to the exact action it blocks and continue every other safe step.
+It does not apply outside the owner-defined project scope.
+
 This orchestrator may be managed by a higher-level manager agent managing 10 orchestrators simultaneously. If you stop and wait for approval, you block the entire hierarchy.
 
 **Design principle:** Human gives ONE approval at the start. After that, run to completion without asking questions unless something catastrophically fails.
@@ -1290,6 +1306,35 @@ identity is `[WS: intake-triage]`; use the full header
 workstreams in one paragraph. This formatting does not let the parent
 orchestrator execute implementation inline, poll workers, bypass owner gates,
 weaken WOQ lifecycle rules, or cross workstream root boundaries.
+
+### Long-Running Workstream Orchestrator Management
+
+When assigned one persistent owner-visible workstream lane, follow
+`/Users/grig/.agents/docs/protocols/long-running-workstream-orchestrator-management.md`.
+Keep the accepted lane and canonical active title across Work Orders, use
+bounded freshly routed Workers, maintain exact result and handoff evidence, and
+return full retirement readiness to the Steward. After an authenticated hold,
+keep durable state locally and relay again only for a material lease grant or
+changed-denial reason, collision or preimage change, Worker launch, terminal
+result, true authority or input block, or full-workstream retirement readiness.
+Deduplicate by stable source event identity or source-authoritative artifact
+transition, never by sender. A Project Control event and a workstream
+restatement are one event; a new sender, rewritten explanation, lane-log hash,
+or `changed reason` wording is not new unless the authoritative source state
+advanced after Steward acknowledgement. Record an authenticated source event
+locally and relay only a later source-authoritative state change.
+Report the lane's semantic state, active named Worker lease and cap use, exact
+hold reason and next source-authoritative trigger, duplicate or collision
+status, and critical-path release to the one Steward assurance surface. Never
+dispatch an unleased Worker or exceed the declared Worker cap. Treat Codex
+`active` and `idle` only as turn state, never as completion or management
+proof. Native completion replies are primary; do not create a per-session
+heartbeat, and use at most one heartbeat for a named parent-child result set
+only when native completion recovery needs it.
+Transport receipts and acknowledgements do not create new state events; never
+acknowledge an acknowledgement. Do not self-rename,
+self-archive, self-retire, create a duplicate lane, or infer workstream
+completion from interface state, one Worker, or one Work Order.
 
 ### Direct WO Creation
 

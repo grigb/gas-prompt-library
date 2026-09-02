@@ -7,15 +7,11 @@ Create one unified session-close artifact that preserves:
 Core principle:
 `One session = one record. Forward actions + current state + backward traceability = one artifact.`
 
-This replaces the end-of-session pair of:
-- conversation audit
-- standard continuation handoff
-
 It does **not** replace orchestration handoffs used for delegation, subtask coordination, or `.dev/ai/subtask-comms/`.
 
-## Single Owner-Facing Closeout Entrypoint
+## Single Owner-Facing Session-Record Entrypoint
 
-This is the only owner-facing routine session retirement prompt for normal agents, Project Steward sessions, Master Steward sessions, and Blocker Supervisor/Supe sessions. The owner should not have to know which role was active or call a separate steward or supervisor closeout prompt.
+This is the only owner-facing routine session-record prompt for normal agents, Project Steward sessions, Master Steward sessions, and Blocker Supervisor/Supe sessions. The owner should not have to know which role was active or call a separate steward or supervisor closeout prompt.
 
 The owner's preferred closeout phrase is a first-class trigger for this prompt:
 
@@ -24,6 +20,39 @@ It's time to retire this agent's context. Create a session record. The next agen
 ```
 
 When this phrase appears, follow this file as the entrypoint even if the session was steward-led or supervisor-led.
+
+## Artifact-Only Default And Separate Task-Lifecycle Authority
+
+Creating a session record is a file operation. Every trigger in this prompt,
+including `/close-session`, `close session`, `create session record`, `wrap this
+session`, `save the session`, and the preferred phrase above, authorizes the
+record and its required role-specific capture only. The word `retire` in the
+preferred phrase means preserve the current context for continuation. It does
+not by itself authorize renaming, archiving, closing, moving, creating,
+forking, handing off, or replacing a visible harness task.
+
+A visible-task lifecycle action requires a separate, explicit current-owner
+instruction for that action. When the owner explicitly requests rotation,
+replacement, close, or archive and unfinished role or project work must
+continue, do not archive the old task until all of these are proven:
+
+1. the successor exists with the same canonical role title, the correct
+   project root and workstream, and the same sidebar section or group;
+2. the successor received the absolute session-record path and continuation
+   prompt through a receipt-producing route;
+3. the successor returned a fresh acknowledgement that it accepted the role
+   and can continue from the record; and
+4. every other applicable relay and archive-safety gate has passed.
+
+If project policy reserves visible-task creation to the owner, stage the exact
+startup handoff and leave the old task active until the owner creates the
+successor and the continuity proof above exists. If any creation, placement,
+delivery, acknowledgement, rename, or archive step fails or is unproved, keep
+the old task unarchived and restore its canonical title if it was changed.
+
+When no role or unfinished work needs continuity, an explicit owner archive or
+close instruction may proceed after ordinary archive-safety gates. A completed
+session record alone is never archive authority.
 
 ## Concurrent Control-Lane Closeout Safety
 
@@ -43,7 +72,7 @@ states the shared model once and references those preflights rather than
 re-implementing them.
 
 **Reusable vocabulary.** A `current session lane` is the single session being
-retired now. A `sibling lane` is any other Master Steward, Project Steward,
+recorded now; visible-task retirement is a separate action. A `sibling lane` is any other Master Steward, Project Steward,
 Supervisor, worker, or orchestrator session that may be running concurrently. A
 `shared surface` is any file or ledger that concurrent lanes read or write,
 such as `.dev/ai/PROJECT-STATUS.md`, role memory indexes, Master Steward
@@ -73,8 +102,8 @@ Apply all ten rules below before role routing and before any shared write:
    session id; the fresh session token is what guarantees a fork-safe, distinct
    session-record path.
 
-2. **Current lane only.** The session record retires only the `current session
-   lane`. It may describe a `sibling lane` as referenced or active, but it must
+2. **Current lane only.** The session record documents only the `current
+   session lane`. It may describe a `sibling lane` as referenced or active, but it must
    not mark any sibling lane closed, complete, archived, acknowledged,
    processed, cleared, or superseded without distinct current evidence and
    authority for that exact external lane.
@@ -86,9 +115,10 @@ Apply all ten rules below before role routing and before any shared write:
    this invariant makes order irrelevant by construction.
 
 4. **Partial lane closeout wording.** When sibling sessions may remain active,
-   write a `partial lane closeout` in plain state such as `this session lane is
-   closed; other Master Steward/Project Steward/Supervisor lanes may remain
-   active`. Do not write `Master Steward is complete`, `the project is closed`,
+   write a `partial lane closeout` in plain state such as `this session record
+   is complete; the visible task remains active unless a separate lifecycle
+   gate completed; other Master Steward/Project Steward/Supervisor lanes may
+   remain active`. Do not write `Master Steward is complete`, `the project is closed`,
    or `Supervisor is done` based only on the current lane.
 
 5. **Append-only by default.** Shared closeout surfaces are `append-only` or
@@ -109,19 +139,22 @@ Apply all ten rules below before role routing and before any shared write:
    managed block instead of a replacement.
 
 8. **Relay independence.** Same-role relay is allowed only with `distinct
-   target proof`. If no distinct target is proven, record the current session
-   as closed and relay as not applicable or a durable not-delivered fallback,
+   target proof`. If no distinct target is proven, complete the current session
+   record and mark relay as not applicable or a durable not-delivered fallback,
    and do not wait for or require self-acks. This preserves, and does not
    weaken, the WO-PI-012 relay contract in `Status Routing and Self-Relay
-   Before Final Retirement` below: the self-recipient filter, the `reply_to`
+   Before Record Completion` below: the self-recipient filter, the `reply_to`
    envelope, fresh receipt evidence, the durable not-delivered fallback,
    processed-ack timing, archive owner/token safety, and the no-polling rule
    all remain binding.
 
-9. **Archive boundary.** The closing session may archive only itself, and only
-   when every required external recipient has processed the closeout or no
-   external recipients exist. It must not archive a `sibling lane` session
-   merely because it found that session's files.
+9. **Archive boundary.** Session-record creation never authorizes archive. With
+   a separate explicit owner archive or rotation instruction, the current task
+   may archive only itself, only after every required external recipient has
+   processed the closeout, and, when continuity is required, only after the
+   successor gate in `Artifact-Only Default And Separate Task-Lifecycle
+   Authority` passes. It must not archive a `sibling lane` session merely
+   because it found that session's files.
 
 10. **Ground-truth language.** The Ground-Truth Re-Scan Gate below continues to
     govern every `blocked`, `done`, `dirty`, and `newest` claim. This
@@ -136,20 +169,21 @@ Two Master Steward sessions, MS-A and MS-B, share
 `/Users/grig/.agents-private/project-steward/master-steward/` and the global
 `.dev/ai/sessions/` surface.
 
-- MS-A closes first: it records its own lane identity, writes its own
+- MS-A records first: it records its own lane identity, writes its own
   one-file-per-session record, appends any shared-home update as an
   `append-only` addendum, and writes the `partial lane closeout` `this Master
-  Steward session lane is closed; other Master Steward lanes may remain active`.
+  Steward session record is complete; its visible task remains active unless a
+  separate lifecycle gate completed; other Master Steward lanes may remain active`.
   It does not touch MS-B's record, does not mark Master Steward globally
   complete, and does not archive MS-B.
-- MS-B closes second: it rereads the shared home, finds MS-A's appended
+- MS-B records second: it rereads the shared home, finds MS-A's appended
   addendum still intact, records its own lane identity, and writes its own
   record the same way.
 
 Either order — A then B, or B then A — leaves both records and the shared home
-recoverable and intact. Neither lane cleared the other, because each retired
+recoverable and intact. Neither lane cleared the other, because each documented
 only its `current session lane` and treated the other as a preserved `sibling
-lane`.
+lane`. Neither task is renamed or archived without separate lifecycle authority.
 
 ## Role-Aware Closeout Router (Run First)
 
@@ -306,6 +340,10 @@ Use this prompt when the user requests any of:
 - `It's time to retire this agent's context. Create a session record. The next agent will takeover the role that you have performed if needed. PLEASE follow all of these instructions (READ ONLY): ~/.agents/prompts/creation/CREATE-SESSION-RECORD.md`
 
 You may also use it at a natural session close when the user clearly wants continuity, traceability, or resumability.
+
+All uses above remain artifact-only unless the owner separately and explicitly
+requests a visible-task lifecycle action. Do not treat a request to create,
+save, wrap, close, or retire context as a task archive request.
 
 Do **not** use this flow when:
 - the user explicitly asks for an orchestration handoff
@@ -472,6 +510,13 @@ closeout_archive_status: [not-eligible|eligible-archived|fallback-not-archived|n
 ---
 ```
 
+For the artifact-only default, use `closeout_archive_owner_or_token: none` and
+`closeout_archive_status: not-applicable`. Use `eligible-archived` only when a
+separate explicit lifecycle instruction existed and a fresh archive receipt was
+actually returned. When an explicit rotation or archive was requested but the
+successor or archive gate did not pass, use `not-eligible` or
+`fallback-not-archived` and keep the visible task active.
+
 `ground_truth_rescanned_at:` is mandatory whenever the record asserts any "blocked"/"done"/"dirty"/"newest" conclusion. It is the timestamp from the Ground-Truth Re-Scan Gate above and must be newer than the work the record characterizes.
 
 ### Supervisor-Only Frontmatter
@@ -595,7 +640,7 @@ Do not present a menu of options. The Priority Next Steps are your instructions.
 - Optional relay recipients: `[optional recipients or []]`
 - Processed-ack requirements: `[recipient -> processed_ack path or durable ack id]`
 - Archive owner/archive-token: `[named owner, archive-token path, none, or unknown]`
-- Archive rule: `receivers must not archive this sending session until every required recipient in the manifest has written a processed ack`
+- Archive rule: `session-record creation does not authorize archive; with separate explicit lifecycle authority, receivers must not archive this sending session until every required recipient has written a processed ack and any required successor continuity gate has passed`
 
 ## BACKWARD
 
@@ -845,10 +890,11 @@ Use the safe writer in `replace` mode for a full closeout replacement, or
 `addendum` mode for stale-but-non-destructive notes. Line 1 of replacement
 content must be `status: working` or `status: blocked`. Never delete this file.
 
-## Status Routing and Self-Relay Before Final Retirement (MANDATORY)
+## Status Routing and Self-Relay Before Record Completion (MANDATORY)
 
-Before the agent is closed for good, it must route and relay its own closeout
-results. The owner should not have to copy/paste between sessions when a
+Before the session record is complete, the agent must route and relay its own
+closeout results. This section does not authorize closing or archiving the
+visible task. The owner should not have to copy/paste between sessions when a
 supported relay path exists.
 
 1. Read `/Users/grig/.agents/prompts/triage/agent-status-update-for-routing.md`.
@@ -862,9 +908,9 @@ supported relay path exists.
    thread/session id or handle when available, current thread title/name when
    available, and harness. Record it in frontmatter and in `STATE -> Status
    Routing and Relay`.
-7. Identify the agents/sessions that need the closeout result: owner-visible
-   thread, Blocker Supervisor, Master Steward, active Orchestrator/project lane,
-   parent thread, worker target, or other explicitly named return recipient.
+7. Identify the agents/sessions that need the closeout result:
+   - **Declared Lineage Parent:** If this session began with an Intent Header (e.g. `[For: <parent_thread_id>]`) or an explicit parent was declared, that parent thread is an automatic **Required Relay Recipient**.
+   - Other recipients: owner-visible thread, Blocker Supervisor, Master Steward, active Orchestrator/project lane, worker target, or other explicitly named return recipient.
 8. Apply the self-recipient filter before required/optional classification and
    before closeout relay manifest creation: remove the sender's own current
    session from required and optional recipients. If no thread id or handle is
@@ -875,9 +921,10 @@ supported relay path exists.
    session. Same-role relay is allowed only with proof of a distinct target
    session/thread, such as a named replacement or a separate role instance with
    a different thread id or handle.
-9. Classify external closeout relay recipients as required or optional. Required
-   recipients are the agents/sessions that must process the closeout before the
-   sending Codex session can be archived. The sender's own current session must
+9. Classify external closeout relay recipients as required or optional. When a
+   separate lifecycle action is authorized, required recipients are the
+   agents/sessions that must process the closeout before the sending Codex
+   session can be archived. The sender's own current session must
    not be a required recipient and must not be required to write a
    `processed_ack`.
 10. If the self-recipient filter leaves no external recipients, record
@@ -901,10 +948,13 @@ supported relay path exists.
 14. Tell every closeout receiver that it may write its processed ack only after
    it has copied, captured, or otherwise assimilated what it needs from the
    session record, routing status update, and referenced artifacts.
-15. Tell every closeout receiver that it must not archive the sending session
-   until all required recipients in the manifest have written processed acks;
-   only the named archive owner or archive-token holder may call an exposed
-   receipt-producing archive route such as Codex `set_thread_archived`.
+15. Tell every closeout receiver that session-record creation does not authorize
+   archive. If a separate explicit lifecycle action exists, it must not archive
+   the sending session until all required recipients in the manifest have
+   written processed acks and any required successor continuity gate has
+   passed; only the named archive owner or archive-token holder may call an
+   exposed receipt-producing archive route such as Codex
+   `set_thread_archived`.
 16. If direct relay is unavailable, unsupported, unsafe, lacks a target, or
    cannot produce fresh receipt evidence, write or stage the durable relay
    packet/status report and say explicitly that it was not delivered. Do not
@@ -917,6 +967,13 @@ supported relay path exists.
 
 Confirm all of the following:
 - file path is under `.dev/ai/sessions/`
+- **Artifact-only default held:** no visible task was renamed, archived, closed,
+  moved, created, forked, handed off, or replaced unless a separate explicit
+  owner lifecycle instruction authorized that exact action
+- **Continuity-before-archive gate held:** when unfinished role or project work
+  must continue, the old task stayed active until a successor with the same
+  canonical title, correct project/workstream, and same sidebar section/group
+  received the record and returned a fresh acceptance acknowledgement
 - **Ground-Truth Re-Scan Gate ran:** `git status --short`, `ls -t .dev/ai/unblocks/ | head`, and a live `status:` re-read were actually executed with output shown, and `ground_truth_rescanned_at:` is stamped in frontmatter + BACKWARD provenance (or `UNABLE — <reason>` with the risk recorded)
 - **No inherited-state contradiction:** no "blocked"/"done"/"dirty"/"newest" claim in this record (or in the PROJECT-STATUS.md update) contradicts the re-scan output — a clean tree is never called "dirty", and the cited "newest" unblock is the top of `ls -t`
 - `FORWARD`, `STATE`, and `BACKWARD` all exist
@@ -941,4 +998,4 @@ Confirm all of the following:
 - needed relay targets were identified, the sender's own current session was removed from required/optional recipients, obvious same-role self-targets were marked not applicable unless a distinct target session/thread was proven, and direct relay was attempted only through exposed receipt-producing harness routes
 - every successful direct relay records receipt evidence and a `reply_to` envelope; every unsupported/unverified relay records the durable fallback path and explicit not-delivered wording
 - multi-recipient closeout relays record external required recipients, external optional recipients, processed-ack paths, and archive owner/archive-token in a closeout relay manifest; if no external recipients remain after self-recipient filtering, relay is recorded as not applicable and no fake direct send is created
-- relay packets tell receivers not to archive the sending Codex session until every required processed ack exists; only the named archive owner or archive-token holder may use an exposed receipt-producing archive route, otherwise the fallback must say the session was not archived
+- relay packets state that session-record creation is not archive authority; when a separate lifecycle action exists, they tell receivers not to archive the sending Codex session until every required processed ack and any required successor continuity proof exist; only the named archive owner or archive-token holder may use an exposed receipt-producing archive route, otherwise the fallback must say the session was not archived

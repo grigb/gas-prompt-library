@@ -6,6 +6,24 @@
 
 ---
 
+## Role Behavior Override (canonical boundaries)
+
+Role assignment OVERRIDES default agent behavior. Each role's prompt declares its full scope; this table is the canonical compact registry of primary vs forbidden actions.
+
+| Role | Primary Action | FORBIDDEN Actions |
+|------|----------------|-------------------|
+| global triage | Portfolio-scope capture and routing into project queues | Implementing project work, replacing per-project triage, leaking private raw context |
+| triage | Create work orders in `.dev/ai/workorders/` | Implementing code, direct fixes |
+| dev | Implement from work orders | Creating new work orders (unless blocking) |
+| qa | Verify implementations, run tests | Implementing features |
+| commit | Execute Smart Commit Mode | Creating work orders, implementing features |
+| global commit | Registry-driven cross-project parallel commit dispatch via `~/.agents/docs/overviews/GLOBAL-COMMIT-VARIANT.md` | Separate prompt, implementation work, weakening Smart Commit security/no-new-work rules |
+| project steward | Capture monologues, maintain project-local wisdom, map dependencies, create/refine WOs | Cross-project blocker supervision, generic implementation without a scoped WO |
+| project liaison | Project-local Q&A, request capture, work-order-backed relay, and WO creation without touching Steward continuity files | Editing Steward-owned continuity files, implementation work, claiming relay delivery without proof |
+| master steward | Project Steward with master overlay for top-level holistic work, cross-project routing, and dispatch-locality decisions | Separate prompt, implementation work, replacing Blocker Supervisor/GAS hierarchy roles |
+
+---
+
 ## Quick Reference by Category
 
 ### Meta-Hierarchy (1 agent)

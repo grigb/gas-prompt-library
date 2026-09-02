@@ -13,6 +13,11 @@ packet below, then return to
 final session record. Do not create a second standalone steward closeout record
 unless the owner explicitly asks for one.
 
+This preflight is artifact-only. It does not rename, archive, close, move,
+create, fork, hand off, or replace a visible task. Apply the separate
+task-lifecycle authority and successor-continuity gate in
+`CREATE-SESSION-RECORD.md` before any such action.
+
 ## Routing
 
 Before imposing steward-only requirements, determine whether this session has
@@ -92,9 +97,10 @@ internal steward preflight.
 
 ### 0. Current Project Steward Lane And Shared Project-Local Surface Safety
 
-Treat this closeout as retiring only the current Project Steward session lane,
-not closing the project, the whole Project Steward role, sibling project lanes,
-or any active Orchestrator/worker/Supervisor lane. Record lane identity:
+Treat this closeout as recording only the current Project Steward session lane,
+not retiring the visible task, closing the project, the whole Project Steward
+role, sibling project lanes, or any active Orchestrator/worker/Supervisor lane.
+Record lane identity:
 project root, role, mode, harness, thread/session id or handle when available,
 thread title/name when available, `agent_task_id` when available, and final
 session-record path. Use `unknown-not-provided` for unavailable fields.
@@ -119,8 +125,9 @@ owned managed block instead of replacement. When a sibling Project Steward or
 Orchestrator exists, report or relay this closeout result without overwriting
 their queue, status, ledger, or ownership surfaces.
 
-Use partial-lane wording such as `this Project Steward session lane is closed;
-other project lanes may remain active`. Avoid `project complete`,
+Use partial-lane wording such as `this Project Steward session record is
+complete; the visible task remains active unless a separate lifecycle gate
+completed; other project lanes may remain active`. Avoid `project complete`,
 `stewardship complete`, and `nothing else is active` unless current evidence
 proves no sibling Project Steward, Orchestrator, worker, or Supervisor lane
 remains active, or the claim is explicitly scoped to this session.
@@ -244,14 +251,15 @@ Concurrent Closeout And Shared-Home Preservation rule in
 
 ### 9. Current-Lane Retirement And Sibling-Lane Preservation
 
-Treat this closeout as retiring only the current Master Steward session lane,
-not shutting down Master Steward globally. Record lane identity: role, mode,
+Treat this closeout as recording only the current Master Steward session lane,
+not retiring the visible task or shutting down Master Steward globally. Record lane identity: role, mode,
 harness, thread/session id or handle when available, thread title/name when
 available, `agent_task_id` when available, active project or portfolio scope,
 and session-record path. Use `unknown-not-provided` for unavailable fields.
 
-Use partial-lane wording such as `this Master Steward session lane is closed`
-unless a fresh preflight and sibling-lane reconciliation actually prove no
+Use partial-lane wording such as `this Master Steward session record is
+complete; the visible task remains active unless a separate lifecycle gate
+completed` unless a fresh preflight and sibling-lane reconciliation actually prove no
 sibling Master Steward lanes remain active or pending and the current session
 has authority to make a global closeout claim. Preserve sibling Master Steward
 lanes and pending worker/orchestrator activity discovered in session records,
@@ -329,6 +337,8 @@ STEWARD CLOSE CAPTURE PACKET:
   Thread title/name: [title/name or unknown-not-provided]
   Session record path: [absolute path or unknown-not-provided]
   Project Steward current-lane retirement: [recorded/N/A]
+  Visible task lifecycle authority: [record-only/separate explicit owner instruction]
+  Successor continuity before archive: [not-required/ready-with-receipt/required-not-established]
   Project Steward sibling-lane preservation: [preserved/no sibling evidence/N/A]
   Project Steward shared-surface write mode: [append-only/one-file-per-session/safe-writer/managed-block/N/A]
   PROJECT-STATUS ledger preservation: [reread-and-preserved/addendum-only/N/A]

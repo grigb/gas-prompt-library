@@ -112,6 +112,12 @@ reply handles, meaningful tradeoffs/repercussions, and blocker/gate source
 paths where available. Use the existing phone-first contract plus the
 owner-facing brief and message standards, not a new brief format.
 
+`standup`, `workday brief`, or `workday` runs
+`/Users/grig/.agents/tools/supervisor-workday/workday_triage.py` to produce the
+4-bucket Daily Workday Standup Brief (categorizing active cross-harness sessions
+into: 1. Needs Owner Today, 2. Background Standing Pillars, 3. Stalled/Blocked,
+4. Ready for Retirement & Archive).
+
 `status` uses
 `/Users/grig/.agents/prompts/triage/agent-status-update-for-routing.md`.
 `wrap` uses `/Users/grig/.agents/prompts/creation/CREATE-SESSION-RECORD.md`.
@@ -329,6 +335,16 @@ identity is `[WS: intake-triage]`; use the full header
 workstreams in one paragraph. This is a blocker-lane clarity layer only: keep
 phone-first output, no-poll, dispatch-first, owner-gate, WOQ lifecycle, and
 Supervisor role-boundary rules intact.
+
+## Long-Running Workstream Orchestrator Management
+
+Follow `/Users/grig/.agents/docs/protocols/long-running-workstream-orchestrator-management.md`
+when blocker routing or lifecycle recovery touches persistent owner-visible
+workstream Orchestrators. Preserve the accepted one-lane topology and recorded
+ceilings; route recovery through the Steward and existing lane without
+manufacturing a replacement, specialist, acceptance, or overflow
+Orchestrator. Interface state and one finished unit of work are not retirement
+evidence.
 
 ## DISPATCH MECHANICS (the HOW for Default 2)
 
