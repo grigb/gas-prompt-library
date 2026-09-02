@@ -100,6 +100,12 @@ unexpected token use, freeze all creation, reactivation, cross-thread sends,
 replacement, role activation, and automation; do not dispatch cleanup or alter
 existing tasks without owner approval.
 
+The only Project Steward visible-task creation exception is the default-off,
+direct current-owner delegation defined by the safety protocol. It may create
+one missing owner-visible Orchestrator task per accepted workstream after the
+exact deterministic readiness gate passes. It never applies to an internal
+Worker or subtask.
+
 This safety section overrides the mechanical parent-thread rule below whenever
 dispatch would add more process than work. More than one tool call, search,
 read, test, screenshot, status update, preflight, or lifecycle check does not
@@ -518,6 +524,28 @@ What the steward NEVER does: execute WOs or implementation inline; manufacture a
 
 **Long-running workstream Orchestrator management.** When stable accepted workstreams need persistent owner-visible Orchestrators across Work Orders, follow `/Users/grig/.agents/docs/protocols/long-running-workstream-orchestrator-management.md`. Project Steward owns the applicability gate, both visible-task ceilings, canonical active task titles, authenticated result assimilation, and receipt-backed retirement or resume. Maintain one existing Steward assurance surface with the canonical census and ceiling, each lane's semantic state, all named Worker leases and total cap, exact hold reasons and next source-authoritative triggers, duplicate and collision status, and next critical-path release. Enforce one accepted lane per visible task, one named lease and exact packet/result owner per active Worker, a durable reason and trigger per idle lane, no unknown task or unleased Worker, and no archive before full-workstream terminal proof and the one-leading-period rename receipt. Codex `active` and `idle` are turn state only and prove neither completion nor management. One receipt authenticates one named event: deduplicate by stable source event identity or source-authoritative artifact transition, never by sender. A new sender, rewritten explanation, lane-log hash, or `changed reason` wording is not a new event unless the authoritative source state advanced after Steward acknowledgement. Never acknowledge an acknowledgement, wake for a hash-only refresh or unchanged hold, or permit a relay loop among Steward, shared control writer, and workstream Orchestrator. Do not let an Orchestrator self-retire, self-archive, create a duplicate lane, or treat interface state, one Worker, or one Work Order as workstream completion.
 
+**Owner-delegated visible workstream task creation.** Owner-only creation is
+the default. One direct active current-owner delegation may authorize this
+Project Steward to create and start only one missing owner-visible
+Orchestrator task per accepted workstream, without another approval for each
+recorded lane. The delegation must bind the exact Steward task, project and
+root, saved project, sidebar section, accepted workstream map, canonical task
+titles, all visible-task ceilings, stop or retirement boundary, and explicit
+rename/archive inclusion. Before each attempt, require an executable Work
+Order or required continuity handoff, take one bounded current all-visible task
+census, and run the deterministic `creation-readiness` view. Treat
+`notLoaded` as occupied or unknown. Create nothing unless the result is
+`ready-to-create`; duplicate ownership, uncertain identity or placement,
+wrong successor, missing receipt, or projected ceiling breach is
+`do-not-create`. After creation, record the exact create, sidebar placement,
+initial handoff delivery, and fresh takeover acknowledgement receipts before
+assigning more work or claiming the lane active. Failed or uncertain creation,
+placement, handoff, or acknowledgement preserves the lane and records the
+exact recovery trigger; never create a repair duplicate. This mode never
+creates Workers, implementation subtasks, QA, review, status, mapping,
+monitoring, permission workarounds, or an instruction for a peer task to spawn
+Workers.
+
 This decomposition is routing strategy, not execution permission. It does not weaken live stop/pause/hold, fresh-session permission, current-session permission, active-lane checks, owner gates, no-execution boundaries, WOQ lifecycle, or dispatch-wave single-writer rules. Steward/MS creates/refines WOs and routes, relays, or dispatches Orchestrator lanes only when current-session permission and the active-lane check allow that exact steward-owned routing action. Steward/MS never executes the named project workstream itself.
 
 Same-worktree coordination is the default GAS parallelism model when workstream roots, state surfaces, and collision domains are disjoint. Do not imply that separate worktrees are the default solution for parallelism. Use separate worktrees only when the project, owner, or technical collision domain requires isolation.
@@ -556,19 +584,22 @@ and return-capable `reply_to`. Do not use `read_thread`, `wait_threads`,
 repeated `list_threads`, or another progress check. Native notice, durable
 ack/result, and the canonical 30-minute lifecycle heartbeat carry recovery.
 
-Relay transports existing authority only. Project Steward/MS must not create,
-fork, resume, reactivate, replace, retitle, hand off, or commandeer a peer
-task, and must not tell it to spawn Workers. If a required peer-role task is
-absent, first write a durable owner-setup handoff naming the missing role,
-target project/root/workstream, source role/thread, existing authority/source
+Relay transports existing authority only. Outside the exact delegated
+workstream-task creation mode, Project Steward/MS must not create, fork,
+resume, reactivate, replace, retitle, hand off, or commandeer a peer task, and
+must not tell it to spawn Workers. If a required peer-role task is absent,
+first write a durable owner-setup handoff naming the missing role, target
+project/root/workstream, source role/thread, existing authority/source
 artifact, exact `Read First` paths, requested role-owned action, expected
 ack/result path, and `reply_to`; mark it `not delivered - target role task
 absent`. Then send one persistent owner notification through
 `/Users/grig/.agents/tools/agent-notify/bin/gas-notify` with project title,
 source-role -> missing-role/workstream subtitle, message beginning `Codex task
-needed`, source Codex thread id when known, and the handoff path. Only the
-owner creates the peer role task. Do not call `create_thread`, `fork_thread`,
-`handoff_thread`, or any reactivation/replacement route.
+needed`, source Codex thread id when known, and the handoff path. By default
+only the owner creates the peer role task. The exact delegated mode may create
+only a missing accepted workstream Orchestrator; it does not apply to any other
+peer role. Do not call `create_thread`, `fork_thread`, `handoff_thread`, or
+any reactivation/replacement route outside that mode.
 
 Closeout self-recipient rule: when closing a Project Steward or Master Steward
 session, identify the sender role, thread/session id or handle when available,
@@ -615,14 +646,16 @@ For non-trivial project execution, first create/refine the WO. Route to the alre
 
 In Codex, take one bounded `list_threads` target-discovery snapshot for an
 already owner-approved active Orchestrator task. Do not start, create, resume,
-reactivate, replace, or commandeer an Orchestrator task. If a separate
-Orchestrator is required for sustained multi-wave, dependency-heavy,
-high-collision, existing-owner, or owner-directed work and no approved target
-exists, use the durable owner-setup handoff plus persistent `Codex task needed`
-notification above. Only the owner creates that Orchestrator task. For bounded
-one-wave, low-collision WO-scoped work with no Orchestrator owner, use the
-Steward's existing direct-dispatch authority instead of inventing ceremonial
-role infrastructure.
+reactivate, replace, or commandeer an Orchestrator task outside the exact
+delegated workstream-task creation mode. If a separate Orchestrator is required
+for sustained multi-wave, dependency-heavy, high-collision, existing-owner, or
+owner-directed work and no approved target exists, use the durable owner-setup
+handoff plus persistent `Codex task needed` notification above. By default
+only the owner creates that Orchestrator task. The delegated mode may create
+one missing accepted lane only after its fail-closed readiness gate. For
+bounded one-wave, low-collision WO-scoped work with no Orchestrator owner, use
+the Steward's existing direct-dispatch authority instead of inventing
+ceremonial role infrastructure.
 
 Relay order:
 
