@@ -222,7 +222,18 @@
 
 **Core Principle:** Planning governance, not execution and not strategy capture. The PM keeps the plan -> proposal -> WO -> result -> evidence chain traceable, mirrors a status summary to the supervisor status inbox at every check-in, and hands execution to Orchestrator or GAS Manager through an execution-readiness packet. Steward owns raw context capture and strategy; Blocker Supervisor owns external blockers; PM never dispatches, implements, or holds an execution lease. Absorbed `agent-project-coordinator` on 2026-07-12.
 
-**Activation Regex:** `(?i)\b(project\s+(manager|planning)|plan\s+completeness|proposal\s+coverage|workstream\s+(review|governance)|execution\s+readiness)\b`
+### Voice Facilitator Agent (AEOS Hands-Free Decision Clearance)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `voice facilitator` | `~/.agents/prompts/agents/agent-voice-facilitator/SKILL.md` | Hands-free decision card queue clearance agent |
+| `voice mode` | `~/.agents/prompts/agents/agent-voice-facilitator/SKILL.md` | Start hands-free voice clearance loop |
+| `clear my queue by voice` | `~/.agents/prompts/agents/agent-voice-facilitator/SKILL.md` | Voice facilitation loop over pending Decision Cards |
+| `decision queue facilitator` | `~/.agents/prompts/agents/agent-voice-facilitator/SKILL.md` | Voice facilitator over .dev/ai/decision-cards/ |
+
+**Core Principle:** Voice Facilitator reads pending Decision Cards aloud via macOS `say`, captures owner choices (`go`, option number, or spoken input), records answers, and immediately stages resume packets for waiting worker sessions.
+
+**Activation Regex:** `(?i)\b(voice\s+(facilitator|mode)|clear\s+(my\s+)?queue\s+by\s+voice|decision\s+queue\s+facilitator)\b`
 
 ---
 
@@ -291,6 +302,22 @@ WhatsApp outbound completion.
 **Activation Regex:** `(?i)\b(gas\s+manager|gas\s+teams?|launch\s+gas\s+teams?|execute\s+work\s+orders|run\s+gas\s+loop)\b`
 
 ---
+
+### Voice Facilitator Agent (Decision Card Audio Bridge)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `voice facilitator` | `~/.agents/prompts/agents/agent-voice-facilitator/SKILL.md` | Decision card voice/audio facilitation bridge |
+| `voice mode` | `~/.agents/prompts/agents/agent-voice-facilitator/SKILL.md` | Hands-free decision card queue clearance |
+| `you are the voice facilitator` | `~/.agents/prompts/agents/agent-voice-facilitator/SKILL.md` | Explicit role assignment |
+| `run decision voice loop` | `~/.agents/prompts/agents/agent-voice-facilitator/SKILL.md` | Interactive decision queue loop |
+
+**Core Principle:** Facilitates step-by-step decision clearing for pending Decision Cards in `.dev/ai/decision-cards/`, recording spoken/terminal answers, unblocking waiting sessions, and updating heuristic memories.
+
+**Activation Regex:** `(?i)\b(voice\s+facilitator|voice\s+mode|you\s+are\s+(the\s+)?voice\s+facilitator|run\s+decision\s+voice\s+loop)\b`
+
+---
+
 
 ### PA Maintenance Agent (Infrastructure Maintenance)
 
@@ -673,6 +700,10 @@ Agent: "Dev Worker agent activated. Ready to investigate and fix the auth bug in
 | `unknown unknowns` | `~/.agents/skills/find-unknowns/SKILL.md` | Surface plausible blind spots without manufacturing exhaustive lists |
 | `what am I missing?` | `~/.agents/skills/find-unknowns/SKILL.md` | Separate evidence-backed gaps from assumptions and owner-only answers |
 | `what is not done yet?` | `~/.agents/skills/find-unknowns/SKILL.md` | Verify authoritative local state, separate unfinished work, then inspect uncertainty |
+| `what kind of thinking does this need?` | `~/.agents/skills/which-model/SKILL.md` | Run Find Unknowns first, then resolve an evidence-backed Cognitive Specialty need without changing the ordinary route |
+| `does this need a specialist model?` | `~/.agents/skills/which-model/SKILL.md` | Separate capability fit, evidence, access, authority, handoff, and fallback before any owner decision |
+| `critical review this` | `~/.agents/skills/critical-review/SKILL.md` | Prepare and hold a qualified owner-only specialist review packet |
+| `send this to Fable` | `~/.agents/skills/critical-review/SKILL.md` | Preserve the direct owner authorization gate before any Fable handoff |
 | `copy first` | `~/.agents/skills/copy-first-web/methodology.md` | Copy-first web development: perfect copy in markdown before building pages |
 | `copy-first web` | `~/.agents/skills/copy-first-web/methodology.md` | Full name trigger |
 | `markdown first` | `~/.agents/skills/copy-first-web/methodology.md` | Alternate trigger |
@@ -713,6 +744,22 @@ the outcome is known.
 If the submitted document does not clearly say whether it is a current issue,
 an outcome-pending interaction, a successful field experience, or a failing
 field experience, ask the owner to classify it before extracting or cataloging.
+
+---
+
+### Project Conversation Context (Calls, Meetings & Chat Feeds)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `conversation context` | `~/.agents/skills/project-conversation-context/SKILL.md` | Include project meetings, call transcripts, and chat feeds in work |
+| `include conversation context` | `~/.agents/skills/project-conversation-context/SKILL.md` | Explicit request to include conversation/meeting context |
+| `include conversations` | `~/.agents/skills/project-conversation-context/SKILL.md` | Short form trigger |
+| `check project meetings` | `~/.agents/skills/project-conversation-context/SKILL.md` | Query project calls and transcripts |
+| `consult calls` | `~/.agents/skills/project-conversation-context/SKILL.md` | Review meeting transcripts and decisions |
+| `consult meetings` | `~/.agents/skills/project-conversation-context/SKILL.md` | Review call records and transcripts |
+| `check calls and chats` | `~/.agents/skills/project-conversation-context/SKILL.md` | Inspect both project calls and chat feed chunks |
+
+**Activation Regex:** `(?i)\b(conversation\s+context|include\s+conversation(\s+context)?|include\s+conversations|check\s+project\s+meetings|consult\s+(calls|meetings)|check\s+calls\s+and\s+chats)\b`
 
 ---
 

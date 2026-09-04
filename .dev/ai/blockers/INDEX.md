@@ -2,8 +2,8 @@
 type: blocker-project-index
 project: .agents-gas-prompt-library
 project_path: /Users/grig/.agents-gas-prompt-library
-last_scanned_at: '2026-08-24T08:20:44Z'
-last_cataloger_id: cataloger-2026-08-24-08-20-44Z
+last_scanned_at: '2026-09-04T04:37:43Z'
+last_cataloger_id: cataloger-2026-09-04-04-37-43Z
 schema_version: 1
 totals:
   idle: 0
@@ -25,4 +25,4 @@ workstreams_present: false
 
 # Blockers — .agents-gas-prompt-library
 
-_Last scanned: 2026-08-24T08:20:44Z_
+_Last scanned: 2026-09-04T04:37:43Z_
