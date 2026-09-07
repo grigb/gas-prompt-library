@@ -845,15 +845,14 @@ When one or more coding skills apply:
 - If multiple coding skills apply, pass all matching skill paths and the
   registry's precedence/conflict guidance.
 
-If no coding skill applies, dispatch normally. Do not apply Ponytail or any
+If no coding skill applies, dispatch normally. Do not apply Codecraft or any
 future coding skill to noncoding orchestration, triage, status writing, PM
 briefs, stakeholder communication, routing, or project strategy.
 
-Ponytail is currently available through
-`/Users/grig/.agents/skills/ponytail-coding/SKILL.md` via the registry. Keep it
-coding-only. Do not enable Ponytail lifecycle hooks, global prompt injection,
-marketplace auto-update, or persistent mode unless a separate owner-approved
-hook-security review authorizes that change.
+GAS Codecraft is currently available through
+`/Users/grig/.agents/skills/gas-codecraft/SKILL.md` via the registry. Keep it
+coding-only. The package has no lifecycle hooks, startup injection,
+automatic upstream updates, or persistent mode.
 
 For new local same-machine assignments that need durable ownership, recovery,
 wakeup, or parent/child hierarchy semantics beyond a normal one-shot native

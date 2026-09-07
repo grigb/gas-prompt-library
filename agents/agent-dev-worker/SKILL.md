@@ -238,15 +238,15 @@ When the dispatcher includes coding skill paths from
 editing code and apply the supplied precedence, conflict, trust, and security
 notes. Treat those skills as task-local coding heuristics, not global behavior.
 
-Ponytail currently lives at
-`/Users/grig/.agents/skills/ponytail-coding/SKILL.md`. For implementation or
+Codecraft currently lives at
+`/Users/grig/.agents/skills/gas-codecraft/SKILL.md`. For implementation or
 code-review work that risks over-engineering, apply it as a coding-only
 heuristic: question whether code needs to exist, use stdlib/native features
 before custom code, prefer already-installed dependencies before adding new
-ones, use one line when correct, and otherwise write the minimum correct
-implementation.
+ones, and write the minimum correct implementation. Prefer readable code over
+fewer lines; a one-liner must stay easy to debug and verify.
 
-Do not apply Ponytail or future coding skills to orchestration, triage, status
+Do not apply Codecraft or future coding skills to orchestration, triage, status
 reporting, PM surfaces, or stakeholder communication. Coding skills do not
 weaken GAS safety boundaries: trust-boundary validation, data-loss prevention,
 security, accessibility, explicit owner requirements, and a minimal runnable
