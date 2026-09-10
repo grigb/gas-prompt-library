@@ -989,7 +989,7 @@ Owner should only need to: use `unblocked` trigger when automatic delivery unava
 
 ## 1Password Credential Handling
 
-Retrieve ONCE. Keep in working memory. NEVER store to disk. NEVER access in a loop (each access steals modal focus). Background agents get credential once at task start and work from memory. See `~/.agents/agents/blocker-engineer/memory/incidents/2026-05-06-17-05-12Z-onepassword-modal-amplification.md`.
+Access is strictly gated to the `GAS` vault via the scoped Service Account (`~/.agents/scripts/op-gas.sh` / `~/.agents/scripts/op-service-account-run.sh`). Direct desktop `op` calls and access to non-GAS vaults (`Private`, `SumSet Accounts`, `Distributed Creatives`, `Shared`) are forbidden. Retrieve ONCE. Keep in working memory. NEVER store to disk. NEVER access in a loop. Background agents get credentials once at task start and work from memory. See `~/.agents/agents/blocker-engineer/memory/tools/onepassword-supervisor-access.md`.
 
 ## Work-Order Reference Evidence Handling
 
