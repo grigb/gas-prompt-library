@@ -58,7 +58,11 @@ post-classification direct-owner override, fresh current-harness selector call,
 independent binding of both returned tokens through the live surface registry,
 and returned child-effective proof for each axis. Launch arguments alone are
 not proof; enforcement is only `enforced`, `requested-not-proven`, or
-`unsupported`. Do not impose launch-only requirements on non-dispatch prompts.
+`unsupported`. Default bounded reasoning to 3 with normal verification; final
+consequential authority sets floor 4; exceptional 5 needs reviewed justification.
+Owner overrides distinguish self from children and exact task/set/turn scope;
+reclassify meaningful phases and downshift when reasoning settles. Do not impose
+launch-only requirements on non-dispatch prompts.
 
 **Computer-use category precedent.** Every dispatch-capable prompt must state
 that a separate Worker doing repetitive, tool-intensive full QA, end-to-end

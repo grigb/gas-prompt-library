@@ -71,7 +71,11 @@ the exact child WO or immutable hashed non-WO packet; a direct owner override is
 post-classification; selection runs freshly for the current harness; its two
 tokens bind independently to the live registry's child model and effort
 controls; and returned child-effective evidence, not launch arguments alone,
-supports per-axis `enforced`, `requested-not-proven`, or `unsupported`. Prompts
+supports per-axis `enforced`, `requested-not-proven`, or `unsupported`. Default bounded reasoning to 3 with normal verification; final consequential
+authority sets floor 4; exceptional 5 needs a reviewed justification. Require
+self-or-children target scope for owner overrides; parent-turn preferences do
+not transfer. Reclassify meaningful phases and downshift when reasoning settles.
+Prompts
 without those responsibilities must not be given launch-only requirements.
 
 Every dispatch-capable prompt must carry the canonical `computer-use` task-

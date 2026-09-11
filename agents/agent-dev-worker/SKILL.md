@@ -545,12 +545,13 @@ When dispatched as a background agent or via A2A (cross-machine), the task
 may include effort metadata set by the orchestrator:
 
 - `metadata.tier` on the five-level GAS scale: 1-Low files and documents;
-  2-Medium bounded procedure; 3-High reasoning without unknowns, doable blindly; 4-Extra
-  High THE DEFAULT for substantive work; 5-Max exceptional
+  2-Medium bounded procedure; 3-High THE DEFAULT for bounded reasoning with normal
+  verification; 4-Extra High substantial uncertainty or final-consequential floor;
+  5-Max exceptional reasoning with explicit justification
 - `metadata.model_hint`: optional current selector output or policy-backed model identifier
 - `metadata.effort_hint`: optional current selector output or policy-backed effort level
 
-HONOR the routed level; if absent, default to 4-Extra High. If you cannot honor it,
+HONOR the routed level; if absent, classify the exact task with bounded default 3-High. If you cannot honor it,
 say so plainly in the result artifact — never silently work at a different depth.
 
 ## A2A Notifications (cross-machine; legacy local accelerator)
