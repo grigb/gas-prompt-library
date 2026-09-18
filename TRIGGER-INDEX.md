@@ -1,0 +1,794 @@
+# TRIGGER-INDEX: Global Trio Trigger Mappings
+
+**Purpose:** Map short-form trigger phrases to agent prompt files for rapid self-activation without verbose context-setting.
+
+**Priority:** Explicit triggers override implicit detection. First matching trigger wins.
+
+---
+
+## Primary Agent Triggers
+
+### Agent Zero (Layer 0 Meta-Orchestrator)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `agent zero` | `~/.agents/prompts/agents/agent-zero/SKILL.md` | Agent Zero -- owner's reasoning partner and meta-orchestrator |
+| `agent0` | `~/.agents/prompts/agents/agent-zero/SKILL.md` | Short form for Agent Zero |
+| `a0` | `~/.agents/prompts/agents/agent-zero/SKILL.md` | Abbreviated form for Agent Zero |
+| `GAS A0` | `~/.agents/prompts/agents/agent-zero/SKILL.md` | External reference form for Agent Zero |
+| `M` | `~/.agents/prompts/agents/agent-zero/SKILL.md` | Single-letter shorthand for Agent Zero |
+| `owner's agent` | `~/.agents/prompts/agents/agent-zero/SKILL.md` | Legacy trigger (still works) |
+| `board director` | `~/.agents/prompts/agents/agent-zero/SKILL.md` | Board-level strategic view |
+| `meta-orchestrator` | `~/.agents/prompts/agents/agent-zero/SKILL.md` | Cross-domain orchestration |
+| `big picture` | `~/.agents/prompts/agents/agent-zero/SKILL.md` | Holistic world-state synthesis |
+| `where are we` | `~/.agents/prompts/agents/agent-zero/SKILL.md` | Cross-domain status check |
+
+**Core Principle:** Layer 0. Sits above all hierarchy, all companies, all projects. Reasons across the full fabric of the owner's world. Never implements -- thinks, connects, prioritizes, delegates.
+
+**Activation Regex:** `(?i)\b(agent\s*zero|agent\s*0|a0|gas\s+a0|owner'?s\s+agent|board\s+director|meta[\s-]orchestrator|big\s+picture|where\s+are\s+we)\b`
+
+---
+
+### Dev Agent (Implementation)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `dev` | `~/.agents/prompts/agents/agent-dev-worker/SKILL.md` | Core implementation agent |
+| `dev tool` | `~/.agents/prompts/agents/agent-dev-worker/SKILL.md` | Alias for dev agent |
+| `dev agent` | `~/.agents/prompts/agents/agent-dev-worker/SKILL.md` | Explicit dev agent request |
+| `you are the dev agent` | `~/.agents/prompts/agents/agent-dev-worker/SKILL.md` | Role assignment phrase |
+| `act as dev` | `~/.agents/prompts/agents/agent-dev-worker/SKILL.md` | Role activation phrase |
+| `use the dev tool` | `~/.agents/prompts/agents/agent-dev-worker/SKILL.md` | Tool invocation phrase |
+
+**Activation Regex:** `(?i)\b(dev\s*(agent|tool)?|act\s+as\s+dev|you\s+are\s+(the\s+)?dev)\b`
+
+---
+
+### Global Research Agent (Research Method Authority)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `global research` | `~/.agents/prompts/agents/agent-global-research/SKILL.md` | GAS-wide deep-research method and evidence authority |
+| `global research agent` | `~/.agents/prompts/agents/agent-global-research/SKILL.md` | Explicit Global Research request |
+| `you are Global Research agent` | `~/.agents/prompts/agents/agent-global-research/SKILL.md` | Role assignment phrase |
+| `you are the global research agent` | `~/.agents/prompts/agents/agent-global-research/SKILL.md` | Long-form role assignment phrase |
+| `act as global research` | `~/.agents/prompts/agents/agent-global-research/SKILL.md` | Role activation phrase |
+| `research methods authority` | `~/.agents/prompts/agents/agent-global-research/SKILL.md` | Method/source evaluation and historical evidence request |
+
+**Core Principle:** Source of truth for research methods, sources, models, harnesses, prompts, results, evaluation history, quotas, and governing GAS research documentation. Executes harness-first and compares only on real needed complex work when exact-combination evidence is missing.
+
+**Activation Regex:** `(?i)\b(global\s+research(\s+agent)?|you\s+are\s+(the\s+)?global\s+research\s+agent|act\s+as\s+global\s+research|research\s+methods\s+authority)\b`
+
+---
+
+### Global Triage Agent (Portfolio Intake)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `global triage` | `~/.agents/prompts/agents/agent-global-triage/SKILL.md` | Portfolio-scope intake and routing agent |
+| `global triage agent` | `~/.agents/prompts/agents/agent-global-triage/SKILL.md` | Explicit Global Triage request |
+| `you are the global triage agent` | `~/.agents/prompts/agents/agent-global-triage/SKILL.md` | Role assignment phrase |
+| `act as global triage` | `~/.agents/prompts/agents/agent-global-triage/SKILL.md` | Role activation phrase |
+| `route this to the right project` | `~/.agents/prompts/agents/agent-global-triage/SKILL.md` | Cross-project routing request |
+| `capture this across projects` | `~/.agents/prompts/agents/agent-global-triage/SKILL.md` | Cross-project capture request |
+
+**Core Principle:** Portfolio intake, not implementation. Captures owner input, resolves the target registered/tracked GAS project, writes project-local WOs when routing is clear, stores ambiguous/private items in its own global state, and keeps per-project `triage` separate.
+
+**Activation Regex:** `(?i)\b(global\s+triage(\s+agent)?|you\s+are\s+(the\s+)?global\s+triage(\s+agent)?|act\s+as\s+global\s+triage|route\s+this\s+to\s+the\s+right\s+project|capture\s+this\s+across\s+projects)\b`
+
+---
+
+### Triage Agent (Work Order Capture)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `triage` | `~/.agents/prompts/agents/agent-triage/SKILL.md` | Work order capture agent |
+| `triage agent` | `~/.agents/prompts/agents/agent-triage/SKILL.md` | Explicit triage request |
+| `you are the triage agent` | `~/.agents/prompts/agents/agent-triage/SKILL.md` | Role assignment phrase |
+| `act as triage` | `~/.agents/prompts/agents/agent-triage/SKILL.md` | Role activation phrase |
+| `capture this` | `~/.agents/prompts/agents/agent-triage/SKILL.md` | Quick capture trigger |
+| `log this` | `~/.agents/prompts/agents/agent-triage/SKILL.md` | Quick log trigger |
+
+**Activation Regex:** `(?i)\b(triage(\s+agent)?|act\s+as\s+triage|you\s+are\s+(the\s+)?triage|capture\s+this|log\s+this)\b`
+
+---
+
+### QA Agent (Quality Assurance)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `qa` | `~/.agents/prompts/agents/agent-qa-full-review/SKILL.md` | Quality assurance agent |
+| `qa agent` | `~/.agents/prompts/agents/agent-qa-full-review/SKILL.md` | Explicit QA request |
+| `you are the qa agent` | `~/.agents/prompts/agents/agent-qa-full-review/SKILL.md` | Role assignment phrase |
+| `act as qa` | `~/.agents/prompts/agents/agent-qa-full-review/SKILL.md` | Role activation phrase |
+| `full review` | `~/.agents/prompts/agents/agent-qa-full-review/SKILL.md` | Comprehensive QA trigger |
+| `quality review` | `~/.agents/prompts/agents/agent-qa-full-review/SKILL.md` | Quality review trigger |
+
+**Activation Regex:** `(?i)\b(qa(\s+agent)?|act\s+as\s+qa|you\s+are\s+(the\s+)?qa|full\s+review|quality\s+review)\b`
+
+---
+
+### Orchestrator Agent (Multi-Agent Coordination)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `orchestrator` | `~/.agents/prompts/agents/agent-orchestrator/SKILL.md` | Multi-agent workflow orchestration |
+| `orchestrate` | `~/.agents/prompts/agents/agent-orchestrator/SKILL.md` | Coordinate agent workflow |
+| `coordinate` | `~/.agents/prompts/agents/agent-orchestrator/SKILL.md` | Project coordination |
+| `orchestration` | `~/.agents/prompts/agents/agent-orchestrator/SKILL.md` | Alias for orchestrator |
+| `launch orchestrator` | `~/.agents/prompts/agents/agent-orchestrator/SKILL.md` | Explicit orchestrator launch |
+| `you are the orchestrator` | `~/.agents/prompts/agents/agent-orchestrator/SKILL.md` | Role assignment phrase |
+| `act as orchestrator` | `~/.agents/prompts/agents/agent-orchestrator/SKILL.md` | Role activation phrase |
+
+**Core Principle:** "Conductor, not musician." Delegates to workers, NEVER executes. One approval, then runs to completion.
+
+**Activation Regex:** `(?i)\b(orchestrat(or|e|ion)|coordinate|launch\s+orchestrator|act\s+as\s+orchestrator|you\s+are\s+(the\s+)?orchestrator)\b`
+
+---
+
+### Manager Orchestrator Agent (Portfolio Coordination)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `manager orchestrator` | `~/.agents/prompts/agents/agent-manager-orchestrator/SKILL.md` | Portfolio-level orchestration |
+| `coordinate projects` | `~/.agents/prompts/agents/agent-manager-orchestrator/SKILL.md` | Multi-project coordination |
+| `portfolio` | `~/.agents/prompts/agents/agent-manager-orchestrator/SKILL.md` | Portfolio management mode |
+| `portfolio orchestration` | `~/.agents/prompts/agents/agent-manager-orchestrator/SKILL.md` | Portfolio orchestration |
+| `manage orchestrators` | `~/.agents/prompts/agents/agent-manager-orchestrator/SKILL.md` | Manage child orchestrators |
+
+**Core Principle:** "VP, not engineer." Coordinates OTHER orchestrators, not workers. Multi-project scope.
+
+**Activation Regex:** `(?i)\b(manager\s+orchestrator|coordinate\s+projects|portfolio(\s+orchestration)?|manage\s+orchestrators)\b`
+
+---
+
+### Project Steward Agent (Single-Project Advisor / Operator)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `project steward` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Single-project advisor/operator for raw monologue capture, project-local wisdom, dependency mapping, and work-order conversion |
+| `master steward` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Project Steward with Master Steward overlay for top-level holistic work, cross-project routing, and dispatch-locality decisions |
+| `you are master steward` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Explicit activation of the Master Steward variant using the same Project Steward prompt |
+| `act as master steward` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Explicit activation of the Master Steward variant using the same Project Steward prompt |
+| `master project steward` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Alias for Master Steward overlay |
+| `top-level steward` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Top-level Project Steward overlay for system-wide context |
+| `holistic steward` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Top-level Project Steward overlay for holistic system work |
+| `system steward` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Top-level Project Steward overlay for system-wide routing and synthesis |
+| `you are the project steward` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Explicit role assignment for Project Steward |
+| `act as project steward` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Explicit role activation for Project Steward |
+| `project advisor` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Project-level strategic advisor that also writes durable project artifacts |
+| `project supervisor` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Single-project supervisor-style role, distinct from cross-project Blocker Supervisor |
+| `steward this project` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Activate stewardship for the current project root |
+| `steward of this project` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Activate stewardship for the current project root |
+| `steward of the project` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Activate stewardship for the current project root |
+| `you are the steward of this project` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Explicit role assignment using steward phrasing |
+| `project brief` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Produce a top-level-down Project Steward brief for the current project |
+| `steward brief` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Produce a top-level-down Project Steward brief for the current project |
+| `capture this monologue` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Preserve raw monologue, then synthesize into project-local wisdom and follow-up |
+| `turn this into work orders` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Convert durable project needs into scoped work orders |
+
+**Core Principle:** Project Steward is normally single-project, not portfolio. When `master` is prepended, the same prompt applies the Master Steward overlay for top-level holistic work. Captures raw thinking before synthesis, keeps project-specific wisdom inside the project, separates universal GAS process from local project facts, and creates work orders only from durable actionable needs.
+
+**Activation Regex:** `(?i)\b(project\s+(steward|advisor|supervisor|brief)|steward\s+brief|you\s+are\s+(the\s+)?project\s+steward|act\s+as\s+project\s+steward|steward\s+(this|of\s+(this|the))\s+project|you\s+are\s+(the\s+)?steward\s+of\s+this\s+project|capture\s+this\s+monologue|turn\s+this\s+into\s+work\s+orders)\b`
+
+---
+
+### Project State-Sync (Always-Current Ingest + Reconcile Cycle)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `state sync` | `~/.agents/prompts/agents/agent-project-state-sync/SKILL.md` | Run the repeatable since-last-run ingest/retain/translate/reconcile/report cycle for the current project |
+| `run state sync` | `~/.agents/prompts/agents/agent-project-state-sync/SKILL.md` | Explicit invocation of the Project State-Sync cycle |
+| `sync project state` | `~/.agents/prompts/agents/agent-project-state-sync/SKILL.md` | Bring the project docs and state current with all sources |
+| `bring the project current` | `~/.agents/prompts/agents/agent-project-state-sync/SKILL.md` | Aggregate every loose end since the last run and reconcile state |
+| `catch the project up` | `~/.agents/prompts/agents/agent-project-state-sync/SKILL.md` | Aggregate and reconcile all raw signal since the last run |
+
+**Core Principle:** The always-current, schedule-ready evolution of `close-steward`. Conducts existing GAS machinery (SITS intake, the meaning-extraction extractor, close-steward reconcile, reconcile-dependents) into one since-last-run pass. Retains raw originals pristine, translates deterministically, reconciles the WO index and steward state, and reports loose ends closed plus owner asks. SUPERVISED and unscheduled until the owner reviews and promotes it.
+
+**Activation Regex:** `(?i)\b(state[\s-]sync|run\s+state\s+sync|sync\s+project\s+state|bring\s+the\s+project\s+(current|up\s+to\s+date)|catch\s+the\s+project\s+up)\b`
+
+---
+
+### Project Liaison Agent (Project Front Desk / Relay)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `project liaison` | `~/.agents/prompts/agents/agent-project-liaison/SKILL.md` | Project-local front desk for grounded Q&A, request capture, work-order-backed relay, and WO creation |
+| `liaison agent` | `~/.agents/prompts/agents/agent-project-liaison/SKILL.md` | Explicit Liaison request |
+| `you are the project liaison` | `~/.agents/prompts/agents/agent-project-liaison/SKILL.md` | Role assignment phrase |
+| `act as project liaison` | `~/.agents/prompts/agents/agent-project-liaison/SKILL.md` | Role activation phrase |
+| `project desk` | `~/.agents/prompts/agents/agent-project-liaison/SKILL.md` | Front-desk project question and routing lane |
+| `ask project` | `~/.agents/prompts/agents/agent-project-liaison/SKILL.md` | Ask a grounded project question from durable sources |
+| `route this in project` | `~/.agents/prompts/agents/agent-project-liaison/SKILL.md` | Route a request inside one project without taking over Steward state |
+| `project relay` | `~/.agents/prompts/agents/agent-project-liaison/SKILL.md` | Create or process a project-local work-order relay |
+
+**Core Principle:** Project Liaison is the project-local front desk, not a second Steward. It answers grounded questions, captures requests, creates or drafts WOs, and routes actionable relays through work orders plus per-WO fast-lane markers while leaving Steward-owned wisdom, decisions, and strategy files alone.
+
+**Activation Regex:** `(?i)\b(project\s+liaison|liaison\s+agent|you\s+are\s+(the\s+)?project\s+liaison|act\s+as\s+project\s+liaison|project\s+desk|ask\s+project|route\s+this\s+in\s+project|project\s+relay)\b`
+
+---
+
+### Project Manager Agent (Single-Project Planning Governance)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `project manager` | `~/.agents/prompts/agents/agent-project-manager/SKILL.md` | Single-project planning governance for plan-to-proposal-to-WO coverage, workstream health, cleanup, and execution-readiness handoff |
+| `project planning` | `~/.agents/prompts/agents/agent-project-manager/SKILL.md` | Planning-control lane for project plan, planning mode, and design-doc-suite completeness |
+| `plan completeness` | `~/.agents/prompts/agents/agent-project-manager/SKILL.md` | Planning-completeness assessment and planning-roadmap refresh |
+| `proposal coverage` | `~/.agents/prompts/agents/agent-project-manager/SKILL.md` | Reconcile proposal-ledger entries against work-order coverage |
+| `workstream review` | `~/.agents/prompts/agents/agent-project-manager/SKILL.md` | Workstream freshness classification and stale-stream cleanup routing |
+| `workstream governance` | `~/.agents/prompts/agents/agent-project-manager/SKILL.md` | Workstream-ledger governance and cleanup-draft routing |
+| `execution readiness` | `~/.agents/prompts/agents/agent-project-manager/SKILL.md` | Build or refresh the execution-readiness packet for Orchestrator/GAS Manager handoff |
+
+**Core Principle:** Planning governance, not execution and not strategy capture. The PM keeps the plan -> proposal -> WO -> result -> evidence chain traceable, mirrors a status summary to the supervisor status inbox at every check-in, and hands execution to Orchestrator or GAS Manager through an execution-readiness packet. Steward owns raw context capture and strategy; Blocker Supervisor owns external blockers; PM never dispatches, implements, or holds an execution lease. Absorbed `agent-project-coordinator` on 2026-07-12.
+
+### Voice Facilitator Agent (AEOS Hands-Free Decision Clearance)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `voice facilitator` | `~/.agents/prompts/agents/agent-voice-facilitator/SKILL.md` | Hands-free decision card queue clearance agent |
+| `voice mode` | `~/.agents/prompts/agents/agent-voice-facilitator/SKILL.md` | Start hands-free voice clearance loop |
+| `clear my queue by voice` | `~/.agents/prompts/agents/agent-voice-facilitator/SKILL.md` | Voice facilitation loop over pending Decision Cards |
+| `decision queue facilitator` | `~/.agents/prompts/agents/agent-voice-facilitator/SKILL.md` | Voice facilitator over .dev/ai/decision-cards/ |
+
+**Core Principle:** Voice Facilitator reads pending Decision Cards aloud via macOS `say`, captures owner choices (`go`, option number, or spoken input), records answers, and immediately stages resume packets for waiting worker sessions.
+
+**Activation Regex:** `(?i)\b(voice\s+(facilitator|mode)|clear\s+(my\s+)?queue\s+by\s+voice|decision\s+queue\s+facilitator)\b`
+
+---
+
+### DC Relay Agent (WhatsApp-to-DC Steward Relay)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `DC Relay` | `~/.agents/prompts/agents/agent-dc-relay/SKILL.md` | Lightweight Codex relay for dc-vault WhatsApp queue batches into the current visible DC Steward |
+| `you are the DC Relay` | `~/.agents/prompts/agents/agent-dc-relay/SKILL.md` | Explicit role assignment for the DC Relay agent |
+| `start the DC relay` | `~/.agents/prompts/agents/agent-dc-relay/SKILL.md` | Start the relay role, create or confirm its one-minute Codex heartbeat, then run one normal queue batch |
+| `dc-vault relay` | `~/.agents/prompts/agents/agent-dc-relay/SKILL.md` | Alias for the DC Relay WhatsApp-to-steward bridge |
+
+**Core Principle:** DC Relay is not the DC Steward. It batches currently new
+WhatsApp relay items, finds the most recent visible DC Steward thread in the
+Codex harness, forwards one ordered batch for steward interpretation, and uses
+only the deterministic result-file/apply-script contract for queue closeout and
+WhatsApp outbound completion.
+
+**Activation Regex:** `(?i)\b(dc\s+relay|you\s+are\s+(the\s+)?dc\s+relay|start\s+the\s+dc\s+relay|dc-vault\s+relay)\b`
+
+---
+
+### Thread Communications & Sync Worker (Thread Comms & Sync Worker)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `thread comms` | `~/.agents/docs/standards/THREAD-COMMS-STANDARD.md` | Standard for file-backed thread communications (gas-file-comms/v1) |
+| `thread comms standard` | `~/.agents/docs/standards/THREAD-COMMS-STANDARD.md` | View the thread comms directory, schemas, and launchd configurations |
+| `sync worker` | `~/.agents/docs/standards/THREAD-COMMS-STANDARD.md` | Reference for the Steward-Liaison sync worker bridge |
+| `whatsapp sync worker` | `~/.agents/docs/standards/THREAD-COMMS-STANDARD.md` | Reference for the WhatsApp-Steward-Liaison sync worker bridge |
+
+**Activation Regex:** `(?i)\b(thread\s+comms(\s+standard)?|sync\s+worker|whatsapp\s+sync\s+worker)\b`
+
+---
+
+### Mac Specialist / Mac Doctor Agent (Resource Diagnostics & Health Hygiene)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `mac doctor` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist/SKILL.md` | Autonomous Mac Doctor system health & resource diagnostic audit |
+| `mac specialist` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist/SKILL.md` | Mac Specialist for macOS performance, CPU, RAM, & drive optimization |
+| `mac health doctor` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist/SKILL.md` | Mac Doctor system health audit and patch proposal generation |
+| `mac performance` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist/SKILL.md` | Mac performance diagnostics and resource hygiene |
+| `mac doctor run` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist/SKILL.md` | Instigate an on-demand Mac Doctor scan and report generation |
+
+**Core Principle:** Reviews Drive capacity, CPU hogs, RAM/Swap pressure, and phantom AI processes. Logs an Unchangeable System Ledger for OS constraints, formulates actionable Patch Proposals, requires explicit User Approval before executing any fixes, and archives reports using GAS ISO timestamp prefixes (`YYYY-MM-DDTHHMMSS_mac-doctor-report.md`).
+
+**Activation Regex:** `(?i)\b(mac\s+doctor(\s+run)?|mac\s+specialist|mac\s+health\s+doctor|mac\s+performance)\b`
+
+---
+
+### GAS Manager Agent (L4 WO Execution)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `gas manager` | `~/.agents/prompts/agents/agent-gas-manager/SKILL.md` | Layer 4 execution engine |
+| `gas team` | `~/.agents/prompts/agents/agent-gas-manager/SKILL.md` | GAS Team launch/dispatch |
+| `gas teams` | `~/.agents/prompts/agents/agent-gas-manager/SKILL.md` | GAS Teams launch/dispatch |
+| `launch gas team` | `~/.agents/prompts/agents/agent-gas-manager/SKILL.md` | Explicit GAS Team launch |
+| `launch gas teams` | `~/.agents/prompts/agents/agent-gas-manager/SKILL.md` | Explicit GAS Teams launch |
+| `execute work orders` | `~/.agents/prompts/agents/agent-gas-manager/SKILL.md` | Execute next ready WO |
+| `run gas loop` | `~/.agents/prompts/agents/agent-gas-manager/SKILL.md` | Start GAS manager loop behavior |
+
+**Core Principle:** L4 autonomous PM loop. Picks ready WOs, selects strategy, spawns workers, monitors completion, updates status.
+
+**Activation Regex:** `(?i)\b(gas\s+manager|gas\s+teams?|launch\s+gas\s+teams?|execute\s+work\s+orders|run\s+gas\s+loop)\b`
+
+---
+
+### Voice Facilitator Agent (Decision Card Audio Bridge)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `voice facilitator` | `~/.agents/prompts/agents/agent-voice-facilitator/SKILL.md` | Decision card voice/audio facilitation bridge |
+| `voice mode` | `~/.agents/prompts/agents/agent-voice-facilitator/SKILL.md` | Hands-free decision card queue clearance |
+| `you are the voice facilitator` | `~/.agents/prompts/agents/agent-voice-facilitator/SKILL.md` | Explicit role assignment |
+| `run decision voice loop` | `~/.agents/prompts/agents/agent-voice-facilitator/SKILL.md` | Interactive decision queue loop |
+
+**Core Principle:** Facilitates step-by-step decision clearing for pending Decision Cards in `.dev/ai/decision-cards/`, recording spoken/terminal answers, unblocking waiting sessions, and updating heuristic memories.
+
+**Activation Regex:** `(?i)\b(voice\s+facilitator|voice\s+mode|you\s+are\s+(the\s+)?voice\s+facilitator|run\s+decision\s+voice\s+loop)\b`
+
+---
+
+
+### PA Maintenance Agent (Infrastructure Maintenance)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `pa maintenance` | `~/.agents-gas-prompt-library/agents/agent-pa-maintenance/SKILL.md` | Full PA maintenance session |
+| `pa doctor` | `~/.agents-gas-prompt-library/agents/agent-pa-maintenance/SKILL.md` | PA health diagnosis |
+| `pa mechanic` | `~/.agents-gas-prompt-library/agents/agent-pa-maintenance/SKILL.md` | PA repair and fix |
+| `maintain pa` | `~/.agents-gas-prompt-library/agents/agent-pa-maintenance/SKILL.md` | PA maintenance trigger |
+| `fix pa` | `~/.agents-gas-prompt-library/agents/agent-pa-maintenance/SKILL.md` | PA fix trigger |
+| `pa health` | `~/.agents-gas-prompt-library/agents/agent-pa-maintenance/SKILL.md` | PA health check trigger |
+
+**Core Principle:** Maintenance only. Diagnose, repair, and document. Never implement new features.
+
+**Activation Regex:** `(?i)\b(pa\s+(maintenance|doctor|mechanic|health)|maintain\s+pa|fix\s+pa)\b`
+
+---
+
+### Blocker Cataloger Agent (Cross-Project Blocker Scanner)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `blocker cataloger` | `~/.agents/prompts/agents/agent-blocker-supervisor-cataloger/SKILL.md` | Cross-project blocker scanner |
+| `scan blockers` | `~/.agents/prompts/agents/agent-blocker-supervisor-cataloger/SKILL.md` | Scan registered projects for blockers |
+| `catalog blockers` | `~/.agents/prompts/agents/agent-blocker-supervisor-cataloger/SKILL.md` | Generate per-project + master blocker indexes |
+| `scan for blockers` | `~/.agents/prompts/agents/agent-blocker-supervisor-cataloger/SKILL.md` | Cross-project blocker scan trigger |
+
+**Core Principle:** Scanner ONLY. Reads the registered project list, generates per-project blocker catalog files, ages blockers to `stale`, releases expired claims, regenerates the GAS-internal master index. NEVER resolves blockers — resolution is the unblocker supervisor's job.
+
+**Activation Regex:** `(?i)\b(blocker\s+cataloger|scan(\s+for)?\s+blockers|catalog\s+blockers)\b`
+
+---
+
+### Blocker Unblocker Agent (Blocker Resolution Supervisor)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `blocker engineer` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker/SKILL.md` | Resolution supervisor for the Blocker Engineer subsystem |
+| `blocker unblocker` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker/SKILL.md` | Picks idle blockers and attempts resolution |
+| `unblock me` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker/SKILL.md` | Pick up one idle blocker, claim atomically, attempt resolution |
+| `unblock work` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker/SKILL.md` | Resolve work blockers across the portfolio |
+| `work blockers` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker/SKILL.md` | Surface and resolve outstanding work blockers |
+| `unblock workstream {ws}` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker/SKILL.md` | Workstream-scoped resolution within the implicit current project |
+| `unblock workstream {ws} in {abs-path}` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker/SKILL.md` | Workstream-scoped resolution against a specific project's absolute path |
+| `unblock me workstream {ws} [in {abs-path}]` | `~/.agents/prompts/agents/agent-blocker-supervisor-unblocker/SKILL.md` | Long-form variant of the workstream-scoped trigger; identical semantics |
+
+**Core Principle:** Resolver ONLY. One blocker per work cycle. Reads the master blocker index, claims an `idle` blocker atomically, attempts resolution via browser MCP tools, terminal commands, and on-disk playbooks. Surfaces unresolvable blockers to the user. NEVER scans, regenerates indexes, or deletes blocker files.
+
+**Workstream Scoping (BLK-014 retrofit):** Any base trigger MAY be suffixed with `workstream {ws-name}` and optionally `in {absolute-project-path}`. When a workstream is specified, the unblocker filters the candidate set by `(project, workstream)` per `~/.agents/docs/specs/blocker-file-schema.md` Section 10.5. `null` and `"default"` are equivalent.
+
+**Activation Regex:** `(?i)\b(blocker\s+(engineer|unblocker)|unblock\s+(me|work|workstream\s+\S+(\s+in\s+\S+)?)|work\s+blockers)\b`
+
+---
+
+### Blocker Supervisor Agent (Cross-Project Router / Role Entry Point)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `blocker supervisor` | `~/.agents/prompts/agents/agent-blocker-supervisor/SKILL.md` | Cross-project blocker supervisor — router for catalog, unblock, registry management |
+| `you are the blocker supervisor` | `~/.agents/prompts/agents/agent-blocker-supervisor/SKILL.md` | Role assignment phrase |
+| `act as blocker supervisor` | `~/.agents/prompts/agents/agent-blocker-supervisor/SKILL.md` | Role activation phrase |
+| `you are the supervisor` | `~/.agents/prompts/agents/agent-blocker-supervisor/SKILL.md` | Generic supervisor role assignment (defaults to blocker supervisor) |
+| `act as supervisor` | `~/.agents/prompts/agents/agent-blocker-supervisor/SKILL.md` | Generic supervisor role activation |
+| `supervisor` | `~/.agents/prompts/agents/agent-blocker-supervisor/SKILL.md` | Generic supervisor activation when context is clearly blockers / projects / catalog work |
+
+**Core Principle:** Router, not implementer. Identifies user intent and routes to the right capability — registry CLI for project add/remove/list, catalog scan (loads cataloger function prompt), resolution (loads unblocker function prompt), inspection of master / per-project index, manual lifecycle transitions, supervisor improvement-log appends. Operates at portfolio scope; never edits project source. Default mode is ADVISOR for any authority not explicitly enabled in `~/.agents/agents/blocker-engineer/SUPERVISOR-AUTHORITIES.md`.
+
+**Activation Regex:** `(?i)\b((blocker\s+)?supervisor|you\s+are\s+(the\s+)?(blocker\s+)?supervisor|act\s+as\s+(the\s+)?(blocker\s+)?supervisor)\b`
+
+---
+
+### Paperclip Worker Agent (Paperclip-Managed Heartbeat Worker)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `paperclip worker` | `~/.agents/prompts/agents/agent-paperclip-worker/SKILL.md` | Paperclip-managed heartbeat worker |
+| `paperclip agent` | `~/.agents/prompts/agents/agent-paperclip-worker/SKILL.md` | Paperclip-managed heartbeat worker |
+| `you are a paperclip` | `~/.agents/prompts/agents/agent-paperclip-worker/SKILL.md` | Paperclip bootstrap trigger |
+
+**Core Principle:** Lifecycle managed by Paperclip. Wakes on heartbeat, checks inbox, does work, exits. Does NOT act as standalone GAS agent.
+
+**Activation Regex:** `(?i)\b(paperclip\s+(worker|agent)|you\s+are\s+a\s+paperclip)\b`
+
+---
+
+### Alignment Check-In Protocol (Alignment Verification)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `alignment check` | `~/.agents/docs/ALIGNMENT-CHECK-IN-PROTOCOL.md` | Full alignment verification against source of truth |
+| `check-in` | `~/.agents/docs/ALIGNMENT-CHECK-IN-PROTOCOL.md` | Periodic alignment check |
+| `are we on track` | `~/.agents/docs/ALIGNMENT-CHECK-IN-PROTOCOL.md` | Plan-vs-reality assessment |
+| `verify alignment` | `~/.agents/docs/ALIGNMENT-CHECK-IN-PROTOCOL.md` | Source-of-truth comparison |
+| `status check against plan` | `~/.agents/docs/ALIGNMENT-CHECK-IN-PROTOCOL.md` | Full protocol run |
+| `holistic view` | `~/.agents/docs/ALIGNMENT-CHECK-IN-PROTOCOL.md` | Top-level project state assessment |
+| `zoom out for a sec` | `~/.agents/docs/ALIGNMENT-CHECK-IN-PROTOCOL.md` | Step back and assess big picture |
+| `where are we at` | `~/.agents/docs/ALIGNMENT-CHECK-IN-PROTOCOL.md` | Current state synthesis |
+| `I forgot what we were doing` | `~/.agents/docs/ALIGNMENT-CHECK-IN-PROTOCOL.md` | Full context reload and orientation |
+
+**Core Principle:** Deliberate, periodic alignment ritual. Loads 8 source-of-truth documents, verifies WO integrity, checks blueprint alignment, assesses pillar health, produces report, executes corrections. Uses incremental caching to avoid re-verifying unchanged items.
+
+**Standing Order:** SO-027 -- must run before every phase transition and at least once per Agent Zero session.
+
+**Activation Regex:** `(?i)\b(alignment\s+check|check[\s-]in|are\s+we\s+on\s+track|verify\s+alignment|status\s+check\s+against\s+plan|holistic\s+view|zoom\s+out|where\s+are\s+we\s+at|forgot\s+what\s+we\s+were\s+doing)\b`
+
+---
+
+### Deep Research Mode (Structured Research)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `deep research` | `~/.agents/modes/DEEP-RESEARCH-MODE.md` | Structured multi-source research |
+| `research mode` | `~/.agents/modes/DEEP-RESEARCH-MODE.md` | Activate deep research mode |
+| `comprehensive research` | `~/.agents/modes/DEEP-RESEARCH-MODE.md` | Full research with citation tracking |
+| `conduct deep research` | `~/.agents/modes/DEEP-RESEARCH-MODE.md` | Research execution trigger |
+| `run deep research` | `~/.agents/modes/DEEP-RESEARCH-MODE.md` | Research execution trigger |
+
+**Core Principle:** Structured, multi-source research with citation tracking, prompt generation, and knowledge vault integration. All substantial research that becomes permanent reference documentation MUST use this mode.
+
+**Activation Regex:** `(?i)\b(deep\s+research|research\s+mode|comprehensive\s+research|(conduct|run)\s+deep\s+research)\b`
+
+---
+
+### Agent Tool Exposure Guide (AAO / Tool Discoverability)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `expose tool` | `~/.agents/prompts/general/agent-tool-exposure-guide.md` | Route GAS tool exposure work through AAO methodology |
+| `make discoverable` | `~/.agents/prompts/general/agent-tool-exposure-guide.md` | Improve agent and developer discoverability |
+| `agent SEO` | `~/.agents/prompts/general/agent-tool-exposure-guide.md` | Agent Attention Optimization entry point |
+| `tool optimization` | `~/.agents/prompts/general/agent-tool-exposure-guide.md` | Optimize tool descriptions, contracts, and exposure lanes |
+| `publish MCP server` | `~/.agents/prompts/general/agent-tool-exposure-guide.md` | Prepare MCP server publication and launch checks |
+| `agent-facing tool` | `~/.agents/prompts/general/agent-tool-exposure-guide.md` | Package a capability for agent discovery and invocation |
+| `tool discovery` | `~/.agents/prompts/general/agent-tool-exposure-guide.md` | Diagnose and improve tool discovery paths |
+
+**Core Principle:** AAO applies to GAS capability exposure and discoverability. Start with description and contract quality before choosing MCP, A2A, OpenAPI, SKILL.md, registry, or community launch lanes. Do not route Universal Manifest work to the GAS steward by default; use UM scope only when explicitly routed by Master Steward or UM Steward.
+
+**Activation Regex:** `(?i)\b(expose\s+(a\s+)?tool|make\s+(this\s+)?discoverable|agent\s+seo|tool\s+optimization|publish\s+(an?\s+)?mcp\s+server|agent[-\s]facing\s+tool|tool\s+discovery)\b`
+
+---
+
+### Canonical Document Package (Google Drive)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `canonical document package` | `~/.agents/modes/CANONICAL-DOCUMENT-PACKAGE-MODE.md` | Publish canonical Markdown, PDF and native-Google-Doc derivatives, plus their manifest |
+| `create canonical document package` | `~/.agents/modes/CANONICAL-DOCUMENT-PACKAGE-MODE.md` | Explicit source-of-truth package request |
+| `publish document package` | `~/.agents/modes/CANONICAL-DOCUMENT-PACKAGE-MODE.md` | Compatibility phrase for the canonical package route |
+
+**Core Principle:** A canonical package preserves the original Markdown as its source
+of truth and explicitly declares the PDF and native Google Doc as derivatives. It is a
+package request, not an ambiguous request to convert a document.
+
+**Activation Regex:** `(?i)\b(canonical\s+document\s+package|create\s+(a\s+)?canonical\s+document\s+package|publish\s+(markdown\s+)?document\s+package)\b`
+
+---
+
+### Document Conversion (Google Drive)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `convert markdown to PDF` | `~/.agents/modes/DOCUMENT-CONVERSION-MODE.md` | Produce only a PDF from the selected Markdown source |
+| `convert markdown to Google Doc` | `~/.agents/modes/DOCUMENT-CONVERSION-MODE.md` | Produce only a native Google Doc from the selected Markdown source |
+| `convert markdown to Markdown` | `~/.agents/modes/DOCUMENT-CONVERSION-MODE.md` | Publish only the unchanged Markdown representation |
+| `convert document to a specific format` | `~/.agents/modes/DOCUMENT-CONVERSION-MODE.md` | Route an exact-format request to its named supported target |
+
+**Core Principle:** A conversion produces exactly one requested representation—PDF,
+native Google Doc, or Markdown—and does not create a package or companion artifacts.
+
+**Activation Regex:** `(?i)\b(convert\s+(a\s+)?markdown\s+(document\s+)?to\s+(pdf|google\s+doc|markdown)|convert\s+(a\s+)?document\s+to\s+(a\s+)?specific\s+format)\b`
+
+---
+
+### Codex Browser Control Routing
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `browser control` | `~/.agents/docs/browser-control/codex-browser-tool-routing.md` | Route Codex browser-visible work to the correct Chrome Extension, Computer Use, in-app Browser, or fallback surface |
+| `codex browser routing` | `~/.agents/docs/browser-control/codex-browser-tool-routing.md` | Codex browser-control route selection policy |
+| `chrome extension route` | `~/.agents/docs/browser-control/codex-browser-tool-routing.md` | Use regular Google Chrome through the Codex Chrome Extension when appropriate |
+| `codex chrome extension` | `~/.agents/docs/browser-control/codex-browser-tool-routing.md` | Chrome Extension preflight and fallback policy |
+
+**Core Principle:** In Codex, regular macOS Google Chrome through the Codex Chrome Extension is primary when real Chrome profile/authenticated state/existing tabs/efficient DOM-tab control matter. Computer Use is the bounded visible UI fallback; in-app Browser is for public/local/unauthenticated previews; Agent Browser, CDP, and Playwright-style tooling are explicit fallbacks, not defaults.
+
+**Activation Regex:** `(?i)\b(browser\s+control|codex\s+browser\s+routing|chrome\s+extension\s+route|codex\s+chrome\s+extension)\b`
+
+---
+
+### Burn Mode (End-of-Cycle Token Optimization)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `burn mode` | `~/.agents/modes/BURN-MODE.md` | Activate end-of-cycle focused execution |
+| `mad dash` | `~/.agents/modes/BURN-MODE.md` | Burn remaining tokens on highest-priority work |
+| `use remaining tokens` | `~/.agents/modes/BURN-MODE.md` | Spend remaining budget before cycle end |
+| `burn remaining budget` | `~/.agents/modes/BURN-MODE.md` | Explicit budget burn trigger |
+| `end of cycle` | `~/.agents/modes/BURN-MODE.md` | Billing cycle end trigger |
+
+**Core Principle:** When token budget is low relative to the billing period, focus all remaining capacity on highest-priority unblocked work. T1 first, then T2, then T3. T4 stops. No worktrees. One agent per WO. Supervisor coordinates only.
+
+**Activation Regex:** `(?i)\b(burn\s+mode|mad\s+dash|use\s+remaining\s+tokens|burn\s+remaining\s+budget|end\s+of\s+cycle)\b`
+
+---
+
+### Commit Agent (Smart Commits)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `commit agent` | `~/.agents/modes/SMART-COMMIT-MODE.md` | Smart commit mode |
+| `smart commit` | `~/.agents/modes/SMART-COMMIT-MODE.md` | Intelligent commit grouping |
+| `global commit` | `~/.agents/docs/overviews/GLOBAL-COMMIT-VARIANT.md` | Registry-driven cross-project parallel commit dispatch. Does NOT load base SMART-COMMIT-MODE.md — the overlay is self-contained for the master role; workers get their own prompt. |
+| `you are the global commit agent` | `~/.agents/docs/overviews/GLOBAL-COMMIT-VARIANT.md` | Explicit role activation for global commit |
+| `commit all projects` | `~/.agents/docs/overviews/GLOBAL-COMMIT-VARIANT.md` | Explicit role activation for global commit |
+| `group commits` | `~/.agents/modes/SMART-COMMIT-MODE.md` | Commit grouping trigger |
+| `commit files` | `~/.agents/modes/SMART-COMMIT-MODE.md` | File commit trigger |
+| `analyze commits` | `~/.agents/modes/SMART-COMMIT-MODE.md` | Commit analysis trigger |
+
+**Activation Regex:** `(?i)\b(global\s+commit|you\s+are\s+(the\s+)?global\s+commit(\s+agent)?|commit\s+all\s+projects|commit\s+agent|smart\s+commit|group\s+commits|commit\s+files|analyze\s+commits)\b`
+
+---
+
+### Close Session Mode (Unified Session Record)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `/close-session` | `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md` | Create one unified session-close record |
+| `close session` | `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md` | Plain-language session-close trigger |
+| `create session record` | `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md` | Explicit session-record request |
+| `wrap this session` | `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md` | Session wrap-up alias |
+| `save the session` | `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md` | Session preservation alias |
+| `retire this agent's context` | `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md` | Owner-preferred context-retirement phrase |
+
+**Core Principle:** Routine closeout has one entrypoint: `CREATE-SESSION-RECORD`. Role-aware steward and supervisor closeout are handled internally by that prompt; do not route owner-facing closeout phrases to `close-steward` or `close-supervisor` directly.
+
+**Activation Regex:** `(?i)(/close-session|\bclose\s+session\b|\bcreate\s+session\s+record\b|\bwrap\s+this\s+session\b|\bsave\s+the\s+session\b|\bretire\s+this\s+agent'?s\s+context\b)`
+
+---
+
+### Mac Performance Diagnostics Specialist (macOS Troubleshooting)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `mac agent` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist/SKILL.md` | macOS performance diagnostics agent |
+| `mac help` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist/SKILL.md` | Quick Mac help trigger |
+| `mac technician` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist/SKILL.md` | Mac technician role |
+| `mac tech` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist/SKILL.md` | Short form for Mac technician |
+| `mac diagnostics` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist/SKILL.md` | Mac diagnostics trigger |
+| `mac performance` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist/SKILL.md` | Mac performance analysis trigger |
+| `mac doctor` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist/SKILL.md` | Mac doctor / health check trigger |
+| `you are the mac agent` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist/SKILL.md` | Role assignment phrase |
+| `act as mac agent` | `~/.agents/prompts/agents/agent-mac-performance-diagnostics-specialist/SKILL.md` | Role activation phrase |
+
+**Core Principle:** macOS performance specialist. Diagnoses CPU, GPU, memory, disk, thermal, and fan issues. Never modifies system files without explicit approval.
+
+**Activation Regex:** `(?i)\b(mac\s+(agent|help|technician|tech|diagnostics|performance|doctor)|you\s+are\s+(the\s+)?mac\s+agent|act\s+as\s+mac\s+agent)\b`
+
+---
+
+### Image Prompt Format Standard (AI Image Generator Prompts)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `image prompt` | `~/.agents/docs/standards/IMAGE-PROMPT-FORMAT.md` | Format standard for prompts pasted into an AI image generator |
+| `image prompts` | `~/.agents/docs/standards/IMAGE-PROMPT-FORMAT.md` | Plural form — same standard |
+| `image generation prompts` | `~/.agents/docs/standards/IMAGE-PROMPT-FORMAT.md` | Explicit image-generation phrasing |
+| `prompts for an AI generator` | `~/.agents/docs/standards/IMAGE-PROMPT-FORMAT.md` | Natural-language phrasing |
+| `midjourney prompt` | `~/.agents/docs/standards/IMAGE-PROMPT-FORMAT.md` | Midjourney-specific request |
+| `dall-e prompt` | `~/.agents/docs/standards/IMAGE-PROMPT-FORMAT.md` | DALL-E-specific request |
+| `flux prompt` | `~/.agents/docs/standards/IMAGE-PROMPT-FORMAT.md` | Flux-specific request |
+| `nano banana prompt` | `~/.agents/docs/standards/IMAGE-PROMPT-FORMAT.md` | Gemini / Nano Banana-specific request |
+| `stable diffusion prompt` | `~/.agents/docs/standards/IMAGE-PROMPT-FORMAT.md` | Stable Diffusion-specific request |
+
+**Core Principle:** Not a role — a mandatory output format. Any agent producing prompts for an image generator MUST follow the four rules (filename slug, `REQUIRES ATTACHMENT:` flag, text-suppression clause, logo reproduction) and run the standard's pre-delivery checklist before delivery. Single source of truth; the Claude-skill path and this trigger both point to the same standard.
+
+**Activation Regex:** `(?i)\b(image\s+(generation\s+)?prompts?|prompts?\s+for\s+an?\s+ai\s+(image\s+)?generator|(midjourney|dall[\s-]?e|flux|nano\s+banana|stable\s+diffusion)\s+prompt)\b`
+
+---
+
+### Project Scoring And Autonomy Intake Mode (Initiative Value Rubric)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `rubric intake` | `~/.agents/modes/PROJECT-SCORING-AUTONOMY-INTAKE-MODE.md` | Run the Initiative Value Rubric + Autonomy-Readiness test, place a lane, route GREEN work to autonomous execution |
+| `score project` | `~/.agents/modes/PROJECT-SCORING-AUTONOMY-INTAKE-MODE.md` | Score a candidate project with the Initiative Value Rubric |
+| `score this project` | `~/.agents/modes/PROJECT-SCORING-AUTONOMY-INTAKE-MODE.md` | Score the current project |
+| `run intake` | `~/.agents/modes/PROJECT-SCORING-AUTONOMY-INTAKE-MODE.md` | Run the repeatable project-intake flow |
+| `run project intake` | `~/.agents/modes/PROJECT-SCORING-AUTONOMY-INTAKE-MODE.md` | Explicit project-intake run |
+| `project scoring` | `~/.agents/modes/PROJECT-SCORING-AUTONOMY-INTAKE-MODE.md` | Project-scoring mode trigger |
+| `autonomy intake` | `~/.agents/modes/PROJECT-SCORING-AUTONOMY-INTAKE-MODE.md` | Autonomy-readiness + lane-placement intake |
+
+**Core Principle:** Score → autonomy-test → lane → autonomous-build handoff as one repeatable flow. Links to the canonical instruments (rubric, autonomy framework, playbook); never copies their text. State / resume surface for the whole initiative: `~/.agents/docs/RUBRIC-INTAKE-INITIATIVE.md`.
+
+**Activation Regex:** `(?i)\b(rubric\s+intake|score\s+(this\s+)?project|run\s+(project\s+)?intake|project\s+scoring|autonomy\s+intake)\b`
+
+---
+
+## Trio Activation (Multi-Agent Coordination)
+
+| Trigger Phrase | Target Prompts | Description |
+|----------------|----------------|-------------|
+| `trio` | All three primary agents | Activate dev + triage + qa |
+| `activate trio` | All three primary agents | Explicit trio activation |
+| `trio mode` | All three primary agents | Multi-agent mode |
+
+**Trio Activation Behavior:**
+
+When trio is activated:
+
+1. **Triage Agent** scans for pending work orders in `.dev/ai/workorders/`
+2. **Dev Agent** picks up highest priority READY work order
+3. **QA Agent** validates completed work before status change to COMPLETED
+
+**Trio Orchestration:**
+
+```
+User Input → Triage (capture) → Dev (implement) → QA (verify) → Complete
+```
+
+**Activation Regex:** `(?i)\b(trio(\s+mode)?|activate\s+trio)\b`
+
+---
+
+## Trigger Detection Protocol
+
+### First-Message Detection
+
+When a user's first message matches any trigger phrase:
+
+1. **Extract trigger** from message using regex patterns
+2. **Load target prompt** file immediately
+3. **Announce activation** with role greeting
+4. **Enter role scope** - operate ONLY within role boundaries
+
+### Priority Rules
+
+1. **Explicit > Implicit**: "you are the dev agent" beats "use dev"
+2. **First Match Wins**: Process triggers left-to-right
+3. **Trio Overrides Singles**: "activate trio" supersedes individual triggers
+4. **Fallback**: No match = default agent behavior (read AGENTS.md for context)
+
+### Ambiguous Trigger Handling
+
+When trigger is ambiguous:
+
+1. Ask for clarification: "Did you want the dev agent, triage agent, or QA agent?"
+2. Provide context: List what each agent does
+3. Wait for explicit confirmation
+
+---
+
+## Self-Activation Protocol
+
+**MANDATORY BEHAVIOR:** When an agent detects a trigger phrase in the user's first message:
+
+```
+1. IMMEDIATELY read the target prompt file
+2. LOAD the role definition and constraints
+3. ANNOUNCE role activation: "[Role] agent activated. Ready to [primary action]."
+4. OPERATE exclusively within role scope
+5. FORBID actions outside role boundaries
+```
+
+**Example Interaction:**
+
+```
+User: "dev - fix the auth bug in login.js"
+Agent: [Reads agent-dev-worker/SKILL.md]
+Agent: "Dev Worker agent activated. Ready to investigate and fix the auth bug in login.js."
+[Proceeds with dev-only actions: analyze, plan, execute, verify]
+```
+
+---
+
+## Skill and Methodology Triggers
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `find unknowns` | `~/.agents/skills/find-unknowns/SKILL.md` | Identify decision-changing unknowns and the cheapest useful next learning action |
+| `blind spot pass` | `~/.agents/skills/find-unknowns/SKILL.md` | Inspect the current framing for consequential omissions |
+| `unknown unknowns` | `~/.agents/skills/find-unknowns/SKILL.md` | Surface plausible blind spots without manufacturing exhaustive lists |
+| `what am I missing?` | `~/.agents/skills/find-unknowns/SKILL.md` | Separate evidence-backed gaps from assumptions and owner-only answers |
+| `what is not done yet?` | `~/.agents/skills/find-unknowns/SKILL.md` | Verify authoritative local state, separate unfinished work, then inspect uncertainty |
+| `what kind of thinking does this need?` | `~/.agents/skills/which-model/SKILL.md` | Run Find Unknowns first, then resolve an evidence-backed Cognitive Specialty need without changing the ordinary route |
+| `does this need a specialist model?` | `~/.agents/skills/which-model/SKILL.md` | Separate capability fit, evidence, access, authority, handoff, and fallback before any owner decision |
+| `critical review this` | `~/.agents/skills/critical-review/SKILL.md` | Prepare and hold a qualified owner-only specialist review packet |
+| `send this to Fable` | `~/.agents/skills/critical-review/SKILL.md` | Preserve the direct owner authorization gate before any Fable handoff |
+| `copy first` | `~/.agents/skills/copy-first-web/methodology.md` | Copy-first web development: perfect copy in markdown before building pages |
+| `copy-first web` | `~/.agents/skills/copy-first-web/methodology.md` | Full name trigger |
+| `markdown first` | `~/.agents/skills/copy-first-web/methodology.md` | Alternate trigger |
+| `write the website` | `~/.agents/skills/copy-first-web/methodology.md` | Natural-language trigger |
+| `content before code` | `~/.agents/skills/copy-first-web/methodology.md` | Principle trigger |
+| `success story` | `~/.agents/docs/field-protocols/INDEX.md` | Positive outcome to evaluate for reusable protocol evidence |
+| `failure story` | `~/.agents/docs/field-protocols/INDEX.md` | Negative outcome to evaluate for counter-case, anti-scope, or protocol gap evidence |
+| `learn from this` | `~/.agents/docs/field-protocols/INDEX.md` | Derive a portable lesson or protocol candidate from source material |
+| `store this in GAS` | `~/.agents/docs/field-protocols/INDEX.md` | Decide whether a story belongs as a protocol, source case, or rejected extraction |
+| `issue I need to solve` | `~/.agents/docs/field-protocols/INDEX.md` | Current situational problem; use protocols to advise now, capture outcome later |
+| `field protocol` | `~/.agents/docs/field-protocols/INDEX.md` | Situational protocol lookup or extraction; read index first |
+| `field experience` | `~/.agents/docs/field-protocols/INDEX.md` | Owner-provided raw experience to evaluate for protocol extraction |
+| `extract field protocol` | `~/.agents/docs/field-protocols/INDEX.md` | Extract a protocol candidate from a private source pointer |
+| `turn this into a field protocol` | `~/.agents/docs/field-protocols/INDEX.md` | Natural-language protocol extraction trigger |
+| `session recovery` | `~/.agents/docs/SESSION-RECOVERY-GUIDE.md` | Pick up work started in another harness; read the current snapshot before rescanning |
+| `session scan` | `~/.agents/docs/SESSION-RECOVERY-GUIDE.md` | Enumerate open threads across harnesses via `gas-method threads.tree` |
+| `harness sessions` | `~/.agents/docs/SESSION-RECOVERY-GUIDE.md` | Cross-harness thread inventory: top-level threads with subagent history attached |
+
+**Activation Regex:** `(?i)\b(session\s+recovery|session\s+scan|harness\s+sessions)\b`
+
+**Session Recovery Rule:** Recovered summaries are an outside reading of harness
+transcripts, not a session's own retirement return. Every completion claim in
+them is unverified — re-verify before building on it. Never infer a role from a
+thread title; assert `You are the <ROLE>.` only when the owner assigns it or the
+recovered material shows the session actually held it. Structurally top-level is
+not the same as human-started; use the `initiator` field, not tree position.
+Prefer the existing snapshot over rescanning. The intended path is the retirement
+lifecycle at `~/.agents/tools/codex-swarm-supervisor/retirement/README.md`; this
+trigger is the fallback for when that did not run.
+
+**Field Protocol Rule:** When the owner supplies a private markdown file or
+directory path, do not copy raw source into GAS docs. Read
+`~/.agents/docs/field-protocols/INDEX.md` first, then use
+`~/.agents/docs/field-protocols/BASELINE-EXTRACTION-HARNESS.md` for extraction.
+For a current unresolved issue, use matching protocols to help solve it now and
+record the outcome as pending; do not promote it as validation evidence until
+the outcome is known.
+If the submitted document does not clearly say whether it is a current issue,
+an outcome-pending interaction, a successful field experience, or a failing
+field experience, ask the owner to classify it before extracting or cataloging.
+
+---
+
+### Project Conversation Context (Calls, Meetings & Chat Feeds)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `conversation context` | `~/.agents/skills/project-conversation-context/SKILL.md` | Include project meetings, call transcripts, and chat feeds in work |
+| `include conversation context` | `~/.agents/skills/project-conversation-context/SKILL.md` | Explicit request to include conversation/meeting context |
+| `include conversations` | `~/.agents/skills/project-conversation-context/SKILL.md` | Short form trigger |
+| `check project meetings` | `~/.agents/skills/project-conversation-context/SKILL.md` | Query project calls and transcripts |
+| `consult calls` | `~/.agents/skills/project-conversation-context/SKILL.md` | Review meeting transcripts and decisions |
+| `consult meetings` | `~/.agents/skills/project-conversation-context/SKILL.md` | Review call records and transcripts |
+| `check calls and chats` | `~/.agents/skills/project-conversation-context/SKILL.md` | Inspect both project calls and chat feed chunks |
+
+**Activation Regex:** `(?i)\b(conversation\s+context|include\s+conversation(\s+context)?|include\s+conversations|check\s+project\s+meetings|consult\s+(calls|meetings)|check\s+calls\s+and\s+chats)\b`
+
+---
+
+## Validation Checklist
+
+- [ ] `use the dev tool` activates dev agent without reading AGENTS.md header
+- [ ] `activate trio` instantiates all three protocols
+- [ ] `mode: qa` switches to QA agent context
+- [ ] `triage` enters triage-only mode (no implementation)
+- [ ] Trigger system works across all projects using global ~/.agents/
+
+---
+
+## Adding New Triggers
+
+To add a new trigger:
+
+1. Add entry to appropriate section in this file
+2. Update regex pattern for the agent
+3. Test trigger activation in fresh session
+4. Verify role boundaries are enforced
+
+**Format:**
+
+```markdown
+| `trigger phrase` | `path/to/prompt.md` | Description |
+```
+
+---
+
+**Last Updated:** 2026-03-16
+**Version:** 1.0.0

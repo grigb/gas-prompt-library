@@ -1,0 +1,608 @@
+# Agent Index
+
+**Last Updated:** 2026-08-17
+**Total Agents:** 50
+**Purpose:** Searchable metadata index for global agent library
+
+---
+
+## Role Behavior Override (canonical boundaries)
+
+Role assignment OVERRIDES default agent behavior. Each role's prompt declares its full scope; this table is the canonical compact registry of primary vs forbidden actions.
+
+| Role | Primary Action | FORBIDDEN Actions |
+|------|----------------|-------------------|
+| global triage | Portfolio-scope capture and routing into project queues | Implementing project work, replacing per-project triage, leaking private raw context |
+| triage | Create work orders in `.dev/ai/workorders/` | Implementing code, direct fixes |
+| dev | Implement from work orders | Creating new work orders (unless blocking) |
+| qa | Verify implementations, run tests | Implementing features |
+| commit | Execute Smart Commit Mode | Creating work orders, implementing features |
+| global commit | Registry-driven cross-project parallel commit dispatch via `~/.agents/docs/overviews/GLOBAL-COMMIT-VARIANT.md` | Separate prompt, implementation work, weakening Smart Commit security/no-new-work rules |
+| project steward | Capture monologues, maintain project-local wisdom, map dependencies, create/refine WOs | Cross-project blocker supervision, generic implementation without a scoped WO |
+| project liaison | Project-local Q&A, request capture, work-order-backed relay, and WO creation without touching Steward continuity files | Editing Steward-owned continuity files, implementation work, claiming relay delivery without proof |
+| master steward | Project Steward with master overlay for top-level holistic work, cross-project routing, and dispatch-locality decisions | Separate prompt, implementation work, replacing Blocker Supervisor/GAS hierarchy roles |
+
+---
+
+## Quick Reference by Category
+
+### Meta-Hierarchy (1 agent)
+- `agent-zero` - Agent Zero: owner's reasoning partner and meta-orchestrator (Layer 0). Triggers: agent zero, agent0, a0, GAS A0, M, owner's agent (legacy)
+
+### 🏛️ Hierarchy (4 agents)
+- `agent-assistant` - Human's single point of contact (Layer 1)
+- `agent-blueprint-keeper` - Strategic vision guardian (Layer 2)
+- `agent-request-router` - Blueprint-aware request gatekeeper (Layer 3)
+- `agent-gas-manager` - Autonomous execution engine / PM (Layer 4)
+
+### 🏗️ Core Development (7 agents)
+- `agent-orchestrator` - Multi-agent workflow coordination (single project)
+- `agent-manager-orchestrator` - Coordinates multiple orchestrators (portfolio level)
+- `agent-global-triage` - Portfolio-scope intake router. Captures owner input from any thread, resolves target GAS projects, writes project-local WOs when routing is clear, keeps global unknown/routed ledgers, and never implements. Triggers: global triage, you are the global triage agent, route this to the right project, capture this across projects
+- `agent-dev-general-contractor` - QA lead and integration specialist
+- `agent-dev-overseer` - Development process monitor
+- `agent-dev-worker` - Core implementation specialist
+- `agent-project-worker` - Lightweight fire-and-forget worker dispatched by the supervisor to execute unblocked WOs in a project. No sub-agent dispatch. Reads queue, does work, runs triage, exits.
+- `agent-software-product-builder` - End-to-end product development
+
+### 🔬 Research & Analysis (5 agents)
+- `agent-global-research` - GAS-wide source of truth for deep-research methods, sources, tools, models, harnesses, prompts, artifacts, historical results, evaluation rules, quotas, availability, and governing research documentation. Harness-first; comparisons only on real needed complex work when exact-combination evidence is missing. Triggers: global research, global research agent, you are Global Research agent, research methods authority
+- `agent-research-analysis` - Technical, legal, and market research
+- `agent-research-gap-analysis` - Knowledge gap identification
+- `agent-strategic-intelligence` - Strategic analysis and intelligence
+- `agent-external-research-prompt-engineer` - Reviews/critiques/redesigns/authors research prompts pasted into frontier LLMs (Claude.ai Deep Research, Gemini Advanced, Perplexity Pro, ChatGPT, Grok, Kimi). Scores against a 12-primitive library; hunts validation-bait and decomposition errors; outputs paste-ready rewrites.
+
+### 💼 Business & Operations (7 agents)
+- `agent-chief-of-staff` - Executive coordination and planning
+- `agent-chief-reality-officer` - Reality checks and feasibility
+- `agent-project-manager` - Plan completeness, proposal-to-WO coverage, workstream governance, task decomposition, dependency mapping, progress tracking, and execution-readiness handoffs. Absorbed `agent-project-coordinator` on 2026-07-12. Triggers: project manager, project planning, plan completeness, proposal coverage, workstream review, workstream governance, execution readiness
+- `agent-project-liaison` - Project-local front desk for grounded Q&A, request capture, work-order-backed relay, fast-lane WO markers, and work-order creation without editing Project Steward continuity files. Triggers: project liaison, liaison agent, project desk, ask project, route this in project, project relay
+- `agent-project-steward` - Project Steward and Master Steward variant. Single-project advisor/operator for monologue capture, project-local wisdom, private steward context, top-level strategic briefs, dependency mapping, and work-order conversion; when `master` is prepended, applies the top-level holistic overlay for cross-project routing and dispatch-locality decisions. Triggers: project steward, master steward, you are the project steward, you are master steward, steward this project, steward of this project, project advisor, project supervisor, project brief, steward brief
+- `agent-project-state-sync` - Always-current ingest/reconcile cycle; the schedule-ready evolution of close-steward. Each run aggregates every loose end since the last run across pluggable connectors (Claude conversations, meeting transcripts with an ASK-THE-OWNER fallback, project inbox, extensible hooks), retains raw originals pristine, translates deterministically via the meaning-extraction extractor into structured data/strategies/WO drafts/methods, reconciles the WO index and steward state by reusing close-steward, and reports loose ends closed plus owner asks. Supervised until owner-review promotes it to a schedule. Method: `~/.agents/docs/methodologies/project-state-sync-method.md`. Triggers: state sync, run state sync, sync project state, bring the project current, catch the project up
+- `agent-prompt-improvement` - Reads agent tuning logs, diagnoses behavioral failures, creates WOs for prompt changes, implements fixes after approval, runs parity checks and integration tests. Triggers: tune the supervisor, fix the orchestrator, prompt improvement, improve agent, tune agent
+
+### 📝 Content & Communication (3 agents)
+- `agent-communication-stakeholder` - Stakeholder communication
+- `agent-content-crafting-alignment` - Content creation and alignment
+- `agent-creative-writer-spiritual` - Spiritual and artistic writing craft
+- `agent-marketing-expert` - Marketing strategy and campaigns
+
+### 📊 Data & Analytics (2 agents)
+- `agent-data-analysis-visualization` - Data analysis and visualization
+- `agent-financial-analysis-planning` - Financial analysis and planning
+
+### 🎨 Design & User Experience (1 agent)
+- `agent-ux-design` - User experience and design
+
+### 🔧 Quality & Testing (4 agents)
+- `agent-testing-validation` - Testing and validation
+- `agent-security-compliance` - Security and compliance
+- `agent-chialisp-auditor` - Expert adversarial ChiaLisp/CLVM puzzle auditor; canonical-diff methodology + assume-compromised review; ground-truth-basis findings. Triggers: chialisp auditor, clvm audit, review this puzzle, canonical diff, audit .clsp
+- `agent-tooling` - Tooling and automation
+
+### 🔄 Process & Optimization (5 agents)
+- `agent-process-analysis-retrospective` - Process analysis
+- `agent-process-analysis-retrospective-quick` - Quick process analysis
+- `agent-process-design-optimization` - Process design and optimization
+- `agent-synthesis-integration` - Synthesis and integration
+- `agent-innovation-ideation` - Innovation and ideation
+
+### 📚 Documentation & Knowledge (2 agents)
+- `agent-document-analysis-audit` - Document analysis
+- `agent-learning-knowledge-management` - Knowledge management
+
+### 🌐 Specialized (10 agents)
+- `agent-mac-performance-diagnostics-specialist` - macOS performance troubleshooting and optimization. Triggers: mac agent, mac help, mac technician, mac tech, mac diagnostics, mac performance, mac doctor
+- `agent-network-diagnostics-specialist` - Network troubleshooting
+- `agent-pa-maintenance` - PA infrastructure diagnosis, repair, and maintenance
+- `agent-pa-doctor` - PA system doctor: diagnoses, fixes, logs everything, remembers patterns across sessions
+- `agent-pa-qa-tester` - PA QA tester: adversarial behavior testing, bug finding, fix-and-retest
+- `agent-paperclip-worker` - Paperclip-managed heartbeat worker: wakes on heartbeat, checks inbox, does work, exits
+- `agent-blocker-supervisor` - Cross-project blocker supervisor router: identifies user intent and dispatches to catalog scan, resolution, registry CLI, or master-index inspection. Default mode is ADVISOR. Triggers: blocker supervisor, you are the supervisor, act as supervisor, supervisor (when context is blockers)
+- `agent-blocker-supervisor-cataloger` - Cross-project blocker scanner: emits per-project + master blocker indexes. Scanner only. Triggers: blocker cataloger, scan blockers, catalog blockers, scan for blockers
+- `agent-blocker-supervisor-unblocker` - Blocker resolution supervisor: picks one idle blocker per cycle, claims atomically, attempts resolution. Resolver only. Triggers: blocker engineer, blocker unblocker, unblock me, unblock work, work blockers
+- `agent-dc-relay` - WhatsApp-to-DC Steward relay agent. On startup, creates or confirms its own one-minute Codex heartbeat, then batches new dc-vault WhatsApp relay items, finds the current visible DC Steward thread in Codex, forwards one batch for steward interpretation, and coordinates deterministic completion-file/script handoff without answering as the steward. Triggers: DC Relay, you are the DC Relay, start the DC relay
+- Custom agents can be added here
+
+---
+
+## Search by Keyword
+
+### Development Keywords
+**coding, implementation, debugging, testing, CI/CD**
+→ `agent-dev-worker`, `agent-software-product-builder`
+
+**code review, QA, integration, production readiness**
+→ `agent-dev-general-contractor`, `agent-testing-validation`
+
+**orchestration, coordination, multi-agent, workflow**
+→ `agent-orchestrator`, `agent-dev-overseer`
+
+**hierarchy, portfolio, multi-project, manager, beacon**
+→ `agent-manager-orchestrator`
+
+**meta-orchestrator, owner, board director, big picture, cross-domain, fabric, layer-0, priority, agent zero, agent0, a0, GAS A0**
+--> `agent-zero`
+
+**assistant, user-facing, delegation, status, daemon, layer-1, bandwidth**
+→ `agent-assistant`
+
+**work order execution, autonomous loop, PM, layer-4, worker spawning**
+→ `agent-gas-manager`
+
+**vision, blueprint, alignment, strategic, constraints, cascade**
+→ `agent-blueprint-keeper`
+
+**triage, routing, gatekeeper, intake, request, reject, defer**
+→ `agent-global-triage`, `agent-request-router`
+
+**global triage, cross-project intake, route to project, capture across projects**
+→ `agent-global-triage`
+
+### Research Keywords
+**research, investigation, analysis, evidence**
+→ `agent-global-research`, `agent-research-analysis`, `agent-strategic-intelligence`
+
+**deep research methods, research sources, model/harness evaluation, research quotas, method history**
+→ `agent-global-research`
+
+**gap analysis, knowledge mapping, missing information**
+→ `agent-research-gap-analysis`
+
+### Business Keywords
+**strategy, planning, executive, coordination**
+→ `agent-chief-of-staff`, `agent-strategic-intelligence`, `agent-project-steward`
+
+**feasibility, reality check, risk assessment**
+→ `agent-chief-reality-officer`
+
+**project management, tracking, milestones**
+→ `agent-project-manager` (default: plan completeness, proposal-to-WO coverage, decomposition, dependencies, gates), `agent-project-steward` (raw context capture, strategy, WO conversion), `agent-dev-overseer` (implementation-quality oversight). `agent-project-coordinator` folded into `agent-project-manager` 2026-07-12.
+
+**monologue capture, project wisdom, project-local memory, work order conversion, dependency mapping**
+→ `agent-project-steward`
+
+**project questions, project relay, project desk, project liaison, q&a, request capture, work order intake**
+→ `agent-project-liaison`
+
+### Content Keywords
+**writing, content, communication, stakeholders**
+→ `agent-content-crafting-alignment`, `agent-communication-stakeholder`
+
+**creative writing, spiritual depth, artistic prose, sentence craft**
+→ `agent-creative-writer-spiritual`
+
+**marketing, campaigns, branding, growth**
+→ `agent-marketing-expert`
+
+### Data Keywords
+**data analysis, visualization, metrics, reporting**
+→ `agent-data-analysis-visualization`
+
+**financial, budgets, forecasting, ROI**
+→ `agent-financial-analysis-planning`
+
+### Process Keywords
+**process improvement, optimization, retrospective**
+→ `agent-process-analysis-retrospective`, `agent-process-design-optimization`
+
+**innovation, ideation, brainstorming, creative**
+→ `agent-innovation-ideation`
+
+**synthesis, integration, consolidation**
+→ `agent-synthesis-integration`
+
+### Quality Keywords
+**testing, validation, QA, quality assurance**
+→ `agent-testing-validation`, `agent-dev-general-contractor`
+
+**security, compliance, audit, governance**
+→ `agent-security-compliance`, `agent-document-analysis-audit`
+
+**chialisp, clvm, chia puzzle, singleton/nft/did/cat audit, canonical diff, .clsp review**
+→ `agent-chialisp-auditor`
+
+### Technical Keywords
+**macOS, performance, GPU, thermal, fan, disk, memory, cpu, diagnostics**
+→ `agent-mac-performance-diagnostics-specialist`
+
+**network, connectivity, diagnostics, performance**
+→ `agent-network-diagnostics-specialist`
+
+**tools, automation, scripting, efficiency**
+→ `agent-tooling`
+
+### Infrastructure & Maintenance Keywords
+**pa maintenance, pa doctor, pa health, service restart, token rotation, credential management**
+→ `agent-pa-maintenance`
+
+**launchd, daemon, health check, infrastructure, ops**
+→ `agent-pa-maintenance`
+
+**paperclip, heartbeat, managed agent, worker, control plane**
+→ `agent-paperclip-worker`
+
+**WhatsApp, dc-vault relay, DC Steward handoff, relay queue, deterministic completion file**
+→ `agent-dc-relay`
+
+### Quality & Testing Keywords
+**qa, adversarial testing, behavior testing, pa testing**
+→ `agent-pa-qa-tester`
+
+---
+
+## Search by Situation
+
+### "I need to build something"
+**Simple feature or fix:**
+→ `agent-dev-worker` (direct implementation)
+
+**Complete product or system:**
+→ `agent-software-product-builder` (end-to-end)
+
+**Complex multi-component project:**
+→ `agent-orchestrator` → `agent-dev-worker` (coordinated workflow)
+
+**Multiple projects / portfolio coordination:**
+→ `agent-manager-orchestrator` → `agent-orchestrator` (hierarchical coordination)
+
+### "Something's broken"
+**Network/connectivity issues:**
+→ `agent-network-diagnostics-specialist` (systematic diagnosis)
+
+**Code bugs or test failures:**
+→ `agent-dev-worker` (debugging and fixes)
+
+**Production issues:**
+→ `agent-dev-general-contractor` (emergency response + audit)
+
+**PA infrastructure issues (services, tokens, daemons):**
+→ `agent-pa-maintenance` (diagnosis, restart, credential rotation)
+
+### "I need to understand/research"
+**Technical decision or architecture:**
+→ `agent-research-analysis` (comprehensive investigation)
+
+**Research method selection, source inventory, historical comparisons, or quota state:**
+→ `agent-global-research` (GAS-wide research-method authority)
+
+**What we don't know:**
+→ `agent-research-gap-analysis` (identify missing knowledge)
+
+**Strategic/competitive landscape:**
+→ `agent-strategic-intelligence` (market and competitive analysis)
+
+### "I need to organize/optimize"
+**Complex project with many tasks:**
+→ `agent-orchestrator` (workflow design)
+
+**Process improvement:**
+→ `agent-process-design-optimization` (process redesign)
+
+**Retrospective/lessons learned:**
+→ `agent-process-analysis-retrospective` (analysis and insights)
+
+### "I need to communicate/create"
+**Stakeholder updates:**
+→ `agent-communication-stakeholder` (professional communication)
+
+**Marketing content:**
+→ `agent-marketing-expert` (campaigns and strategy)
+
+**General content:**
+→ `agent-content-crafting-alignment` (aligned messaging)
+
+**Creative/spiritual writing:**
+→ `agent-creative-writer-spiritual` (artistic prose with depth)
+
+### "I need quality/security checks"
+**Pre-deployment validation:**
+→ `agent-dev-general-contractor` (production readiness)
+
+**Security audit:**
+→ `agent-security-compliance` (security review)
+
+**Test coverage:**
+→ `agent-testing-validation` (comprehensive testing)
+
+### "I need to think across everything"
+**Cross-domain reasoning, priority conflicts, big-picture thinking:**
+--> `agent-zero` (Agent Zero, meta-orchestrator, Layer 0)
+
+**Multi-company coordination:**
+--> `agent-zero` (Agent Zero, cross-domain delegation and arbitration)
+
+### "I need strategic planning"
+**Executive-level coordination:**
+→ `agent-chief-of-staff` (strategic planning)
+
+**Feasibility assessment:**
+→ `agent-chief-reality-officer` (reality checks)
+
+**Project planning:**
+→ `agent-project-manager` (project management)
+
+**Project-local questions, relays, or request capture:**
+→ `agent-project-liaison` (front desk, Q&A, work-order-backed relay, WO intake)
+
+---
+
+## Team Compositions (Agent Teams)
+
+**When an Agent Team is warranted** (lateral communication needed, not just parallel fire-and-forget), use these compositions as starting points. The lead agent coordinates; teammates load their respective prompt files.
+
+### Build & Ship
+
+**"Build a complete feature with quality gates"**
+| Role | Agent | Why |
+|------|-------|-----|
+| Lead | `agent-orchestrator` | Coordinates, never implements |
+| Implementer | `agent-dev-worker` | Core coding |
+| QA | `agent-testing-validation` | Tests alongside, not after |
+| Reviewer | `agent-dev-general-contractor` | Integration checks, production readiness |
+
+**"Build a product from scratch"**
+| Role | Agent | Why |
+|------|-------|-----|
+| Lead | `agent-software-product-builder` | End-to-end product vision |
+| Dev | `agent-dev-worker` | Implementation |
+| Design | `agent-ux-design` | UX alongside dev, not after |
+| Security | `agent-security-compliance` | Baked in, not bolted on |
+
+### Research & Decide
+
+**"Evaluate options and converge on a decision"**
+| Role | Agent | Why |
+|------|-------|-----|
+| Lead | `agent-synthesis-integration` | Consolidates competing findings |
+| Researcher | `agent-research-analysis` | Deep investigation |
+| Devil's Advocate | `agent-chief-reality-officer` | Challenges assumptions, tests feasibility |
+| Innovator | `agent-innovation-ideation` | Surfaces non-obvious alternatives |
+
+**"Strategic analysis for a business decision"**
+| Role | Agent | Why |
+|------|-------|-----|
+| Lead | `agent-chief-of-staff` | Executive coordination |
+| Intel | `agent-strategic-intelligence` | Market and competitive landscape |
+| Finance | `agent-financial-analysis-planning` | ROI, budgets, forecasts |
+| Gaps | `agent-research-gap-analysis` | What we don't know yet |
+
+### Debug & Investigate
+
+**"Competing hypotheses for a hard bug"**
+| Role | Agent | Why |
+|------|-------|-----|
+| Lead | `agent-dev-overseer` | Monitors theories, prevents anchoring |
+| Investigator A | `agent-dev-worker` | Tests theory A |
+| Investigator B | `agent-dev-worker` | Tests theory B |
+| Network (if relevant) | `agent-network-diagnostics-specialist` | Infra-level diagnosis |
+
+### Review & Audit
+
+**"Multi-lens review of code, docs, or systems"**
+| Role | Agent | Why |
+|------|-------|-----|
+| Lead | `agent-synthesis-integration` | Synthesizes across lenses |
+| Security | `agent-security-compliance` | Vulnerability scan |
+| Quality | `agent-testing-validation` | Test coverage, edge cases |
+| Docs | `agent-document-analysis-audit` | Documentation completeness |
+
+**"Process retrospective"**
+| Role | Agent | Why |
+|------|-------|-----|
+| Lead | `agent-process-analysis-retrospective` | Deep retrospective |
+| Optimizer | `agent-process-design-optimization` | Redesign proposals |
+| Knowledge | `agent-learning-knowledge-management` | Capture lessons learned |
+
+### Launch & Communicate
+
+**"Prepare and execute a launch"**
+| Role | Agent | Why |
+|------|-------|-----|
+| Lead | `agent-project-manager` | Timeline and milestones |
+| Marketing | `agent-marketing-expert` | Campaign and messaging |
+| Content | `agent-content-crafting-alignment` | Aligned copy |
+| Stakeholders | `agent-communication-stakeholder` | Stakeholder updates |
+
+### Hierarchy Operations
+
+**"Run a project autonomously from vision to completion"**
+| Role | Agent | Why |
+|------|-------|-----|
+| Meta-Orchestrator (L0) | `agent-zero` | Agent Zero: cross-domain reasoning, priority arbitration (optional, for multi-domain work) |
+| User-Facing (L1) | `agent-assistant` | Single point of contact, delegates everything |
+| Strategic (L2) | `agent-blueprint-keeper` | Vision alignment, cascade on pivots |
+| Intake (L3) | `agent-request-router` | Evaluates requests against blueprint, creates WOs |
+| Execution (L4) | `agent-gas-manager` | Picks WOs, spawns workers, monitors completion |
+| Workers (L5) | `agent-dev-worker` (or Agent Teams) | Implements WOs per acceptance criteria |
+
+**Note:** L4 is invoked by `~/.agents/scripts/gas-manager-loop.sh` in a Ralph Loop pattern. L5 workers are spawned by L4, not directly. See `~/.agents/docs/overviews/GAS-HIERARCHY-OVERVIEW.md` for full architecture.
+
+### Composition Principles
+
+- **Always have a dedicated lead.** The lead coordinates and synthesizes; it does NOT implement. Use delegate mode in Claude Code.
+- **Tension is a feature.** Pair agents that naturally challenge each other (`chief-reality-officer` + `innovation-ideation`, multiple `dev-worker` instances on competing theories).
+- **Keep teams small.** 3-5 teammates is the sweet spot. Beyond 5, coordination overhead outweighs benefit — use Gastown instead.
+- **Match agents to the communication need.** If agents don't need to talk to each other, use sub-agents instead of a team.
+- **Compositions are starting points.** Add or remove agents based on the specific task. A security review of a static site doesn't need `agent-security-compliance`.
+
+---
+
+## Detailed Agent Metadata
+
+| Agent | File | Specialization | Primary Keywords | Use When |
+|-------|------|----------------|------------------|----------|
+| Agent Zero | `agent-zero/SKILL.md` | Agent Zero: owner's reasoning partner and meta-orchestrator (Layer 0) | agent-zero, agent0, a0, big-picture, board-director, cross-domain, fabric-awareness, hierarchy, layer-0, meta-orchestrator, owner, priority-arbitration | See file for details |
+| Assistant | `agent-assistant/SKILL.md` | Human's single point of contact (Layer 1 Hierarchy) | assistant, bandwidth, daemon, delegation, hierarchy, layer-1, status-synthesis, user-facing | See file for details |
+| Blueprint Keeper | `agent-blueprint-keeper/SKILL.md` | Strategic vision guardian (Layer 2 Hierarchy) | alignment, blueprint, cascade, constraints, hierarchy, strategic, vision | See file for details |
+| Request Router | `agent-request-router/SKILL.md` | Blueprint-aware request gatekeeper (Layer 3 Hierarchy) | defer, gatekeeper, hierarchy, intake, reject, routing, triage, work-orders | See file for details |
+| GAS Manager | `agent-gas-manager/SKILL.md` | Autonomous execution engine / PM (Layer 4 Hierarchy) | autonomous, execution, hierarchy, layer-4, orchestration, pm, wo-management | See file for details |
+| Chief Of Staff | `agent-chief-of-staff/SKILL.md` | Strategic Planning Advisor with 15+ years spe... | communication, data, design, development, process, research | See file for details |
+| Chief Reality Officer | `agent-chief-reality-officer/SKILL.md` | Strategic Risk Assessor with 15+ years valida... | communication, data, design, development, process, research | See file for details |
+| Communication Stakeholder | `agent-communication-stakeholder/SKILL.md` | Senior Communication professional with | communication, data, design, development, documentation, process | See file for details |
+| Content Crafting Alignment | `agent-content-crafting-alignment/SKILL.md` | expert writer and philosophical alignment | communication, data, documentation, process, research, strategic | See file for details |
+| Creative Writer Spiritual | `agent-creative-writer-spiritual/SKILL.md` | creative writer and spiritual craftsperson with 20+ years | writing, creative, spiritual, artistic, prose, sentence, compassion | See file for details |
+| Data Analysis Visualization | `agent-data-analysis-visualization/SKILL.md` | expert data scientist with 10+ years | communication, data, design, development, process, research | See file for details |
+| Dev General Contractor | `agent-dev-general-contractor/SKILL.md` | Senior Software Engineer with 15+ years | communication, data, deployment, design, development, documentation | See file for details |
+| Dev Overseer | `agent-dev-overseer/SKILL.md` | Senior Development Manager and QA Engineer wi... | communication, data, deployment, design, development, documentation | See file for details |
+| Dev Worker | `agent-dev-worker/SKILL.md` | Senior Software Engineer with 10+ years of ex... | communication, data, debug, debugging, development, documentation | See file for details |
+| Document Analysis Audit | `agent-document-analysis-audit/SKILL.md` | Quality Assurance Specialist with 12+ years o... | communication, data, development, documentation, process, research | See file for details |
+| Financial Analysis Planning | `agent-financial-analysis-planning/SKILL.md` | Senior Financial Analyst with 15+ years | communication, data, deploy, deployment, design, development | See file for details |
+| Innovation Ideation | `agent-innovation-ideation/SKILL.md` | Creative Innovation Specialist with 15+ years... | data, design, development, documentation, process, research | See file for details |
+| Learning Knowledge Management | `agent-learning-knowledge-management/SKILL.md` | Learning & Knowledge Management specialist wi... | communication, data, design, development, documentation, process | See file for details |
+| Marketing Expert | `agent-marketing-expert/SKILL.md` | Senior Marketing Strategist with 25+ years of... | communication, data, design, development, documentation, process | See file for details |
+| Network Diagnostics Specialist | `agent-network-diagnostics-specialist/SKILL.md` | Network diagnostics | network, diagnostics, troubleshooting | See file for details |
+| Orchestrator | `agent-orchestrator/SKILL.md` | Master Agent Coordinator with 15+ years of ex... | communication, data, design, development, documentation, orchestrate | See file for details |
+| Manager Orchestrator | `agent-manager-orchestrator/SKILL.md` | Coordinates orchestrators at portfolio level | portfolio, hierarchy, multi-project, beacon, manager, coordination | See file for details |
+| Project Manager | `agent-project-manager/SKILL.md` | Project planning governor for chain completeness from plan to readiness packets, proposal/WO coverage, stale-workstream cleanup, and release gate checks. | planning, proposals, work-order-coverage, workstream-governance, gates, execution-readiness | Use when a single project needs a planning governance role that protects queue continuity and execution handoff readiness |
+| Project Steward / Master Steward | `agent-project-steward/SKILL.md` | Project Steward plus Master Steward overlay when `master` is prepended; monologue capture, project-local wisdom, private steward context, top-level strategic briefs, dependency mapping, work-order conversion, cross-project routing, and dispatch-locality decisions | project-steward, master-steward, project-advisor, project-supervisor, project-brief, steward-brief, monologue-capture, project-memory, work-orders, dependency-mapping | Use when a project needs durable stewardship inside one project root, or when top-level holistic stewardship is needed via Master Steward |
+| Project Liaison | `agent-project-liaison/SKILL.md` | Project-local front desk for grounded questions, request capture, work-order-backed relay, fast-lane WO markers, status briefs, and WO creation without clobbering Project Steward continuity files | project-liaison, project-desk, project-relay, q-and-a, request-capture, work-order-intake | Use when a project needs immediate owner-facing answers, communications relay through durable WOs, or project-local WO intake while the Steward remains the strategy and continuity owner |
+| Process Analysis Retrospective Quick | `agent-process-analysis-retrospective-quick/SKILL.md` | Senior Organizational Learning Architect | communication, data, design, development, documentation, process | See file for details |
+| Process Analysis Retrospective | `agent-process-analysis-retrospective/SKILL.md` | Senior Systems Analyst with 15+ years | communication, data, design, development, documentation, process | See file for details |
+| Process Design Optimization | `agent-process-design-optimization/SKILL.md` | Senior Process Engineer with 15+ years | communication, data, design, development, process, research | See file for details |
+| Project Coordinator (RETIRED) | `agent-project-coordinator/SKILL.md` | DEPRECATED 2026-07-12 - folded into `agent-project-manager` | deprecated, superseded | Do not activate. Use `agent-project-manager/SKILL.md` |
+| Research Analysis | `agent-research-analysis/SKILL.md` | expert researcher with 15+ years synthesizing | data, design, development, documentation, process, research | See file for details |
+| Research Gap Analysis | `agent-research-gap-analysis/SKILL.md` | Research Completeness Specialist with 15+ yea... | communication, data, design, development, documentation, process | See file for details |
+| External Research Prompt Engineer | `agent-external-research-prompt-engineer/SKILL.md` | Reviews/redesigns/authors research prompts pasted into frontier LLMs; scores against 12-primitive library; hunts validation-bait | adversarial-prompting, deep-research, external-llm, frame-discipline, prompt-engineering | See file for details |
+| Security Compliance | `agent-security-compliance/SKILL.md` | Senior Security Professional with 15+ years s... | communication, data, design, development, documentation, process | See file for details |
+| Software Product Builder | `agent-software-product-builder/SKILL.md` | veteran product development specialist with 2... | communication, data, deploy, deploying, deployment, design | See file for details |
+| Strategic Intelligence | `agent-strategic-intelligence/SKILL.md` | Strategic Intelligence agent with 15+ years o... | communication, data, design, development, documentation, process | See file for details |
+| Synthesis Integration | `agent-synthesis-integration/SKILL.md` | information architect with 12+ years | data, design, development, documentation, process, research | See file for details |
+| Testing Validation | `agent-testing-validation/SKILL.md` | Senior Quality Engineer with 15+ years specia... | communication, data, deployment, design, development, documentation | See file for details |
+| Tooling | `agent-tooling/SKILL.md` | Senior Architect and Implementation Specialis... | communication, data, design, development, documentation, process | See file for details |
+| Ux Design | `agent-ux-design/SKILL.md` | User Experience & Design Specialist with 12+ ... | communication, data, design, development, process, research | See file for details |
+| PA Maintenance | `agent-pa-maintenance/SKILL.md` | Senior Infrastructure Engineer for PA system diagnosis and repair | credentials, daemon, health-check, infrastructure, launchd, maintenance, ops, pa, token-rotation | See file for details |
+| PA QA Tester | `agent-pa-qa-tester/SKILL.md` | Adversarial QA tester for GAS Personal Assistant | adversarial, behavior, bug-finding, pa, qa, testing, tester | See file for details |
+| Paperclip Worker | `agent-paperclip-worker/SKILL.md` | Paperclip-managed heartbeat worker | heartbeat, managed, paperclip, worker | See file for details |
+| Mac Performance Diagnostics Specialist | `agent-mac-performance-diagnostics-specialist/SKILL.md` | macOS performance troubleshooting and optimization | cpu, diagnostics, disk, fan, gpu, macos, memory, performance, thermal | See file for details |
+| Blocker Supervisor | `agent-blocker-supervisor/SKILL.md` | Cross-project blocker router, identifies intent and dispatches to catalog/resolution/registry/inspection (advisor by default) | blocker, dispatch, intent, portfolio, registry, router, supervisor | See file for details |
+| Blocker Cataloger | `agent-blocker-supervisor-cataloger/SKILL.md` | Cross-project blocker scanner, generates per-project and master indexes (scanner only) | blocker, catalog, cataloger, cross-project, index, scan, scanner, stale | See file for details |
+| Blocker Unblocker | `agent-blocker-supervisor-unblocker/SKILL.md` | Blocker resolution supervisor, claims idle blockers and attempts resolution (resolver only) | blocker, claim, engineer, idle, playbook, resolve, resolver, unblock | See file for details |
+
+## Usage Examples
+
+### Direct Reference
+```markdown
+I need agent-orchestrator to design a multi-agent workflow for this project.
+```
+
+### CLI/Script Usage
+```bash
+# Find all development agents
+ls ~/.agents/prompts/agents/agent-dev-*/SKILL.md
+
+# Search for agents by keyword
+grep -l "research\|investigation" ~/.agents/prompts/agents/agent-*/SKILL.md
+
+# Count total agents
+ls -1 ~/.agents/prompts/agents/agent-*/SKILL.md | wc -l
+```
+
+### Programmatic Discovery
+```python
+# Example: Load agent metadata
+import os
+import yaml
+
+def get_agent_metadata(agent_name):
+    path = f"~/.agents/prompts/agents/{agent_name}/SKILL.md"
+    with open(os.path.expanduser(path)) as f:
+        # Parse YAML front matter if present
+        content = f.read()
+        if content.startswith('---'):
+            yaml_end = content.find('---', 3)
+            metadata = yaml.safe_load(content[3:yaml_end])
+            return metadata
+    return None
+```
+
+---
+
+## File Organization
+
+```
+~/.agents/prompts/agents/
+├── README.md                                    # Human-readable catalog
+├── AGENT-INDEX.md                               # This file - searchable index
+├── _agent-format-guide.md                       # Format specification
+│
+├── agent-zero/SKILL.md                                  # Meta-Hierarchy (Layer 0) — Agent Zero
+├── agent-assistant/SKILL.md                            # Hierarchy (Layer 1)
+├── agent-blueprint-keeper/SKILL.md                    # Hierarchy (Layer 2)
+├── agent-request-router/SKILL.md                     # Hierarchy (Layer 3)
+├── agent-gas-manager/SKILL.md                         # Hierarchy (Layer 4)
+├── agent-orchestrator/SKILL.md                        # Strategic
+├── agent-manager-orchestrator/SKILL.md                # Hierarchy (manages orchestrators)
+├── agent-chief-of-staff/SKILL.md
+├── agent-chief-reality-officer/SKILL.md
+├── agent-strategic-intelligence/SKILL.md
+│
+├── agent-project-coordinator/SKILL.md                 # RETIRED -> agent-project-manager
+├── agent-project-steward/SKILL.md                    # Project continuity
+├── agent-project-liaison/SKILL.md                    # Project front desk and WO-backed relay
+├── agent-process-design-optimization/SKILL.md
+├── agent-process-analysis-retrospective/SKILL.md
+├── agent-process-analysis-retrospective-quick/SKILL.md
+│
+├── agent-research-analysis/SKILL.md                   # Research
+├── agent-research-gap-analysis/SKILL.md
+│
+├── agent-dev-worker/SKILL.md                          # Development
+├── agent-dev-overseer/SKILL.md
+├── agent-dev-general-contractor/SKILL.md
+├── agent-software-product-builder/SKILL.md
+│
+├── agent-testing-validation/SKILL.md                  # Quality
+├── agent-security-compliance/SKILL.md
+├── agent-tooling/SKILL.md
+│
+├── agent-content-crafting-alignment/SKILL.md          # Content
+├── agent-communication-stakeholder/SKILL.md
+├── agent-creative-writer-spiritual/SKILL.md
+├── agent-marketing-expert/SKILL.md
+│
+├── agent-data-analysis-visualization/SKILL.md         # Specialized
+├── agent-financial-analysis-planning/SKILL.md
+├── agent-ux-design/SKILL.md
+├── agent-document-analysis-audit/SKILL.md
+├── agent-learning-knowledge-management/SKILL.md
+├── agent-synthesis-integration/SKILL.md
+├── agent-innovation-ideation/SKILL.md
+├── agent-network-diagnostics-specialist/SKILL.md
+├── agent-paperclip-worker/SKILL.md                  # Paperclip-managed heartbeat worker
+└── agent-pa-maintenance/SKILL.md                    # PA infrastructure maintenance
+```
+
+---
+
+## Maintenance Notes
+
+### Adding New Agents
+1. Create agent package: `agent-[name]/SKILL.md`
+2. Include YAML front matter with name, description, model, color
+3. Update this index with new entry
+4. Update README.md category section
+5. Commit with message: `feat: add agent-[name]`
+
+### Updating Agents
+1. Modify `agent-[name]/SKILL.md`
+2. Update index metadata if capabilities change
+3. Update `Last Updated` timestamp in this file
+4. Commit with message: `feat: update agent-[name] - [change description]`
+
+### Validation
+```bash
+# Verify all agents listed in index exist
+for agent in $(grep -o 'agent-[a-z-]*/SKILL.md' AGENT-INDEX.md | sort -u); do
+  [ -f "$agent" ] && echo "✓ $agent" || echo "✗ MISSING: $agent"
+done
+
+# Check for agents not in index
+comm -23 <(find . -maxdepth 2 -path './agent-*/SKILL.md' -print | sed 's#^\./##' | sort) <(grep -o 'agent-[a-z-]*/SKILL.md' AGENT-INDEX.md | sort -u)
+```
+
+---
+
+**Index Version:** 1.0
+**Schema:** searchable-metadata-v1
+**Compatibility:** Claude Code, Cursor, CLI tools

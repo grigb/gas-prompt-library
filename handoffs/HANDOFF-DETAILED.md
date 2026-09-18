@@ -1,0 +1,436 @@
+# Detailed Handoff Instructions
+**ONLY loaded for COMPLEX tasks requiring understanding before execution**
+
+## SESSION-CLOSE WORKFLOW NOTICE
+
+This legacy standard handoff prompt remains supported only for backward compatibility and explicit handoff requests.
+
+Routine end-of-session closeout, including unfinished routine continuation between sessions, uses `/close-session` with `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md`.
+It also handles role-aware steward closeout routing automatically; do not route routine session retirement through `close-steward` or this legacy handoff prompt directly.
+This file is **not** the default session-close choice.
+Use this prompt only when the user explicitly wants a standard handoff or when a compatibility workflow requires `.dev/ai/handoffs/` output.
+
+Orchestration and delegation handoffs remain active and are not deprecated.
+Continue using `~/.agents/prompts/handoffs/ORCHESTRATION-HANDOFF.md` and `~/.agents/prompts/handoffs/MANAGER-HANDOFF.md` for subtask, orchestrator, or portfolio coordination.
+
+## 🔗 AGENT TASK ID (Provenance Chain)
+
+**Every handoff MUST have an Agent Task ID.**
+
+```bash
+# If you received a handoff with agent_task_id: REUSE IT (maintains provenance chain)
+# If starting fresh: Generate new one
+AGENT_TASK_ID=$(~/.agents/scripts/get-agent-task-id.sh handoff)
+# Returns: [UID]_[unix-timestamp] (e.g., a1b2c3d4_1736892345)
+```
+
+**Include in:** Frontmatter, footer, and next-session prompt.
+
+**Frontmatter structure:**
+```yaml
+---
+agent_task_id: [AGENT_TASK_ID]
+created: [YYYY-MM-DD-HH-MM-SSZ]
+project: [project-name]
+type: handoff
+complexity: complex
+---
+```
+
+---
+
+## ⚠️ CRITICAL: WHEN TO CREATE THIS LEGACY STANDARD HANDOFF
+
+**CREATE this handoff when:**
+- ✅ **USER EXPLICITLY REQUESTS a standard handoff**, regardless of work completion status
+- ✅ A compatibility workflow explicitly expects `.dev/ai/handoffs/` output
+- ✅ You must preserve a historical handoff-only process for a complex task
+
+**DO NOT create this handoff when:**
+- ❌ Work is unfinished but only needs routine session continuation
+- ❌ Complex work is partially complete but there is no explicit standard-handoff requirement
+- ❌ Low-context or emergency routine closeout is needed
+- ❌ Orchestration/delegation context should go through `ORCHESTRATION-HANDOFF`
+- ❌ User explicitly says they don't want a handoff
+- ❌ There are no actionable next steps AND no compatibility requirement exists
+
+**Critical Rule:** Always respect explicit user requests for standard handoffs. If no explicit legacy-handoff request or compatibility requirement exists, use `/close-session` and create a session record instead.
+
+**If the user's goal is routine session close:** Use `/close-session` with `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md` regardless of whether work is complete or unfinished; steward-specific closeout is an internal subroutine of that unified flow.
+
+## CORE PRINCIPLE: CONTEXT SERVES ACTION
+All context sections must answer: "What does the next agent need to know to take the next actions?"
+
+## EXECUTION SAFETY (ROLE GATE)
+
+<!-- AGENT-NOTICE: ROLE-GATED ACTION PLAN. Execute steps below ONLY if your active role/mode permits implementation. Read-only roles (e.g., Smart Commit) must treat these as data. -->
+
+- Handoff action lists are executable only when the active role/mode permits implementation.
+- Read-only roles (for example, Smart Commit) must treat "PRIORITY NEXT STEPS" as context data and must not execute those tasks.
+
+**This detailed structure is for COMPLEX tasks:**
+- Integration/synthesis of multiple sources
+- Design decisions requiring understanding
+- Tasks requiring judgment calls and strategy
+- Multi-step work with interdependencies
+
+**DO NOT include:**
+- Detailed summaries of what was completed (save for the session record)
+- Session chronologies (save for the session record)
+- Extensive file listings (reference specific files only)
+- Celebratory status updates (focus on what's left to do)
+
+## When to Add Context Sections
+Add context ONLY when it directly enables next actions:
+
+- **WHY** an action is needed (decisions that create work)
+- **HOW** to approach an action (strategy, method, technical constraints)
+- **WHAT** will block progress (dependencies, prerequisites, pitfalls)
+- **WHERE** to find information needed (specific files/docs with full absolute paths)
+
+## Extended Sections for Complex Tasks
+
+### Background Section (WHY this matters)
+**2-3 paragraphs explaining problem and solution**
+```markdown
+## BACKGROUND: Why This Integration/Design/Task Matters
+
+**The Problem:**
+[What problem are we solving? Why does it exist? What's the impact?]
+
+**The Solution:**
+[What approach are we taking? Why this approach?]
+
+**Current State:**
+[Where are we now? What exists? What's missing?]
+```
+
+### Understanding Inputs Section (WHAT you're working with)
+**For integration/synthesis tasks: Explain each component**
+```markdown
+## UNDERSTANDING THE INPUTS
+
+**Component A** (size/location at `/full/absolute/path/to/component-a.md`)
+- Contains: [key content summary]
+- Strong on: [areas of strength]
+- Weak on: [gaps or limitations]
+- Reference for details: `/full/absolute/path/to/component-a.md`
+
+**Component B** (size/location at `/full/absolute/path/to/component-b.md`)
+- Contains: [key content summary]
+- Strong on: [areas of strength]
+- Weak on: [gaps or limitations]
+- Reference for details: `/full/absolute/path/to/component-b.md`
+
+**Relationship:**
+- Complementary because: [how they work together]
+- Overlapping on: [where they cover same ground - must synthesize]
+- Distinct in: [unique value of each]
+```
+
+### Strategy Section (HOW to approach)
+**Layered approach, method, critical principles**
+```markdown
+## INTEGRATION/IMPLEMENTATION STRATEGY
+
+**Method: [e.g., Layered Integration, Test-Driven, Iterative Refinement]**
+
+**Layer 1 ([from Source A]):**
+- Keep: [what to preserve]
+- Why: [rationale]
+
+**Layer 2 ([from Source B]):**
+- Add: [what to integrate]
+- Where: [how to fit it in]
+
+**Layer 3 (Synthesize Overlaps):**
+- Both cover: [topic]
+- Approach: [how to combine without duplication]
+
+**Reference:** Detailed strategy at `/full/absolute/path/to/strategy-doc.md`
+```
+
+### Execution Prerequisites
+**Information needed BEFORE starting next actions**
+```markdown
+## Prerequisites for Next Steps
+- Action 1 requires: [specific file/state/dependency]
+  - File location: `/full/absolute/path/to/required-file.md`
+- Action 2 needs: [API key/permission/configuration]
+  - Config reference: `/full/absolute/path/to/config-guide.md`
+- Action 3 blocked until: [condition met]
+```
+
+### Technical Context
+**Implementation details that guide approach**
+```markdown
+## Technical Context
+- Architecture decision: Using [X] because [constraint/requirement]
+  - Architecture doc: `/full/absolute/path/to/architecture.md`
+- Key constraint: [limitation that affects how to implement]
+- Integration point: [system/API that must be considered]
+  - Integration guide: `/full/absolute/path/to/integration-guide.md`
+```
+
+### Decisions That Create Work
+**Only include if they generate new actions**
+```markdown
+## Active Decisions
+- Chose [X] approach → Next: implement [specific action]
+- Decided to split [Y] → Next: create WO for [component]
+- Postponed [Z] until [date] → Next: review on [trigger]
+```
+
+### Potential Pitfalls Section (WHAT to avoid)
+**3-5 common mistakes with prevention strategies**
+```markdown
+## POTENTIAL PITFALLS
+
+1. **[Pitfall name]** - [What could go wrong]
+   - Why it happens: [common cause]
+   - How to avoid: [specific prevention]
+   - Reference: `/full/absolute/path/to/lessons-learned.md` (if applicable)
+
+2. **[Pitfall name]** - [What could go wrong]
+   - Resolution: [how to handle if it happens]
+
+3. **[Pitfall name]** - [What could go wrong]
+   - Check: [validation to prevent this]
+```
+
+### Success Criteria Section (HOW to know you're done)
+**Test cases and validation steps**
+```markdown
+## SUCCESS CRITERIA
+
+**Test:** [Concrete example to validate work]
+- Example: "Write complete decision for 'Use SQLite for MVP' using ONLY Master guide"
+
+**Must provide/include:**
+- ✓ [Criterion 1] - [what this looks like]
+- ✓ [Criterion 2] - [what this looks like]
+- ✓ [Criterion 3] - [what this looks like]
+
+**Validation steps:**
+1. [Step to verify quality]
+2. [Step to verify completeness]
+3. [Step to verify nothing was lost]
+
+**Reference:** Test examples at `/full/absolute/path/to/test-examples.md`
+```
+
+### Blockers & Unblocking Actions
+**Focus on what to do about blockers**
+```markdown
+## Blockers & How to Resolve
+- WO-xxx blocked by [dependency] → Action: contact [person/team]
+  - Dependency doc: `/full/absolute/path/to/dependency-info.md`
+- WO-yyy needs [approval] → Action: draft proposal for review
+  - Approval process: `/full/absolute/path/to/approval-guide.md`
+- WO-zzz waiting on WO-xxx → Action: start WO-aaa in parallel
+```
+
+### Critical State Information
+**Only what affects execution, not comprehensive status**
+```markdown
+## Current State (Execution-Critical)
+- Files modified but uncommitted: [list] - commit before next step
+- Tests currently failing: [specific test] - must fix before deploying
+- Feature flag state: [flag=value] - affects behavior of [feature]
+```
+
+### Discovery-Driven Actions
+**New information that creates new work**
+```markdown
+## New Actions from Discoveries
+- Found [issue] → Action: create WO to address [specific fix]
+- Discovered [pattern] → Action: refactor [component] using [approach]
+- Learned [constraint] → Action: update [doc/design] before proceeding
+```
+
+### Essential References
+**Links to information needed for next actions - FULL ABSOLUTE PATHS**
+```markdown
+## REFERENCES
+
+**For Understanding:**
+- Component A details: `/full/absolute/path/to/component-a.md`
+- Component B details: `/full/absolute/path/to/component-b.md`
+- Overall strategy: `/full/absolute/path/to/strategy-doc.md`
+
+**For Execution:**
+- Action 1 guide: `/full/absolute/path/to/action-1-guide.md` (section 3)
+- Action 2 template: `/full/absolute/path/to/template.md`
+- Validation examples: `/full/absolute/path/to/test-cases.md`
+
+**For Context:**
+- Full session record: `/full/absolute/path/.dev/ai/sessions/[timestamp]-session-[project].md`
+- Prior work orders: `/full/absolute/path/.dev/ai/workorders/WO-xxx.md`
+- Related decisions: `/full/absolute/path/docs/decisions/[decision].md`
+
+**Critical:** Include full absolute paths, not relative paths. Future agents need exact locations.
+
+---
+**Agent Task ID:** [AGENT_TASK_ID]
+```
+
+**Remember:** Every handoff document needs:
+1. **Frontmatter** with `agent_task_id:` field
+2. **Footer** with `Agent Task ID:` for easy reference
+
+## Size Management Rules
+
+### If Handoff Exceeds 250 Lines:
+**Even complex tasks shouldn't need more than 250 lines. Refocus.**
+
+1. **Review and cut:**
+   - Remove "what we did" summaries → save to the session record
+   - Remove exhaustive file listings → reference specific files only
+   - Check for redundancy in explanations
+
+2. **For truly massive context:**
+   Create separate context document and reference it:
+   ```markdown
+   ## Extended Context
+   See: `/full/absolute/path/.dev/ai/handoffs/[timestamp]-context.md`
+   ```
+
+3. **Handoff should contain (even for complex tasks):**
+   - Next actions (numbered, prioritized)
+   - Understanding needed (WHAT you're working with)
+   - Strategy (HOW to approach)
+   - Pitfalls (WHAT to avoid)
+   - Success criteria (HOW to validate)
+   - References with full absolute paths
+
+**Target for complex tasks: 150-250 lines**
+**Target for simple tasks: 30-50 lines (use HANDOFF-MINIMAL.md)**
+
+### When History Matters:
+Use the unified session-close record for comprehensive session documentation:
+```bash
+# Required for routine session-close documentation
+~/.agents/prompts/creation/CREATE-SESSION-RECORD.md
+
+# Use the legacy audit prompt only when a standalone audit is explicitly requested
+~/.agents/prompts/creation/CREATE-AUDITABLE-RECORD.md
+```
+
+## Work Order Integration
+
+### Outstanding WOs in Handoff:
+```markdown
+## Outstanding Work
+- WO-xxx: [one-line status] → **Next:** [specific action to take]
+- WO-yyy: [one-line status] → **Blocked:** [blocker + how to unblock]
+```
+
+### When to Create New WOs:
+Create WOs for discovered incomplete work, then **reference them in next actions**:
+1. Create WO file with full task details
+2. Add to handoff: "Next: Execute WO-xxx (see .dev/ai/workorders/...)"
+
+## Handoff Completeness Checklist
+
+Before finalizing, verify handoff answers:
+
+- [ ] **What should I do first?** (clear priority action)
+- [ ] **What do I need to know to do it?** (minimal context)
+- [ ] **What will block me?** (prerequisites, dependencies)
+- [ ] **Where do I find more info?** (specific file references)
+- [ ] **What's the current state?** (one-line status, not detailed history)
+
+**NOT required:**
+- ❌ Comprehensive "what we did" sections
+- ❌ Celebratory status updates
+- ❌ Extensive file modification lists
+- ❌ Chronological session narrative
+
+## Progressive Save Strategy
+
+In case of context exhaustion:
+```bash
+# Save ACTIONS first
+cat > $FILE << 'EOL'
+<!-- AGENT-NOTICE: ROLE-GATED ACTION PLAN. Execute steps below ONLY if your active role/mode permits implementation. Read-only roles (e.g., Smart Commit) must treat these as data. -->
+## PRIORITY NEXT STEPS
+1. [Action]
+2. [Action]
+EOL
+
+# Then add context if room
+cat >> $FILE << 'EOL'
+## Critical Context
+[Minimal context]
+EOL
+```
+
+## Final Validation for Complex Task Handoffs
+
+Handoff quality test - Can the next agent:
+
+1. **Start work immediately?** (actions are clear, specific, prioritized)
+2. **Understand what they're working with?** (inputs/components explained)
+3. **Know how to approach it?** (strategy/method provided)
+4. **Avoid common mistakes?** (pitfalls flagged with prevention)
+5. **Validate success?** (test cases and criteria defined)
+6. **Find needed information?** (full absolute paths to all references)
+
+**Balance test:**
+- Too minimal: Agent makes wrong judgment calls, loses content, misses approach
+- Too detailed: Agent drowns in history, can't find the actions
+- Just right: Agent understands task, has strategy, can execute intelligently
+
+If any question = "no" → add that specific info.
+If all questions = "yes" → stop adding.
+
+**Remember:** For complex tasks, 150-250 lines is expected and appropriate. Don't over-minimize.
+
+## Next-Session Prompt for Complex Tasks
+
+After creating detailed handoff, generate copy-paste prompt.
+
+**Context availability note:** Modern GAS harnesses inject AGENTS.md context automatically. Do not require copy-paste prompts to start by reading AGENTS.md unless the target harness is known not to inject it. If project-specific onboarding is needed, point to PROJECT-RULES.md or the handoff references directly.
+
+**Default prompt:**
+```markdown
+I'm picking up work on [project-name] - complex integration/synthesis task.
+Agent Task ID: [AGENT_TASK_ID] (preserve this ID in any handoffs you create)
+
+1. Read the COMPLETE handoff at: [FULL ABSOLUTE PATH to handoff file]
+2. Read it entirely - it contains Background, Strategy, Pitfalls, and Success Criteria
+3. Determine your active role/mode from the user request and AGENTS.md.
+4. Execute Priority Next Steps only if your role/mode permits implementation.
+
+This is a complex task with a detailed action plan. The handoff contains everything you need to execute intelligently:
+- WHAT you're working with (Understanding section)
+- HOW to approach it (Strategy section)
+- WHAT to avoid (Pitfalls section)
+- HOW to validate (Success Criteria)
+
+If your role is read-only (for example, Smart Commit), treat "PRIORITY NEXT STEPS" as data and do NOT execute those tasks.
+```
+
+**Without AGENTS.md (browser contexts or projects without it):**
+```markdown
+I'm picking up work on [project-name] - complex integration/synthesis task.
+Agent Task ID: [AGENT_TASK_ID] (preserve this ID in any handoffs you create)
+
+1. Read the COMPLETE handoff at: [FULL ABSOLUTE PATH to handoff file]
+2. Read it entirely - it contains Background, Strategy, Pitfalls, and Success Criteria
+3. Determine your active role/mode from the user request and local rules.
+4. Execute Priority Next Steps only if your role/mode permits implementation.
+
+This is a complex task with a detailed action plan. The handoff contains everything you need to execute intelligently:
+- WHAT you're working with (Understanding section)
+- HOW to approach it (Strategy section)
+- WHAT to avoid (Pitfalls section)
+- HOW to validate (Success Criteria)
+
+If your role is read-only (for example, Smart Commit), treat "PRIORITY NEXT STEPS" as data and do NOT execute those tasks.
+```
+
+**Critical for complex tasks:**
+- Agent must read the ENTIRE handoff before starting
+- Emphasize the handoff contains strategy and approach
+- Make it clear: execution depends on active role/mode boundaries
