@@ -528,6 +528,7 @@ native Google Doc, or Markdown—and does not create a package or companion arti
 |----------------|---------------|-------------|
 | `commit agent` | `~/.agents/modes/SMART-COMMIT-MODE.md` | Smart commit mode |
 | `smart commit` | `~/.agents/modes/SMART-COMMIT-MODE.md` | Intelligent commit grouping |
+| `hold global commit`, `pause global commit`, `release global commit hold` | `~/.agents/scripts/global-commit-hold.sh` | Global Commit brake for one project: `on <path> --reason "<text>"`, `off <path>`, `status <path>`, `list`. Listed before `global commit` so it matches first. |
 | `global commit` | `~/.agents/docs/overviews/GLOBAL-COMMIT-VARIANT.md` | Registry-driven cross-project parallel commit dispatch. Does NOT load base SMART-COMMIT-MODE.md — the overlay is self-contained for the master role; workers get their own prompt. |
 | `you are the global commit agent` | `~/.agents/docs/overviews/GLOBAL-COMMIT-VARIANT.md` | Explicit role activation for global commit |
 | `commit all projects` | `~/.agents/docs/overviews/GLOBAL-COMMIT-VARIANT.md` | Explicit role activation for global commit |
