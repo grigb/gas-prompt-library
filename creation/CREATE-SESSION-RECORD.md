@@ -193,6 +193,27 @@ drafting. First apply Concurrent Control-Lane Closeout Safety above: establish
 the current lane and its unique record path before any write, including a
 recovery cursor. This step edits no transcript and changes no session lifecycle.
 
+### 0. Choose the recovery depth first
+
+The session's own agent does this step. Never dispatch a worker or subagent to
+read the session's history: a worker holds none of the session, so it reads all
+of it, which is the cost this step must avoid.
+
+- **Depth A, nothing lost:** you can see the session's first owner message, and
+  your context shows no compaction summary, continuation notice, resumed start,
+  or rotated transcript segment. Skip the raw read. Record coverage `in-context`
+  and the signal checked. Example: a Claude Code session that never compacted.
+- **Depth B, context lost (compaction, resume, or rotation):** read only the
+  lost span, from the session's start to where the current context begins, and
+  only what reconciliation needs: owner messages, decisions and corrections,
+  files written, and dispatches. Filter the records (for example, user messages,
+  assistant text, and tool calls, skipping bulky tool results) instead of
+  reading every record. Steps 1 to 5 apply to that span.
+- **Depth C, unsure:** do Depth B for the owner messages only.
+
+Signals differ by harness; name the one checked. Do not assume a harness
+behaviour that was not observed.
+
 ### 1. Find and verify this session's raw source
 
 Prefer an absolute transcript path or exact current session ID exposed by native
@@ -275,6 +296,7 @@ exact per-source ranges/cutoffs, inherited boundaries, and gaps with reasons.
 `complete` requires continuous raw-record reading from the start to the cutoff
 with no missing content. Pruned, summary-only, truncated, or unread portions
 mean `partial`; no verified readable raw source means `unavailable`.
+`in-context` means Depth A: no raw read was needed, and the signal is recorded.
 
 Save a useful record even with incomplete recovery. State the coverage limit in
 `STATE -> Open Questions and Risks` and give an exact recovery next step in
@@ -597,7 +619,7 @@ session_history_harness: [current harness or unknown-not-provided]
 session_history_id: [verified current session ID or unknown-not-provided]
 session_history_source_paths: [array of verified absolute source paths, or []]
 session_history_recovered_at: [YYYY-MM-DDTHH:MM:SSZ]
-session_history_coverage: [complete|partial|unavailable]
+session_history_coverage: [in-context|complete|partial|unavailable]
 session_history_provenance: "BACKWARD -> Session-History Recovery"
 source_closeout_prompt_path: ~/.agents/prompts/creation/CREATE-SESSION-RECORD.md
 steward_subroutine_path: [absolute path or None]
@@ -860,7 +882,7 @@ session_history_harness: [current harness or unknown-not-provided]
 session_history_id: [verified current session ID or unknown-not-provided]
 session_history_source_paths: [array of verified absolute source paths, or []]
 session_history_recovered_at: [YYYY-MM-DDTHH:MM:SSZ]
-session_history_coverage: [complete|partial|unavailable]
+session_history_coverage: [in-context|complete|partial|unavailable]
 session_history_provenance: "BACKWARD -> Session-History Recovery"
 source_closeout_prompt_path: ~/.agents/prompts/creation/CREATE-SESSION-RECORD.md
 steward_subroutine_path: [absolute path or None]
@@ -1100,7 +1122,7 @@ supported relay path exists.
 
 Confirm all of the following:
 - file path is under `.dev/ai/sessions/`
-- **History recovery ran before role routing/capture:** verified raw sources were read continuously to their stated cutoffs, or gaps and partial/unavailable coverage are explicit; frontmatter points to the ranges and recovery cursor in BACKWARD
+- **History recovery ran before role routing/capture:** verified raw sources were read continuously to their stated cutoffs, or Depth A was recorded with its in-context signal, or gaps and partial/unavailable coverage are explicit; frontmatter points to the ranges and recovery cursor in BACKWARD
 - **History reconciliation held:** original intent and later corrections were combined with current context; STATE exposes incomplete recovery and FORWARD carries any exact recovery next step; private raw content and other lanes' later work were not copied
 - **Artifact-only default held:** no visible task was renamed, archived, closed,
   moved, created, forked, handed off, or replaced unless a separate explicit
