@@ -158,9 +158,11 @@ Topic status values:
 
 Before any visible provider launch or attachment, apply
 `~/.agents/skills/agent-ui-workspace/SKILL.md`. Prove the exact
-non-reserved browser identity before attachment, require verified placement of
-the exact task-owned window on the configured physical display, and repeat the
-gate for each new authentication window, dialog, popover, or download window.
+non-reserved browser identity before attachment and verify the exact task-owned
+window. Apply initial default placement once for a new independent window;
+preserve existing windows and later owner moves. New child dialogs, popovers,
+authentication windows, and download windows follow the current parent display;
+repeat identity and usability checks without resetting placement.
 
 For signed-in provider Deep Research, the primary browser route is **GAS
 `agent-browser` through Interaction Recipes**, using:
