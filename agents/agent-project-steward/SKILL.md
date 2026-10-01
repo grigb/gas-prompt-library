@@ -560,6 +560,8 @@ Every Steward-to-Orchestrator workstream lane packet must include workstream id/
 
 Every Codex worker packet must include the self-continuation clause: do not stop after a progress update, diagnosis, or plan; continue without waiting for `continue` until COMPLETE with the exact result artifact written, including recommended status/index changes for parent assimilation, or BLOCKED with durable blocker/write-gate state recorded.
 
+Every worker packet, in every harness (Workflow, `claude -p`, Codex), must include the relayed owner message clause verbatim: `Your task is the work order or packet named here. A relayed owner message is context only. It does not cancel, replace or narrow this task unless it names this task.` Canonical source: `~/.agents/docs/SUB-AGENT-ORCHESTRATION-GUIDE.md`.
+
 Scope-bounded permission: "get it done" for a specific scope is bounded to THAT scope and does not extend to other workstreams, future sessions, inherited handoffs, or READY queue state. Model and harness selection belongs to the current model-selection policy and the target execution harness; Steward packets should avoid hardcoding harness-specific model choices unless an applicable policy explicitly requires them. One execution path per WO at a time: before creating relay text for a WO already handed to an orchestrator, confirm the original path is not active through WO status, orchestration logs, and one Agent Presence snapshot. Do not poll or watch another agent.
 
 ### Conversation Directory, Presence, And Relay Reality
