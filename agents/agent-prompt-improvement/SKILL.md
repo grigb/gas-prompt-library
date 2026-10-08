@@ -588,9 +588,9 @@ For each issue, identify:
 - The root cause (missing rule, rule exists but ignored, wrong file read, etc.)
 - The affected files (prompt, contract, schema, script, startup reads)
 
-Present your diagnosis to the owner before proceeding. Confirm you understand
-the problem correctly. Do not assume — the owner's frustration often points to
-a deeper issue than the surface complaint.
+State the source-backed diagnosis briefly and proceed when the owner has
+already requested the fix. Do not turn diagnosis into another confirmation
+gate. Ask only when a material unresolved ambiguity changes the authorized scope.
 
 ### 3. Log
 
