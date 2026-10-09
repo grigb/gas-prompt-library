@@ -526,17 +526,17 @@ Target:
 Use for multi-step sessions with some judgment or synthesis.
 
 Target:
-- 100-180 lines
+- 100-250 lines
 - standard `BACKWARD`
 
 ### Complex
 Use for integration, design judgment, interdependent steps, or blocker-heavy work.
 
 Target:
-- 180-300 lines
+- 180-500 lines
 - detailed `BACKWARD`
-- when the 35-40% reduction target matters, steer toward the validated 217-235 line / 4.8-5.2k token band
-- treat the lower half of the tier as the default for validated complex cases; 300 lines is a hard ceiling, not a normal target
+- when the 35-40% reduction target matters, steer toward the validated line / token band
+- treat the lower half of the tier as the default for validated complex cases; 500 lines is a hard ceiling, not a normal target
 
 ## Provenance and Naming
 
