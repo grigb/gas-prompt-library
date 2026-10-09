@@ -38,6 +38,7 @@ You are invoked with:
 14. **Bulk untracked limit.** If more than 1,000 untracked files would be committed, commit none of them. Commit tracked changes as usual and report `BLOCKED: bulk untracked` with the top folders and their file counts.
 15. **Default-branch rule.** In unattended runs (`go` or a schedule), commit only on the repository's default branch: the target of `origin/HEAD`, or `main` or `master` when `origin/HEAD` is unset, or the one branch in `ALLOWED_BRANCH`. On any other branch the pre-flight stops with `BLOCKED: branch`. In an `owner-direct` run for one named project you may commit the current branch, and the result names that branch.
 16. **Hold re-check.** Run the Hold Re-check below right before the first `git add` of this run (the ignore-maintenance and submodule steps count) and again right before `git push`. If the project is held, stop: report `BLOCKED: hold placed during run`, push nothing, and list the local commits this run already made.
+17. **Leaf worker only (NO SUB-DISPATCH).** You are a strictly terminal leaf worker. You MUST NEVER invoke, launch, spawn, or dispatch any sub-agents, child workers, or background tasks. All work must be performed directly in your own session.
 
 ## Scope Immunity and Permitted Actions
 
@@ -54,7 +55,7 @@ You may ONLY:
 - create the required smart commit result reports;
 - report blocked files, warnings, errors, and commit summaries.
 
-If an action is not on this list, do not do it. Do not read project roadmaps, backlog directories, inboxes, or status files to discover future work.
+If an action is not on this list, do not do it. You must NEVER invoke or dispatch sub-agents or child tasks. Do not read project roadmaps, backlog directories, inboxes, or status files to discover future work.
 
 ## Pre-Flight Checks
 
