@@ -9,6 +9,7 @@
 | CREATE-WORK-PROPOSAL | `~/.agents/prompts/creation/CREATE-WORK-PROPOSAL.md` |
 | CREATE-AUDITABLE-RECORD | `~/.agents/prompts/creation/CREATE-AUDITABLE-RECORD.md` |
 | CREATE-SESSION-RECORD | `~/.agents/prompts/creation/CREATE-SESSION-RECORD.md` |
+| SESSION-RECLAMATION | `~/.agents/skills/session-reclamation/SKILL.md` (Multi-Harness Session Reclamation and Backlog Closeout; fresh-session resume) |
 | CREATE-FEATURE-REQUEST | `~/.agents/prompts/creation/CREATE-FEATURE-REQUEST.md` |
 | CREATE-EXEMPLARY-PROJECT-STATE-PACK | `~/.agents/prompts/creation/CREATE-EXEMPLARY-PROJECT-STATE-PACK.md` |
 | CREATE-EXEMPLARY-PROJECT-STATE-PACK-LAN | `~/.agents/prompts/creation/CREATE-EXEMPLARY-PROJECT-STATE-PACK-LAN.md` |
