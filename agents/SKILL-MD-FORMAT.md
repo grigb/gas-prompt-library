@@ -62,33 +62,16 @@ metadata:
 ---
 ```
 
-## Computer-Use Category Precedent
+## Model-And-Effort Precedent
 
-Every prompt that owns an autonomous launch primitive, an orchestration role,
-or its own exposed routing rung must carry complete consequence-first
-`classify => select => bind => prove` guidance. Classification runs freshly on
-the exact child WO or immutable hashed non-WO packet; a direct owner override is
-post-classification; selection runs freshly for the current harness; its two
-tokens bind independently to the live registry's child model and effort
-controls; and returned child-effective evidence, not launch arguments alone,
-supports per-axis `enforced`, `requested-not-proven`, or `unsupported`. Default bounded reasoning to 3 with normal verification; final consequential
-authority sets floor 4; exceptional 5 needs a reviewed justification. Require
-self-or-children target scope for owner overrides; parent-turn preferences do
-not transfer. Reclassify meaningful phases and downshift when reasoning settles.
-Prompts
-without those responsibilities must not be given launch-only requirements.
-
-Every dispatch-capable prompt must carry the canonical `computer-use` task-
-shape instruction: a separate Worker doing repetitive, tool-intensive full QA,
-end-to-end walkthroughs, dogfood runs, or similar computer/browser execution
-with defined acceptance criteria may invoke `--category computer-use --surface <verified-surface>` only on
-an already-authorized Codex surface whose live allowlist proves the target is
-addressable. The category target is policy-owned; do not hardcode its native
-model ID. It is excluded from coding, diagnosis, implementation,
-architecture, security, legal/medical, high-stakes judgment, and ambiguous
-research; it changes only model+effort selection and never authorizes a
-provider/harness switch. If the surface is not addressable, use the ordinary
-same-harness route.
+Every prompt that launches workers or owns an orchestration role carries one
+short paragraph that points to "Model And Effort Selection" in
+`~/.agents/AGENTS.md`: the owner's word first, successors inherit, otherwise
+`select-model.sh --kind <kind>` advises from `~/.agents/config/model-roster.yaml`;
+tooling gaps never stop work; the hard stops are `banned` models, `owner-only`
+models the owner did not name, and app or provider switches without owner
+approval; one record line per launch. Never name a model in a prompt. Prompts
+without launch responsibilities do not get launch-only text.
 
 ## Body
 
