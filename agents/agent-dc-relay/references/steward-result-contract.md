@@ -24,7 +24,7 @@ lifecycle:
   cycle_count: 100
   max_relay_cycles: 100
   relay_thread_id: codex-thread-old-relay
-  relay_model: gpt-5.3-codex-spark
+  relay_model: <predecessor relay model>
   relay_reasoning: high
 ```
 
@@ -33,8 +33,8 @@ rotation runbook:
 
 `~/work/obsidian-vault/distributed-creatives-vault/.dev/ai/processes/whatsapp/dc-relay-lifecycle-rotation-runbook.md`
 
-Replacement relay creation must use model `gpt-5.3-codex-spark` and reasoning
-`high`. The supported Codex app sequence is `set_thread_archived`,
+Replacement relay creation inherits the predecessor's `relay_model` and
+`relay_reasoning` (successors inherit) unless the owner names others. The supported Codex app sequence is `set_thread_archived`,
 `create_thread`, `set_thread_title`, `automation_update`, then verification. If
 those tools are unavailable, report
 `BLOCKED_RELAY_LIFECYCLE_CONTROLLER_REQUIRED`. Do not edit raw
