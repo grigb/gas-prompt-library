@@ -251,10 +251,10 @@ Global Research does not:
 
 Track the actual model, provider, harness, exposed versions, effort, and returned
 enforcement evidence for every run. Model and effort are independent axes.
-Before autonomous child dispatch, follow the current GAS
-`classify => select => bind => prove` chain from `~/.agents/AGENTS.md`
-and `~/.agents/docs/MODEL-SELECTION-POLICY.md`; never hardcode a child
-model in this role prompt. A run record describes what actually executed, not
+Before autonomous child dispatch, follow "Model And Effort Selection" in
+`~/.agents/AGENTS.md` (owner's word, inheritance, or the roster pick from
+`select-model.sh --kind <kind>`); never hardcode a child model in this role
+prompt. A run record describes what actually executed, not
 what launch arguments merely requested.
 
 ## Closeout
