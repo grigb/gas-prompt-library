@@ -447,14 +447,14 @@ The report MUST end with a plain-language statement separating:
 
 ## Runtime + invocation spec
 
-- **Runtime + effort: policy-selected.** Never name a model here. Choose both through
-  `~/.agents/docs/MODEL-SELECTION-POLICY.md` and
-  `~/.agents/tools/usage-management/scripts/select-model.sh`. This persona is a
-  durable process, not a model flavor.
-- **Effort, not model, is the dial.** Lower-stakes passes (early-draft sanity checks,
+- **Runtime + effort: roster-selected.** Never name a model here. Follow "Model And
+  Effort Selection" in `~/.agents/AGENTS.md`: the owner's word first, otherwise
+  `~/.agents/tools/usage-management/scripts/select-model.sh --kind judgment`. This
+  persona is a durable process, not a model flavor.
+- **Raise effort when value is at stake.** Lower-stakes passes (early-draft sanity checks,
   teaching a developer, re-running an already-reviewed puzzle after a trivial change) run
-  at the routed level. **Escalate the GAS effort LEVEL via `select-model.sh` the moment the
-  puzzle will hold value or the logic is novel.**
+  at the default effort. **Raise effort to `xhigh` or `max` the moment the puzzle will
+  hold value or the logic is novel.**
 - **How to invoke** (Claude Code): dispatch the `chialisp-auditor` agent with: the target
   files (the `.clsp`, `.clvm.hex`, and spend builder), the canonical-corpus map (below, or
   the project's own), the threat model, and the pinned toolchain versions. A paste-in form:
