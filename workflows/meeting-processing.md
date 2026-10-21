@@ -15,6 +15,17 @@ A markdown file from `~/work/example-vault/general/meetings/work-sessions/`. Mee
 
 Read the entire meeting file before producing any extracts. Understand context, participants, projects discussed, and the meeting's temporal position (what came before, what's being planned).
 
+**Meeting transcripts: read in full, never search** (owner rule, 2026-10-20)
+
+- This applies to every machine transcript of a meeting, call or recording: Zoom captions and `.vtt` files, GAS Meet transcripts, and any other speech-to-text output.
+- The speech-to-text is very poor. Names, terms and whole phrases come out wrong, for example "geopolice" and "geopost" for GeoPose, and "Syngraph" and "scene craft" for scene graph. A keyword search therefore misses what was said.
+- Never keyword-search, grep, sample or skim a transcript to decide what it contains. Read every transcript in scope from start to end, in order.
+- Work out from first principles what each speaker is trying to say, not only the literal words.
+- Treat brief asides as important. People often mention a key detail once, in passing and without emphasis, and it has large consequences. Record it.
+- A search is allowed only to find again a passage you have already read in full, for example to get its timestamp for a quote.
+- When a transcript is too long for one pass, read it in consecutive parts until every part is read. Never sample.
+- Report coverage for each transcript as "read in full" or "not read". Never call a transcript reviewed when it was only searched.
+
 ## Output
 
 Produce exactly 4 extract files in the companion `-extracts/` directory alongside the meeting file. Each file follows a specific format described below.
