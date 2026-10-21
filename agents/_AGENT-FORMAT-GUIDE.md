@@ -51,29 +51,14 @@ description: Use this agent when [triggering conditions]. This agent should be i
 **No model or effort field.** Do not hardcode model or effort execution hints in frontmatter. Dispatchers select models using `~/.agents/docs/MODEL-SELECTION-POLICY.md` and `~/.agents/tools/usage-management/scripts/select-model.sh`.
 Current canonical frontmatter standard: `~/.agents/prompts/agents/SKILL-MD-FORMAT.md`.
 
-**Routing-chain precedent.** Any prompt that owns an autonomous launch
-primitive, orchestration role, or its own exposed routing rung must require a
-fresh exact-task classification (exact WO or immutable hashed non-WO packet),
-post-classification direct-owner override, fresh current-harness selector call,
-independent binding of both returned tokens through the live surface registry,
-and returned child-effective proof for each axis. Launch arguments alone are
-not proof; enforcement is only `enforced`, `requested-not-proven`, or
-`unsupported`. Default bounded reasoning to 3 with normal verification; final
-consequential authority sets floor 4; exceptional 5 needs reviewed justification.
-Owner overrides distinguish self from children and exact task/set/turn scope;
-reclassify meaningful phases and downshift when reasoning settles. Do not impose
-launch-only requirements on non-dispatch prompts.
-
-**Computer-use category precedent.** Every dispatch-capable prompt must state
-that a separate Worker doing repetitive, tool-intensive full QA, end-to-end
-walkthroughs, dogfood runs, or similar computer/browser execution with defined
-acceptance criteria may invoke `--category computer-use --surface <verified-surface>` only on an already-
-authorized Codex surface whose live allowlist proves the target is addressable.
-The category target is policy-owned; do not hardcode its native model ID. It is
-excluded from coding, diagnosis, implementation, architecture,
-security, legal/medical, high-stakes judgment, and ambiguous research; it
-changes only model+effort selection and never authorizes a provider/harness
-switch. If the surface is not addressable, use the ordinary same-harness route.
+**Model-and-effort precedent.** Any prompt that launches workers or owns an
+orchestration role carries one short paragraph that points to "Model And Effort
+Selection" in `~/.agents/AGENTS.md`: the owner's word first, successors
+inherit, otherwise `select-model.sh --kind <kind>` advises from
+`~/.agents/config/model-roster.yaml`; tooling gaps never stop work; the hard
+stops are `banned` models, `owner-only` models the owner did not name, and app
+or provider switches without owner approval; one record line per launch. Never
+name a model in a prompt. Do not impose launch-only text on non-dispatch prompts.
 
 **`color`** (optional but recommended):
 - Options: `blue`, `red`, `green`, `yellow`, `purple`, `orange`
