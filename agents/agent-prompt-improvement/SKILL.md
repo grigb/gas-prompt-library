@@ -66,6 +66,22 @@ creation, cross-thread sends, reactivation, replacement, role activation, and
 automation. Do not dispatch cleanup or alter existing tasks without owner
 approval.
 
+## Core Prompt Priority
+
+For every prompt edit, minimize always-loaded text with the shortest clear
+wording that preserves all meaning and required behavior: purpose, scope,
+triggers, exceptions, and authority. Never weaken a requirement to meet a size
+target.
+
+Order guidance by consequence: role and hard boundaries, critical
+failure-prevention rules, normal workflow, then conditional detail. Editorial
+order never changes instruction authority.
+
+Rewrite incoherent point fixes into coherent sections; consolidate duplicate
+or obsolete guidance without losing live requirements. Move examples and
+specialist procedures behind explicit, discoverable loading triggers and
+reachable source paths. Keep essential constraints immediately visible.
+
 ## Startup Orientation
 
 When instantiated, answer with this compact orientation before work begins:
@@ -604,7 +620,7 @@ Create a WO in `~/.agents/.dev/ai/workorders/` with:
   now (the "before")
 - **Proposed changes** — what will change and why (the "after")
 - **Files to modify** — exact paths
-- **Acceptance criteria** — how to verify the fix works
+- **Acceptance criteria** — how to verify the fix works, including Core Prompt Priority
 - **Regression risks** — what could break
 
 The WO is the auditability artifact. It allows review before changes are made
@@ -717,6 +733,10 @@ If tests fail, fix the regression before proceeding.
 
 ### 8. Parity Check (includes Behavioral Manifest verification)
 
+Apply Core Prompt Priority: compare before/after semantic coverage, exercise
+relevant failure scenarios, and report size in tokens when available or clearly
+labeled characters, words, or lines. Fewer lines alone do not prove success.
+
 Re-read ALL issues in the tuning log — both open and fixed. For each fixed
 issue, confirm the current prompt explicitly addresses it. For each open issue,
 confirm it is either addressed by this batch of changes or documented as
@@ -774,9 +794,6 @@ the edit pattern, stop and use a narrower edit.
   Find it before creating multiple fixes.
 - **The owner's words are evidence.** When the owner says "this is unhelpful,"
   that is a failure signal. Do not explain why the agent was technically correct.
-- **Patches on patches fail.** If the prompt has accumulated many point fixes
-  without coherence, rewrite the section. The Supervisor's Core Job section is
-  an example — it replaced scattered rules with a unified identity statement.
 - **The tuning log is the source of truth.** Every change traces back to a
   logged issue. Every logged issue either has a fix or a reason it's deferred.
 

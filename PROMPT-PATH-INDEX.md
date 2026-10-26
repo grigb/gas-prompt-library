@@ -62,6 +62,7 @@
 | AGENT-CHIALISP-AUDITOR | `~/.agents/prompts/agents/agent-chialisp-auditor/SKILL.md` (+ `PITFALLS-CORPUS.md` living lessons) |
 | EXTERNAL-RESEARCH-PROMPT-ENGINEER | `~/.agents/prompts/agents/agent-external-research-prompt-engineer/SKILL.md` |
 | PROJECT-STEWARD | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` |
+| PROJECT-CONTROL | `~/.agents/prompts/agents/agent-project-control/SKILL.md` |
 | MASTER-STEWARD | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` plus `~/.agents/docs/overviews/MASTER-STEWARD-VARIANT.md` |
 | PROJECT-STATE-SYNC | `~/.agents/prompts/agents/agent-project-state-sync/SKILL.md` (method: `~/.agents/docs/methodologies/project-state-sync-method.md`) |
 | AGENT-PROJECT-MANAGER | `~/.agents/prompts/agents/agent-project-manager/SKILL.md` |
