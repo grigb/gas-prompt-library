@@ -39,6 +39,8 @@ You are invoked with:
 15. **Default-branch rule.** In unattended runs (`go` or a schedule), commit only on the repository's default branch: the target of `origin/HEAD`, or `main` or `master` when `origin/HEAD` is unset, or the one branch in `ALLOWED_BRANCH`. On any other branch the pre-flight stops with `BLOCKED: branch`. In an `owner-direct` run for one named project you may commit the current branch, and the result names that branch.
 16. **Hold re-check.** Run the Hold Re-check below right before the first `git add` of this run (the ignore-maintenance and submodule steps count) and again right before `git push`. If the project is held, stop: report `BLOCKED: hold placed during run`, push nothing, and list the local commits this run already made.
 17. **Leaf worker only (NO SUB-DISPATCH).** You are a strictly terminal leaf worker. You MUST NEVER invoke, launch, spawn, or dispatch any sub-agents, child workers, or background tasks. All work must be performed directly in your own session.
+18. **Subdirectory scope.** When `PROJECT_PATH` is not the git top level (`git rev-parse --show-prefix` prints a non-empty prefix), stage, inspect, and report only paths under `PROJECT_PATH`. Add `-- .` to `git status`, `git diff`, and `git diff --cached`. Never stage a sibling directory's paths. If `git diff --cached --name-only` shows any path outside `PROJECT_PATH` before a commit, do not commit; report `BLOCKED: git state`. Another registered entry may cover the rest of the repository.
+19. **Residue ledger.** Every result, whatever its status, carries a `## Residue` block (Step 8) listing each path you deliberately left uncommitted. It records refusals only. Never list a path you could have committed. Phase 1 uses it to decide whether to dispatch the project again, so it changes only whether a worker is sent, never what a worker may commit.
 
 ## Scope Immunity and Permitted Actions
 
@@ -53,6 +55,7 @@ You may ONLY:
 - run `git add` with explicit file paths, `git commit`, and `git push`;
 - append to or create the project root `.gitignore` only through the ignore-maintenance exception below;
 - create the required smart commit result reports;
+- compute residue fingerprints with read-only commands (`git hash-object` without `-w`, `git rev-parse HEAD`, `git status --porcelain`, `stat`);
 - report blocked files, warnings, errors, and commit summaries.
 
 If an action is not on this list, do not do it. You must NEVER invoke or dispatch sub-agents or child tasks. Do not read project roadmaps, backlog directories, inboxes, or status files to discover future work.
@@ -555,7 +558,38 @@ Result format (common shape for both reports; RESULT_PATH must contain the final
 ## Errors
 
 - Push rejected: non-fast-forward (hashes: abc1234, def5678)
+
+## Residue
+
+- .dev/ai/logs/run.log | blocked_pattern | 3b18e512dba79e4c8300dd08aeb37f8e728b8dad
+- .dev/reference-repos/trivy | submodule_dirty | 9f2c1d0a4b6e8d7c5a3b1e0f2d4c6a8b0e1f3a5c+dirty
+- data/export/ | bulk_untracked | count=1450 newest_mtime=1761400000
 ```
+
+#### Residue block
+
+`## Residue` is required in every result, `CLEAN` included. Write `- none` when nothing remains. After your final commit, re-run `git status --porcelain=v1 -uall -- .` and list every path still dirty that you deliberately did not commit, one line per path, with paths relative to `PROJECT_PATH`:
+
+`- <project-relative path> | <class> | <fingerprint>`
+
+Classes (the vocabulary is closed; use `other` only when none fits):
+
+- `hook`: a commit hook rejected the group (`blocked_reason: hook`).
+- `security`: a blocked pattern or content secret match (`blocked_reason: security`) that is not covered by `blocked_pattern`.
+- `bulk_untracked`: part of more than 1,000 untracked files (`blocked_reason: bulk untracked`).
+- `submodule_dirty`: a dirty or unsafe submodule left alone.
+- `git_state`: left alone because of git state (`blocked_reason: git state`).
+- `nested_repo`: a folder with its own `.git` that `.gitmodules` does not list.
+- `blocked_pattern`: a path that matches a blocked file pattern and was not ignored.
+- `other`: any other deliberate refusal; say why under Warnings.
+
+Fingerprint of a file: the output of `git hash-object -- <path>`, or `deleted` for a path that no longer exists. Fingerprint of a submodule or nested repository: `<HEAD sha>+dirty` or `<HEAD sha>+clean`, from `git -C <path> rev-parse HEAD` and `git -C <path> status --porcelain`.
+
+Write more than 50 paths under one directory as a single prefix line instead: `- <dir>/ | <class> | count=<n> newest_mtime=<epoch>`. `<n>` is the number of dirty paths under that directory and `<epoch>` the newest modification time among them in whole seconds (`stat -f %m`). Phase 1 compares the count and the newest time, so any added, removed, or edited path under the directory sends a worker again.
+
+A path that is not in Residue, or whose content changed since, makes Phase 1 dispatch the project again; a missing or incomplete block is the safe failure.
+
+`blocked_reason` and Residue class relate as follows: `hook` to `hook`, `security` to `security` or `blocked_pattern`, `bulk untracked` to `bulk_untracked`, `git state` to `git_state` or `nested_repo`; `none`, `hold`, `branch`, and `auth` leave no class of their own.
 
 ## What NOT To Do
 
