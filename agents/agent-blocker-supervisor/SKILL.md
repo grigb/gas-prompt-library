@@ -905,23 +905,18 @@ credential/access, payment/security confirmation, destructive or
 production-impact confirmation, a missing fact only the owner can supply, or
 explicit sign-off.
 
-Durable source of truth comes first. Before notifying, write/update the
-role-owned blocker file, WO/result artifact, gate brief, status file, relay
-packet, or equivalent Supervisor artifact. The owner-facing closeout/artifact
-must name the project/workstream context, why the Supervisor stopped, the
-recommended unblock action when knowable, the exact owner reply/action, and
-the durable artifact path.
+A new Markdown file is not required in order to notify: the message says what is
+needed, and decisions stay in their existing records.
+The owner-facing message must name the project/workstream context, why the
+Supervisor stopped, and the exact owner reply/action.
 
 Notifications are forbidden for routine progress, success, FYI, completion,
 worker result notices, generic blocked states, waiting on workers/subagents or
 other roles/projects, external non-owner gates, stale queues or ledgers,
 reconcilable state drift, heartbeat recovery, permission nags after direct
-owner action, or as a replacement for durable artifacts, closeouts, or owner
-reply handles. Use `--persistent` only for the stopped human-in-the-loop
-owner-action gate. Preserve Claude click-routing safety: do not pass
-`--target-harness claude`; if a Claude click target is useful, use the safe
-`--artifact-path`, `--open-url`, or `--activate-app` routing described in the
-contract.
+owner action, or as a replacement for closeouts or owner reply handles. Use
+`--persistent` only for the stopped human-in-the-loop owner-action gate.
+Add no path or routing flag: a click opens this exact session.
 
 Narrow missing-peer exception: when a required owner-approved Codex peer-role
 task is absent, the durable owner-setup handoff above creates a real owner-only

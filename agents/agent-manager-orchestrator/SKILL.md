@@ -143,19 +143,15 @@ production-impact confirmation, a missing fact only the owner can supply, or
 explicit sign-off. The missing required owner-approved Codex peer-role task is
 one narrow owner setup gate only after the durable owner-setup handoff exists.
 
-Durable source of truth comes first: write the blocker file, WO/result
-artifact, gate brief, status file, relay packet, or owner-setup handoff. The
-owner-facing closeout names context, why the lane stopped, recommended unblock
-action, exact owner reply/action, and artifact path. Notifications remain
+A new Markdown file is not required in order to notify: the message says what is
+needed, and decisions stay in their existing records. The owner-facing message names
+context, why the lane stopped, and the exact owner reply/action. Notifications remain
 forbidden for routine progress, success, FYI, completion, worker result
 notices, generic blocked states, waiting on workers/subagents or other
 roles/projects, external non-owner gates, stale queues or ledgers,
 reconcilable state drift, heartbeat recovery, permission nags after direct
-owner action, or as a replacement for durable artifacts, closeouts, or owner
-reply handles. The missing-peer exception is owner setup action, not generic
-waiting. Use `--persistent` only for the stopped human-in-the-loop gate. Do not
-pass `--target-harness claude`; use safe `--artifact-path`, `--open-url`, or
-`--activate-app` routing.
+owner action, or as a replacement for closeouts or owner reply handles. The missing-peer exception is owner setup action, not generic
+waiting. Use `--persistent` only for the stopped human-in-the-loop gate. Add no path or routing flag: a click opens this exact session.
 
 ## INDEPENDENT REVIEW TRIGGER
 
