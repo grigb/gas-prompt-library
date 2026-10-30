@@ -1,8 +1,8 @@
 # Agent Notification Contract (gas-notify)
 
 **Purpose:** Drop-in prompt fragment. Paste the "Embed this" block into any agent's
-prompt so it knows how to put a notification on the owner's Mac correctly, including
-safe Claude click routing.
+prompt so it knows how to put a notification on the owner's Mac correctly. A click opens
+the exact session that asked.
 
 **What this documents:** the `gas-notify` CLI we built — a local, same-machine macOS
 desktop notification helper for GAS agents. It writes a JSON payload, launches a native
@@ -25,24 +25,33 @@ GAS sender app, and the sender app posts the notification and handles the click.
 > ~/.agents/tools/agent-notify/bin/gas-notify \
 >   --title "<Project name>" \
 >   --subtitle "<Your agent identity> - Workstream: <workstream> - <thread/WO/location>" \
->   --message "<short reason>" \
->   --notification-id "<short-slug>-$(date +%s)"
+>   --message "<what you need from the owner>"
 > ```
+>
+> Add no path and no routing flag. `gas-notify` finds your session, and a click opens it.
+>
+> **A new Markdown file is not required in order to notify.** The notification text says
+> what is needed, and the owner answers in your session. Decisions still go in their
+> existing records, such as decision cards, blockers and work orders.
 >
 > **Three-line display contract** (these are the only lines the owner sees — make each count):
 > - `--title` → the **project name** (e.g. `Agents System`, `LAN Platform`). Never a generic
 >   label like `GAS`, `Notification`, or the reason.
 > - `--subtitle` → **who you are + workstream + where to find you** (thread id, WO id, or path).
 >   This is how the owner knows which agent/thread needs them.
-> - `--message` → the **short reason**: `Owner input needed`, `Review gate`, `Blocked`,
->   `Work order complete`.
+> - `--message` → **what you need from the owner**, in words that make sense on their own:
+>   `Approve the deploy to staging?`, not `Owner input needed`.
 >
 > **Temporary (default) vs persistent:**
-> - Default is temporary (a banner). Use it sparingly — for routine progress/FYI/success,
->   prefer writing a durable artifact and sending nothing.
-> - Add `--persistent` **only** when you have stopped at a human-in-the-loop gate and cannot
->   continue correctly without owner input (approval, blocking ambiguity, credential/payment/
->   security confirmation, or a destructive-action decision).
+> - Default is temporary (a banner). Use it sparingly. Send nothing for routine progress,
+>   success, FYI, completion or Worker result notices.
+> - Add `--persistent` **only** when you have stopped on a real owner/user action gate and no
+>   owner-independent work remains: an approval, decision, answer, credential/access,
+>   payment/security confirmation, destructive or production-impact confirmation, a missing
+>   fact only the owner can supply, or explicit sign-off.
+> - Do not notify for generic blocked states, waiting on workers/subagents or other
+>   roles/projects, external non-owner gates, stale queues or ledgers, reconcilable state
+>   drift, heartbeat recovery, or permission nags after direct owner action.
 > - One narrow setup gate also qualifies: a required owner-approved Codex peer-role task is
 >   absent **after** you wrote the durable owner-setup handoff. Only the owner can create that
 >   role task. This is owner setup action, not generic waiting on a Worker, subagent, role, or
@@ -69,17 +78,14 @@ GAS sender app, and the sender app posts the notification and handles the click.
 >     --notification-id "codex-task-needed-<source-thread-id>-<target-role>-<unique-id>"
 >   ```
 >
-> **Click routing:**
-> - **Codex agents:** `--target-harness codex --thread-id <conversation-id>` makes the click
->   reopen your exact Codex thread (`codex://threads/<id>`). This works — use it.
-> - **Claude Code agents:** `--target-harness claude` focuses Claude Desktop only. It does
->   not resume, import, create, or resurrect a session. Put your thread id / WO in
->   `--subtitle` for visual orientation. If you want the click to land somewhere useful,
->   use `--open-url /abs/path/to/handoff-or-status.md`, or omit `--target-harness claude`
->   and use `--artifact-path /abs/path/to/handoff-or-status.md` so the artifact fallback opens.
->
-> Use a unique `--notification-id` each send (the `-$(date +%s)` suffix) so repeated
-> notifications don't overwrite each other's payloads.
+> **Click routing (automatic):**
+> - **Claude Desktop:** the click opens your exact session. `gas-notify` reads
+>   `$CLAUDE_CODE_HOST_SESSION_ID`.
+> - **Codex:** the click opens your exact thread. `gas-notify` reads `$CODEX_THREAD_ID`.
+> - **Claude Code in a terminal:** the click focuses the terminal app only. No session link
+>   exists. Name your location in `--subtitle`.
+> - **No session (scheduled jobs):** the click opens `--artifact-path` if you give one.
+> - To send the click somewhere else on purpose, pass `--open-url <url-or-absolute-path>`.
 
 ---
 
@@ -105,26 +111,22 @@ Notifications sharing a `--group` id update the earlier one **in place**: no new
 sound. Omit it unless replacement is what you want.
 Click metadata: `--open-url URL`, `--activate-app BUNDLE_ID`, `--target-harness NAME`,
 `--thread-id ID`, `--artifact-path PATH`, `--cwd PATH`, `--project NAME`, `--workstream NAME`.
+`--dry-run` prints the payload and sends nothing.
 
-### Click-routing priority (native app, first match wins)
-1. `--open-url` → opens the URL/file.
-2. `--target-harness codex` + `--thread-id` → `codex://threads/<id>`, then focuses Codex. **Works.**
-3. `--target-harness claude` → focuses Claude Desktop only. It does not resume, import,
-   create, or resurrect a session.
-4. `--activate-app BUNDLE_ID` → just brings that app to the front (e.g.
-   `com.anthropic.claudefordesktop`) without importing/resurrecting anything. Safe.
-5. `--artifact-path PATH` → opens a durable file. Safe, and the recommended Claude click target.
+### How the click target is chosen
+`gas-notify` chooses at send time, first match wins:
+1. `--open-url` or `--activate-app` from the sender.
+2. `$CLAUDE_CODE_HOST_SESSION_ID` (`local_<id>`) → `claude://claude.ai/epitaxy/local_<id>`.
+3. `$CODEX_THREAD_ID` → `codex://threads/<id>`.
+4. Claude Code with no Desktop id → focuses the app in `$__CFBundleIdentifier` (the terminal).
+5. `--artifact-path` → opens that file.
 
-Because step 1 wins over everything, setting `--open-url` is the clean way to give a
-Claude notification a useful, side-effect-free click destination while also using
-`--target-harness claude` for metadata. If you prefer `--artifact-path`, omit
-`--target-harness claude` so the artifact fallback opens.
-
-### Finding your own thread id
-- **Claude Code:** `$CLAUDE_CODE_SESSION_ID` if exported, else the newest session file:
-  `ls -t ~/.claude/projects/<project-slug>/*.jsonl | head -1` (strip dir + `.jsonl`).
-  Use it as **subtitle text only**; Claude click routing focuses the app, not a specific thread.
-- **Codex:** use the harness conversation id with `--target-harness codex --thread-id`.
+### Claude link behavior (probed 2026-10-30)
+- Opens the exact session, including one off screen or in another sidebar group.
+- An archived session opens and stays archived.
+- An unknown id shows an empty pane and creates nothing.
+- Never build `claude://resume` links. They import sessions and bring back deleted ones.
+  `$CLAUDE_CODE_SESSION_ID` is a different id and does not work in the session link.
 
 ### On-disk artifacts
 - Payloads: `~/.agents/data/agent-notify/payloads/<id>.json`
@@ -143,10 +145,9 @@ Send one temporary and one persistent test so both sender apps register, then in
 - DO reserve `--persistent` for true HITL gates.
 - DO treat a missing required owner-approved Codex peer-role task as a true HITL setup gate
   only after the durable owner-setup handoff exists; the owner creates the task.
-- DO give Claude clicks a safe durable destination with `--open-url`, or with
-  `--artifact-path` when not using `--target-harness claude`.
-- DO use `--target-harness claude` only when focusing Claude Desktop is the desired click action.
-- DON'T use this for routine success/progress — write a durable artifact instead.
+- DO let `gas-notify` route the click. Add `--open-url` only to send it somewhere else.
+- DON'T write a new Markdown file just to notify.
+- DON'T use this for routine success/progress.
 - DON'T use the missing-peer exception for generic waiting on Workers, subagents, roles, or
   projects, and don't use it to create, resume, reactivate, replace, or commandeer peer tasks.
 - DON'T treat it as a network relay; it is local same-machine only.
