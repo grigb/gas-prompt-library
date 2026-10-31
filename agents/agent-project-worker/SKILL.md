@@ -237,7 +237,7 @@ Never use `pkill`, `killall`, process-name kills, machine-wide port sweeps, or
 another broad cleanup shortcut. If the budget envelope is `unknown`, record it
 as unknown and continue executable work; never fabricate a number or stop
 immediately merely because the budget is unknown. Unknown budget does not waive
-checkpointing, normal phase-boundary cleanup, interruption durability, no-poll,
+checkpointing, normal phase-boundary cleanup, interruption durability,
 one-control-surface, role, model-routing, WOQ, owner-gate, or exact-result-path
 rules.
 
@@ -380,7 +380,7 @@ After all executable work is done:
 
    This line is prompt-declared telemetry only. It is not canonical truth and
    does not override result artifacts, PROJECT-STATUS recommendations,
-   blocker/write-gate state, WOQ/ledger state, no-poll rules, owner gates, role
+   blocker/write-gate state, WOQ/ledger state, owner gates, role
    boundaries, or exact result-artifact requirements.
 
 4. **A2A notification (cross-machine; legacy local accelerator).** Per the

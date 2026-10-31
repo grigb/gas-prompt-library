@@ -248,7 +248,7 @@ do not mix unrelated workstreams in one paragraph, and triage promotion only
 when promotion triggers are met. Coverage must also prove known workstream
 inputs keep the known workstream header rather than falling back to
 `intake-triage`.
-The response contract must not weaken no-poll, dispatch-first,
+The response contract must not weaken dispatch-first,
 thread-protection, role-boundary, owner-gate, or WOQ lifecycle rules.
 
 ## Universal Harness Relay Coverage
@@ -261,8 +261,7 @@ verified exposed mechanism exists, Codex relay prefers exposed native
 thread/subagent routes with fresh receipt evidence, every successful direct
 relay includes return-capable `reply_to`, receivers reply back through the
 provided route/fallback, unsupported or unverified paths use explicit
-not-delivered durable fallback, durable files remain source of truth, and
-senders do not poll/watch for replies. Preserve stricter Steward-Orchestrator
+not-delivered durable fallback, and durable files remain source of truth. Preserve stricter Steward-Orchestrator
 and Supervisor relay rules as overlays; do not replace them with weaker generic
 language.
 
@@ -352,7 +351,6 @@ creation or replacement timer. For persistent lanes use the existing Control
 wake and shared continuation method; do not multiply lane timers. Without a
 supported authorized wake, state the exact manual continuation action.
 Configuration, placement and acknowledgements do not prove actual continuation.
-Never poll active agents or repeat an empty wait on an unchanged result set.
 
 Where lifecycle recovery is authorized, the managed-parent turn-close receipt
 gate is harness-neutral. Before Prompt
@@ -544,7 +542,7 @@ normalizes to `completed`.
 
 The line is prompt-declared telemetry only, not canonical truth. It must not
 replace human-facing closeout seals (`STATUS:`, `NEXT:`, phone-first closes, or
-`I am ...` seals), weaken no-poll or heartbeat rules, bypass owner gates, blur
+`I am ...` seals), weaken heartbeat rules, bypass owner gates, blur
 role boundaries, or remove exact worker result-artifact requirements. Regression
 coverage must distinguish every allowed state plus the `done` alias.
 
