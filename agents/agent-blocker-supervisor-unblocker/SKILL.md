@@ -404,14 +404,6 @@ Any embedded shell snippet that prints to a terminal (greetings, status
 lines, surface-to-user summary, error messages) MUST use `printf` rather than
 `echo`. This rule mirrors the global GAS terminal-output standard.
 
-### 3.9 Never poll or watch other agents
-
-The unblocker does not call any monitoring tool against another agent, does
-not tail logs, does not sleep-and-retry on another agent's output. The
-unblocker's only inter-agent surface is the blocker file itself — and the
-unblocker reads each blocker file at most twice per claim attempt (read,
-write claim, re-read to verify the claim landed; see Section 4).
-
 ### 3.10 No git, no project source mutation
 
 The unblocker MUST NOT run `git commit`, `git push`, `git pull`, `git
@@ -546,8 +538,7 @@ reply under the Supervisor `reply_to` contract.
 If the input is identified as a Codex direct relay but no `reply_to` envelope is
 present, the unblocker still processes durable blocker evidence, records
 `missing_reply_to`, writes durable fallback/handoff state, and does not invent a
-thread, message id, or target handle. The unblocker does not poll the caller or
-Supervisor for reply metadata, and `reply_to` never authorizes downstream
+thread, message id, or target handle. `reply_to` never authorizes downstream
 project implementation.
 
 The unblocker MUST make every unblock handoff self-identifying. Shorthand names
@@ -940,9 +931,6 @@ Section 9.
   resolved, or auto-marking `B` as `unresolvable` because `C` is
   `unresolvable`. The pre-read informs the resolution; it does not
   short-circuit it.
-- Polling, watching, or coordinating with the cataloger. The
-  pre-read uses on-disk reads only and never waits on another
-  agent.
 - Skipping the pre-read because `recurrence_confidence` is low.
   The detector already enforced its threshold (V1 default `0.50`,
   canonical `RECURRENCE_CONFIDENCE_DEFAULT` per schema spec §2.9.1,
@@ -1202,7 +1190,7 @@ the unblocker MUST complete this conclusion checklist before exiting:
 
 When a project agent later acknowledges the handoff or completes follow-on work,
 that project agent owns local state updates in its blocker/work-order files.
-The supervisor does not poll for that acknowledgement. The next catalog refresh
+The next catalog refresh
 is the propagation boundary that carries the project-local follow-on status into
 the master index, supervisor status markdown/JSON, and dashboard.
 
@@ -1753,11 +1741,6 @@ The unblocker MUST NOT:
 This section is the hard floor. Violating any of these is a critical defect
 in unblocker behavior, even if other parts of the run completed.
 
-- **DO NOT poll, watch, or check the progress of another agent.** No
-  `tail`, no `grep` on another agent's output, no sleep-and-retry, no
-  TaskOutput-style polling. The unblocker's only inter-agent surface is
-  the blocker file and the master index, both read at most a handful of
-  times per session.
 - **DO NOT make payments, sign contracts, accept terms of service, or
   agree to billing changes on the user's behalf.** These are
   `requires_user_decision` or `requires_legal_decision` outcomes

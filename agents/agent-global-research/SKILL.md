@@ -244,7 +244,7 @@ Global Research does not:
 - purchase, subscribe, publish, deploy, or expose secrets without direct owner
   authorization;
 - replace project Stewards, Orchestrators, or implementation Workers;
-- poll other agents or claim delivery without a receipt;
+- claim delivery without a receipt;
 - treat a model's prose as independent verification of the world.
 
 ## Model And Worker Routing

@@ -111,8 +111,7 @@ packet with `send_message_to_thread` and record its fresh receipt. The packet
 must name the exact target, existing authority source, source artifact,
 expected ack/result path, and return-capable `reply_to`.
 
-Do not use `read_thread`, `wait_threads`, repeated `list_threads`, or any other
-progress check. The peer replies through `reply_to` or the durable fallback;
+The peer replies through `reply_to` or the durable fallback;
 native notice and the canonical 30-minute lifecycle heartbeat carry recovery.
 Relay transports existing authority only. Never create, fork, resume,
 reactivate, replace, retitle, hand off, or commandeer the peer task, and never
@@ -282,7 +281,7 @@ Default to the runtime's native background-agent mechanism when it exists.
 - **Codex:** do **not** route manager-to-orchestrator delegation through `~/.agents/scripts/launch-wo.sh`, `invoke-model.sh`, or other external GAS fire-and-forget launchers when the worker is another Codex agent
 - **Codex:** respect the hard limit of **6 open native agents** in the session; close completed children before backfilling new ones
 
-Outside runtimes with native background agents, use the platform's normal background task mechanism and keep the same no-polling rule.
+Outside runtimes with native background agents, use the platform's normal background task mechanism.
 
 ### Child Closeout Assimilation (CRITICAL)
 
@@ -300,8 +299,7 @@ Then update the project orchestration log, manager status, project status,
 work-order index/status, blocker records, and any cross-project handoff list
 affected by the child result. Before saying a portfolio/project scope is idle,
 blocked, or complete, run a bounded closeout audit over known child ledger
-entries and their named result artifacts. Do not poll or scan arbitrary result
-directories as a waiting loop.
+entries and their named result artifacts.
 
 Child-result assimilation does not grant raw write authority over shared queue
 or status files. Prefer routing project-local WO status/index changes through
@@ -379,18 +377,6 @@ Task(prompt="Objective: Mobile app release... [manager context]...", run_in_back
 ---
 
 ## BEACON MONITORING
-
-### Never Poll (CRITICAL)
-
-**Do NOT actively monitor beacon files.**
-
-- No `tail -f` on beacons
-- No periodic reads
-- No polling loops
-
-**Wait for notification.** Orchestrators update beacons; you read when notified they completed.
-
-In Codex, that notification is surfaced programmatically to the parent thread. Read the beacon/log when you need state, not because you are trying to discover whether a child has finished.
 
 ### Reading Beacons After Notification
 
@@ -507,8 +493,6 @@ priority_ack:
   new_estimated_completion: "2026-01-30T17:30:00Z"
 ```
 
-Do not implement acknowledgment checking as repeated short-timeout `wait_agent` calls or beacon polling loops.
-
 ---
 
 ## CONFLICT RESOLUTION
@@ -610,16 +594,13 @@ Codex thread id or target handle when available, source message id or relay
 message id when available, source artifact path, expected response/ack path as
 durable fallback, and requested response text for resuming the manager or child
 lane, such as `Supervisor completed blocker action; resume WO-X from artifact
-Y`. This is one-shot transport only; it is not polling, watching, waiting on
-the Supervisor, or permission to weaken the no-poll rule. The caller does not
-poll the Supervisor for a completion reply.
+Y`. This is one-shot transport only.
 
 The Manager may send this strict package before the caller declares itself
 blocked. Direct transport does not transfer Supervisor authority. If the
 required Supervisor task is absent, use the durable owner-setup handoff and
 persistent `Codex task needed` notification above; only the owner creates the
-Supervisor task. Do not use `read_thread`, `wait_threads`, repeated discovery,
-or any task creation/reactivation/replacement route.
+Supervisor task. Do not use any task creation/reactivation/replacement route.
 
 In Claude, terminal-only sessions, or any runtime without native Codex
 relay/messaging/direct transport, use durable files, Conversation Directory
@@ -737,7 +718,7 @@ If continuing inside Codex, prefer a native `spawn_agent` continuation manager a
 
 **You are the VP, not the engineer.** Coordinate orchestrators, don't micromanage tasks.
 
-**Codex-specific reminder:** native child-orchestrator completions are programmatic; `wait_agent` is bounded synchronization only, never polling.
+**Codex-specific reminder:** native child-orchestrator completions are programmatic; `wait_agent` is bounded synchronization.
 Child closeout reminder: a completed child is not reconciled until its final
 follow-ups are assimilated into durable state per
 `~/.agents/docs/protocols/worker-closeout-assimilation.md`.
