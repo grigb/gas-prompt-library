@@ -60,7 +60,7 @@ Bad uses:
 - Reopening a completed review without new uncertainty.
 - Asking for another broad architecture essay.
 - Starting implementation that belongs in Codex/project lanes.
-- Asking the reviewer to poll other sessions or wait for external work.
+- Asking the reviewer to wait for external work.
 
 ## Assimilation Rule
 

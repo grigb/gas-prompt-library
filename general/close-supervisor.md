@@ -52,7 +52,7 @@ step produces no output, say `N/A - nothing to capture` for that step.
 The unified session-record flow does not weaken supervisor state-capture
 obligations. This preflight exists because supervisor sessions must preserve
 blocker routing truth, current source-of-truth state, owner-attention blockers,
-Master Steward sync needs, and dispatch/no-poll compliance before the final
+Master Steward sync needs, and dispatch compliance before the final
 session record is written.
 
 ## Authoritative State and False-Stale Standard
@@ -136,7 +136,7 @@ complete`, `all blockers resolved`, or `nothing else is active` unless fresh
 live blocker files, master index, and relay/ack evidence prove no sibling
 Supervisor lane remains active and this session has authority for that global
 claim. This section preserves, and does not weaken, the existing scan-first,
-dispatch-don't-grind, no-poll, gate-validity preflight, ground-truth re-scan,
+dispatch-don't-grind, gate-validity preflight, ground-truth re-scan,
 phone-first owner output, and self-recipient filter rules; closeout does not
 authorize project execution, ordinary project orchestration, or inline
 implementation.
@@ -243,10 +243,9 @@ Use:
 If an entry is needed but not written, include the exact pending message and why
 it was not written during closeout.
 
-### 7. Dispatch and No-Poll Compliance
+### 7. Dispatch Compliance
 
-Record supervisor-owned workers or external dispatches without instructing the
-successor to poll them.
+Record supervisor-owned workers or external dispatches.
 
 For each active or completed worker/dispatch, capture:
 
@@ -258,11 +257,6 @@ For each active or completed worker/dispatch, capture:
 - current known state;
 - whether a native completion notice, result artifact, or bounded critical-path
   synchronization is still required.
-
-Do not write "poll", "watch", "tail", "keep checking", or any equivalent
-successor instruction. The successor may use native completion notices, read a
-named result artifact after a completion event, or perform one bounded
-critical-path synchronization only when blocked on that exact result.
 
 ### 8. Files Updated
 
@@ -351,7 +345,7 @@ SUPERVISOR CLOSE CAPTURE PACKET:
     ms-updates.md: [entry-written|entry-needed|not-needed|not-checked]
     ms-dispatch.md: [entry-written|entry-needed|not-needed|not-checked]
     pending_entry: [exact text or N/A]
-  Dispatch/no-poll state:
+  Dispatch state:
     - worker_or_dispatch_id: [id or unknown]
       purpose: [brief purpose]
       work_order_or_handoff_path: [absolute path or N/A]

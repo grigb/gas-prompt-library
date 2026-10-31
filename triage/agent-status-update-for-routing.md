@@ -132,7 +132,6 @@ Use only:
 
 Do not:
 
-- poll, watch, tail, or repeatedly check another agent;
 - scan broad result directories;
 - perform fresh project discovery unless exact paths were supplied and one
   bounded read is necessary for an accurate status;

@@ -130,9 +130,7 @@ Task(description="Long running operation")
   → run_in_background: true
   → Agent executes independently
 
-# DO NOT poll for completion
 # Wait for notification that task finished
-# User said: "don't check on it, it will let us know when done"
 ```
 
 ### Best Practices
@@ -398,13 +396,6 @@ Time to "done": 3x initial estimate
 ```
 ❌ Wrong: Opus agent to grep for patterns
 ✅ Right: Sonnet agent for pattern matching
-```
-
-### DON'T: Poll for Background Task Completion
-
-```
-❌ Wrong: Check every 30 seconds if background task done
-✅ Right: Wait for completion notification
 ```
 
 ### DON'T: Give Vague Task Descriptions

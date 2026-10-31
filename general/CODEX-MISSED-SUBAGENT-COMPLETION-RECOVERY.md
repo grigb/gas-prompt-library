@@ -9,8 +9,7 @@ agent path before pasting it.
 Perform one bounded, notice-independent lifecycle reconciliation for the exact
 subagent whose completion this parent failed to assimilate.
 
-Do not poll, wait, sleep, tail logs, repeatedly call status tools, scan broad
-result directories, inspect unrelated sessions, launch a replacement, or
+Do not inspect unrelated sessions, launch a replacement, or
 dispatch successor work. Use the child I named or the single exact unresolved
 child in this parent's Open Codex Agents ledger. If that does not identify one
 child uniquely, stop and ask me for its thread id or agent path.
