@@ -22,7 +22,7 @@ Set the prompt/message payload exactly to
 perform one bounded known-result reconciliation: exact result first, any
 already-present notice without requiring one, native inventory once, exact
 directly mapped child lifecycle state, then ledger plus concrete named
-progress. No notice means unknown, never still-running. Preserve no-poll,
+progress. No notice means unknown, never still-running. Preserve
 collision-safe identity, active-lane, current-session permission,
 single-writer, Worker-result, and parent-only retirement rules.
 

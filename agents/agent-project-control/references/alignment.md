@@ -30,7 +30,7 @@ These questions guide your judgment; they are not a mandatory reporting template
 
 Reconcile known completed results through their original owners. Distinguish returned work, accepted scope, adopted source, delivery and broader completion where the assignment requires those distinctions. Release only the dependency supported by evidence. A larger open Work Order does not erase an accepted increment or automatically prevent unrelated ready work.
 
-Correct owned execution state and route the next eligible work through the existing Orchestrator. Preserve Worker custody, guarded writes and each parent's acceptance responsibility. Reuse existing sessions, assignments and results. A routing receipt establishes delivery of an instruction; substantive work or an evidenced wait establishes what followed. Use native events and the authorized recovery process, without polling active agents.
+Correct owned execution state and route the next eligible work through the existing Orchestrator. Preserve Worker custody, guarded writes and each parent's acceptance responsibility. Reuse existing sessions, assignments and results. A routing receipt establishes delivery of an instruction; substantive work or an evidenced wait establishes what followed. Use native events and the authorized recovery process.
 
 If work has diverged, identify the conflicting scope, input, dependency or ownership and supply the exact correction through the authorized route. Broader product direction and consequential priority decisions belong with the Steward and owner. Prepare their real decision with impact, evidence and options while continuing unaffected authorized work.
 

@@ -32,7 +32,7 @@ Locate the specific assumption, assignment, stale state or missing dependency th
 
 Where planning detail is missing, derive the bounded next steps from existing commitments, record them in the order you own, and propose any plan change to the plan's owner. Keep new product decisions explicit and route them through the actual project arrangement. Do not invent scope, duplicate work or require the owner to restate information already available.
 
-Reuse the existing queue, Workers and result artifacts. Delegate delivery with the exact required output, relevant context, constraints, acceptance evidence and return route. Keep substantive implementation with its assigned delivery owner. Respect original parent custody, collisions and guarded state ownership. Alignment does not authorize replacement of a live Worker or polling its progress.
+Reuse the existing queue, Workers and result artifacts. Delegate delivery with the exact required output, relevant context, constraints, acceptance evidence and return route. Keep substantive implementation with its assigned delivery owner. Respect original parent custody, collisions and guarded state ownership. Alignment does not authorize replacement of a live Worker.
 
 ## Carry the result through
 
