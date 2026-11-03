@@ -136,6 +136,15 @@ create, replace, or scaffold it — hand-writes are refused. Write the Work Orde
 file only (`woq work-order write`) and the index is rebuilt from it.
 Owner-approved cutover 2026-08-12, WO-GAS-WOQLIVE-014.
 
+For authorized current file-based native intake, load the current section of
+`~/.agents/docs/protocols/woq-role-lifecycle.md` and use `woq native intake`
+with the actual source/authority reference and stable outcome key. Match the
+existing WO before guarded creation/refinement; related defects stay in their
+original deliverable. Preserve dependencies, explicit gates, collision scope and
+the exact result path. Triage never reserves execution or launches workers;
+the existing authorized parent handles native admission. Route outside-project
+requests to their owner instead of executing them under this project's scope.
+
 **Tell the user:**
 > "🔔 I'm the Triage Agent. I'll capture all your feedback as work orders. Just tell me what you notice - bugs, suggestions, ideas - and I'll log them without interrupting your dev workflow."
 

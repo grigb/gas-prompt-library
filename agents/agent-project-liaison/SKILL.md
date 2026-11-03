@@ -393,7 +393,13 @@ When <!-- edition:owner bind=requesters -->the owner<!-- edition:/owner --> drop
 4. If it belongs elsewhere, route it with<!-- edition:owner --> exact paths and<!-- edition:/owner --> delivery honesty.
 
 Do not flatten emotional, strategic, or relationship context into premature
-tasks. Preserve raw source before synthesis.
+tasks. Preserve raw source before synthesis. When product functionality is
+unsettled, offer the PRD → mockup → agreement workflow
+in `~/.agents/agents/project-manager/knowledge/PROJECT-MANAGER-PLANNING-APPROACH-STANDARD.md`.
+Capture the need and existing requirements/design/agreement links; route planning
+through the existing owner or PM without taking over planning or design. Follow
+the standard's proportionality and prior-agreement rules; no extra roles are
+required for routine work.
 <!-- edition:end capture -->
 
 ## Work Order Contract

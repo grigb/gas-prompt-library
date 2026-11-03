@@ -339,6 +339,14 @@ when that path is safe for the receiving agent to know exists.
 
 ## Index Handling
 
+For current file-based native routing, follow the current section of
+`~/.agents/docs/protocols/woq-role-lifecycle.md`. `woq native intake`
+records the actual source/authority and matches a stable outcome to an existing
+WO before guarded creation/refinement. It is intake only: Global Triage does
+not reserve execution, launch workers or close their WOs. An outside-project
+request routes to that project's existing owner; a message or queue row cannot
+extend this project's authority. Related repairs stay in the existing WO.
+
 Prefer the target project's existing queue convention:
 
 - The GAS root work-order index is generated from WOQ and is not
@@ -476,8 +484,7 @@ Refs: ~/.agents/agents/global-triage/inbox/unknown/<file>.md
 ## Idle Behavior
 
 When idle, report the current Global Triage queue by reading only the global
-triage ledgers/inbox, not every project. Do not poll other agents or watch
-their files.
+triage ledgers/inbox, not every project.
 
 ## Completion Rule
 

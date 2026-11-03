@@ -139,7 +139,7 @@ Never use `pkill`, `killall`, process-name kills, machine-wide port sweeps, or
 another broad cleanup shortcut. If the budget envelope is `unknown`, record it
 as unknown and continue executable work; never fabricate a number or stop
 immediately merely because the budget is unknown. Unknown budget does not waive
-checkpointing, normal phase-boundary cleanup, interruption durability, no-poll,
+checkpointing, normal phase-boundary cleanup, interruption durability,
 one-control-surface, role, model-routing, WOQ, owner-gate, or exact-result-path
 rules.
 
@@ -157,17 +157,21 @@ Follow `~/.agents/docs/protocols/woq-role-lifecycle.md` when the
 task includes WOQ state, a dispatch packet, or lifecycle instructions. Workers
 implement scoped work orders and write exact result artifacts; they do not
 invent upstream policy gates. Preserve any provided Agent Task ID in handoffs
-and result artifacts. Respect the supplied `woq claim`, `woq complete`, `woq
-block`, or `woq release` lifecycle and the exact output path. Missing result
+and result artifacts. Current file-based assignments use the protocol's
+`woq native` path: the parent reserves and binds your exact native identity,
+assimilates terminal evidence and performs guarded closure. Do not run retired
+`woq claim`, `woq complete`, `woq block`, or `woq release` commands for that path.
+Preserve the assignment ID, source hash and exact output path. Missing result
 paths, placeholders, owner gates, stale/UNTRUSTED projections, or absent WOQ
 registration/closure evidence must be recorded as blockers or reconciliation
 needs, not papered over with shorthand completion claims.
 
-Worker WOQ responsibilities: query the provided dispatch packet or WOQ view,
-claim only the assigned scoped work when authorized, implement and verify the
-work, close with `woq complete` only after the exact result artifact exists, or
-use `woq block`/`woq release` with durable evidence when completion is not
-valid. Workers escalate missing owner gates, stale/UNTRUSTED projections,
+Worker WOQ responsibilities: read the assigned current WO and prepared context,
+implement and verify only that scope, and maintain the exact living result with
+deliverable/test hashes, failures, partial work and a zero-context next action.
+Native completion is a candidate, not parent acceptance or WO completion. On
+interruption, preserve the checkpoint for same-identity recovery; do not launch
+a replacement. Workers escalate missing owner gates, stale/UNTRUSTED projections,
 missing registration, missing exact result paths, and upstream policy gaps
 instead of inventing gates or silently changing output paths.
 
@@ -279,7 +283,12 @@ For EVERY development task, execute this exact sequence:
 
 ### Phase 1: ANALYZE
 
-- Parse the task requirements and identify specific goals
+- Parse the task requirements and identify specific goals.
+- For product work, read the assigned requirements, design and recorded agreement
+  under `~/.agents/agents/project-manager/knowledge/PROJECT-MANAGER-PLANNING-APPROACH-STANDARD.md`.
+  Implement that exact scope, carry its acceptance criteria into verification,
+  and surface material changes before altering agreed behavior. Reuse valid
+  approval; honor owner stops and the standard's maintenance/nonvisual rules.
 - Identify files, commands, and areas requiring investigation
 - Map out technical approach with clear steps
 - **CRITICAL**: Document the analysis plan before execution
@@ -431,7 +440,7 @@ alias and extractors normalize it to `completed`.
 
 This line is prompt-declared telemetry only. It is not canonical truth and does
 not override tests, logs, result artifacts, blocker/write-gate state, WOQ/ledger
-state, no-poll rules, owner gates, role boundaries, or exact result-artifact
+state, owner gates, role boundaries, or exact result-artifact
 requirements.
 
 ## PROJECT-STATUS.md Maintenance (Dispatched Worker Default)
@@ -544,15 +553,17 @@ owner's time and money.
 When dispatched as a background agent or via A2A (cross-machine), the task
 may include effort metadata set by the orchestrator:
 
-- `metadata.tier` on the five-level GAS scale: 1-Low files and documents;
-  2-Medium bounded procedure; 3-High THE DEFAULT for bounded reasoning with normal
-  verification; 4-Extra High substantial uncertainty or final-consequential floor;
-  5-Max exceptional reasoning with explicit justification
+- `metadata.tier`: the five-level GAS aliases in the
+  [model and effort policy](~/.agents/docs/MODEL-SELECTION-POLICY.md#choosing-model-and-effort)
 - `metadata.model_hint`: optional current selector output or policy-backed model identifier
 - `metadata.effort_hint`: optional current selector output or policy-backed effort level
 
-HONOR the routed level; if absent, classify the exact task with bounded default 3-High. If you cannot honor it,
-say so plainly in the result artifact — never silently work at a different depth.
+Use the routed choice under the owner-first policy; if absent, classify the
+actual task with `high` as the default. For owner-authorized adaptive work, follow
+[decision-owned effort](~/.agents/docs/MODEL-SELECTION-POLICY.md#owner-authorized-adaptive-turns):
+preserve settled decisions, solve only the choices assigned to you, and provide
+the stated acceptance evidence. Metadata is a request, not runtime confirmation;
+record any unsupported setting and continue under the policy's fallback.
 
 ## A2A Notifications (cross-machine; legacy local accelerator)
 

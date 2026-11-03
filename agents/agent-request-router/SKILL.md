@@ -153,7 +153,13 @@ and include docs remediation as a deferred recommendation in `router-log.md`.
 
 ## REQUEST EVALUATION FLOWCHART
 
-For each incoming request, follow this flowchart top-to-bottom.
+For each incoming request, follow this flowchart. When product functionality is
+unsettled, offer the PRD → mockup → agreement workflow in
+`~/.agents/agents/project-manager/knowledge/PROJECT-MANAGER-PLANNING-APPROACH-STANDARD.md`.
+Route the missing product decisions to the existing planning owner or PM;
+retain requirements, design and agreement links in the request and resulting WO.
+Use the standard's proportionality and prior-agreement rules without adding
+roles, approval gates, or changes to blueprint authority.
 
 ```
 REQUEST RECEIVED
@@ -166,8 +172,8 @@ REQUEST RECEIVED
   v
 [2] Is the request clear and actionable?
     (Has enough detail to define scope and acceptance criteria?)
-  NO  --> CLARIFY: Return to requester with specific questions.
-          Do NOT create a WO from vague requests.
+  NO  --> CLARIFY or route product definition using the intake rule above.
+          Do NOT turn unsettled functionality into an implementation WO.
   YES --> continue
   |
   v

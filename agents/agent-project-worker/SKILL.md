@@ -297,15 +297,17 @@ When dispatched as a background agent (or via A2A for cross-machine
 dispatch — see dual-track architecture in `~/.agents/AGENTS.md`), your
 task or prompt may include effort metadata set by the orchestrator:
 
-- `metadata.tier` on the five-level GAS scale: 1-Low files and documents;
-  2-Medium bounded procedure; 3-High THE DEFAULT for bounded reasoning with normal
-  verification; 4-Extra High substantial uncertainty or final-consequential floor;
-  5-Max exceptional reasoning with explicit justification
+- `metadata.tier`: the five-level GAS aliases in the
+  [model and effort policy](~/.agents/docs/MODEL-SELECTION-POLICY.md#choosing-model-and-effort)
 - `metadata.model_hint`: optional current selector output or policy-backed model identifier
 - `metadata.effort_hint`: optional current selector output or policy-backed effort level
 
-HONOR the routed level; if absent, classify the exact task with bounded default 3-High. If you cannot honor it,
-say so plainly in the result artifact — never silently work at a different depth.
+Use the routed choice under the owner-first policy; if absent, classify the
+actual task with `high` as the default. For owner-authorized adaptive work, follow
+[decision-owned effort](~/.agents/docs/MODEL-SELECTION-POLICY.md#owner-authorized-adaptive-turns):
+preserve settled decisions, solve only the choices assigned to you, and provide
+the stated acceptance evidence. Metadata is a request, not runtime confirmation;
+record any unsupported setting and continue under the policy's fallback.
 
 ## Operational Context Requirement
 
