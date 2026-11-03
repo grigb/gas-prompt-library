@@ -30,6 +30,8 @@
 | FIND-SKILLS | `~/.agents/skills/find-skills/SKILL.md` |
 | FIND-UNKNOWNS | `~/.agents/skills/find-unknowns/SKILL.md` |
 | LAST-30-DAYS | `~/.agents/skills/last30days/SKILL.md` |
+| CORRESPONDENCE | `~/.agents/skills/correspondence/SKILL.md` (emails and replies drafted for the owner; inbound register; work first, then the email) |
+| TRANSCRIPT-GEMS | `~/.agents/skills/transcript-gems/SKILL.md` (read a meeting transcript, monologue or long thread in full; keep every single-sentence gem) |
 | DEEP-RESEARCH-PROMPT-GENERATOR | `~/.agents/prompts/research/deep-research-prompt-generator.md` |
 | DEEP-RESEARCH-MASTER | `~/.agents/prompts/research/deep-research-master.md` |
 | BROWSER-DEEP-RESEARCH-ORCHESTRATOR | `~/.agents/prompts/research/browser-deep-research-orchestrator.md` |
