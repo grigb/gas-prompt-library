@@ -6,6 +6,22 @@
 
 ---
 
+## Role Commands
+
+### Align now
+
+When the owner requests `align now`, use the already-assigned role (or the explicit role assignment in that request) to select exactly one document:
+
+| Assigned role | Alignment document |
+|---|---|
+| Project Steward, including the Master Steward variant | `~/.agents/prompts/agents/agent-project-steward/references/alignment.md` |
+| Project Control | `~/.agents/prompts/agents/agent-project-control/references/alignment.md` |
+| Orchestrator | `~/.agents/prompts/agents/agent-orchestrator/references/alignment.md` |
+
+Read the selected document's current version and apply it within the assigned role, scope and requested mode. If the role is unknown or has no mapping here, state that and ask which role the owner intends; do not silently select or activate a different role. Quoting or discussing the phrase is not an invocation.
+
+---
+
 ## Primary Agent Triggers
 
 ### Agent Zero (Layer 0 Meta-Orchestrator)
@@ -108,6 +124,20 @@
 
 ---
 
+### Project Control (Single-Project Execution Coordination)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `project control` | `~/.agents/prompts/agents/agent-project-control/SKILL.md` | Coordinate accepted workstream Orchestrators and sustain authorized execution |
+| `you are Project Control` | `~/.agents/prompts/agents/agent-project-control/SKILL.md` | Activate or adopt the existing Control role |
+| `act as Project Control` | `~/.agents/prompts/agents/agent-project-control/SKILL.md` | Explicit Control role assignment |
+
+**Activation Regex:** `(?i)\b(project\s+control)\b`
+
+Explicit Project Control assignment takes precedence over a generic orchestration word in the same request. Discussion of a role does not activate it.
+
+---
+
 ### Orchestrator Agent (Multi-Agent Coordination)
 
 | Trigger Phrase | Target Prompt | Description |
@@ -142,11 +172,22 @@
 
 ---
 
-### Project Steward Agent (Single-Project Advisor / Operator)
+### Lookout Monitor
 
 | Trigger Phrase | Target Prompt | Description |
 |----------------|---------------|-------------|
-| `project steward` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Single-project advisor/operator for raw monologue capture, project-local wisdom, dependency mapping, and work-order conversion |
+| `lookout`, `lookout monitor` | `~/.agents/skills/lookout-monitor/SKILL.md` | Scans sessions on a 5-minute schedule and passes needs up |
+| `you are the lookout monitor` | `~/.agents/skills/lookout-monitor/SKILL.md` | Explicit activation of the Lookout Monitor |
+| `turn end monitor` | `~/.agents/skills/lookout-monitor/SKILL.md` | Old name of the Lookout Monitor; alias |
+| `you are the turn end monitor` | `~/.agents/skills/lookout-monitor/SKILL.md` | Old name of the Lookout Monitor; alias |
+
+---
+
+### Project Steward Agent (Single-Project Advisor / Orchestrator)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `project steward` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Single-project advisor/orchestrator for raw monologue capture, project-local wisdom, dependency mapping, and work-order conversion |
 | `master steward` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Project Steward with Master Steward overlay for top-level holistic work, cross-project routing, and dispatch-locality decisions |
 | `you are master steward` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Explicit activation of the Master Steward variant using the same Project Steward prompt |
 | `act as master steward` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Explicit activation of the Master Steward variant using the same Project Steward prompt |
@@ -167,7 +208,7 @@
 | `capture this monologue` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Preserve raw monologue, then synthesize into project-local wisdom and follow-up |
 | `turn this into work orders` | `~/.agents/prompts/agents/agent-project-steward/SKILL.md` | Convert durable project needs into scoped work orders |
 
-**Core Principle:** Project Steward is normally single-project, not portfolio. When `master` is prepended, the same prompt applies the Master Steward overlay for top-level holistic work. Captures raw thinking before synthesis, keeps project-specific wisdom inside the project, separates universal GAS process from local project facts, and creates work orders only from durable actionable needs.
+**Core Principle:** Project Steward is normally single-project, not portfolio. When `master` is prepended, the same prompt applies the Master Steward overlay for top-level holistic work. Captures raw thinking before synthesis, keeps project-specific wisdom inside the project, separates universal GAS process from local project facts, and creates work orders only from durable actionable needs. A steward orchestrates. Execution goes to a work order and a dispatched worker.
 
 **Activation Regex:** `(?i)\b(project\s+(steward|advisor|supervisor|brief)|steward\s+brief|you\s+are\s+(the\s+)?project\s+steward|act\s+as\s+project\s+steward|steward\s+(this|of\s+(this|the))\s+project|you\s+are\s+(the\s+)?steward\s+of\s+this\s+project|capture\s+this\s+monologue|turn\s+this\s+into\s+work\s+orders)\b`
 
@@ -522,6 +563,22 @@ native Google Doc, or Markdown—and does not create a package or companion arti
 
 ---
 
+### Human-Readable Review Mode (Plain Writing and Fast Human Review)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `human-readable review` | `~/.agents/modes/HUMAN-READABLE-REVIEW-MODE.md` | Plain writing and fast human-review formats |
+| `human readable review` | `~/.agents/modes/HUMAN-READABLE-REVIEW-MODE.md` | Same, without hyphen |
+| `make this human-readable` | `~/.agents/modes/HUMAN-READABLE-REVIEW-MODE.md` | Rewrite output for fast human reading |
+| `make it human-readable` | `~/.agents/modes/HUMAN-READABLE-REVIEW-MODE.md` | Alias |
+| `human review audit` | `~/.agents/modes/HUMAN-READABLE-REVIEW-MODE.md` | Post-task review summary (diagram, HTML viewer, 60s script) |
+
+**Core Principle:** Opt-in GAS option for any harness or model. The mode file routes to the canonical skill `~/.agents/skills/human-readable-review/SKILL.md` (plain writing from Simplified Technical English / ASD-STE100 and fast review formats). Checker: `~/.agents/scripts/lint-human-readable.py`. The bare phrase "human-readable" (e.g. "human-readable timestamps") does not trigger the mode.
+
+**Activation Regex:** `(?i)\b(human[\s-]readable\s+review|make\s+(this|it)\s+human[\s-]readable|human\s+review\s+audit)\b`
+
+---
+
 ### Commit Agent (Smart Commits)
 
 | Trigger Phrase | Target Prompt | Description |
@@ -594,6 +651,30 @@ native Google Doc, or Markdown—and does not create a package or companion arti
 **Core Principle:** Not a role — a mandatory output format. Any agent producing prompts for an image generator MUST follow the four rules (filename slug, `REQUIRES ATTACHMENT:` flag, text-suppression clause, logo reproduction) and run the standard's pre-delivery checklist before delivery. Single source of truth; the Claude-skill path and this trigger both point to the same standard.
 
 **Activation Regex:** `(?i)\b(image\s+(generation\s+)?prompts?|prompts?\s+for\s+an?\s+ai\s+(image\s+)?generator|(midjourney|dall[\s-]?e|flux|nano\s+banana|stable\s+diffusion)\s+prompt)\b`
+
+---
+
+### Media Studio (Films, Clips, Stills, Voiceovers)
+
+Apply these triggers only to the requested deliverable, using the skill's
+[deliverable scope](~/.agents/skills/media-studio/SKILL.md#scope-choose-the-requested-deliverable).
+An isolated keyword, film mention or discovered tool is not an instruction to adopt film output.
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `make a film` | `~/.agents/skills/media-studio/SKILL.md` | Make a film from a brief or script |
+| `make a video` | `~/.agents/skills/media-studio/SKILL.md` | Same as make a film |
+| `film` | `~/.agents/skills/media-studio/SKILL.md` | Any film request: make, fix, recut, check, publish |
+| `clip` | `~/.agents/skills/media-studio/SKILL.md` | A generated video clip (Google Flow / Veo, Grok) |
+| `voiceover` | `~/.agents/skills/media-studio/SKILL.md` | Narration for a film or deck (routes to local-voiceover-gas) |
+| `narrated deck` | `~/.agents/skills/media-studio/SKILL.md` | Narration and media for a deck (deck-build owns the deck) |
+| `slide image` | `~/.agents/skills/media-studio/SKILL.md` | A standalone still for a slide; use the asset route |
+| `slide stills` | `~/.agents/skills/media-studio/SKILL.md` | Clean film stills with a mapping file for the slides agent |
+| `media studio` | `~/.agents/skills/media-studio/SKILL.md` | Explicit media studio request |
+
+**Core Principle:** Route the requested component through Media Studio; its deliverable scope determines whether the film method applies. Generation uses the owner's subscription tools in the browser, never per-use APIs.
+
+**Activation Regex (candidate match; apply the deliverable check above):** `(?i)\b(make\s+a\s+(film|video)|film|clip|voice[\s-]?over|narrated\s+deck|slide\s+(image|stills?)|media\s+studio)\b`
 
 ---
 
@@ -761,6 +842,40 @@ field experience, ask the owner to classify it before extracting or cataloging.
 | `check calls and chats` | `~/.agents/skills/project-conversation-context/SKILL.md` | Inspect both project calls and chat feed chunks |
 
 **Activation Regex:** `(?i)\b(conversation\s+context|include\s+conversation(\s+context)?|include\s+conversations|check\s+project\s+meetings|consult\s+(calls|meetings)|check\s+calls\s+and\s+chats)\b`
+
+---
+
+### Correspondence (Emails and Replies Drafted for the Owner)
+
+| Trigger | File | Purpose |
+|---------|------|---------|
+| `correspondence` | `~/.agents/skills/correspondence/SKILL.md` | Run the correspondence process: register, drafts, check, send list |
+| `reply desk` | `~/.agents/skills/correspondence/SKILL.md` | Who waits on the owner; the inbound register replaces separate desks |
+| `draft the replies` | `~/.agents/skills/correspondence/SKILL.md` | Draft only replies whose work is done and live |
+| `draft the emails` | `~/.agents/skills/correspondence/SKILL.md` | Natural-language trigger |
+| `send list` | `~/.agents/skills/correspondence/SKILL.md` | One send list in send order, from checked drafts |
+| `inbound register` | `~/.agents/skills/correspondence/SKILL.md` | One line per person-thread, days waiting, deliverables, rollup |
+| `who is waiting for a reply` | `~/.agents/skills/correspondence/SKILL.md` | Natural-language trigger |
+| `correspondence backlog` | `~/.agents/skills/correspondence/SKILL.md` | Natural-language trigger |
+| `review my edits` | `~/.agents/skills/correspondence/SKILL.md` | Edit review (step 14): compare agent drafts with what the owner sent, ask him why where unclear, tune the style guide |
+| `learn from my edits` | `~/.agents/skills/correspondence/SKILL.md` | Natural-language trigger |
+
+**Core Principle:** Work first, then the email. An email reports only work that is done, public and at the owner's quality. When the work is not done, the email waits; an agent never lowers the work, edits a site or softens a claim so an email can go out. Any agent that drafts an outward message in the owner's name uses this skill, in any GAS project.
+
+**Activation Regex:** `(?i)\b(correspondence|reply\s+desk|draft\s+the\s+(replies|emails)|send\s+list|inbound\s+register|waiting\s+for\s+a\s+reply|review\s+my\s+edits|learn\s+from\s+my\s+edits)\b`
+
+### Transcript Gems (Single-Sentence Gems From Long Transcripts)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `transcript gems` | `~/.agents/skills/transcript-gems/SKILL.md` | Read a transcript in full and write `<name>.gems.md`, gems first |
+| `find the gems` | `~/.agents/skills/transcript-gems/SKILL.md` | Natural-language trigger |
+| `gem pass` | `~/.agents/skills/transcript-gems/SKILL.md` | Run the gem method on a transcript, monologue or long thread |
+| `pull the gems out of this meeting` | `~/.agents/skills/transcript-gems/SKILL.md` | Natural-language trigger |
+
+**Core Principle:** Any agent or worker that processes a meeting transcript, monologue or long thread for a steward or the owner uses this skill. It reads the whole transcript in order (never by keyword search), runs a second pass that hunts only for one-sentence gems, and lists gems; decisions, asks and commitments; reading between the lines; and the noise and context that are not gems, so every transcript line is accounted for. The YouTube `transcript` trigger does not fire for these phrases; this entry wins.
+
+**Activation Regex:** `(?i)\b(transcript\s+gems|find\s+the\s+gems|gem\s+pass|pull\s+the\s+gems\s+out)\b`
 
 ---
 
