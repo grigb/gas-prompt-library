@@ -303,16 +303,22 @@ before ordinary commits:
    `git status --porcelain=v1 -- .gitignore`.
    - If project root `.gitignore` is already tracked-modified, staged,
      deleted, or renamed before this worker's maintenance step, do not edit it.
-     Report an ignore-maintenance warning/block and continue with safe commit
-     work.
+     However, if `.gitignore` is tracked-modified (`M`) and `git diff --unified=0 -- .gitignore`
+     contains only additions (`+` lines with zero `-` deletions) of safe ignore
+     patterns (`*.db*`, `*.lock`, `*.ckpt`, `*.mp4`, `.dev/ai/`, `external/`,
+     `.backups/`, `dist/`, `build/`), you may stage and commit that additive-only
+     `.gitignore` in this maintenance step. Otherwise Report an ignore-maintenance
+     warning/block and continue with safe commit work.
    - If project root `.gitignore` is already untracked before this worker's
      maintenance step, treat it as an owner-change safety gate unless you can
      prove the file is empty or contains only comments plus maintenance entries
      that exactly match the Global Commit ignore-maintenance entries needed for
      the current blocked artifacts. Only in that proven maintenance-only case
      may you adopt/stage the untracked `.gitignore`. Otherwise report
-     `ignore_maintenance: skipped` with a no-dispatch-worthy reason.
+     `ignore_maintenance: skipped` with a no-dispatch-worthy reason (`untracked \`.gitignore\` was not provably maintenance-only`).
    - Never stage `.gitignore.*`.
+   - **Stale Lock & Bulk Ephemeral Hygiene:** Delete dead `.dev/ai/**/*.lock` and `*write.lock` files older than 2 hours that have no live PID. When untracked files exceed 1,000 and >90% reside in `.dev/ai/backups/`, `.dev/ai/launch-deploy/`, or `.dev/ai/subtask-comms/`, append those folder prefixes to root `.gitignore` during this maintenance step.
+   - **Public Repository Path Sanitization:** In public repositories (such as `gas-prompt-library`) where pre-commit hooks reject hardcoded local home paths, replace `~/` with `~/` in modified prompt/markdown files before staging.
 5. If the safety gate passes, append-only maintain project root `.gitignore`:
    - create `.gitignore` only when it does not exist;
    - append new entries only; never remove, reorder, or rewrite existing
