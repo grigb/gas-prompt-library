@@ -1,3 +1,5 @@
+> **Superseded 2026-10-12.** This guide predates the model roster. Model picks now live in `~/.agents/config/model-roster.yaml` (Sonnet 5.5 is allowed for any work; Sonnet 5 stays banned). Follow "Model And Effort Selection" in `~/.agents/AGENTS.md`.
+
 # Opus 5 Effort-Ladder Decision Guide — Token Efficient
 
 > **Retitled 2026-07-24. The filename is stale on purpose.**

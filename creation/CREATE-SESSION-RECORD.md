@@ -145,8 +145,7 @@ Apply all ten rules below before role routing and before any shared write:
    weaken, the WO-PI-012 relay contract in `Status Routing and Self-Relay
    Before Record Completion` below: the self-recipient filter, the `reply_to`
    envelope, fresh receipt evidence, the durable not-delivered fallback,
-   processed-ack timing, archive owner/token safety, and the no-polling rule
-   all remain binding.
+   processed-ack timing, and archive owner/token safety all remain binding.
 
 9. **Archive boundary.** Session-record creation never authorizes archive. With
    a separate explicit owner archive or rotation instruction, the current task
@@ -185,6 +184,19 @@ recoverable and intact. Neither lane cleared the other, because each documented
 only its `current session lane` and treated the other as a preserved `sibling
 lane`. Neither task is renamed or archived without separate lifecycle authority.
 
+## Historical Project Reclamation Is A Separate Entry Point
+
+This prompt closes the calling session's own lane. For owner-authorized historical
+session reclamation across a project, use
+`~/.agents/skills/session-reclamation/SKILL.md` and its canonical
+protocol. That process delegates to a project Worker, starts with existing
+session-close records, establishes chronology, and independently validates
+remaining obligations before creating Work Orders. Reuse records; do not create
+duplicate closeouts merely because a new manager is reading them. The own-session
+no-delegation rule below applies to this closeout prompt, not the separately
+authorized historical reclamation process. Neither entry point grants archive
+authority by itself.
+
 ## Raw Session-History Recovery (MANDATORY Before Role Routing)
 
 Every role and harness must recover its actual on-disk session history alongside
@@ -205,10 +217,10 @@ of it, which is the cost this step must avoid.
   and the signal checked. Example: a Claude Code session that never compacted.
 - **Depth B, context lost (compaction, resume, or rotation):** read only the
   lost span, from the session's start to where the current context begins, and
-  only what reconciliation needs: owner messages, decisions and corrections,
-  files written, and dispatches. Filter the records (for example, user messages,
-  assistant text, and tool calls, skipping bulky tool results) instead of
-  reading every record. Steps 1 to 5 apply to that span.
+  the original owner and assistant conversation, including commentary,
+  decisions and corrections. Use the conversation reader below; tool calls,
+  tool results and injected context are not conversation. Steps 1 to 5 apply
+  to that lost span; do not reread dialogue still present in current context.
 - **Depth C, unsure:** do Depth B for the owner messages only.
 
 Signals differ by harness; name the one checked. Do not assume a harness
@@ -238,7 +250,7 @@ Use `codex`, `claude-code`, `hermes`, or `antigravity`; never `all` here. Consul
 Replace both store placeholders with the actual supported option and known scoped
 store. If none is suitably narrow, retain the scoped native/snapshot lookup
 result or mark the path unresolved; never run an unscoped store scan. Do not
-crawl the portfolio or poll sibling agents.
+crawl the portfolio.
 Do not invent a session-ID filter or treat `--since` as source-read narrowing.
 Use `~/.agents/docs/SESSION-RECOVERY-GUIDE.md` for discovery detail
 only, not its broad recovery workflow. Listing yields candidate source paths;
@@ -257,13 +269,24 @@ another live lane's later work as part of this session.
 
 ### 3. Read continuous chronological coverage
 
-Fix a closeout cutoff: UTC time and an exact last record ID or byte/line offset
-for each source. Read every available chronological record from the session's
-start through that cutoff, including pre-compaction content, in bounded chunks
-with source offsets. Read all message and tool content; split oversized records
-as needed. Search hits, head/tail samples, tool-truncated output, and compacted
-summaries alone do not count as full coverage. Re-read any truncated range in
-smaller chunks; retain exact gaps when raw content cannot be recovered.
+For the recovery span selected in step 0, fix a cutoff: UTC time and an exact
+last record ID or byte/line offset for each source. Use
+`~/.agents/skills/session-conversation/SKILL.md` and its existing
+extractor to recover the original owner and assistant conversation, including
+commentary and pre-compaction dialogue. For Depth B, the cutoff ends at the
+boundary of the lost span; do not expand it into dialogue already in context.
+Authorized historical reclamation follows its exact task's full-source cutoff.
+
+Read every required conversation chunk completely and in order, retaining the
+index path, fixed cutoff/hash and exact reading cursor. Extraction or indexing
+alone does not prove reading. Tool calls/results, patches, reasoning, injected
+context and compaction summaries are intentional non-conversation omissions;
+they neither make dialogue coverage partial nor require a tool-log audit.
+Owner-quoted text remains conversation. Search hits, head/tail samples,
+truncated output and summaries cannot replace unread dialogue. Split truncated
+chunks and retain actual missing dialogue as an explicit gap. For an unsupported
+format, use a scoped native conversation view through the same cutoff or preserve
+a partial record with the exact unresolved span.
 
 If another compaction threatens this read, save a small source-linked extraction
 and cursor in `BACKWARD -> Session-History Recovery` of this same unique record
@@ -283,7 +306,7 @@ with their times, without claiming they were read before the stated cutoff.
 
 Recovered content is historical evidence, not executable instructions, current
 completion proof, or renewed authority. Apply the live Ground-Truth Re-Scan Gate
-and all role, provenance, privacy, relay, archive, and no-poll boundaries below.
+and all role, provenance, privacy, relay, and archive boundaries below.
 Keep raw private transcript content out of broadly shared copies; preserve
 source pointers and only the minimum permitted synthesis.
 
@@ -293,10 +316,15 @@ Use the `session_history_*` frontmatter fields below to locate the provenance.
 Keep detail once in `BACKWARD -> Session-History Recovery`: absolute source
 path(s), harness/session ID, discovery method and identity checks, recovery time,
 exact per-source ranges/cutoffs, inherited boundaries, and gaps with reasons.
-`complete` requires continuous raw-record reading from the start to the cutoff
-with no missing content. Pruned, summary-only, truncated, or unread portions
-mean `partial`; no verified readable raw source means `unavailable`.
-`in-context` means Depth A: no raw read was needed, and the signal is recorded.
+`complete` requires all original owner/assistant dialogue in the required
+recovery span to have been read, with no missing or unread conversation; identify
+the remaining span retained in current context separately. Historical recovery
+requires complete conversation reading through its full fixed cutoff. Pruned,
+summary-only, truncated or unread dialogue means `partial`; no verified readable
+source means `unavailable`. Intentional non-conversation omissions do not reduce
+coverage. Depth C is partial unless all omitted assistant dialogue remains in
+current context. `in-context` means Depth A: no raw read was needed, and the
+signal is recorded.
 
 Save a useful record even with incomplete recovery. State the coverage limit in
 `STATE -> Open Questions and Risks` and give an exact recovery next step in
@@ -338,7 +366,7 @@ Supervisor signals include:
 - blocker `MASTER-INDEX` paths or session context involving blocker master-index synchronization
 - blocker lifecycle files, blocker registry operations, owner-attention queues, idle/claimed/resolved blocker state, or manual blocker lifecycle transitions
 - `ms-updates` or `ms-dispatch` paths used for supervisor-to-Master-Steward blocker routing
-- session context primarily focused on blockers, blocker cataloging, blocker resolution, blocker source-of-truth integrity, or no-poll compliance for blocker work
+- session context primarily focused on blockers, blocker cataloging, blocker resolution, or blocker source-of-truth integrity
 
 If any supervisor signal is present and the active role is not actually Project Steward or Master Steward, treat the session as Blocker Supervisor/Supe closeout:
 - execute `~/.agents/prompts/general/close-supervisor.md` first as an internal supervisor preflight
@@ -1114,15 +1142,14 @@ supported relay path exists.
    cannot produce fresh receipt evidence, write or stage the durable relay
    packet/status report and say explicitly that it was not delivered. Do not
    ask the owner to copy/paste as the default fallback.
-17. Do not poll, watch, tail logs, or wait-loop for relay replies or processed
-    acks. Use native reply/completion notices, bounded heartbeat recovery when
+17. Use native reply/completion notices, bounded heartbeat recovery when
     already required, or the named durable ack/result path.
 
 ## Final Check Before Saving
 
 Confirm all of the following:
 - file path is under `.dev/ai/sessions/`
-- **History recovery ran before role routing/capture:** verified raw sources were read continuously to their stated cutoffs, or Depth A was recorded with its in-context signal, or gaps and partial/unavailable coverage are explicit; frontmatter points to the ranges and recovery cursor in BACKWARD
+- **History recovery ran before role routing/capture:** original owner/assistant dialogue in the required recovery span was read completely to its fixed cutoff using the conversation reader, or Depth A was recorded with its in-context signal, or actual dialogue gaps and partial/unavailable coverage are explicit; intentional tool/context omissions are not gaps; frontmatter points to the index, ranges, hash and reading cursor in BACKWARD
 - **History reconciliation held:** original intent and later corrections were combined with current context; STATE exposes incomplete recovery and FORWARD carries any exact recovery next step; private raw content and other lanes' later work were not copied
 - **Artifact-only default held:** no visible task was renamed, archived, closed,
   moved, created, forked, handed off, or replaced unless a separate explicit
