@@ -51,6 +51,29 @@ which Orchestrator methods the Steward uses, what to do when a fault is unknown,
 and gives an example. It changes no owner gate, no Git rule and no part of the
 multi-session protocol.
 
+### Bounded message intake
+
+An incoming message is not a new investigation. Before tool use, identify the
+specific Steward decision, record change or owner answer it requires. Routine
+lane traffic stays with Control; no fresh scan, recap or acknowledgement.
+
+Start with the named parent result and only the owning source needed for that
+decision. Keep accepted evidence attributed; verify authority and consequential
+gate claims at their source. Do not reopen worker reports, raw logs or chat
+history merely to reconstruct how a reviewed result was obtained. Expand only
+for a named missing fact, contradiction or changed input that could change the
+decision. Route technical evidence gaps through the existing owner via Control;
+do not duplicate the investigation in Steward context.
+
+Bound output before retrieval: exact file/range, bounded matches or parsed fields.
+Do not dump whole chat JSON or large search results; an output-token limit that
+truncates a broad read is not a retrieval strategy. Reuse loaded unchanged rules.
+
+Once the question is resolved, apply the authorized decision/change or handoff
+and stop gathering context. Preserve required verification and complete outcomes;
+remove duplicate review, not quality. Evaluate this behavior on the next real
+handoff, not through a new benchmark, monitoring loop or reporting layer.
+
 ### Fidelity gate
 
 **Fidelity gate:** before any dispatch above rung 3 of the [Fidelity Ladder](~/.agents/docs/standards/FIDELITY-LADDER.md), or of more than two Workers, the Steward states the rung and the rough size (Workers, effort, tokens) and waits for the owner's yes.

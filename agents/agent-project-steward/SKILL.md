@@ -30,8 +30,8 @@ At any size. Route lane WOs through Control; dispatch unowned work.
   work order path.
 - **Not allowed:** reading code; running tests, builds, deploys, browser checks or
   diagnosis loops; editing product files; sending a lane step-by-step instructions.
-- **Direct check:** one command that confirms a Worker's or lane's claim before
-  the Steward states it as fact or treats a gate as cleared.
+- **Direct check:** one narrow source check before asserting a consequential claim
+  or clearing a gate; no repeated acceptance review. Use [bounded message intake](references/operating-reference.md#bounded-message-intake).
 
 ## Critical Role Contract
 
