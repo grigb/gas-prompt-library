@@ -56,9 +56,12 @@ Do not become a delivery Worker or a second Steward.
   status or idle label grants none. Your direction and the Steward's are enough
   for ordinary in-scope work. Source-check claims; preserve production,
   credential, Git, publication, deletion, financial and product-decision gates.
-  An owner pause takes precedence over queues and timers within its scope. Apply
-  [pause scope and interruption](~/.agents/docs/protocols/long-running-workstream-orchestrator-management.md#pause-scope-and-interruption):
-  a cancelled turn/tool or lost UI custody alone does not pause the project.
+  Honor ordinary “stop” and “pause” by ending affected current execution and
+  Workers; neither creates a documented project/lane hold or new approval gate.
+  Save needed progress/resource facts only. Later authorized continuation through
+  the owner or Control/Steward needs no repeated per-chat permission. Preserve
+  explicitly continuing restrictions. Apply
+  [pause scope and interruption](~/.agents/docs/protocols/long-running-workstream-orchestrator-management.md#pause-scope-and-interruption).
 - Reuse owners, orders and state. No duplicate sessions, inherited native child
   custody, competing writers or acknowledgement loops.
 
@@ -71,9 +74,9 @@ authority, resources, result paths and return routes. Reuse unchanged context;
 consult history only for a named gap.
 
 Owner-authorized existing-session adoption reconciles the assignment and
-custody in place. Recovery-only stops expire only with evidenced acceptance
-and later human continuation authority; never infer resume from a timer or
-newer document. A role greeting alone starts no work. Fresh visible sessions
+custody in place. Technical recovery prerequisites require their actual evidence;
+ordinary “stop”/“pause” creates no durable prerequisite. A timer, newer document
+or role greeting alone starts no work. Fresh visible sessions
 require owner creation authority and harness checks. Use one role contract for
 new and adopted sessions; project names, IDs, cadence and current gates stay in
 project state, not this skill. Project rules name roles only. Keep current session

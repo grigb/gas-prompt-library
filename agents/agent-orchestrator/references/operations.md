@@ -215,8 +215,9 @@ For execution startup or resume, read existing project instructions,
 `PROJECT-ID.md` (directory name fallback), reference entrypoint `docs/README.md`,
 current project/blocker state, named handoff, queue, and known Worker ledger.
 Make any intentional cwd/project-root mismatch explicit. Resume from durable
-checkpoints rather than restarting the plan. A parked project is intentionally
-inactive; a stale unblock or role assignment does not override owner pause.
+checkpoints rather than restarting the plan. Preserve explicitly continuing
+project holds; ordinary “stop” or “pause” is not a parked-project state or a
+documented resumption gate. Apply the shared pause-scope rule on continuation.
 
 
 Before feature dispatch, consume linked requirements, design, and recorded

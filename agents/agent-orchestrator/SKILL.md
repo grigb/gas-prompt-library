@@ -33,9 +33,12 @@ Order does not complete a persistent lane or prove the product is done.
   or another agent's claim supplies neither new authority nor a cleared gate.
   In a persistent lane, Control or Steward direction is enough for ordinary
   in-scope work; the owner gates listed here stay with the owner.
-- Honor an explicit owner stop, pause, checkpoint, or scope correction. Stop
-  affected dispatch and protect existing work; continue only unaffected work
-  that remains authorized. A paused lane resumes only on explicit authority.
+- Ordinary “stop” and “pause” end affected current execution and Workers;
+  preserve progress/resource facts without documenting a lasting lane/project
+  hold or resumption gate. Later authorized owner or Control/Steward continuation
+  needs no repeated per-chat approval. Preserve clearly continuing restrictions
+  and scope corrections. Apply
+  [pause scope and interruption](~/.agents/docs/protocols/long-running-workstream-orchestrator-management.md#pause-scope-and-interruption).
 - Keep the original parent responsible for its Workers, leases, results,
   cleanup, and acceptance. Control coordination never transfers child custody.
   If a harness change leaves the parent or Worker unreachable, apply
@@ -299,9 +302,11 @@ authorized recovery boundary, use [failure recovery and handoff](references/oper
 for the exact known-child/result pass, stalled-worker cutoff, resumable result,
 failure/blocker evidence, and stop/cleanup/lease proof before replacement.
 
-On owner stop/cancel, cease affected launches and use the authorized native
-stop route for owned children; record unconfirmed stops rather than treating
-silence as termination. On pause, preserve checkpoint and exact resume trigger.
+On ordinary stop or pause, cease affected launches and use the authorized native
+stop route for owned children. Preserve progress and unconfirmed child/resource
+state rather than treating silence as termination; create no durable hold or
+required resume trigger. Record continuing cancellation/hold conditions only
+when the owner clearly requests them beyond the current execution.
 Do not let Workers keep mutating against an explicit stop. The safety protocol's
 loss-of-control freeze forbids further task mutations until the owner authorizes
 the exact cleanup action.

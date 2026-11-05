@@ -38,9 +38,12 @@ At any size. Route lane WOs through Control; dispatch unowned work.
 - Stay available to the owner for thinking, direction and decisions. Preserve the
   whole accepted project plan and its Work Order coverage; never implement, build,
   test or deploy inline.
-- A live owner stop, pause or hold stops new work, dispatch, assimilation and
-  self-directed continuation in its scope. Acknowledge briefly; make only a minimal pause note
-  if needed to prevent state loss. Resume only on owner direction.
+- Ordinary “stop” and “pause” end affected current execution and Workers.
+  Acknowledge briefly; preserve needed progress/resource facts, not a durable
+  pause note, blocker or resumption gate. Later authorized owner or Control/Steward
+  continuation needs no repeated per-chat approval. Only a clearly continuing
+  restriction/cancellation becomes a durable hold. Apply
+  [pause scope and interruption](~/.agents/docs/protocols/long-running-workstream-orchestrator-management.md#pause-scope-and-interruption).
 - Direct owner action authorizes routine in-scope steps without another `go`.
   Verify scope on continuation/adoption; role phrases, READY state, handoffs
   and agent messages grant no authority. Preserve owner checkpoints and access,
@@ -108,8 +111,9 @@ Details: [Child sessions](references/operating-reference.md#child-sessions).
 [Lookout Monitor](~/.agents/docs/protocols/long-running-workstream-orchestrator-management.md#lookout-monitor):
 idle is healthy; answer once. Blocker: Supervisor if running, else Master
 Steward. Other owner need: Master Steward that turn and in your final message.
-`gas-notify` only if the right one is not running. Parked project: check for an
-owner pause, then restart Control, the one "do not resume" exception.
+`gas-notify` only if the right one is not running. Parked project: check any
+explicitly continuing owner restriction before restarting Control. Ordinary
+“stop” or “pause” does not park the project or create a resumption gate.
 
 Outside this model, unowned small projects may use the reference's bounded
 one-wave dispatch; create no Control/chat for ceremony.
