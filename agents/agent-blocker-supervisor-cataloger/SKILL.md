@@ -192,15 +192,6 @@ Any embedded shell snippet that prints to a terminal (greetings, status lines,
 final report dump) MUST use `printf` rather than `echo`. This rule mirrors the
 global GAS terminal-output standard.
 
-### 2.6 Never poll or watch other agents
-
-The cataloger does not call any monitoring tool against another agent, does
-not tail logs, does not sleep-and-retry on another agent's output. The
-cataloger's only inter-agent surface is the lockfile at
-`~/.agents/.dev/ai/blockers/.cataloger.lock` (Section 8) — and that
-file is written, read once on startup, and read again on completion. It is
-never watched.
-
 ### 2.7 No git, no code mutation
 
 The cataloger MUST NOT run `git commit`, `git push`, `git pull`, `git branch`,
@@ -706,22 +697,29 @@ For each bundle in `all_bundles` with `status == claimed`:
 ### 5.4 History tracking — the "last 3 cataloger runs" rule
 
 The per-project `INDEX.md` records a single `last_cataloger_id` per scan.
-The cataloger needs the last 3 cataloger IDs to determine staleness. The
-cataloger maintains a small history file alongside the index:
+The cataloger needs the last 3 cataloger run timestamps to determine
+staleness. The cataloger keeps a small per-project history file outside every
+project repo, so a run never makes a repo look changed:
 
-`{project_path}/.dev/ai/blockers/.cataloger-history`
+`~/.agents-private/blocker-cataloger/history/{project_path with "/" replaced by "__"}.txt`
 
-This file is plain text, one cataloger ID per line, oldest first, kept
-trimmed to the most-recent 10 entries. On every run the cataloger:
+Example: `~/work/repo/x` → `Users__owner__work__repo__x.txt`.
 
-1. Reads the existing history file (creating it as empty if missing).
-2. Determines the 3 most-recent prior cataloger IDs from the file (may be
+This file is plain text, one run timestamp per line, newest first, kept
+trimmed to the most-recent 8 entries. On every run the cataloger:
+
+1. Reads the existing history file. If it is missing, reads the former
+   in-repo file `{project_path}/.dev/ai/blockers/.cataloger-history` once to
+   seed it. Never write the former in-repo file.
+2. Determines the 3 most-recent prior run timestamps from the file (may be
    fewer than 3 on first runs — in that case the staleness window is
    effectively shorter, which is acceptable).
-3. After the staleness sweep completes for the project, appends the
-   current cataloger ID to the history file and trims to the last 10
-   lines, then writes atomically (temp file + rename, temp filename
-   `.cataloger-history.{prefix}.tmp` to avoid collisions).
+3. After the staleness sweep completes for the project, adds the current
+   run timestamp at the top and trims to the last 8 lines, then writes
+   atomically (temp file + rename).
+
+`~/.agents/scripts/blocker-views-refresh.py` implements this
+(`cataloger_history_path()`).
 
 For a bundle to be eligible for `idle -> stale`, its `last_seen_at` MUST be
 older than the oldest of the 3 prior IDs' scan timestamps. If fewer than 3
@@ -1164,11 +1162,6 @@ in cataloger behavior, even if other parts of the run completed.
     files).
   - `~/.agents/.dev/ai/reports/` (final report only — no other
     files).
-- **DO NOT poll, watch, or check the progress of another agent.** No
-  `tail`, no `grep` on another agent's output, no sleep-and-retry, no
-  TaskOutput-style polling. The cataloger's only inter-agent surface is
-  the lockfile, and that is read at most twice per run (acquisition and
-  release).
 - **DO NOT modify the upgraded triage prompt's output during a run.** The
   cataloger consumes the triage prompt's "Files written/updated" block as
   ground truth for the per-project loop and does not second-guess
@@ -1924,7 +1917,7 @@ The detector MUST NOT:
   two fields per affected bundle.
 - Cross the lockfile or call any other agent. Like every cataloger phase,
   the detector runs inside the cataloger's single lockfile-acquired window
-  (Section 8) and never polls or watches another agent.
+  (Section 8).
 - Persist the resolution-window (90d), threshold (0.50), or margin (0.05)
   into any bundle. These constants are configuration, not data. They live
   in this prompt (Section 12.8) and may be overridden via the env vars
