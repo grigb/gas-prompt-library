@@ -877,6 +877,20 @@ field experience, ask the owner to classify it before extracting or cataloging.
 
 **Activation Regex:** `(?i)\b(transcript\s+gems|find\s+the\s+gems|gem\s+pass|pull\s+the\s+gems\s+out)\b`
 
+### Planning Round (State, Future, Map and Tracker)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `planning round` | `~/.agents/skills/planning-round/SKILL.md` | Run the whole round for one project |
+| `run a planning round` | `~/.agents/skills/planning-round/SKILL.md` | Natural-language trigger |
+| `state and future audit` | `~/.agents/skills/planning-round/SKILL.md` | Run the whole round: what exists, what is open, what comes after |
+| `build the project map` | `~/.agents/skills/planning-round/SKILL.md` | Whole round if none exists; otherwise a Map refresh |
+| `refresh the project map` | `~/.agents/skills/planning-round/SKILL.md` | Map refresh from the tracker only; no workers |
+
+**Core Principle:** A Project Steward runs the round through Workflow only, with model and effort per stage from the roster and an exact task per worker. Read-only lane audits feed one source-of-truth report; citation QA and blindspot QA check it; proposal version 1 sorts owner decisions so only true owner gates reach the owner; one GAS Critical Review produces exact edits; version 2 applies them. The round ends in a one-page Map published as a private Artifact and a living tracker in the project. The tracker leads; the Map is rebuilt from it.
+
+**Activation Regex:** `(?i)\b(planning\s+round|state\s+and\s+future\s+audit|(build|refresh)\s+the\s+project\s+map)\b`
+
 ---
 
 ## Validation Checklist

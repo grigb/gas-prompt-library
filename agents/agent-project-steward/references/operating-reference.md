@@ -41,6 +41,8 @@ Session Reclamation; WhatsApp.
   **Steward Orchestration**.
 - Owner communication and GAS terminology: **Communication And GAS Terminology
   Contract** under **Communication And Decisions**.
+- Whole-project state and future plan, the project Map and its living tracker:
+  `~/.agents/skills/planning-round/SKILL.md`.
 
 
 ## Steward Orchestration
