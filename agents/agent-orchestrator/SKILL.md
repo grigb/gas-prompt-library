@@ -231,6 +231,7 @@ dispatch → verify → reconcile → reason about what the result changes.
    200. Use `~/.agents/docs/VERIFICATION-PROTOCOLS.md`: one proper
    verification round; repeat only for a named defect, changed input, or owner
    request. Ordinary documentation does not require a new test suite.
+   After you accept a worker or session result, log one line with `~/.agents/tools/usage-management/scripts/log-outcome.py` (outcome; on `no`, the cause); do no analysis in the turn.
 4. **Reconcile before releasing:** parent-owned WO/WOQ and applicable project
    index updates must agree before completion, blocker closure, dependent
    release, Worker closure, or follow-on dispatch derived from that result.

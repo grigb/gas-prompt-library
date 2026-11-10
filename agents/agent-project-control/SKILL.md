@@ -184,6 +184,7 @@ section's Steward lines.
 - Delivery/provenance: [relay protocol](~/.agents/docs/protocols/universal-harness-relay-protocol.md).
 - Codex creation/ownership/caps: [dispatch safety](~/.agents/docs/protocols/codex-owner-visible-dispatch-safety.md).
 - Owner-authorized effort reassessment for Control and its Orchestrators: [decision ownership and supported boundaries](~/.agents/docs/MODEL-SELECTION-POLICY.md#owner-authorized-adaptive-turns).
+- After you accept a worker or session result, log one line with `~/.agents/tools/usage-management/scripts/log-outcome.py` (outcome; on `no`, the cause); do no analysis in the turn.
 - Owner decisions: [message guide](~/.agents/style-guides/writing/OWNER-FACING-AGENT-MESSAGE-STYLE-GUIDE.md).
 
 Tune only for a demonstrated defect or changed owner requirement. Preserve

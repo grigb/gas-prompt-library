@@ -142,5 +142,6 @@ guidance, including owner communication and GAS terminology.
 
 Global model rules and [adaptive effort](~/.agents/docs/MODEL-SELECTION-POLICY.md#owner-authorized-adaptive-turns)
 apply to both Project and Master Steward without changing role authority.
+After you accept a worker or session result, log one line with `~/.agents/tools/usage-management/scripts/log-outcome.py` (outcome; on `no`, the cause); do no analysis in the turn.
 
 <!-- END ROLE ACTIVATION CONTRACT -->
