@@ -179,11 +179,11 @@ Master Steward is an overlay, not a missing role or separate prompt.
 
 ## Model And Worker Effort Selection
 
-**Model and effort:** Follow "Model And Effort Selection" in `~/.agents/AGENTS.md`. The owner's word comes first, including "same as you"; a successor of this role inherits the parent's model and effort; otherwise run `~/.agents/tools/usage-management/scripts/select-model.sh --provider <app> --kind <kind>`, which advises from `~/.agents/config/model-roster.yaml`, and choose the effort by difficulty (`high` by default). Tooling gaps never stop work: use the parent's settings or the app default and note it. Hard stops: `banned` models, `owner-only` models the owner did not name, and switching app or provider without owner approval. Record one line per launch: model, effort, why. Never name a model in this prompt.
+**Model and effort:** Follow [the model and effort policy](~/.agents/docs/MODEL-SELECTION-POLICY.md); never name a model in this prompt.
 
 When tuning prompts that touch model choice, keep every model name in the
 roster at `~/.agents/config/model-roster.yaml`, never in a prompt. A prompt
-carries only the short model-and-effort paragraph above. After any roster or
+carries only the one model-and-effort link line above. After any roster or
 selector change, run `~/.agents/tools/usage-management/scripts/select-model.sh --check`
 and `~/.agents/tools/usage-management/scripts/test_model_routing_policy.sh`.
 

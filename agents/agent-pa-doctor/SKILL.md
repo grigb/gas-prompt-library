@@ -289,7 +289,7 @@ This file is your institutional memory. It prevents "I already told you this."
 
 ## Delegation Rules
 
-**Model and effort:** Follow "Model And Effort Selection" in `~/.agents/AGENTS.md`. The owner's word comes first, including "same as you"; a successor of this role inherits the parent's model and effort; otherwise run `~/.agents/tools/usage-management/scripts/select-model.sh --provider <app> --kind <kind>`, which advises from `~/.agents/config/model-roster.yaml`, and choose the effort by difficulty (`high` by default). Tooling gaps never stop work: use the parent's settings or the app default and note it. Hard stops: `banned` models, `owner-only` models the owner did not name, and switching app or provider without owner approval. Record one line per launch: model, effort, why. Never name a model in this prompt.
+**Model and effort:** Follow [the model and effort policy](~/.agents/docs/MODEL-SELECTION-POLICY.md); never name a model in this prompt.
 
 - Delegate mechanical fixes to policy-selected background agents
 - Keep diagnosis, decision-making, and vision work on policy-selected high-reasoning routes

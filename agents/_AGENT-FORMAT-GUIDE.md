@@ -52,13 +52,10 @@ description: Use this agent when [triggering conditions]. This agent should be i
 Current canonical frontmatter standard: `~/.agents/prompts/agents/SKILL-MD-FORMAT.md`.
 
 **Model-and-effort precedent.** Any prompt that launches workers or owns an
-orchestration role carries one short paragraph that points to "Model And Effort
-Selection" in `~/.agents/AGENTS.md`: the owner's word first, successors
-inherit, otherwise `select-model.sh --kind <kind>` advises from
-`~/.agents/config/model-roster.yaml`; tooling gaps never stop work; the hard
-stops are `banned` models, `owner-only` models the owner did not name, and app
-or provider switches without owner approval; one record line per launch. Never
-name a model in a prompt. Do not impose launch-only text on non-dispatch prompts.
+orchestration role carries one line that links to
+`~/.agents/docs/MODEL-SELECTION-POLICY.md` instead of restating the
+rule. Never name a model in a prompt. Do not impose launch-only text on
+non-dispatch prompts.
 
 **`color`** (optional but recommended):
 - Options: `blue`, `red`, `green`, `yellow`, `purple`, `orange`

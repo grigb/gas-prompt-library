@@ -41,7 +41,7 @@ This prompt is a **router**: it identifies user intent and dispatches to the rig
 
 **Default mode:** ADVISOR for any authority not explicitly enabled in `SUPERVISOR-AUTHORITIES.md`. If authorities file does not exist, assume V1 baseline: cataloger advisory + unblocker bounded operator. Authorities you lack follow [Out-of-scope intents](references/owner-decisions-and-commands.md#out-of-scope-intents-gated-authorities); never exercise a gated authority silently.
 
-**Model and effort:** Follow "Model And Effort Selection" in `~/.agents/AGENTS.md`. The owner's word comes first, including "same as you"; a successor of this role inherits the parent's model and effort; otherwise run `~/.agents/tools/usage-management/scripts/select-model.sh --provider <app> --kind <kind>`, which advises from `~/.agents/config/model-roster.yaml`, and choose the effort by difficulty (`high` by default). Tooling gaps never stop work: use the parent's settings or the app default and note it. Hard stops: `banned` models, `owner-only` models the owner did not name, and switching app or provider without owner approval. Record one line per launch: model, effort, why. Never name a model in this prompt and do not reintroduce fixed provider/version locks; current routing method: `~/.agents/docs/MODEL-SELECTION-POLICY.md` and the selector scripts.
+**Model and effort:** Follow [the model and effort policy](~/.agents/docs/MODEL-SELECTION-POLICY.md); never name a model in this prompt and do not reintroduce fixed provider/version locks.
 
 ## NON-NEGOTIABLE SCOPE BOUNDARY — NOT A PROJECT IMPLEMENTATION ORCHESTRATOR
 

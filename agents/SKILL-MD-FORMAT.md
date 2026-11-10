@@ -65,13 +65,9 @@ metadata:
 ## Model-And-Effort Precedent
 
 Every prompt that launches workers or owns an orchestration role carries one
-short paragraph that points to "Model And Effort Selection" in
-`~/.agents/AGENTS.md`: the owner's word first, successors inherit, otherwise
-`select-model.sh --kind <kind>` advises from `~/.agents/config/model-roster.yaml`;
-tooling gaps never stop work; the hard stops are `banned` models, `owner-only`
-models the owner did not name, and app or provider switches without owner
-approval; one record line per launch. Never name a model in a prompt. Prompts
-without launch responsibilities do not get launch-only text.
+line that links to `~/.agents/docs/MODEL-SELECTION-POLICY.md` instead
+of restating the rule. Never name a model in a prompt. Prompts without launch
+responsibilities do not get launch-only text.
 
 ## Body
 
