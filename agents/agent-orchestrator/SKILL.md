@@ -266,15 +266,17 @@ Before lifecycle reads, claims, completion, or guarded writes, load the current
 `~/.agents/docs/protocols/woq-role-lifecycle.md`. Its current file-based
 `woq native` section controls this scoped path; historical DB leases and pins
 are not live assignment authority. Use intake to deduplicate related outcomes,
-select from prepared data, then reserve against fresh files and current native
+select the exact canonical source with separate prepared publication evidence,
+then reserve against fresh files and current native
 occupancy BEFORE invoking your actual native tool. Bind its returned identity;
 retain unknown/active identities, and resume only the same confirmed terminal
 identity. Explicit verification can use the authorized IN_PROGRESS parent WO.
 Independent useful result/test evidence and parent acceptance precede guarded
-closure; bind the same committed prepared revision to the dashboard. No owner
+closure. Unavailable prepared observation leaves publication pending; dashboard
+acceptance separately binds an actual committed prepared revision. No owner
 paste, new service, per-project dispatch fleet or hidden process is needed.
-Stale/UNTRUSTED projections cannot prove readiness: repair/route that surface,
-continue only independently authorized unaffected work, and never bypass it.
+Stale/UNTRUSTED projections cannot prove readiness or publication. Canonical
+native admission still enforces current authority, source, dependency and custody guards.
 Planning/render commands grant no broader execution authority.
 
 Before any guarded mutation, apply [guarded state writes](references/operations.md#guarded-state-writes)
