@@ -59,8 +59,12 @@ Do not become a delivery Worker or a second Steward.
   Honor ordinary “stop” and “pause” by ending affected current execution and
   Workers; neither creates a documented project/lane hold or new approval gate.
   Save needed progress/resource facts only. Later authorized continuation through
-  the owner or Control/Steward needs no repeated per-chat permission. Preserve
-  explicitly continuing restrictions. Apply
+  the owner or Control/Steward needs no repeated per-chat permission. **No
+  durable holds:** never write a hold, pause, park, freeze or “wait for release”
+  into a record. Keep only an owner-stated continuing restriction whose record
+  quotes the owner's words, names the exact scope and names the clearing
+  condition; delete or mark void any hold missing one of these. Single-action
+  owner gates are gates, not holds. Apply
   [pause scope and interruption](~/.agents/docs/protocols/long-running-workstream-orchestrator-management.md#pause-scope-and-interruption).
 - Reuse owners, orders and state. No duplicate sessions, inherited native child
   custody, competing writers or acknowledgement loops.

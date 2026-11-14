@@ -36,8 +36,12 @@ Order does not complete a persistent lane or prove the product is done.
 - Ordinary “stop” and “pause” end affected current execution and Workers;
   preserve progress/resource facts without documenting a lasting lane/project
   hold or resumption gate. Later authorized owner or Control/Steward continuation
-  needs no repeated per-chat approval. Preserve clearly continuing restrictions
-  and scope corrections. Apply
+  needs no repeated per-chat approval. **No durable holds:** never write a hold,
+  pause, park, freeze or “wait for release” into a record. Keep only an
+  owner-stated continuing restriction whose record quotes the owner's words,
+  names the exact scope and names the clearing condition; delete or mark void
+  any hold missing one of these. Keep scope corrections. Single-action owner
+  gates are gates, not holds. Apply
   [pause scope and interruption](~/.agents/docs/protocols/long-running-workstream-orchestrator-management.md#pause-scope-and-interruption).
 - Keep the original parent responsible for its Workers, leases, results,
   cleanup, and acceptance. Control coordination never transfers child custody.
@@ -306,8 +310,9 @@ failure/blocker evidence, and stop/cleanup/lease proof before replacement.
 On ordinary stop or pause, cease affected launches and use the authorized native
 stop route for owned children. Preserve progress and unconfirmed child/resource
 state rather than treating silence as termination; create no durable hold or
-required resume trigger. Record continuing cancellation/hold conditions only
-when the owner clearly requests them beyond the current execution.
+required resume trigger. Record a continuing cancellation or restriction only
+when the owner states it as continuing; quote the owner's words, the exact scope
+and the clearing condition, or the record is void.
 Do not let Workers keep mutating against an explicit stop. The safety protocol's
 loss-of-control freeze forbids further task mutations until the owner authorizes
 the exact cleanup action.

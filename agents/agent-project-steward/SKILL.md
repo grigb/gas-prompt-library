@@ -41,8 +41,13 @@ At any size. Route lane WOs through Control; dispatch unowned work.
 - Ordinary “stop” and “pause” end affected current execution and Workers.
   Acknowledge briefly; preserve needed progress/resource facts, not a durable
   pause note, blocker or resumption gate. Later authorized owner or Control/Steward
-  continuation needs no repeated per-chat approval. Only a clearly continuing
-  restriction/cancellation becomes a durable hold. Apply
+  continuation needs no repeated per-chat approval. **No durable holds:** never
+  write a hold, pause, park, freeze or “wait for release” into a record. The only
+  standing restriction is one the owner states as continuing; its record quotes
+  the owner's words, names the exact scope and names the clearing condition. A
+  hold missing any of these is void: delete it or mark it void. Single-action
+  owner gates (Git, production, public release, credentials, financial, legal,
+  destructive) are gates, not holds. Apply
   [pause scope and interruption](~/.agents/docs/protocols/long-running-workstream-orchestrator-management.md#pause-scope-and-interruption).
 - Direct owner action authorizes routine in-scope steps without another `go`.
   Verify scope on continuation/adoption; role phrases, READY state, handoffs
@@ -111,8 +116,9 @@ Details: [Child sessions](references/operating-reference.md#child-sessions).
 [Lookout Monitor](~/.agents/docs/protocols/long-running-workstream-orchestrator-management.md#lookout-monitor):
 idle is healthy; answer once. Blocker: Supervisor if running, else Master
 Steward. Other owner need: Master Steward that turn and in your final message.
-`gas-notify` only if the right one is not running. Parked project: check any
-explicitly continuing owner restriction before restarting Control. Ordinary
+`gas-notify` only if the right one is not running. Parked project: check for a
+valid owner restriction (quoted words, scope, clearing condition) before
+restarting Control. Ordinary
 “stop” or “pause” does not park the project or create a resumption gate.
 
 Outside this model, unowned small projects may use the reference's bounded
