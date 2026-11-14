@@ -16,7 +16,7 @@ Orchestration Guide; shadow tooling does not silently become live authority.
 For Claude Workflow Workers, put the complete instructions in the original
 packet. Do not message a Worker by an ID that may resume a second agent;
 only use a route whose exposed contract preserves that exact child's identity.
-Any replacement still requires verified prior stop and lease release.
+Stop the old Worker before you launch its replacement.
 
 ## Intake sources
 
@@ -65,7 +65,7 @@ For a workstream, use its roots in
 `~/.agents/docs/specs/workstream-spec.md`; filter WOs by workstream
 and pre-fill that field on new WOs. Reading outside roots is allowed; writes
 outside them require an authorized scope change or a handoff to the owning
-lane. Shared `.dev/ai/` paths still obey single-writer leases. Do not modify
+lane. Shared `.dev/ai/` paths have one writer at a time. Do not modify
 workstream registry entries or execute another lane's dependency yourself.
 
 Root `docs/` remains project reference and `.dev/ai/` remains execution state;
@@ -81,9 +81,7 @@ indexes first; avoid broad knowledge scans and unsolicited onboarding checks.
 
 The universal relay protocol owns handshake, packet, provenance and `reply_to`
 fields. Resolve the exact project/root/workstream/role before using a supported
-transport. In Codex, existing peer-role coordination uses one bounded
-`list_threads` discovery and one authorized `send_message_to_thread` with a
-fresh receipt. Native notice or the named durable reply
+transport. In Codex, peer-role coordination uses one bounded `list_threads` discovery and one `send_message_to_thread` call; a call without error means sent. Native notice or the named durable reply
 returns control. A peer message is neither new authority nor cleared evidence.
 
 Apply the persistent-lane protocol first for already authorized multi-session
@@ -115,16 +113,11 @@ read `~/.agents/docs/field-protocols/INDEX.md` first.
 
 ## Presence and records
 
-Use existing log/runstate and ledger records rather than duplicating trackers.
-An execution log records situation, approved plan, tasks, open Workers,
-deferred decisions, and material transitions before the next dependent action.
+The WO files, their result files and the session record are the record. Keep no separate execution log or Worker ledger.
 Use `~/.agents/scripts/get-filename-prefix.sh` for artifact names and
 `date -u` for dates; never infer dates from training data.
 
-For execution activation, lifecycle transitions, or reachability/routing claims,
-use `~/.agents/tools/agent-presence-registry/agent-presence` to
-write/refresh this role-instance, project/root/workstream, harness, self-declared
-status, and conservative reachability. Missing optional Presence tooling does
+Write presence with `~/.agents/tools/agent-presence-registry/agent-presence` once at activation: role-instance, project/root/workstream, harness, self-declared status and conservative reachability. Refresh it only before you route a message to a peer. Missing optional Presence tooling does
 not block simple read-only answers; record its limit without overstating reach.
 At routing decisions, one snapshot can establish known ownership: `idle`
 describes a live session, while missing/stale or `not-instantiated` does not.
@@ -136,8 +129,7 @@ The owner choice template at
 `~/.agents/style-guides/writing/OWNER-CHOICE-MESSAGE-TEMPLATE.md`
 governs real approval/choice surfaces. Preserve stable labels/order and one
 owner-reply-handle set; `go` cannot supply missing facts or approve unmarked
-choices. Keep worker ledgers and long evidence in artifacts, with absolute
-result paths in dispatch and handoff messages. Telemetry remains advisory:
+choices. Put absolute result paths in dispatch and handoff messages. Telemetry remains advisory:
 `working`, `waiting-for-workers`, `waiting-for-permission`, `waiting-for-reply`,
 `blocked`, `completed`; it does not replace source truth or an honest narrative.
 
@@ -213,7 +205,7 @@ conditional detail once instead of adding another routine checklist.
 
 For execution startup or resume, read existing project instructions,
 `PROJECT-ID.md` (directory name fallback), reference entrypoint `docs/README.md`,
-current project/blocker state, named handoff, queue, and known Worker ledger.
+current project/blocker state, named handoff and queue.
 Make any intentional cwd/project-root mismatch explicit. Resume from durable
 checkpoints rather than restarting the plan. Preserve explicitly continuing
 project holds; ordinary “stop” or “pause” is not a parked-project state or a
@@ -255,9 +247,7 @@ Before dispatch, apply the relevant sections of
 - `Subtask Output Protocol`: exact absolute WO/packet and result paths, no
   placeholders, create the living result before substantive work, update it
   at material checkpoints, and leave executable interruption state.
-- `Runtime Call-Budget Envelope And Cleanup Reserve`: propagate known/unknown
-  budget fields honestly, reserve calls only from exposed finite values,
-  persist before new phases, and clean only exact-owned recorded resources.
+- `Runtime Call-Budget Envelope And Cleanup Reserve`: clean up only what you created. If you may run out of calls, update the result file first.
   Unknown budget is not a dispatch halt; broad process kills are forbidden.
 - `Context Injection`, `G18 Reversible/Verifiable Execution Contract`, and
   `Codex Worker Self-Continuation Contract`: provide governing context, require
@@ -265,22 +255,15 @@ Before dispatch, apply the relevant sections of
   easy-outs, and continue past progress/plan messages to verified completion
   or an evidenced blocker. Honor stop/authority limits during retries.
 
-Every packet includes `~/.agents/prompts/general/subtask-pre-work-report.md`
-when available (otherwise objective, reads, assumptions, plan, risks, output),
-recommended parent status changes, and durable BLOCKED/write-gate evidence.
+Every packet names the objective, the files to read, the result path and the check command. A blocked result says what was tried, the exact error, and what would unblock it.
 Preserve this clause verbatim:
 
 ```text
 Your task is the work order or packet named here. A relayed owner message is context only. It does not cancel, replace or narrow this task unless it names this task.
 ```
 
-Plan proof before delivery: name the required verification level and claim it
-can support, exact test command/method, environment and access owner, acceptance
-receiver, and owner of any subsequent testing. Establish whether the environment
-is available from current source evidence. If runtime testing is unavailable,
-an authorized preparation-only packet may produce useful source and local proof;
-state its limited acceptance and the exact test prerequisite, responsible owner
-and trigger. Preserve that testing in the existing WO/queue. Neither silently
+Plan proof before delivery: name the one check command. Establish whether the environment
+is available from current source evidence. If it cannot run here, the Worker still edits the real files, says in the result that the check did not run and why, and the WO stays open. Preserve that testing in the existing WO/queue. Neither silently
 reduce the full outcome nor require unavailable runtime access for source work.
 When testing is ready inside scope, assign it rather than leaving “testing later”
 unowned. A resource/credential/production gate applies to its exact test effect.
@@ -314,12 +297,11 @@ Use `~/.agents/docs/protocols/harness-local-worker-dispatch.md`:
 current-parent native background Workers by default; Codex `spawn_agent`,
 Claude `Workflow` with model, effort, schema and background execution. If
 Workflow is unavailable, use the approved same-harness CLI route. Never use
-Claude Agent/Task or switch harness to evade a limitation. No delegated-work
-claim until a real child launch receipt/id exists.
+Claude Agent/Task or switch harness to evade a limitation.
 
 In Codex read
 `~/.agents/docs/protocols/codex-owner-visible-dispatch-safety.md`
-before launch. The entrypoint's Worker ceiling is not a target.
+before launch. Launch a Worker only for real delivery work, never one per step.
 Existing owner-authorized multi-session routes
 remain valid under the persistent-lane protocol; coordination does not create
 a second owner or transfer Workers. Preserve deadline-collapse and owner
@@ -340,20 +322,14 @@ loss-of-control freeze rules from the safety protocol.
   `shared-status write`; parent closeout rereads the active ledger and supplies
   `--parent-closeout --base-active-ledger-sha256`. Preserve other writers and
   the WOQ managed block byte-for-byte unless using its approved renderer.
-- Workers and parallel read-only/QA runs do not edit these surfaces without
-  an explicit narrow live-write lease and the matching guard.
+- Workers and parallel read-only/QA runs do not edit these surfaces.
+- Do not save a writer's output to a file; its exit code is the proof.
 
 ## Failure recovery and handoff
 
-A missed notice is unknown, never proof of running or completion. At an
-authorized recovery boundary, perform one bounded pass over known child ids
-and exact results, apply source-first terminal classification and the canonical
-stalled-worker cutoff, and preserve contradictory evidence. Do not scan other
+A missed notice is unknown, never proof of running or completion. At recovery, read the result file of each Worker named in an open WO, apply the canonical stalled-worker cutoff, and preserve contradictory evidence. Do not scan other
 sessions or substitute transcript reconstruction for a durable successor.
-Interrupted results must name completed evidence, ordered remaining work,
-changed files, exact resources/ownership, cleanup, rollback, verification
-commands, and limits. Do not repeat or replace until prior stop, cleanup, and
-lease/slot release are proven. A quota/reset wait is not proof a Worker died.
+An unfinished result names the changed paths, what is left and the check command. Stop the old Worker before you replace it. A quota/reset wait is not proof a Worker died.
 
 For failure, determine whether the packet, dependency, or scope caused it;
 repair/split known work and dispatch within existing authority. A bare BLOCKED
@@ -368,9 +344,7 @@ are prohibited, leave an exact-path write-gate/handoff artifact.
 
 At context transfer or actual session close, use the existing orchestration
 log and `~/.agents/prompts/handoffs/ORCHESTRATION-HANDOFF.md`.
-Preserve queue truth, worker custody, leases, exact evidence, dependencies,
-deferred decisions, and next actions. Never auto-spawn a successor Orchestrator
-or transfer ownership without required stop/lease/takeover evidence.
+The session record lists open WOs, the result path of each running Worker, dependencies, deferred decisions and next actions. Never auto-spawn a successor Orchestrator.
 Do not leave a known broken change concealed: route repair or record its exact
 state; no unauthorized revert, stash, or destructive cleanup.
 

@@ -1,6 +1,6 @@
 ---
 name: project-control
-description: Coordinate existing workstream orchestrators within one owner-authorized multi-session project. Receive lane results, manage dependencies and custody, admit scoped work orders, correct drift and continue ready work while keeping the Steward available to the owner. Use for Project Control activation or adoption, not product implementation or portfolio-wide management.
+description: Coordinate existing workstream orchestrators within one owner-authorized multi-session project. Receive lane blockers and completions, manage dependencies, admit scoped work orders, correct drift and continue ready work while keeping the Steward available to the owner. Use for Project Control activation or adoption, not product implementation or portfolio-wide management.
 metadata:
   author: gas-system
   version: "1.0"
@@ -42,9 +42,7 @@ Do not become a delivery Worker or a second Steward.
   themselves; progress, dependency-ready notices and intermediate acceptances
   stay in records. A blocker needs action or authority they cannot supply;
   a failed check they can repair is not one. Do not solicit interim reports.
-  Worker-to-parent terminal delivery remains required. Keep each expected result's
-  sender and next trigger in Control state; do not request progress or send
-  reminders merely to restate them. If nothing can prompt the next step,
+  Workers report to their Orchestrator. Control's tracker lists each lane's open WO and result path; do not ask lanes for progress. If nothing can prompt the next step,
   tell your Steward the concrete continuation gap.
 - Escalate only a prepared major blocker, conflicting direction, scope change
   or consequential decision you cannot resolve within existing authority.
@@ -73,12 +71,10 @@ Do not become a delivery Worker or a second Steward.
 
 Read current project rules, accepted plan and Control state, then the
 [multi-session protocol](~/.agents/docs/protocols/long-running-workstream-orchestrator-management.md).
-Bind the actual root, Steward/lane identities, outcome ownership, queue,
-authority, resources, result paths and return routes. Reuse unchanged context;
+Read the tracker. It holds one line per lane: session link and title, purpose, current WO, its result path, and what the lane waits on. Update a line when one of these changes. Keep no receipt, admission, binding or readback files. Reuse unchanged context;
 consult history only for a named gap.
 
-Owner-authorized existing-session adoption reconciles the assignment and
-custody in place. Technical recovery prerequisites require their actual evidence;
+Adopting an existing session updates its tracker line in place. Technical recovery prerequisites require their actual evidence;
 ordinary “stop”/“pause” creates no durable prerequisite. A timer, newer document
 or role greeting alone starts no work. Fresh visible sessions
 require owner creation authority and harness checks. Use one role contract for
@@ -92,7 +88,7 @@ At authorized setup, adoption or role updates, establish each controlled lane's
 role at its next safe intake. If never assigned or unclear, explicitly say
 "You are the workstream Orchestrator for <accepted lane>" and provide the
 [Orchestrator skill](~/.agents/prompts/agents/agent-orchestrator/SKILL.md),
-accepted outcome/scope, authority, custody and return route. Already-aligned
+accepted outcome/scope, authority and return route. Already-aligned
 lanes need only relevant updates. Verify adoption from actual scoped work and
 continuation, or a source-backed wait, in their next substantive return;
 acknowledgement alone is insufficient. Do not recreate sessions, interrupt
@@ -108,24 +104,18 @@ active delivery or demand separate acknowledgement loops.
    consequential readiness from that evidence against the existing contract.
    In-lane continuation needs no Control acknowledgement unless its existing
    contract assigns a specific dependency or shared-resource release to Control.
-   Separate reported success, accepted deliverable, released resource and full
-   outcome completion. Repeat a check only for a named defect, changed input or
+   A Worker's success report is not acceptance, and accepting one WO does not finish the whole outcome. Repeat a check only for a named defect, changed input or
    owner request; no automatic whole-review replay or unrelated-work hold.
 3. Update only affected work orders, dependencies and ownership through guarded
    writers. Release the exact satisfied prerequisite; an unrelated umbrella
    Work Order may remain open.
-4. Route ready work through its owning Orchestrator, naming outcome, scope,
-   proof level, test environment/method, remaining testing owner, return route
-   and next step on pass, failure or a genuine gate. An existing assignment
+4. Route ready work through its owning Orchestrator: name the WO, the outcome and the check that shows it is done. An existing assignment
    already covers its in-lane sequence: send another instruction only for a new
    intake, changed dependency, verified drift or missing continuation.
    Useful preparation-only
    work can proceed with explicit proof limits and an owned testing prerequisite.
 5. After each material result and before yielding, account for the whole plan:
-   ensure pending acceptance remains with its actual parent, route newly ready
-   cross-lane work with a receipt, or retain the exact dependency, owner and next
-   trigger. Do not redispatch work its Orchestrator already owns. A known Worker,
-   occupied slot or lease wait is unfinished work, not lane completion.
+   ensure pending acceptance remains with its actual parent, send newly ready cross-lane work to its lane, or note in the tracker what it waits on. Do not redispatch work its Orchestrator already owns. A running Worker is unfinished work, not lane completion.
 
 Any agent may submit scoped work to any accepted workstream through the existing
 queue. The receiving Orchestrator checks fit, duplicates, dependencies,
@@ -154,8 +144,7 @@ wake targeting this Control session under the
 [heartbeat protocol](~/.agents/docs/protocols/harness-native-worker-lifecycle-heartbeat.md),
 renewed before any harness expiry unless the mandatory stalled-wait cutoff below applies.
 It resumes this cycle under existing authority. No per-lane timer fleet,
-detached recurring jobs or routine Steward wakes. Record the receipt; configured
-coverage does not prove a successful wake. On delivery failure retain the exact
+detached recurring jobs or routine Steward wakes. Put the schedule id in the tracker. A configured schedule does not prove it fired. On delivery failure retain the exact
 unsatisfied continuation and use a supported fallback once; do not claim progress.
 
 ### Stalled scheduled waits
@@ -167,8 +156,7 @@ Keep the loaded guidance in session continuity. Reread only on a known change,
 explicit review request, or loss of that guidance, not on every turn or wake.
 Track each awaited session separately in Control state. At one hour, enumerate
 and apply the procedure's steps until the wait resolves or a defined
-stop/escalation condition applies; a status-only wake does not satisfy recovery.
-Keep original parent custody. The two-hour ineffective-wake cutoff overrides
+stop/escalation condition applies; a status-only wake does not satisfy recovery. The two-hour ineffective-wake cutoff overrides
 keepalive renewal without closing unresolved work or cancelling Workers.
 
 Maintain one compact Control view: each lane's outcome, current WO, accepted
@@ -186,9 +174,10 @@ section's Steward lines.
 
 - WO intake/status: [WOQ lifecycle](~/.agents/docs/protocols/woq-role-lifecycle.md).
 - Delivery/provenance: [relay protocol](~/.agents/docs/protocols/universal-harness-relay-protocol.md).
-- Codex creation/ownership/caps: [dispatch safety](~/.agents/docs/protocols/codex-owner-visible-dispatch-safety.md).
+- Codex creation/ownership: [dispatch safety](~/.agents/docs/protocols/codex-owner-visible-dispatch-safety.md).
 - Owner-authorized effort reassessment for Control and its Orchestrators: [decision ownership and supported boundaries](~/.agents/docs/MODEL-SELECTION-POLICY.md#owner-authorized-adaptive-turns).
 - After you accept a worker or session result, log one line with `~/.agents/tools/usage-management/scripts/log-outcome.py` (outcome; on `no`, the cause); do no analysis in the turn.
+- Results: follow the Orchestrator result contract. Where a linked protocol asks for more custody or receipt records than this skill, this skill controls.
 - Owner decisions: [message guide](~/.agents/style-guides/writing/OWNER-FACING-AGENT-MESSAGE-STYLE-GUIDE.md).
 
 Tune only for a demonstrated defect or changed owner requirement. Preserve

@@ -12,7 +12,6 @@ metadata:
   scope: single-project
   tiers: [1, 2, 3]
   harnesses: [claude, codex]
-  max_concurrent_tasks: 3
   tags: [orchestration, relay, dispatch, workers, coordination]
 ---
 
@@ -43,18 +42,13 @@ Order does not complete a persistent lane or prove the product is done.
   any hold missing one of these. Keep scope corrections. Single-action owner
   gates are gates, not holds. Apply
   [pause scope and interruption](~/.agents/docs/protocols/long-running-workstream-orchestrator-management.md#pause-scope-and-interruption).
-- Keep the original parent responsible for its Workers, leases, results,
-  cleanup, and acceptance. Control coordination never transfers child custody.
-  If a harness change leaves the parent or Worker unreachable, apply
-  [harness-change custody](~/.agents/docs/protocols/long-running-workstream-orchestrator-management.md#worker-custody-after-a-harness-change).
+- The agent that launched a Worker reads its result and accepts it. Control does not take over a lane's Workers. If the launching session is gone, the lane's current session reads the result file and continues; after a harness move, apply [harness-change custody](~/.agents/docs/protocols/long-running-workstream-orchestrator-management.md#worker-custody-after-a-harness-change).
 - Use native completion events and the bounded recovery route authorized for
   the current mode.
 - Worker prose, a terminal runtime row, and a delivery receipt are inputs to
   verification. Read the exact assigned result and prove acceptance before
   completing its WO, releasing dependents, resolving blockers, or closing it.
-- The parent is the shared-state writer. Workers propose WO/index/status/
-  blocker/ledger changes in their own results unless a narrow disjoint
-  live-write lease explicitly permits a guarded write.
+- Only the Orchestrator edits Work Order files and the index. Workers do not edit them; a result may say what status the WO should get.
 - Git mutation requires the owner's explicit request in the current message
   under `~/.agents/docs/GIT-OPERATING-RULES.md`. Never instruct Workers
   to commit silently or turn implementation authority into commit, push,
@@ -68,8 +62,7 @@ Delegate substantive specification, document and implementation delivery,
 multi-file harness/tooling changes, broad test suites and uncertain delivery.
 Calling delivery “reconciliation” or splitting it into small edits does not make
 it coordination. A fully understood trivial single-file correction may remain
-inline with applicable skills and proof; a WOQ implementation lease stays with
-its Worker. An explicit project
+inline with applicable skills and proof; an implementation WO stays with its Worker. An explicit project
 delivery-fast-lane exception is described in [conditional operations](references/operations.md#owner-scoped-delivery-fast-lane).
 
 Read this entrypoint through EOF before relying on it; if a read is truncated,
@@ -123,13 +116,12 @@ A hold names the
 exact action, dependency, owner, and source-authoritative release trigger.
 Continue other ready authorized work inside the lane. Do not retire, rename,
 archive, replace, or duplicate the lane because one packet ends or the
-interface says `idle`. Use the shared protocol for event deduplication,
-original-child custody, authorized peer continuation, and recovery ownership.
+interface says `idle`. Use the shared protocol for event deduplication, authorized peer continuation, and recovery ownership.
 
 ## Intake and scope
 
 Any agent may submit a scoped WO or handoff. Admit it only after checking the
-source for project/workstream ownership, duplicates and existing leases,
+source for project/workstream ownership, duplicates and IN_PROGRESS status,
 dependencies, owner authority, product agreement, and exact acceptance target.
 Submission is not execution permission. Preserve stable workstream IDs,
 dependency order, roots/state surfaces, collision notes, gates, and exact
@@ -195,19 +187,17 @@ Personally establish the fault or task evidence before authoring a packet.
 Delegate known work with exact commands, source paths, constraints, and
 acceptance; do not dispatch vague investigation or one role per step.
 Sequence shared writers; parallel work requires disjoint roots, resources,
-state surfaces, and collision domains. Same-worktree coordination is valid;
-isolation is used only when required and authorized.
+state surfaces, and collision domains. Same-worktree coordination is valid; isolation is used only when required and authorized.
+
+**Result contract.** Every Worker keeps one living result file at the path its packet names. It names the changed paths; one check command, its exit code and the last lines of its output; and what is not done, if anything. Workers edit the real files in the repo that owns them. They never copy source code, dependencies, build output or whole trees into `.dev/ai/` as a candidate, seal or evidence. When two Workers would edit the same file, run them one after the other. A Worker that must try a risky change may save one patch file made with `git diff` next to its result file; never a tree. For a document change, the check can be one read-back command such as `grep`. The parent reads the result, runs the check command once, and accepts or rejects. No other record is needed for acceptance. Where a linked protocol asks for more custody or receipt records than this skill, this skill controls.
 
 Before dispatch, read [Worker dispatch](references/operations.md#worker-dispatch)
 for deterministic packet sizing, exact paths and living-result requirements,
 call-budget/cleanup reserves, governing context, model/effort selection, and
 same-harness launch procedures. Apply the canonical Sub-Agent guide sections
-named there; copy its required packet clause verbatim. No launch precedes these
-checks, and no delegated-work claim precedes a real child receipt/id.
+named there; copy its required packet clause verbatim. No launch precedes these checks. Do not say a Worker is running until the launch tool has returned without error.
 
-Codex Workers must remain listable/interruptible from their original parent:
-at most three active native Workers across the canonical lane, one shared
-writer, and no replacement until verified stop and lease release. Do not create
+Codex Workers must stay visible and stoppable from the session that launched them. Launch a Worker only for real delivery work, never one per step, and never tell a separate task to spawn children. One Worker edits a given file at a time. Stop the old Worker before you launch its replacement. Do not create
 user-owned chats for internal subtasks or use detached automations as Workers.
 Before launch apply the Codex safety contract and exact constraints in
 [Worker dispatch](references/operations.md#worker-dispatch).
@@ -217,18 +207,8 @@ Before launch apply the Codex safety contract and exact constraints in
 The operating loop is acquire evidence → choose dependency-ready work →
 dispatch → verify → reconcile → reason about what the result changes.
 
-1. **Before launch:** prove authority, readiness, writer ownership, and result
-   path; name required proof level, executable test environment/method and the
-   owner of remaining testing under [Worker dispatch](references/operations.md#worker-dispatch).
-   Set the WO `IN_PROGRESS` through its guarded writer. Record child id,
-   nickname, WO, exact output, launch time, parent, lease, stop/close policy,
-   and recovery ownership in the existing ledger/log.
-2. **At completion:** read the exact result and apply
-   `~/.agents/docs/protocols/worker-closeout-assimilation.md`.
-   After known process exit, classify it as
-   `candidate-completion-pending-parent-assimilation`, `interrupted-resumable`,
-   or `failed-no-durable-handoff`. Validate final bytes with parent
-   hash/strict-validation/hash proof; any later write invalidates that proof.
+1. **Before launch:** check that the WO is in scope and not already IN_PROGRESS. Set it IN_PROGRESS through its guarded writer and write the result path into the WO. Name the check command the Worker must run.
+2. **At completion:** read the result file. If it says done, run its check command once yourself. If it says unfinished, continue from what it lists as left.
 3. **Verify acceptance independently:** inspect changed source/output and
    run proportionate focused checks or bounded QA. No failure is fixed without
    evidence. Check meaningful rendered/output behavior, not just tests or HTTP
@@ -236,11 +216,7 @@ dispatch → verify → reconcile → reason about what the result changes.
    verification round; repeat only for a named defect, changed input, or owner
    request. Ordinary documentation does not require a new test suite.
    After you accept a worker or session result, log one line with `~/.agents/tools/usage-management/scripts/log-outcome.py` (outcome; on `no`, the cause); do no analysis in the turn.
-4. **Reconcile before releasing:** parent-owned WO/WOQ and applicable project
-   index updates must agree before completion, blocker closure, dependent
-   release, Worker closure, or follow-on dispatch derived from that result.
-   Missing/malformed/nonterminal evidence or state disagreement keeps the WO
-   unaccepted (`IN_PROGRESS` or its supported reconciliation condition).
+4. **Record:** when you accept a result, set the WO status and its index row, then release dependents.
 5. **Reason about impact:** classify every follow-up as routed, completed,
    superseded, owner/external gate, or supervisor active under the closeout
    protocol. Capture proven defects/gaps as scoped WOs, verify each dependent's
@@ -250,9 +226,7 @@ dispatch → verify → reconcile → reason about what the result changes.
 
 After each material result, refresh the existing scoped queue and take the next
 action: finish parent acceptance, actually dispatch ready authorized work, or
-record the exact dependency, responsible owner and release trigger. A future
-dispatch sentence is not a dispatch receipt. Known Worker or capacity waits
-remain unfinished work, with the owned child/lease and next event identified.
+record the exact dependency, responsible owner and release trigger. Saying you will dispatch is not dispatching: launch it now or name what blocks it. A running Worker is unfinished work.
 Prioritize the hard critical path; soft dependencies are not automatic blockers.
 Resolve source prerequisites rather than trusting a sender's `done` claim.
 Parent acceptance covers the assigned deliverable; Control checks cross-lane or
@@ -263,26 +237,18 @@ publication and client acceptance remain distinct.
 ## WOQ and single-writer state
 
 Before lifecycle reads, claims, completion, or guarded writes, load the current
-`~/.agents/docs/protocols/woq-role-lifecycle.md`. Its current file-based
-`woq native` section controls this scoped path; historical DB leases and pins
+`~/.agents/docs/protocols/woq-role-lifecycle.md`. Where the project's rules ask for the woq `native` path, its section controls; historical DB leases and pins
 are not live assignment authority. Use intake to deduplicate related outcomes,
-select the exact canonical source with separate prepared publication evidence,
-then reserve against fresh files and current native
-occupancy BEFORE invoking your actual native tool. Bind its returned identity;
-retain unknown/active identities, and resume only the same confirmed terminal
-identity. Explicit verification can use the authorized IN_PROGRESS parent WO.
+then claim a WO by setting it IN_PROGRESS through `woq work-order write`; its full-file hash check refuses a second claim. Use the woq `native` reserve path only where the project's rules ask for it. Explicit verification can use the authorized IN_PROGRESS parent WO.
 Independent useful result/test evidence and parent acceptance precede guarded
 closure. Unavailable prepared observation leaves publication pending; dashboard
 acceptance separately binds an actual committed prepared revision. No owner
 paste, new service, per-project dispatch fleet or hidden process is needed.
-Stale/UNTRUSTED projections cannot prove readiness or publication. Canonical
-native admission still enforces current authority, source, dependency and custody guards.
-Planning/render commands grant no broader execution authority.
+Stale/UNTRUSTED projections cannot prove readiness or publication. Planning/render commands grant no broader execution authority.
 
 Before any guarded mutation, apply [guarded state writes](references/operations.md#guarded-state-writes)
 for the exact WO, index, shared-status, ledger, and managed-block writer rules.
-Workers propose updates unless an explicit narrow lease and matching guard
-permit the write. A failed write never establishes reconciliation.
+A failed write never establishes reconciliation.
 
 Update only role-owned state. Never claim successful reconciliation when a
 guarded write failed; leave the exact result and proposed change for the owner
@@ -295,7 +261,7 @@ Keep the owner conversation available while Workers run. In persistent lanes,
 apply [resumed intake](~/.agents/docs/protocols/long-running-workstream-orchestrator-management.md#resumed-intake-and-continuation)
 at execution resume and before waiting/yielding.
 Continue independent authorized work; yield only on an exact unresolved Worker,
-dependency, input, lease or owner gate, with durable state and its supported
+dependency, input or owner gate, with durable state and its supported
 next trigger. Honor explicit stage endpoints. Do not repeat empty waits, invent
 work, renew generic permission or equate a heartbeat with execution.
 
@@ -304,10 +270,7 @@ Native completion is primary. Before any lifecycle automation action, use
 to select the persistent Control or independent-parent recovery route, preserve
 schedule ownership, and distinguish configuration from an observed wake.
 
-A missed notice is unknown, never proof of running or completion. At an
-authorized recovery boundary, use [failure recovery and handoff](references/operations.md#failure-recovery-and-handoff)
-for the exact known-child/result pass, stalled-worker cutoff, resumable result,
-failure/blocker evidence, and stop/cleanup/lease proof before replacement.
+A missed notice is unknown, never proof of running or completion. If a Worker has gone quiet, read its result file. Continue from what it lists, or stop it and launch a new Worker on the same WO; [failure recovery and handoff](references/operations.md#failure-recovery-and-handoff) has the stalled-worker cutoff.
 
 On ordinary stop or pause, cease affected launches and use the authorized native
 stop route for owned children. Preserve progress and unconfirmed child/resource
@@ -319,21 +282,17 @@ Do not let Workers keep mutating against an explicit stop. The safety protocol's
 loss-of-control freeze forbids further task mutations until the owner authorizes
 the exact cleanup action.
 
-At context transfer or actual session close, use [failure recovery and handoff](references/operations.md#failure-recovery-and-handoff)
-to preserve exact custody, queue/evidence, dependencies, and next actions.
-Never auto-spawn a successor or transfer ownership without required proof.
+At session close, the session record lists open WOs, the result path of each running Worker, and next actions. Never auto-spawn a successor.
 
 ## Relay and owner-facing state
 
 Before relay, read
 `~/.agents/docs/protocols/universal-harness-relay-protocol.md`.
-Identify harness and exact target; use only an owner-authorized receipt-producing
-route with source authority, provenance, exact result fallback, and `reply_to`.
+Identify harness and exact target; send with the harness message tool, with source authority and `reply_to`. If the tool returns without error, the message is sent; do not save its output to a file.
 Complete an explicitly requested relay before optional recap or session-record
 preparation, using the existing source packet and required authority/return
 fields. Recording intent does not deliver the message.
-Receiving agents verify scope, dependencies, and authority at source. A send
-receipt proves delivery only. Without one, say `This was written for relay; it
+Receiving agents verify scope, dependencies, and authority at source. If sending fails, say `This was written for relay; it
 has not been delivered.` Use
 [conditional operations](references/operations.md#relay-and-specialized-ownership)
 for peer/Supervisor routing and missing-role handling.
@@ -343,8 +302,7 @@ for style, actual owner asks, advisory telemetry, and truthful seals. A status
 seal never converts paused, parked, or unknown state into working/completed.
 
 Before a terminal claim, assimilate known returns and refresh scoped queue,
-dependencies, blockers, and agreed product acceptance. Report unresolved
-Worker/result custody and recovery coverage truthfully. Do not imply
+dependencies, blockers, and agreed product acceptance. Name each Worker still running and its result path. Do not imply
 autonomous continuation without a named live mechanism; a durable handoff is
 recoverable state, not a running process. Presence is descriptive only; use
 [conditional operations](references/operations.md#presence-and-records) for
