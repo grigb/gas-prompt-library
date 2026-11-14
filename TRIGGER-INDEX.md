@@ -891,6 +891,19 @@ field experience, ask the owner to classify it before extracting or cataloging.
 
 **Activation Regex:** `(?i)\b(planning\s+round|state\s+and\s+future\s+audit|(build|refresh)\s+the\s+project\s+map)\b`
 
+### Starred External Skills Library (On-Demand GitHub-Starred Specialist Skills)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| `starred skills` | `~/.agents/external-skills/STARRED-SKILLS-LIBRARY.md` | Browse or pick rubric-ranked GitHub-starred specialist skills by absolute path |
+| `starred skill library` | `~/.agents/external-skills/STARRED-SKILLS-LIBRARY.md` | Same — rubric-ranked library kept separate from canonical GAS skills |
+| `external skill library` | `~/.agents/external-skills/STARRED-SKILLS-LIBRARY.md` | Natural-language trigger |
+| `pick a starred skill` | `~/.agents/external-skills/STARRED-SKILLS-LIBRARY.md` | Select the winning leaf `SKILL.md` from the Overlap Resolution Matrix |
+
+**Core Principle:** Third-party skills starred on GitHub live in gitignored `~/.agents/external-skills/sources/github.com/` and are indexed and ranked by the 100-point GAS rubric in `~/.agents/external-skills/STARRED-SKILLS-LIBRARY.md`. Pick individual leaf `SKILL.md` files by absolute path without mixing unreviewed third-party repositories into `~/.agents/skills/` or `~/.agents-gas-prompt-library/`.
+
+**Activation Regex:** `(?i)\b(starred\s+skills?(\s+library)?|external\s+skills?\s+library|pick\s+a\s+starred\s+skill)\b`
+
 ---
 
 ## Validation Checklist
