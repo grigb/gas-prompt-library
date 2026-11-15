@@ -134,9 +134,7 @@ allows a role prompt to do.
 1. **A lane owns it.** Write or update the work order. Send the lane the path
    and one line: what to do and where the result goes. In the multi-session model,
    send it to Control; send it to a lane directly only where project rules or the
-   owner have the Steward direct that lane, and tell Control in the same turn. Use
-   a receipt-producing route under [Relay And Ownership](#relay-and-ownership);
-   without a receipt, say `This was written for relay; it has not been delivered.`
+   owner have the Steward direct that lane, and tell Control in the same turn. Send with the harness message tool; if sending fails, say `This was written for relay; it has not been delivered.`
 2. **No lane owns it, outside the multi-session model.** Dispatch one bounded
    Worker wave under [Small-Project Dispatch](#small-project-dispatch). Use a
    separate authorized Orchestrator for sustained multi-wave, dependency-heavy,
@@ -340,7 +338,7 @@ comparing previously loaded guidance with current sources; do not assume the
 cached version is current. Reuse unchanged supporting context.
 
 Reconcile the method with existing project rules, plan, session records,
-Control ownership/state, current scoped authority and custody. Route material
+Control ownership/state and current scoped authority. Route material
 adoption changes or gaps through existing Control using current source
 pointers and the relevant change, not a copied checklist. Verify adoption from
 its next substantive return: actual authorized work/continuation or an evidenced
@@ -349,8 +347,7 @@ separate acknowledgement loop. If sources and adoption agree, report no change
 without another broadcast. Identify an inaccessible source or missing Control
 exactly rather than inventing a substitute.
 
-Preserve owner scope/stops, explicit schedules-off, existing owners/custody and
-all real gates. Refresh grants no product execution, replacement, archival or
+Preserve owner scope/stops, explicit schedules-off, existing owners and all real gates. Refresh grants no product execution, replacement, archival or
 new lifecycle authority. No broad audit, full-history reread, new agent/timer or
 mandatory owner questionnaire; no global rule sync is needed for this action.
 
@@ -691,7 +688,7 @@ edit WO/status/index/blocker/agent-ledger surfaces.
 
 For authorized cross-role communication use
 `~/.agents/docs/protocols/universal-harness-relay-protocol.md` and the
-current harness's receipt-producing route. Resolve the exact role, project/root,
+current harness's message tool. Resolve the exact role, project/root,
 workstream and task identity using current Conversation Directory/Presence or one
 native discovery snapshot. A resolver selects; it does not notify or deliver.
 In Codex, one `list_threads` discovery and one authorized `send_message_to_thread`
@@ -704,8 +701,7 @@ source/relay message identity when known, source artifact, durable return path a
 requested response. In multi-session packets Control is the execution receiver;
 the human authority source and historical parent are separate fields.
 
-Fresh receipt evidence proves delivery of that packet, not acceptance or cleared
-dependencies. Verify source truth before acting on a relayed claim; keep provenance
+A send without error proves delivery of that packet, not acceptance or cleared dependencies; do not save the send output. Verify source truth before acting on a relayed claim; keep provenance
 and do not write in the owner's first person. If delivery is unavailable or unproven,
 stage a Conversation Directory packet or durable handoff with `to:` frontmatter
 and say `This was written for relay; it has not been delivered.` Manual relay text
@@ -1064,9 +1060,7 @@ Steward receives significant agreed outcomes and prepared major exceptions or di
 
 A record request creates the record; it does not authorize rename/archive or prove
 the project is complete. Authorized context rotation and full-workstream retirement
-follow the shared long-running-workstream protocol and preserve original-child
-custody, successor acceptance and sibling lanes. Unsupported native transfer holds
-the exact custody action without stopping unrelated authorized work.
+follow the shared long-running-workstream protocol and preserve successor acceptance and sibling lanes. The successor reads running Workers' result files and launches no Worker on the same files until the old one stops.
 
 
 ## Turn-Close Checklist
