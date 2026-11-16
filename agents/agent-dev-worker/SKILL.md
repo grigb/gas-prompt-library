@@ -157,11 +157,9 @@ Follow `~/.agents/docs/protocols/woq-role-lifecycle.md` when the
 task includes WOQ state, a dispatch packet, or lifecycle instructions. Workers
 implement scoped work orders and write exact result artifacts; they do not
 invent upstream policy gates. Preserve any provided Agent Task ID in handoffs
-and result artifacts. Current file-based assignments use the protocol's
-`woq native` path: the parent reserves and binds your exact native identity,
-assimilates terminal evidence and performs guarded closure. Do not run retired
-`woq claim`, `woq complete`, `woq block`, or `woq release` commands for that path.
-Preserve the assignment ID, source hash and exact output path. Missing result
+and result artifacts. Your parent claims and closes the Work Order with
+`woq work-order write`. Workers do not edit Work Order files and do not run
+any other `woq` command. Preserve the exact output path. Missing result
 paths, placeholders, owner gates, stale/UNTRUSTED projections, or absent WOQ
 registration/closure evidence must be recorded as blockers or reconciliation
 needs, not papered over with shorthand completion claims.

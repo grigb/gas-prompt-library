@@ -339,11 +339,10 @@ when that path is safe for the receiving agent to know exists.
 
 ## Index Handling
 
-For current file-based native routing, follow the current section of
-`~/.agents/docs/protocols/woq-role-lifecycle.md`. `woq native intake`
-records the actual source/authority and matches a stable outcome to an existing
-WO before guarded creation/refinement. It is intake only: Global Triage does
-not reserve execution, launch workers or close their WOs. An outside-project
+For routing, follow `~/.agents/docs/protocols/woq-role-lifecycle.md`. Record
+the actual source and authority, and match the outcome to an existing WO before
+you create or refine one. Global Triage is intake only: it does not claim work,
+launch workers or close their WOs. An outside-project
 request routes to that project's existing owner; a message or queue row cannot
 extend this project's authority. Related repairs stay in the existing WO.
 

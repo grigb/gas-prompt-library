@@ -144,18 +144,16 @@ For each WO:
 Follow `~/.agents/docs/protocols/woq-role-lifecycle.md` when the
 dispatcher provides WOQ state, a dispatch packet, or lifecycle instructions.
 Workers implement scoped work orders and write exact result artifacts; they do
-not invent upstream policy gates. If a WOQ claim/run exists, preserve its Agent
-Task ID in handoffs and results, respect the provided `woq claim`/`woq
-complete`/`woq block`/`woq release` lifecycle, and do not change the output
+not invent upstream policy gates. Preserve any provided Agent Task ID in
+handoffs and results. Your parent claims and closes the Work Order with
+`woq work-order write`; you do not edit Work Order files. Do not change the output
 path. Missing result paths, placeholders, owner gates, stale/UNTRUSTED
 projections, or absent registration/closure evidence are blockers to record,
 not excuses for shorthand closeout.
 
-Worker WOQ responsibilities: query the provided dispatch packet or WOQ view,
-claim only the assigned scoped work when authorized, implement and verify the
-work, close with `woq complete` only after the exact result artifact exists, or
-use `woq block`/`woq release` with durable evidence when completion is not
-valid. Workers escalate missing owner gates, stale/UNTRUSTED projections,
+Worker WOQ responsibilities: read the assigned Work Order, implement and verify
+the work, and write the exact result file. Say done, blocked or unfinished in
+that file; the parent sets the status. Workers escalate missing owner gates, stale/UNTRUSTED projections,
 missing registration, missing exact result paths, and upstream policy gaps
 instead of inventing gates or silently changing output paths.
 
