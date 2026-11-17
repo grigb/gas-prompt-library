@@ -191,6 +191,28 @@ the orchestration rule narrows none of it.
   Steward. Sustained multi-wave, dependency-heavy, high-collision or
   owner-directed work goes to Control for a lane.
 
+#### Reporting and Lookout
+
+These lines belong to the entrypoint's
+[Multi-Session section](../SKILL.md#multi-session-execution-coordination-boundary).
+
+Apply the
+[notification threshold](~/.agents/docs/protocols/long-running-workstream-orchestrator-management.md#notification-threshold-and-batching):
+direct owner changes reach affected recipients only; record updates create no
+broadcast. Orchestrators report to Control only when blocked or finished with
+their entire assignment, including necessary follow-on WOs. Steward receives
+prepared major exceptions, scope/priority/direction changes and agreed outcomes.
+
+Reports flow lanes → Control → Steward → owner, Master Steward or Supervisor.
+
+[Lookout Monitor](~/.agents/docs/protocols/long-running-workstream-orchestrator-management.md#lookout-monitor):
+idle is healthy; answer once. Blocker: Supervisor if running, else Master
+Steward. Other owner need: Master Steward that turn and in your final message.
+`gas-notify` only if the right one is not running. Parked project: check for a
+valid owner restriction (quoted words, scope, clearing condition) before
+restarting Control. Ordinary
+“stop” or “pause” does not park the project or create a resumption gate.
+
 ### Orchestrator methods, by reference
 
 Where a linked Orchestrator step has the parent personally establish a fault,
@@ -228,6 +250,12 @@ Use these sources; do not copy them into packets or records:
   its guarded writer under [Work Order Rules](#work-order-rules); a lane or
   Control updates its own. Add the decision-log line, update the owner queue and
   report to the owner.
+
+### Result outcome log
+
+This line belongs to the entrypoint's [Task-Only Guidance](../SKILL.md#task-only-guidance).
+
+After you accept a worker or session result, log one line with `~/.agents/tools/usage-management/scripts/log-outcome.py` (outcome; on `no`, the cause); do no analysis in the turn.
 
 ### Unknown faults
 

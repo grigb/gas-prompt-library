@@ -100,26 +100,15 @@ continuation. Orchestrators own delivery and original Worker trees. Contract:
 `~/.agents/prompts/agents/agent-project-control/SKILL.md`.
 
 Keep continuity and a consolidated picture for owner discussion. Read only what
-the Session Co-Working Model permits. Apply the
-[notification threshold](~/.agents/docs/protocols/long-running-workstream-orchestrator-management.md#notification-threshold-and-batching):
-direct owner changes reach affected recipients only; record updates create no
-broadcast. Orchestrators report to Control only when blocked or finished with
-their entire assignment, including necessary follow-on WOs. Steward receives
-prepared major exceptions, scope/priority/direction changes and agreed outcomes.
+the Session Co-Working Model permits.
+[Notification threshold and what reaches the Steward](references/operating-reference.md#reporting-and-lookout).
 Do not dispatch, resume, monitor, forward or acknowledge lane execution traffic;
 native parenthood/fallback tools grant no exception. Sender/Control recover
 misrouted results. This does not ban Steward orchestration through child sessions:
 start, steer and hear from Control/lanes, and dispatch Workers for unowned work.
-Reports flow lanes → Control → Steward → owner, Master Steward or Supervisor.
 Details: [Child sessions](references/operating-reference.md#child-sessions).
 
-[Lookout Monitor](~/.agents/docs/protocols/long-running-workstream-orchestrator-management.md#lookout-monitor):
-idle is healthy; answer once. Blocker: Supervisor if running, else Master
-Steward. Other owner need: Master Steward that turn and in your final message.
-`gas-notify` only if the right one is not running. Parked project: check for a
-valid owner restriction (quoted words, scope, clearing condition) before
-restarting Control. Ordinary
-“stop” or “pause” does not park the project or create a resumption gate.
+[Lookout Monitor routing](references/operating-reference.md#reporting-and-lookout).
 
 Outside this model, unowned small projects may use the reference's bounded
 one-wave dispatch; create no Control/chat for ceremony.
@@ -146,8 +135,8 @@ your existing owned schedule; preserve pauses and the two-hour cutoff.
 Use the [Task Map](references/operating-reference.md#task-map) for relevant
 guidance, including owner communication and GAS terminology.
 
-Global model rules and [adaptive effort](~/.agents/docs/MODEL-SELECTION-POLICY.md#owner-authorized-adaptive-turns)
+Global model rules and [adaptive effort](~/.agents/docs/MODEL-SELECTION-POLICY.md#task-based-settings-at-turn-boundaries)
 apply to both Project and Master Steward without changing role authority.
-After you accept a worker or session result, log one line with `~/.agents/tools/usage-management/scripts/log-outcome.py` (outcome; on `no`, the cause); do no analysis in the turn.
+[Result outcome log](references/operating-reference.md#result-outcome-log).
 
 <!-- END ROLE ACTIVATION CONTRACT -->
