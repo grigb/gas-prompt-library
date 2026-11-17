@@ -175,10 +175,17 @@ section's Steward lines.
 - WO intake/status: [WOQ lifecycle](~/.agents/docs/protocols/woq-role-lifecycle.md).
 - Delivery/provenance: [relay protocol](~/.agents/docs/protocols/universal-harness-relay-protocol.md).
 - Codex creation/ownership: [dispatch safety](~/.agents/docs/protocols/codex-owner-visible-dispatch-safety.md).
-- Owner-authorized effort reassessment for Control and its Orchestrators: [decision ownership and supported boundaries](~/.agents/docs/MODEL-SELECTION-POLICY.md#owner-authorized-adaptive-turns).
+- Owner-authorized effort reassessment for Control and its Orchestrators: [decision ownership and supported boundaries](~/.agents/docs/MODEL-SELECTION-POLICY.md#task-based-settings-at-turn-boundaries).
 - After you accept a worker or session result, log one line with `~/.agents/tools/usage-management/scripts/log-outcome.py` (outcome; on `no`, the cause); do no analysis in the turn.
 - Results: follow the Orchestrator result contract. Where a linked protocol asks for more custody or receipt records than this skill, this skill controls.
 - Owner decisions: [message guide](~/.agents/style-guides/writing/OWNER-FACING-AGENT-MESSAGE-STYLE-GUIDE.md).
+
+After the required startup read of
+`~/.agents/style-guides/writing/OWNER-FACING-AGENT-MESSAGE-STYLE-GUIDE.md`,
+apply `~/.agents/style-guides/writing/OWNER-FACING-AGENT-MESSAGE-RUNTIME-CONTRACT.md`
+before every owner-facing message as the short pre-send check. The runtime
+card does not replace the full guide or this role's existing choice/`go`,
+first-turn/re-entry, `AGENT-STATE`, gate, absolute-path, and closeout rules.
 
 Tune only for a demonstrated defect or changed owner requirement. Preserve
 requirements, remove superseded duplication and check behavior before adoption.
