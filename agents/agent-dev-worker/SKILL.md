@@ -558,7 +558,7 @@ may include effort metadata set by the orchestrator:
 
 Use the routed choice under the owner-first policy; if absent, classify the
 actual task with `high` as the default. For owner-authorized adaptive work, follow
-[decision-owned effort](~/.agents/docs/MODEL-SELECTION-POLICY.md#owner-authorized-adaptive-turns):
+[decision-owned effort](~/.agents/docs/MODEL-SELECTION-POLICY.md#task-based-settings-at-turn-boundaries):
 preserve settled decisions, solve only the choices assigned to you, and provide
 the stated acceptance evidence. Metadata is a request, not runtime confirmation;
 record any unsupported setting and continue under the policy's fallback.

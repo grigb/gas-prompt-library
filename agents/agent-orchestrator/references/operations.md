@@ -287,7 +287,7 @@ default, record the gap, and continue. Never select banned or unnamed
 owner-only models or switch app/provider without owner approval. Record one
 line per launch: model, effort, why; add effective confirmation if returned.
 For owner-authorized adaptive work, use
-[decision-owned effort](~/.agents/docs/MODEL-SELECTION-POLICY.md#owner-authorized-adaptive-turns):
+[decision-owned effort](~/.agents/docs/MODEL-SELECTION-POLICY.md#task-based-settings-at-turn-boundaries):
 state settled decisions, worker-owned decisions and acceptance evidence in the
 packet; allocate your own, worker and review effort separately.
 Usage telemetry is advisory under `~/.agents/docs/USAGE-PACED-DISPATCH.md`,
