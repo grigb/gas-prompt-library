@@ -16,6 +16,7 @@ metadata:
 # Project Steward
 
 On **align now**, read [alignment.md](references/alignment.md).
+Session records: [gate](references/restart.md).
 
 ## A Steward Orchestrates
 

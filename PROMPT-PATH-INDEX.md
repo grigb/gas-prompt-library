@@ -32,6 +32,7 @@
 | LAST-30-DAYS | `~/.agents/skills/last30days/SKILL.md` |
 | CORRESPONDENCE | `~/.agents/skills/correspondence/SKILL.md` (emails and replies drafted for the owner; inbound register; work first, then the email) |
 | TRANSCRIPT-GEMS | `~/.agents/skills/transcript-gems/SKILL.md` (read a meeting transcript, monologue or long thread in full; keep every single-sentence gem) |
+| STEWARD-FRESH-RESTART | `~/.agents/skills/steward-fresh-restart/SKILL.md` (Steward only: rebuild the Steward session and its child sessions from session records; gate question first; owner's words carried from transcripts) |
 | PLANNING-ROUND | `~/.agents/skills/planning-round/SKILL.md` (Steward state-and-future round: lane audits, QA, proposal, one Critical Review, v2, Map Artifact, living tracker) |
 | DEEP-RESEARCH-PROMPT-GENERATOR | `~/.agents/prompts/research/deep-research-prompt-generator.md` |
 | DEEP-RESEARCH-MASTER | `~/.agents/prompts/research/deep-research-master.md` |

@@ -877,6 +877,20 @@ field experience, ask the owner to classify it before extracting or cataloging.
 
 **Activation Regex:** `(?i)\b(transcript\s+gems|find\s+the\s+gems|gem\s+pass|pull\s+the\s+gems\s+out)\b`
 
+### Steward Fresh Restart (Rebuild the Steward and Its Child Sessions)
+
+| Trigger Phrase | Target Prompt | Description |
+|----------------|---------------|-------------|
+| Steward role plus a list of session records | `~/.agents/skills/steward-fresh-restart/SKILL.md` | Ask the gate question before reading any record |
+| `fresh restart` | `~/.agents/skills/steward-fresh-restart/SKILL.md` | Rebuild the Steward session and its child sessions from session records |
+| `steward fresh restart` | `~/.agents/skills/steward-fresh-restart/SKILL.md` | Same, explicit name |
+| `rebuild the steward sessions` | `~/.agents/skills/steward-fresh-restart/SKILL.md` | Natural-language trigger |
+| `prepare a fresh restart` | `~/.agents/skills/steward-fresh-restart/SKILL.md` | Part A: the live Steward collects closing records and hands the owner the list |
+
+**Core Principle:** Steward only, and only when the owner calls it. The restart re-examines the plan and carries the understanding: the owner's words come from each old session's transcript, every lane with ready work starts in one turn, and no old session is archived or deleted.
+
+**Activation Regex:** `(?i)\b((steward\s+)?fresh\s+restart|rebuild\s+the\s+steward\s+sessions|prepare\s+a\s+fresh\s+restart)\b`
+
 ### Planning Round (State, Future, Map and Tracker)
 
 | Trigger Phrase | Target Prompt | Description |
